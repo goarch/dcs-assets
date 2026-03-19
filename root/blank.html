@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Digital Chant Stand</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" type="image/png" href="https://templates.goarch.org/assets/templates/common/icons/favicon-128.png"
+        sizes="128x128">
+
+    <style>
+        html,
+        body {
+            height: 100%;
+            background: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .vertical-center {
+            /* Changed from 'center' to 'flex-start' to fix the logo position */
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding-top: 20px;
+            /* Gives the logo a little breathing room from the top */
+        }
+
+        .jumbotron {
+            background: none;
+            padding-top: 0 !important;
+            /* Removes Bootstrap's massive top gap */
+            width: 100%;
+        }
+
+        .jumbotron img {
+            display: block;
+            margin: 0 auto 20px auto;
+            /* Centers logo and adds space below it */
+        }
+
+        p.description {
+            font-size: 14px;
+            margin: 0 6% 15px 9%;
+            text-align: left;
+        }
+
+        p.explanation1 {
+            color: red;
+            font-size: 14px;
+            margin: 0 10% 10px 10pt;
+            text-align: left;
+        }
+
+        span.explanation2 {
+            color: red;
+            font-size: 14px;
+        }
+
+        hr.solid {
+            border-top: 1px solid #bbb;
+            margin: 20px 0;
+        }
+
+        #newsFrame {
+            transition: height 0.3s ease;
+            /* Makes the expansion look like a smooth slide rather than a snap */
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container vertical-center">
+        <div class="jumbotron">
+            <img src="img/goa-dcs-app-logotype-1000.png" alt="GOARCH Logo" width="90%" height="auto" />
+
+            <p class="description">The Digital Chant Stand of the Greek Orthodox Archdiocese of America provides
+                resources intended to enhance the worship experience of the Orthodox faithful with easily accessible
+                liturgical texts and music.</p>
+
+            <hr class="solid">
+
+            <p class="explanation1">This pane is where musical scores and audio recordings open when you tap a media
+                link. On mobile devices, select from the following options.</p>
+
+            <p class="explanation1"><b><a href="https://dcs.goarch.org/goa/dcs/servicesindex.html"
+                        target="_blank">Remove pane. </a></b><span class="explanation2">Open the full DCS without the
+                    media pane.</span></p>
+
+            <p class="explanation1"><b><a href="https://dcs.goarch.org/parish" target="_blank">Today's Services.
+                    </a></b><span class="explanation2">Go to the Liturgical texts of Today's Services.</span></p>
+
+            <hr class="solid">
+
+            <div style="margin-top: 20px;">
+                <iframe src="news.html" id="newsFrame" style="width: 100%; border: none; display: block;"
+                    title="DCS News Updates">
+                </iframe>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        function resizeIframe() {
+            var frame = document.getElementById('newsFrame');
+            if (frame && frame.contentWindow && frame.contentWindow.document.body) {
+                // Set the height of the iframe to the exact height of the news.html content
+                frame.style.height = frame.contentWindow.document.body.scrollHeight + 'px';
+            }
+        }
+
+        // Initial resize when the frame loads
+        document.getElementById('newsFrame').onload = resizeIframe;
+
+        // Listen for clicks inside the iframe (for the collapsible sections)
+        window.addEventListener('message', function (e) {
+            if (e.data === 'resize') {
+                resizeIframe();
+            }
+        });
+
+        // A fallback to catch any layout changes
+        setInterval(resizeIframe, 500); 
+    </script>
+</body>
+
+</html>
