@@ -703,6 +703,11 @@ p.chapverse {
     margin-bottom: 0;
 }
 
+p[class^='bcc_'],
+p[class^='ecc_'] {
+    display: none;
+}
+
 p[class^='bmc_'],
 p[class^='emc_'] {
     display: none;
