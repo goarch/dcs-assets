@@ -712,9 +712,10 @@
 	<script>
 
 		const dateElement = document.getElementById('current-date');
-		const today = new Date(); //parameter a string date to test other dates eg: "12/24/2025"
-		// const today = new Date("3/9/2027"); 
-		// const today = new Date("03/25/2025"); 
+		let todayTemp = new Date(); //parameter a string date to test other dates eg: "12/24/2025"
+ 		todayTemp = Intl.DateTimeFormat('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }).format(todayTemp);
+		const today = new Date(todayTemp); 
+		// today = new Date("03/25/2026"); 
 		// const today = new Date("04/20/2025"); 
 		// const today = new Date("05/28/2025"); 
 		// const today = new Date("08/30/2025"); 
