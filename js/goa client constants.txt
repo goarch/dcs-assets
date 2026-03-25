@@ -1,0 +1,63 @@
+
+
+const serverData = {
+    "client_gr_US_goa|cl.bishop0.rank": "τοῦ Ἀρχιεπισκόπου καὶ Πατριάρχου ἡμῶν",
+    "client_gr_US_goa|cl.bishop0.name_c": ",",
+    "client_gr_US_goa|cl.bishop0.name_co": ":",
+    "client_gr_US_goa|cl.bishop0.name_p": ".",
+    "client_gr_US_goa|cl.bishop0.name_sc": "·",
+    "client_gr_US_goa|cl.bishop0.fimi": "",
+    "client_gr_US_goa|cl.bishop1.rank": "τοῦ Ἀρχιεπισκόπου ἡμῶν",
+    "client_gr_US_goa|cl.bishop1.name_c": ",",
+    "client_gr_US_goa|cl.bishop1.name_co": ":",
+    "client_gr_US_goa|cl.bishop1.name_p": ".",
+    "client_gr_US_goa|cl.bishop1.name_sc": "·",
+    "client_gr_US_goa|cl.bishop1.fimi": "",
+    "client_gr_US_goa|cl.bishop2.rank": "",
+    "client_gr_US_goa|cl.bishop2.name_c": ",",
+    "client_gr_US_goa|cl.bishop2.name_p": ".",
+    "client_gr_US_goa|cl.bishop2.fimi": "",
+    "client_gr_US_goa|cl.ordinand.deacon.acc": "",
+    "client_gr_US_goa|cl.ordinand.deacon.gen": "",
+    "client_gr_US_goa|cl.ordinand.priest.acc": "",
+    "client_gr_US_goa|cl.ordinand.priest.gen": "",
+    "client_gr_US_goa|cl.localchurch.title": "",
+    "client_gr_US_goa|cl.Apolytikion1.title": "",
+    "client_gr_US_goa|cl.Apolytikion1.mode": "",
+    "client_gr_US_goa|cl.Apolytikion1.melody": "",
+    "client_gr_US_goa|cl.Apolytikion1.text": "",
+    "client_en_US_goa|cl.bishop0.rank": "our Archbishop and Patriarch",
+    "client_en_US_goa|cl.bishop0.name_c": ",",
+    "client_en_US_goa|cl.bishop0.name_co": ":",
+    "client_en_US_goa|cl.bishop0.name_p": ".",
+    "client_en_US_goa|cl.bishop0.name_sc": "·",
+    "client_en_US_goa|cl.bishop0.fimi": "",
+    "client_en_US_goa|cl.bishop1.rank": "our Archbishop",
+    "client_en_US_goa|cl.bishop1.name_c": ",",
+    "client_en_US_goa|cl.bishop1.name_co": ":",
+    "client_en_US_goa|cl.bishop1.name_p": ".",
+    "client_en_US_goa|cl.bishop1.name_sc": "·",
+    "client_en_US_goa|cl.bishop1.fimi": "",
+    "client_en_US_goa|cl.bishop2.rank": "",
+    "client_en_US_goa|cl.bishop2.name_c": ",",
+    "client_en_US_goa|cl.bishop2.name_p": ".",
+    "client_en_US_goa|cl.bishop2.fimi": "",
+    "client_en_US_goa|cl.ordinand.deacon.acc": "",
+    "client_en_US_goa|cl.ordinand.deacon.gen": "",
+    "client_en_US_goa|cl.ordinand.priest.acc": "",
+    "client_en_US_goa|cl.ordinand.priest.gen": "",
+    "client_en_US_goa|cl.localchurch.title": "",
+    "client_en_US_goa|cl.Apolytikion1.title": "",
+    "client_en_US_goa|cl.Apolytikion1.mode": "",
+    "client_en_US_goa|cl.Apolytikion1.melody": "",
+    "client_en_US_goa|cl.Apolytikion1.text": ""
+
+};
+
+// Update everything at once
+Object.keys(serverData).forEach(key => {
+    updateValueByKey(key, serverData[key]);
+});
+
+
+
