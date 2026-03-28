@@ -2060,3 +2060,174 @@ table.custom-index-table {
     }
 
 }
+
+
+/* ============================================================
+   SECTION: SERVICE CUSTOMIZER (THE OUTER WINDOW)
+   ============================================================ */
+#service-customizer-panel {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 400px;
+
+    /* Increase the default height to give more breathing room */
+    height: 85%;
+    min-height: 400px;
+    max-height: 90%;
+
+    background: #ffffff;
+    border: 2px solid #2c3e50;
+    border-radius: 8px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    z-index: 100000;
+
+    /* Essential for scrolling internal content */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Add this new rule to make the content inside the panel scrollable */
+.customizer-content {
+    flex: 1;
+    overflow-y: auto;
+    /* Adds a scrollbar only when content is too long */
+    padding: 15px;
+    scrollbar-width: thin;
+    /* Makes the scrollbar less bulky in Firefox */
+}
+
+/* THE CLICKABLE HEADER BAR */
+#service-customizer-panel-header {
+    background: #2c3e50;
+    color: white;
+    padding: 10px 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+    flex-shrink: 0;
+    /* Prevents the header from squishing */
+}
+
+#service-customizer-refresh-btn:hover {
+    color: #28a745;
+    /* Turns green on hover */
+    transform: rotate(45deg);
+    transition: transform 0.2s;
+}
+
+/* THE SCROLLABLE BODY */
+#service-customizer-panel-body {
+    flex-grow: 1;
+    width: 100%;
+    overflow-y: auto;
+    /* Adds a vertical scrollbar ONLY if the content is too tall */
+    -webkit-overflow-scrolling: touch;
+    /* Smooth scrolling for iPad/iPhone */
+}
+
+/* THE IFRAME */
+#service-customizer-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+}
+
+/* THE MINIMIZED STATE */
+#service-customizer-panel.minimized {
+    height: 40px !important;
+}
+
+/* THE HIDDEN STATE */
+#service-customizer-panel.hidden {
+    display: none !important;
+}
+
+/* RESPONSIVE: Full width for mobile devices */
+@media (max-width: 768px) {
+    #service-customizer-panel {
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        max-height: 50%;
+        /* On phones, only take up half the screen */
+        border-radius: 15px 15px 0 0;
+    }
+}
+
+.sc-btn-toggle {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #ccc;
+    background-color: #f8f8f8;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+/* The "Lit Up" Red State */
+.sc-btn-toggle.active {
+    background-color: #d9534f;
+    /* A strong red */
+    color: white;
+    border-color: #b94441;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.sc-btn-reset {
+    background: #fdfdfd;
+    color: #c0392b;
+    border: 1px solid #c0392b;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s ease;
+}
+
+.sc-btn-reset:hover {
+    background: #c0392b;
+    color: #ffffff;
+}
+
+/* 1. The Grid Container */
+.ordination-grid {
+    display: flex;
+    /* Use the same gap value used in your category button container */
+    gap: 10px;
+    margin-top: 20px;
+    width: 100%;
+    /* Ensure no extra padding is shifting the columns */
+    padding: 0;
+}
+
+/* 2. The individual columns */
+.ordination-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    /* This ensures the content inside the column starts 
+       at the exact left edge of where the button above starts */
+    align-items: stretch;
+}
+
+/* 3. The Checkbox Row */
+.checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 15px;
+    /* Optional: if you want the checkbox text to be centered like button text */
+    justify-content: flex-start;
+}
+
+/* The group of 3 text fields inside the column */
+.name-field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
