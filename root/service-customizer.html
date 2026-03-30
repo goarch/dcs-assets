@@ -1,792 +1,107 @@
 <!DOCTYPE html>
-<html lang="el">
+<html lang="el-en">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Service Customizer</title>
-    <link rel="stylesheet" href="css/alwb.css">
-    <style>
-        body {
-            margin: 0;
-            padding: 15px;
-            background-color: #fdfdfd;
-            font-family: sans-serif;
-        }
+    <title>DCS Service Customizer</title>
+    <link rel="stylesheet" href="css/service-customizer.css">
 
-        .input-label {
-            display: block;
-            font-size: 11px;
-            font-weight: bold;
-            color: #555;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-        }
-    </style>
+    <script src="js/lib/jquery-2.0.3.min.js"></script>
+    <script src="js/lib/jquery.dropdown.js"></script>
+
+    <script src="js/app/sc-diocese-data.js"></script>
+    <script src="js/app/sc-ordination-data.js"></script>
+    <script src="js/app/sc-apolytikion1-data.js"></script>
+    <script src="js/app/sc-mapping-defs.js"></script>
+
+    <script src="js/app/service-customizer.js"></script>
 </head>
 
 <body>
-
-    <div id="custom-controls-container">
-        <div id="section-jurisdiction" class="sc-control-group" style="margin-bottom: 20px;">
-            <label class="input-label">Jurisdiction</label>
-            <select id="jurisdiction-select" class="sc-input-select" onchange="updateEntityDropdown()"
-                style="width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #ccc;">
-                <option value="">-- Select Jurisdiction --</option>
-                <option value="goa">Greek Orthodox Archdiocese of America</option>
-                <option value="oca">Orthodox Church in America</option>
-                <option value="ant">Antiochian Archdiocese</option>
-            </select>
-        </div>
-
-        <div id="section-entity" class="sc-control-group"
-            style="margin-bottom: 25px; display: none; padding-bottom: 15px; border-bottom: 1px dotted #ccc;">
-            <label class="input-label" id="entity-label">Diocese / Metropolis</label>
-            <select id="entity-select" class="sc-input-select" onchange="applyOverrides()"
-                style="width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #ccc;">
-            </select>
-        </div>
-
-        <div class="sc-control-group">
-            <label class="input-label">Service Category (Required)</label>
-            <div style="display: flex; gap: 10px; margin-top: 10px;">
-                <button id="btn-standard" type="button" class="sc-btn-toggle"
-                    onclick="setServiceCategory('standard')">Standard</button>
-                <button id="btn-hli" type="button" class="sc-btn-toggle"
-                    onclick="setServiceCategory('hierarchical')">Hierarchical</button>
+    <header class="customizer-header">
+        <h1>Service Customizer</h1>
+            <div class="launch-section">
+                <label class="input-label">1. Select Service Date</label>
+                <div class="toggle-group">
+                    <input type="date" id="service-date-picker">
+                    <button id="btn-launch" type="button" onclick="launchService()">
+                        Open Service
+                    </button>
+                </div>
             </div>
-        </div>
-    </div>
+    </header>
 
-    <div id="section-ordination" class="sc-control-group"
-        style="display: none; border-top: 1px solid #ccc; padding-top: 20px;">
-
-        <div class="ordination-grid">
-
-            <div class="ordination-col">
-                <div class="checkbox-row">
-                    <input type="checkbox" id="ord-deacon-check" onchange="applyOverrides()">
-                    <label for="ord-deacon-check" class="input-label" style="margin-bottom:0;">Deacon Ordination</label>
+    <main class="panel-grid">
+        <div id="custom-controls-container" class="sc-section">
+            <div class="toggle-group">
+                <div class="sc-control-group">
+                    <label class="input-label">Jurisdiction</label>
+                    <select id="jurisdiction-select" class="sc-input-select" onchange="updateEntityDropdown()">
+                        <option value="">-- Select Jurisdiction --</option>
+                        <option value="goa">Greek Orthodox Archdiocese</option>
+                        <option value="oca">Orthodox Church in America</option>
+                        <option value="ant">Antiochian Archdiocese</option>
+                    </select>
                 </div>
 
-                <div id="deacon-name-fields" class="name-field-group" style="display: flex;">
-                    <div>
-                        <input type="text" id="deacon-name-gr-acc" class="sc-input-text"
-                            placeholder="Name in Greek accusative" oninput="applyOverrides()">
+                <div id="section-entity" class="sc-control-group" style="display: none;">
+                    <label class="input-label" id="entity-label">Diocese / Metropolis</label>
+                    <select id="entity-select" class="sc-input-select" onchange="applyOverrides()"></select>
+                </div>
+            </div>
+            <div id="section-entity" class="sc-control-group" style="display: none;">
+                <label class="input-label" id="entity-label">Diocese / Metropolis</label>
+                <select id="entity-select" class="sc-input-select" onchange="applyOverrides()"></select>
+            </div>
+
+            <div class="sc-control-group">
+                <label class="input-label">Service Category</label>
+                <div class="toggle-group">
+                    <button id="btn-standard" type="button" class="sc-btn-toggle"
+                        onclick="setServiceCategory('standard')">Standard</button>
+                    <button id="btn-hli" type="button" class="sc-btn-toggle"
+                        onclick="setServiceCategory('hierarchical')">Hierarchical</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="section-ordination" class="sc-section" style="display: none;">
+            <div class="ordination-grid">
+                <div class="ordination-col">
+                    <div class="checkbox-row">
+                        <input type="checkbox" id="ord-deacon-check" onchange="toggleNameFields('deacon')">
+                        <label for="ord-deacon-check">Deacon Ordination</label>
                     </div>
-                    <div>
-                        <input type="text" id="deacon-name-gr-gen" class="sc-input-text"
-                            placeholder="Name in Greek genitive" oninput="applyOverrides()">
+                    <div id="deacon-name-fields" class="name-field-group" style="display: none;">
+                        <input type="text" id="deacon-name-gr-acc" class="sc-input-text" placeholder="Greek Accusative"
+                            oninput="applyOverrides()">
+                        <input type="text" id="deacon-name-gr-gen" class="sc-input-text" placeholder="Greek Genitive"
+                            oninput="applyOverrides()">
+                        <input type="text" id="deacon-name-en" class="sc-input-text" placeholder="English Name"
+                            oninput="applyOverrides()">
                     </div>
-                    <div>
-                        <input type="text" id="deacon-name-en" class="sc-input-text" placeholder="Name in English"
+                </div>
+
+                <div class="ordination-col">
+                    <div class="checkbox-row">
+                        <input type="checkbox" id="ord-priest-check" onchange="toggleNameFields('priest')">
+                        <label for="ord-priest-check">Priest Ordination</label>
+                    </div>
+                    <div id="priest-name-fields" class="name-field-group" style="display: none;">
+                        <input type="text" id="priest-name-gr-acc" class="sc-input-text" placeholder="Greek Accusative"
+                            oninput="applyOverrides()">
+                        <input type="text" id="priest-name-gr-gen" class="sc-input-text" placeholder="Greek Genitive"
+                            oninput="applyOverrides()">
+                        <input type="text" id="priest-name-en" class="sc-input-text" placeholder="English Name"
                             oninput="applyOverrides()">
                     </div>
                 </div>
             </div>
-
-            <div class="ordination-col">
-                <div class="checkbox-row">
-                    <input type="checkbox" id="ord-priest-check" onchange="applyOverrides()">
-                    <label for="ord-priest-check" class="input-label" style="margin-bottom:0;">Priest Ordination</label>
-                </div>
-
-                <div id="priest-name-fields" class="name-field-group" style="display: flex;">
-                    <div>
-                        <input type="text" id="priest-name-gr-acc" class="sc-input-text"
-                            placeholder="Name in Greek accusative" oninput="applyOverrides()">
-                    </div>
-                    <div>
-                        <input type="text" id="priest-name-gr-gen" class="sc-input-text"
-                            placeholder="Name in Greek genitive" oninput="applyOverrides()">
-                    </div>
-                    <div>
-                        <input type="text" id="priest-name-en" class="sc-input-text" placeholder="Name in English"
-                            oninput="applyOverrides()">
-                    </div>
-                </div>
-            </div>
-
         </div>
-    </div>
 
+    </main>
 
-<script>
-
-    /* ============================================================
-       JURISDICTION & ENTITY MAPPING
-       ============================================================ */
-    const entityMapping = {
-        "goa": [
-            { value: "", text: "-- Select Diocese / Metropolis --" },
-            { value: "goa_archdiocese", text: "Archdiocesan District" },
-            { value: "goa_atlanta", text: "Metropolis of Atlanta" },
-            { value: "goa_boston", text: "Metropolis of Boston" },
-            { value: "goa_chicago", text: "Metropolis of Chicago" },
-            { value: "goa_denver", text: "Metropolis of Denver" },
-            { value: "goa_detroit", text: "Metropolis of Detroit" },
-            { value: "goa_newjersey", text: "Metropolis of New Jersey" },
-            { value: "goa_patriarchate", text: "Ecumenical Patriarchate" },
-            { value: "goa_pittsburgh", text: "Metropolis of Pittsburgh" },
-            { value: "goa_sanfrancisco", text: "Metropolis of San Francisco" },
-            { value: "goa_other", text: "Other" }
-        ],
-        "oca": [
-            { value: "oca_midwest", text: "Diocese of the Midwest" },
-            { value: "oca_south", text: "Diocese of the South" },
-            { value: "oca_west", text: "Diocese of the West" }
-        ],
-        "ant": [
-            { value: "ant_wichita", text: "Diocese of Wichita" },
-            { value: "ant_miami", text: "Diocese of Miami" }
-        ]
-    };
-
-    /* ============================================================
-       DIOCESE DATA LIBRARIES
-       ============================================================ */
-    const dioceseData = {
-        "goa_archdiocese": {
-            "label": "Archdiocesan District",
-            "keys": {
-                "client_gr_US_goa|cl.bishop0.rank": "τοῦ Ἀρχιεπισκόπου καὶ Πατριάρχου ἡμῶν",
-                "client_gr_US_goa|cl.bishop0.name_c": "Βαρθολομαίου,",
-                "client_gr_US_goa|cl.bishop0.name_co": "Βαρθολομαίου:",
-                "client_gr_US_goa|cl.bishop0.name_p": "Βαρθολομαίου.",
-                "client_gr_US_goa|cl.bishop0.name_sc": "Βαρθολομαίου·",
-                "client_gr_US_goa|cl.bishop0.fimi.text": "Βαρθολομαίου, τοῦ Παναγιωτάτου καὶ Οἰκουμενικοῦ Πατριάρχου, πολλὰ τὰ ἔτη!",
-                "client_gr_US_goa|cl.bishop1.rank": "τοῦ Ἀρχιεπισκόπου ἡμῶν",
-                "client_gr_US_goa|cl.bishop1.name_c": "Ἐλπιδοφόρου,",
-                "client_gr_US_goa|cl.bishop1.name_co": "Ἐλπιδοφόρου:",
-                "client_gr_US_goa|cl.bishop1.name_p": "Ἐλπιδοφόρου.",
-                "client_gr_US_goa|cl.bishop1.name_sc": "Ἐλπιδοφόρου·",
-                "client_gr_US_goa|cl.bishop1.fimi.text": "Ἐλπιδοφόρου, τοῦ Σεβασμιωτάτου καὶ Θεοπροβλήτου Ἀρχιεπισκόπου τῆς ἁγιωτάτης Ἀρχιεπισκοπῆς Ἀμερικῆς, Ὑπερτίμου καὶ Ἐξάρχου Ὠκεανῶν Ἀτλαντικοῦ τε καὶ Εἰρηνικοῦ, ἡμῶν δὲ πατρὸς καὶ ποιμενάρχου, πολλὰ τὰ ἔτη!",
-                "client_gr_US_goa|cl.bishop1.away_fimi.text": "Ἐλπιδοφόρου, τοῦ Σεβασμιωτάτου καὶ Θεοπροβλήτου Ἀρχιεπισκόπου τῆς ἁγιωτάτης Ἀρχιεπισκοπῆς Ἀμερικῆς, Ὑπερτίμου καὶ Ἐξάρχου Ὠκεανῶν Ἀτλαντικοῦ τε καὶ Εἰρηνικοῦ, ἡμῶν δὲ πατρὸς καὶ ποιμενάρχου, πολλὰ τὰ ἔτη!",
-                "client_en_US_goa|cl.bishop0.rank": "our Archbishop and Patriarch",
-                "client_en_US_goa|cl.bishop0.name_c": "Bartholomew,",
-                "client_en_US_goa|cl.bishop0.name_co": "Bartholomew:",
-                "client_en_US_goa|cl.bishop0.name_p": "Bartholomew.",
-                "client_en_US_goa|cl.bishop0.name_sc": "Bartholomew;",
-                "client_en_US_goa|cl.bishop0.fimi.text": "Bartholomew, His All-Holiness and Ecumenical Patriarch: Many years!",
-                "client_en_US_goa|cl.bishop1.rank": "our Archbishop",
-                "client_en_US_goa|cl.bishop1.name_c": "Elpidophoros,",
-                "client_en_US_goa|cl.bishop1.name_co": "Elpidophoros:",
-                "client_en_US_goa|cl.bishop1.name_p": "Elpidophoros.",
-                "client_en_US_goa|cl.bishop1.name_sc": "Elpidophoros·",
-                "client_en_US_goa|cl.bishop1.fimi.text": "Elpidophoros, the Most-Reverend and God-Chosen Archbishop of the Holy Archdiocese of America, Primate and Exarch of the Atlantic and Pacific Oceans, our Father and Chief Shepherd: Many years!",
-                "client_en_US_goa|cl.bishop1.away_fimi.text": "Elpidophoros, the Most-Reverend and God-Chosen Archbishop of the Holy Archdiocese of America, Primate and Exarch of the Atlantic and Pacific Oceans, our Father and Chief Shepherd: Many years!"
-            }
-        },
-
-        "goa_atlanta": {
-            "label": "Metropolis of Atlanta",
-            "keys": {
-                "client_gr_US_goa|cl.bishop0.rank": "τοῦ Ἀρχιεπισκόπου καὶ Πατριάρχου ἡμῶν",
-                "client_gr_US_goa|cl.bishop0.name_c": "Βαρθολομαίου,",
-                "client_gr_US_goa|cl.bishop0.name_co": "Βαρθολομαίου:",
-                "client_gr_US_goa|cl.bishop0.name_p": "Βαρθολομαίου.",
-                "client_gr_US_goa|cl.bishop0.name_sc": "Βαρθολομαίου·",
-                "client_gr_US_goa|cl.bishop0.fimi.text": "Βαρθολομαίου, τοῦ Παναγιωτάτου καὶ Οἰκουμενικοῦ Πατριάρχου, πολλὰ τὰ ἔτη!",
-                "client_gr_US_goa|cl.bishop1.rank": "τοῦ Ἀρχιεπισκόπου ἡμῶν",
-                "client_gr_US_goa|cl.bishop1.name_c": "Σεβαστιανοῦ,",
-                "client_gr_US_goa|cl.bishop1.name_co": "Σεβαστιανοῦ:",
-                "client_gr_US_goa|cl.bishop1.name_p": "Σεβαστιανοῦ.",
-                "client_gr_US_goa|cl.bishop1.name_sc": "Σεβαστιανοῦ·",
-                "client_gr_US_goa|cl.bishop1.fimi.text": "Σεβαστιανοῦ, τοῦ Σεβασμιωτάτου καὶ Θεοπροβλήτου Μητροπολίτου τῆς ἁγιωτάτης Μητροπόλεως Ἀτλάντας, ἡμῶν δὲ πατρὸς καὶ ποιμενάρχου, πολλὰ τὰ ἔτη!",
-                "client_gr_US_goa|cl.bishop1.away_fimi.text": "Σεβαστιανοῦ, τοῦ Σεβασμιωτάτου καὶ Θεοπροβλήτου Μητροπολίτου τῆς ἁγιωτάτης Μητροπόλεως Ἀτλάντας, ἡμῶν δὲ πατρὸς καὶ ἱεράρχου, πολλὰ τὰ ἔτη!",
-                "client_en_US_goa|cl.bishop0.rank": "our Archbishop and Patriarch",
-                "client_en_US_goa|cl.bishop0.name_c": "Bartholomew,",
-                "client_en_US_goa|cl.bishop0.name_co": "Bartholomew:",
-                "client_en_US_goa|cl.bishop0.name_p": "Bartholomew.",
-                "client_en_US_goa|cl.bishop0.name_sc": "Bartholomew;",
-                "client_en_US_goa|cl.bishop0.fimi.text": "Bartholomew, His All-Holiness and Ecumenical Patriarch: Many years!",
-                "client_en_US_goa|cl.bishop1.rank": "our Archbishop",
-                "client_en_US_goa|cl.bishop1.name_c": "Sevastianos,",
-                "client_en_US_goa|cl.bishop1.name_co": "Sevastianos:",
-                "client_en_US_goa|cl.bishop1.name_p": "Sevastianos.",
-                "client_en_US_goa|cl.bishop1.name_sc": "Sevastianos;",
-                "client_en_US_goa|cl.bishop1.fimi.text": "Sevastianos, the Most-Reverend and God-Chosen Metropolitan of the Holy Metropolis of Atlanta, our Father and Chief Shepherd: Many years!",
-                "client_en_US_goa|cl.bishop1.away_fimi.text": "Sevastianos, the Most-Reverend and God-Chosen Metropolitan of the Holy Metropolis of Atlanta, our Father and Hierarch: Many years!"
-            }
-        },
-
-        "goa_boston": {
-            "label": "Metropolis of Boston",
-            "keys": {
-                "client_gr_US_goa|cl.bishop0.rank": "τοῦ Ἀρχιεπισκόπου καὶ Πατριάρχου ἡμῶν",
-                "client_gr_US_goa|cl.bishop0.name_c": "Βαρθολομαίου,",
-                "client_gr_US_goa|cl.bishop0.name_co": "Βαρθολομαίου:",
-                "client_gr_US_goa|cl.bishop0.name_p": "Βαρθολομαίου.",
-                "client_gr_US_goa|cl.bishop0.name_sc": "Βαρθολομαίου·",
-                "client_gr_US_goa|cl.bishop0.fimi.text": "Βαρθολομαίου, τοῦ Παναγιωτάτου καὶ Οἰκουμενικοῦ Πατριάρχου, πολλὰ τὰ ἔτη!",
-                "client_gr_US_goa|cl.bishop1.rank": "τοῦ Ἀρχιεπισκόπου ἡμῶν",
-                "client_gr_US_goa|cl.bishop1.name_c": "Μεθοδίου,",
-                "client_gr_US_goa|cl.bishop1.name_co": "Μεθοδίου:",
-                "client_gr_US_goa|cl.bishop1.name_p": "Μεθοδίου.",
-                "client_gr_US_goa|cl.bishop1.name_sc": "Μεθοδίου·",
-                "client_gr_US_goa|cl.bishop1.fimi.text": "Μεθοδίου, τοῦ Σεβασμιωτάτου καὶ Θεοπροβλήτου Μητροπολίτου τῆς ἁγιωτάτης Μητροπόλεως Βοστόνης, ἡμῶν δὲ πατρὸς καὶ ποιμενάρχου, πολλὰ τὰ ἔτη!",
-                "client_gr_US_goa|cl.bishop1.away_fimi.text": "Μεθοδίου, τοῦ Σεβασμιωτάτου καὶ Θεοπροβλήτου Μητροπολίτου τῆς ἁγιωτάτης Μητροπόλεως Βοστόνης, ἡμῶν δὲ πατρὸς καὶ ἱεράρχου, πολλὰ τὰ ἔτη!",
-                "client_en_US_goa|cl.bishop0.rank": "our Archbishop and Patriarch",
-                "client_en_US_goa|cl.bishop0.name_c": "Bartholomew,",
-                "client_en_US_goa|cl.bishop0.name_co": "Bartholomew:",
-                "client_en_US_goa|cl.bishop0.name_p": "Bartholomew.",
-                "client_en_US_goa|cl.bishop0.name_sc": "Bartholomew;",
-                "client_en_US_goa|cl.bishop0.fimi.text": "Bartholomew, His All-Holiness and Ecumenical Patriarch: Many years!",
-                "client_en_US_goa|cl.bishop1.rank": "our Archbishop",
-                "client_en_US_goa|cl.bishop1.name_c": "Methodios,",
-                "client_en_US_goa|cl.bishop1.name_co": "Methodios:",
-                "client_en_US_goa|cl.bishop1.name_p": "Methodios.",
-                "client_en_US_goa|cl.bishop1.name_sc": "Methodios;",
-                "client_en_US_goa|cl.bishop1.fimi.text": "Methodios, the Most-Reverend and God-Chosen Metropolitan of the Holy Metropolis of Boston, our Father and Chief Shepherd: Many years!",
-                "client_en_US_goa|cl.bishop1.away_fimi.text": "Methodios, the Most-Reverend and God-Chosen Metropolitan of the Holy Metropolis of Boston, our Father and Hierarch: Many years!"
-            }
-        },
-
-        "goa_chicago": {
-            "label": "Metropolis of Chicago",
-            "keys": {
-                "client_gr_US_goa|cl.bishop0.rank": "τοῦ Ἀρχιεπισκόπου καὶ Πατριάρχου ἡμῶν",
-                "client_gr_US_goa|cl.bishop0.name_c": "Βαρθολομαίου,",
-                "client_gr_US_goa|cl.bishop0.name_co": "Βαρθολομαίου:",
-                "client_gr_US_goa|cl.bishop0.name_p": "Βαρθολομαίου.",
-                "client_gr_US_goa|cl.bishop0.name_sc": "Βαρθολομαίου·",
-                "client_gr_US_goa|cl.bishop0.fimi.text": "Βαρθολομαίου, τοῦ Παναγιωτάτου καὶ Οἰκουμενικοῦ Πατριάρχου, πολλὰ τὰ ἔτη!",
-                "client_gr_US_goa|cl.bishop1.rank": "τοῦ Ἀρχιεπισκόπου ἡμῶν",
-                "client_gr_US_goa|cl.bishop1.name_c": "Ναθαναήλ,",
-                "client_gr_US_goa|cl.bishop1.name_co": "Ναθαναήλ:",
-                "client_gr_US_goa|cl.bishop1.name_p": "Ναθαναήλ.",
-                "client_gr_US_goa|cl.bishop1.name_sc": "Ναθαναήλ·",
-                "client_gr_US_goa|cl.bishop1.fimi.text": "Ναθαναήλ, τοῦ Σεβασμιωτάτου καὶ Θεοπροβλήτου Μητροπολίτου τῆς ἁγιωτάτης Μητροπόλεως Σικάγου, ἡμῶν δὲ πατρὸς καὶ ποιμενάρχου, πολλὰ τὰ ἔτη!",
-                "client_gr_US_goa|cl.bishop1.away_fimi.text": "Ναθαναήλ, τοῦ Σεβασμιωτάτου καὶ Θεοπροβλήτου Μητροπολίτου τῆς ἁγιωτάτης Μητροπόλεως Σικάγου, ἡμῶν δὲ πατρὸς καὶ ἱεράρχου, πολλὰ τὰ ἔτη!",
-                "client_en_US_goa|cl.bishop0.rank": "our Archbishop and Patriarch",
-                "client_en_US_goa|cl.bishop0.name_c": "Bartholomew,",
-                "client_en_US_goa|cl.bishop0.name_co": "Bartholomew:",
-                "client_en_US_goa|cl.bishop0.name_p": "Bartholomew.",
-                "client_en_US_goa|cl.bishop0.name_sc": "Bartholomew;",
-                "client_en_US_goa|cl.bishop0.fimi.text": "Bartholomew, His All-Holiness and Ecumenical Patriarch: Many years!",
-                "client_en_US_goa|cl.bishop1.rank": "our Archbishop",
-                "client_en_US_goa|cl.bishop1.name_c": "Nathanael,",
-                "client_en_US_goa|cl.bishop1.name_co": "Nathanael:",
-                "client_en_US_goa|cl.bishop1.name_p": "Nathanael.",
-                "client_en_US_goa|cl.bishop1.name_sc": "Nathanael;",
-                "client_en_US_goa|cl.bishop1.fimi.text": "Nathanael, the Most-Reverend and God-Chosen Metropolitan of the Holy Metropolis of Chicago, our Father and Chief Shepherd: Many years!",
-                "client_en_US_goa|cl.bishop1.away_fimi.text": "Nathanael, the Most-Reverend and God-Chosen Metropolitan of the Holy Metropolis of Chicago, our Father and Hierarch: Many years!"
-            }
-        },
-
-        "goa_denver": {
-            "label": "Metropolis of Denver",
-            "keys": {
-                "client_gr_US_goa|cl.bishop0.rank": "τοῦ Ἀρχιεπισκόπου καὶ Πατριάρχου ἡμῶν",
-                "client_gr_US_goa|cl.bishop0.name_c": "Βαρθολομαίου,",
-                "client_gr_US_goa|cl.bishop0.name_co": "Βαρθολομαίου:",
-                "client_gr_US_goa|cl.bishop0.name_p": "Βαρθολομαίου.",
-                "client_gr_US_goa|cl.bishop0.name_sc": "Βαρθολομαίου·",
-                "client_gr_US_goa|cl.bishop0.fimi.text": "Βαρθολομαίου, τοῦ Παναγιωτάτου καὶ Οἰκουμενικοῦ Πατριάρχου, πολλὰ τὰ ἔτη!",
-                "client_gr_US_goa|cl.bishop1.rank": "τοῦ Ἀρχιεπισκόπου ἡμῶν",
-                "client_gr_US_goa|cl.bishop1.name_c": "Κωνσταντίνου,",
-                "client_gr_US_goa|cl.bishop1.name_co": "Κωνσταντίνου:",
-                "client_gr_US_goa|cl.bishop1.name_p": "Κωνσταντίνου.",
-                "client_gr_US_goa|cl.bishop1.name_sc": "Κωνσταντίνου·",
-                "client_gr_US_goa|cl.bishop1.fimi.text": "Κωνσταντίνου, τοῦ Σεβασμιωτάτου καὶ Θεοπροβλήτου Μητροπολίτου τῆς Ἁγιωτάτης Μητροπόλεως Ντένβερ, ἡμῶν δὲ πατρὸς καὶ ποιμενάρχου, πολλὰ τὰ ἔτι.",
-                "client_gr_US_goa|cl.bishop1.away_fimi.text": "Κωνσταντίνου, τοῦ Σεβασμιωτάτου καὶ Θεοπροβλήτου Μητροπολίτου τῆς Ἁγιωτάτης Μητροπόλεως Ντένβερ, ἡμῶν δὲ πατρὸς καὶ ἱεράρχου, πολλὰ τὰ ἔτι.",
-                "client_en_US_goa|cl.bishop0.rank": "our Archbishop and Patriarch",
-                "client_en_US_goa|cl.bishop0.name_c": "Bartholomew,",
-                "client_en_US_goa|cl.bishop0.name_co": "Bartholomew:",
-                "client_en_US_goa|cl.bishop0.name_p": "Bartholomew.",
-                "client_en_US_goa|cl.bishop0.name_sc": "Bartholomew;",
-                "client_en_US_goa|cl.bishop0.fimi.text": "Bartholomew, His All-Holiness and Ecumenical Patriarch: Many years!",
-                "client_en_US_goa|cl.bishop1.rank": "our Archbishop",
-                "client_en_US_goa|cl.bishop1.name_c": "Constantine,",
-                "client_en_US_goa|cl.bishop1.name_co": "Constantine:",
-                "client_en_US_goa|cl.bishop1.name_p": "Constantine.",
-                "client_en_US_goa|cl.bishop1.name_sc": "Constantine;",
-                "client_en_US_goa|cl.bishop1.fimi.text": "Constantine, the most-reverend and God-chosen Metropolitan of the Holy Metropolis of Denver, our Father and Chief Shepherd: Many years!",
-                "client_en_US_goa|cl.bishop1.away_fimi.text": "Constantine, the most-reverend and God-chosen Metropolitan of the Holy Metropolis of Denver, our Father and Hierarch: Many years!"
-            }
-        },
-
-        "goa_detroit": {
-            "label": "Metropolis of Detroit",
-            "keys": {
-                "client_gr_US_goa|cl.bishop0.rank": "τοῦ Ἀρχιεπισκόπου καὶ Πατριάρχου ἡμῶν",
-                "client_gr_US_goa|cl.bishop0.name_c": "Βαρθολομαίου,",
-                "client_gr_US_goa|cl.bishop0.name_co": "Βαρθολομαίου:",
-                "client_gr_US_goa|cl.bishop0.name_p": "Βαρθολομαίου.",
-                "client_gr_US_goa|cl.bishop0.name_sc": "Βαρθολομαίου·",
-                "client_gr_US_goa|cl.bishop0.fimi.text": "Βαρθολομαίου, τοῦ Παναγιωτάτου καὶ Οἰκουμενικοῦ Πατριάρχου, πολλὰ τὰ ἔτη!",
-                "client_gr_US_goa|cl.bishop1.rank": "τοῦ Ἀρχιεπισκόπου ἡμῶν",
-                "client_gr_US_goa|cl.bishop1.name_c": "Νικολάου,",
-                "client_gr_US_goa|cl.bishop1.name_co": "Νικολάου:",
-                "client_gr_US_goa|cl.bishop1.name_p": "Νικολάου.",
-                "client_gr_US_goa|cl.bishop1.name_sc": "Νικολάου·",
-                "client_gr_US_goa|cl.bishop1.fimi.text": "Νικολάου, τοῦ Σεβασμιωτάτου καὶ Θεοπροβλήτου Μητροπολίτου τῆς ἁγιωτάτης Μητροπόλεως Ντιτρόϊτ, ἡμῶν δὲ πατρὸς καὶ ποιμενάρχου, πολλὰ τὰ ἔτη!",
-                "client_gr_US_goa|cl.bishop1.away_fimi.text": "Νικολάου, τοῦ Σεβασμιωτάτου καὶ Θεοπροβλήτου Μητροπολίτου τῆς ἁγιωτάτης Μητροπόλεως Ντιτρόϊτ, ἡμῶν δὲ πατρὸς καὶ ἱεράρχου, πολλὰ τὰ ἔτη!",
-                "client_en_US_goa|cl.bishop0.rank": "our Archbishop and Patriarch",
-                "client_en_US_goa|cl.bishop0.name_c": "Bartholomew,",
-                "client_en_US_goa|cl.bishop0.name_co": "Bartholomew:",
-                "client_en_US_goa|cl.bishop0.name_p": "Bartholomew.",
-                "client_en_US_goa|cl.bishop0.name_sc": "Bartholomew;",
-                "client_en_US_goa|cl.bishop0.fimi.text": "Bartholomew, His All-Holiness and Ecumenical Patriarch: Many years!",
-                "client_en_US_goa|cl.bishop1.rank": "our Archbishop",
-                "client_en_US_goa|cl.bishop1.name_c": "Nicholas,",
-                "client_en_US_goa|cl.bishop1.name_co": "Nicholas:",
-                "client_en_US_goa|cl.bishop1.name_p": "Nicholas.",
-                "client_en_US_goa|cl.bishop1.name_sc": "Nicholas;",
-                "client_en_US_goa|cl.bishop1.fimi.text": "Nicholas, the Most-Reverend and God-Chosen Metropolitan of the Holy Metropolis of Detroit, our Father and Chief Shepherd: Many years!",
-                "client_en_US_goa|cl.bishop1.away_fimi.text": "Nicholas, the Most-Reverend and God-Chosen Metropolitan of the Holy Metropolis of Detroit, our Father and Hierarch: Many years!"
-            }
-        },
-
-        "goa_newjersey": {
-            "label": "Metropolis of New Jersey",
-            "keys": {
-                "client_gr_US_goa|cl.bishop0.rank": "τοῦ Ἀρχιεπισκόπου καὶ Πατριάρχου ἡμῶν",
-                "client_gr_US_goa|cl.bishop0.name_c": "Βαρθολομαίου,",
-                "client_gr_US_goa|cl.bishop0.name_co": "Βαρθολομαίου:",
-                "client_gr_US_goa|cl.bishop0.name_p": "Βαρθολομαίου.",
-                "client_gr_US_goa|cl.bishop0.name_sc": "Βαρθολομαίου·",
-                "client_gr_US_goa|cl.bishop0.fimi.text": "Βαρθολομαίου, τοῦ Παναγιωτάτου καὶ Οἰκουμενικοῦ Πατριάρχου, πολλὰ τὰ ἔτη!",
-                "client_gr_US_goa|cl.bishop1.rank": "τοῦ Ἀρχιεπισκόπου ἡμῶν",
-                "client_gr_US_goa|cl.bishop1.name_c": "Ἀποστόλου,",
-                "client_gr_US_goa|cl.bishop1.name_co": "Ἀποστόλου:",
-                "client_gr_US_goa|cl.bishop1.name_p": "Ἀποστόλου.",
-                "client_gr_US_goa|cl.bishop1.name_sc": "Ἀποστόλου·",
-                "client_gr_US_goa|cl.bishop1.fimi.text": "Ἀποστόλου, τοῦ Σεβασμιωτάτου καὶ Θεοπροβλήτου Μητροπολίτου τῆς ἁγιωτάτης Μητροπόλεως Νέας Ἰερσέης, ἡμῶν δὲ πατρὸς καὶ ποιμενάρχου, πολλὰ τὰ ἔτη!",
-                "client_gr_US_goa|cl.bishop1.away_fimi.text": "Ἀποστόλου, τοῦ Σεβασμιωτάτου καὶ Θεοπροβλήτου Μητροπολίτου τῆς ἁγιωτάτης Μητροπόλεως Νέας Ἰερσέης, ἡμῶν δὲ πατρὸς καὶ ἱεράρχου, πολλὰ τὰ ἔτη!",
-                "client_en_US_goa|cl.bishop0.rank": "our Archbishop and Patriarch",
-                "client_en_US_goa|cl.bishop0.name_c": "Bartholomew,",
-                "client_en_US_goa|cl.bishop0.name_co": "Bartholomew:",
-                "client_en_US_goa|cl.bishop0.name_p": "Bartholomew.",
-                "client_en_US_goa|cl.bishop0.name_sc": "Bartholomew;",
-                "client_en_US_goa|cl.bishop0.fimi.text": "Bartholomew, His All-Holiness and Ecumenical Patriarch: Many years!",
-                "client_en_US_goa|cl.bishop1.rank": "our Archbishop",
-                "client_en_US_goa|cl.bishop1.name_c": "Apostolos,",
-                "client_en_US_goa|cl.bishop1.name_co": "Apostolos:",
-                "client_en_US_goa|cl.bishop1.name_p": "Apostolos.",
-                "client_en_US_goa|cl.bishop1.name_sc": "Apostolos;",
-                "client_en_US_goa|cl.bishop1.fimi.text": "Apostolos, the Most-Reverend and God-Chosen Metropolitan of the Holy Metropolis of New Jersey, our Father and Chief Shepherd: Many years!",
-                "client_en_US_goa|cl.bishop1.away_fimi.text": "Apostolos, the Most-Reverend and God-Chosen Metropolitan of the Holy Metropolis of New Jersey, our Father and Hierarch: Many years!"
-            }
-        },
-
-        "goa_patriarchate": {
-            "label": "Ecumenical Patriarchate",
-            "keys": {
-                "client_gr_US_goa|cl.bishop0.rank": "τοῦ Ἀρχιεπισκόπου καὶ Πατριάρχου ἡμῶν",
-                "client_gr_US_goa|cl.bishop0.name_c": "Βαρθολομαίου,",
-                "client_gr_US_goa|cl.bishop0.name_co": "Βαρθολομαίου:",
-                "client_gr_US_goa|cl.bishop0.name_p": "Βαρθολομαίου.",
-                "client_gr_US_goa|cl.bishop0.name_sc": "Βαρθολομαίου·",
-                "client_gr_US_goa|cl.bishop0.fimi.text": "Βαρθολομαίου, τοῦ Παναγιωτάτου καὶ Οἰκουμενικοῦ Πατριάρχου, πολλὰ τὰ ἔτη!",
-                "client_gr_US_goa|cl.bishop1.rank": "τοῦ Ἀρχιεπισκόπου καὶ Πατριάρχου ἡμῶν",
-                "client_gr_US_goa|cl.bishop1.name_c": "Βαρθολομαίου,",
-                "client_gr_US_goa|cl.bishop1.name_co": "Βαρθολομαίου:",
-                "client_gr_US_goa|cl.bishop1.name_p": "Βαρθολομαίου.",
-                "client_gr_US_goa|cl.bishop1.name_sc": "Βαρθολομαίου·",
-                "client_gr_US_goa|cl.bishop1.fimi.text": "Βαρθολομαίου, τοῦ Παναγιωτάτου καὶ Οἰκουμενικοῦ Πατριάρχου, πολλὰ τὰ ἔτη!",
-                "client_gr_US_goa|cl.bishop1.away_fimi.text": "Βαρθολομαίου, τοῦ Παναγιωτάτου καὶ Οἰκουμενικοῦ Πατριάρχου, πολλὰ τὰ ἔτη!",
-                "client_en_US_goa|cl.bishop0.rank": "our Archbishop and Patriarch",
-                "client_en_US_goa|cl.bishop0.name_c": "Bartholomew,",
-                "client_en_US_goa|cl.bishop0.name_co": "Bartholomew:",
-                "client_en_US_goa|cl.bishop0.name_p": "Bartholomew.",
-                "client_en_US_goa|cl.bishop0.name_sc": "Bartholomew;",
-                "client_en_US_goa|cl.bishop0.fimi.text": "Bartholomew, His All-Holiness and Ecumenical Patriarch: Many years!",
-                "client_en_US_goa|cl.bishop1.rank": "our Archbishop and Patriarch",
-                "client_en_US_goa|cl.bishop1.name_c": "Bartholomew,",
-                "client_en_US_goa|cl.bishop1.name_co": "Bartholomew:",
-                "client_en_US_goa|cl.bishop1.name_p": "Bartholomew.",
-                "client_en_US_goa|cl.bishop1.name_sc": "Bartholomew;",
-                "client_en_US_goa|cl.bishop1.fimi.text": "our Archbishop",
-                "client_en_US_goa|cl.bishop1.away_fimi.text": "Bartholomew, His All-Holiness and Ecumenical Patriarch: Many years!"
-            }
-        },
-
-        "goa_pittsburgh": {
-            "label": "Metropolis of Pittsburgh",
-            "keys": {
-                "client_gr_US_goa|cl.bishop0.rank": "τοῦ Ἀρχιεπισκόπου καὶ Πατριάρχου ἡμῶν",
-                "client_gr_US_goa|cl.bishop0.name_c": "Βαρθολομαίου,",
-                "client_gr_US_goa|cl.bishop0.name_co": "Βαρθολομαίου:",
-                "client_gr_US_goa|cl.bishop0.name_p": "Βαρθολομαίου.",
-                "client_gr_US_goa|cl.bishop0.name_sc": "Βαρθολομαίου·",
-                "client_gr_US_goa|cl.bishop0.fimi.text": "Βαρθολομαίου, τοῦ Παναγιωτάτου καὶ Οἰκουμενικοῦ Πατριάρχου, πολλὰ τὰ ἔτη!",
-                "client_gr_US_goa|cl.bishop1.rank": "τοῦ Ἀρχιεπισκόπου ἡμῶν",
-                "client_gr_US_goa|cl.bishop1.name_c": "Σάββα,",
-                "client_gr_US_goa|cl.bishop1.name_co": "Σάββα:",
-                "client_gr_US_goa|cl.bishop1.name_p": "Σάββα.",
-                "client_gr_US_goa|cl.bishop1.name_sc": "Σάββα·",
-                "client_gr_US_goa|cl.bishop1.fimi.text": "Σάββα, τοῦ Σεβασμιωτάτου καὶ Θεοπροβλήτου Μητροπολίτου τῆς ἁγιωτάτης Μητροπόλεως Πιττσβούργου, ἡμῶν δὲ πατρὸς καὶ ποιμενάρχου, πολλὰ τὰ ἔτη!",
-                "client_gr_US_goa|cl.bishop1.away_fimi.text": "Σάββα, τοῦ Σεβασμιωτάτου καὶ Θεοπροβλήτου Μητροπολίτου τῆς ἁγιωτάτης Μητροπόλεως Πιττσβούργου, ἡμῶν δὲ πατρὸς καὶ ἱεράρχου, πολλὰ τὰ ἔτη!",
-                "client_en_US_goa|cl.bishop0.rank": "our Archbishop and Patriarch",
-                "client_en_US_goa|cl.bishop0.name_c": "Bartholomew,",
-                "client_en_US_goa|cl.bishop0.name_co": "Bartholomew:",
-                "client_en_US_goa|cl.bishop0.name_p": "Bartholomew.",
-                "client_en_US_goa|cl.bishop0.name_sc": "Bartholomew;",
-                "client_en_US_goa|cl.bishop0.fimi.text": "Bartholomew, His All-Holiness and Ecumenical Patriarch: Many years!",
-                "client_en_US_goa|cl.bishop1.rank": "our Archbishop",
-                "client_en_US_goa|cl.bishop1.name_c": "Savas,",
-                "client_en_US_goa|cl.bishop1.name_co": "Savas:",
-                "client_en_US_goa|cl.bishop1.name_p": "Savas.",
-                "client_en_US_goa|cl.bishop1.name_sc": "Savas;",
-                "client_en_US_goa|cl.bishop1.fimi.text": "Savas, the Most-Reverend and God-Chosen Metropolitan of the Holy Metropolis of Pittsburgh, our Father and Chief Shepherd: Many years!",
-                "client_en_US_goa|cl.bishop1.away_fimi.text": "Savas, the Most-Reverend and God-Chosen Metropolitan of the Holy Metropolis of Pittsburgh, our Father and Hierarch: Many years!"
-            }
-        },
-
-        "goa_sanfrancisco": {
-            "label": "Metropolis of San Francisco",
-            "keys": {
-                "client_gr_US_goa|cl.bishop0.rank": "τοῦ Ἀρχιεπισκόπου καὶ Πατριάρχου ἡμῶν",
-                "client_gr_US_goa|cl.bishop0.name_c": "Βαρθολομαίου,",
-                "client_gr_US_goa|cl.bishop0.name_co": "Βαρθολομαίου:",
-                "client_gr_US_goa|cl.bishop0.name_p": "Βαρθολομαίου.",
-                "client_gr_US_goa|cl.bishop0.name_sc": "Βαρθολομαίου·",
-                "client_gr_US_goa|cl.bishop0.fimi.text": "Βαρθολομαίου, τοῦ Παναγιωτάτου καὶ Οἰκουμενικοῦ Πατριάρχου, πολλὰ τὰ ἔτη!",
-                "client_gr_US_goa|cl.bishop1.rank": "τοῦ Ἀρχιεπισκόπου ἡμῶν",
-                "client_gr_US_goa|cl.bishop1.name_c": "Γερασίμου,",
-                "client_gr_US_goa|cl.bishop1.name_co": "Γερασίμου:",
-                "client_gr_US_goa|cl.bishop1.name_p": "Γερασίμου.",
-                "client_gr_US_goa|cl.bishop1.name_sc": "Γερασίμου·",
-                "client_gr_US_goa|cl.bishop1.fimi.text": "Γερασίμου, τοῦ Σεβασμιωτάτου καὶ Θεοπροβλήτου Μητροπολίτου τῆς ἁγιωτάτης Μητροπόλεως Ἁγίου Φραγκίσκου, ἡμῶν δὲ πατρὸς καὶ ποιμενάρχου, πολλὰ τὰ ἔτη!",
-                "client_gr_US_goa|cl.bishop1.away_fimi.text": "Γερασίμου, τοῦ Σεβασμιωτάτου καὶ Θεοπροβλήτου Μητροπολίτου τῆς ἁγιωτάτης Μητροπόλεως Ἁγίου Φραγκίσκου, ἡμῶν δὲ πατρὸς καὶ ἱεράρχου, πολλὰ τὰ ἔτη!",
-                "client_en_US_goa|cl.bishop0.rank": "our Archbishop and Patriarch",
-                "client_en_US_goa|cl.bishop0.name_c": "Bartholomew,",
-                "client_en_US_goa|cl.bishop0.name_co": "Bartholomew:",
-                "client_en_US_goa|cl.bishop0.name_p": "Bartholomew.",
-                "client_en_US_goa|cl.bishop0.name_sc": "Bartholomew·",
-                "client_en_US_goa|cl.bishop0.fimi.text": "Bartholomew, His All-Holiness and Ecumenical Patriarch: Many years!",
-                "client_en_US_goa|cl.bishop1.rank": "our Archbishop",
-                "client_en_US_goa|cl.bishop1.name_c": "Gerasimos,",
-                "client_en_US_goa|cl.bishop1.name_co": "Gerasimos:",
-                "client_en_US_goa|cl.bishop1.name_p": "Gerasimos.",
-                "client_en_US_goa|cl.bishop1.name_sc": "Gerasimos;",
-                "client_en_US_goa|cl.bishop1.fimi.text": "Gerasimos, the Most Reverend and God-Chosen Metropolitan of the Holy Metropolis of San Francisco, our Father and Chief Shepherd, many years!",
-                "client_en_US_goa|cl.bishop1.away_fimi.text": "Gerasimos, the Most Reverend and God-Chosen Metropolitan of the Holy Metropolis of San Francisco, our Father and Hierarch, many years!"
-            }
-        },
-
-        "goa_other": {
-            "label": "Other",
-            "keys": {
-                "client_gr_US_goa|cl.bishop0.rank": "",
-                "client_gr_US_goa|cl.bishop0.name_c": "",
-                "client_gr_US_goa|cl.bishop0.name_co": "",
-                "client_gr_US_goa|cl.bishop0.name_p": "",
-                "client_gr_US_goa|cl.bishop0.name_sc": "",
-                "client_gr_US_goa|cl.bishop0.fimi.text": "",
-                "client_gr_US_goa|cl.bishop1.rank": "",
-                "client_gr_US_goa|cl.bishop1.name_c": "",
-                "client_gr_US_goa|cl.bishop1.name_co": "",
-                "client_gr_US_goa|cl.bishop1.name_p": "",
-                "client_gr_US_goa|cl.bishop1.name_sc": "",
-                "client_gr_US_goa|cl.bishop1.fimi.text": "",
-                "client_gr_US_goa|cl.bishop1.away_fimi.text": "",
-                "client_en_US_goa|cl.bishop0.rank": "",
-                "client_en_US_goa|cl.bishop0.name_c": "",
-                "client_en_US_goa|cl.bishop0.name_co": "",
-                "client_en_US_goa|cl.bishop0.name_p": "",
-                "client_en_US_goa|cl.bishop0.name_sc": "",
-                "client_en_US_goa|cl.bishop0.fimi.text": "",
-                "client_en_US_goa|cl.bishop1.rank": "",
-                "client_en_US_goa|cl.bishop1.name_c": "",
-                "client_en_US_goa|cl.bishop1.name_co": "",
-                "client_en_US_goa|cl.bishop1.name_p": "",
-                "client_en_US_goa|cl.bishop1.name_sc": "",
-                "client_en_US_goa|cl.bishop1.fimi.text": "",
-                "client_en_US_goa|cl.bishop1.away_fimi.text": ""
-            }
-        }
-    };
-
-    const ordinationMapping = {
-        deacon: {
-            checkId: "ord-deacon-check",
-            fields: [
-                { inputId: "deacon-name-gr-acc", dataKey: "client_gr_US_goa|cl.ordinand.deacon.acc.text" },
-                { inputId: "deacon-name-gr-gen", dataKey: "client_gr_US_goa|cl.ordinand.deacon.gen.text" },
-                { inputId: "deacon-name-en", dataKey: "client_en_US_goa|cl.ordinand.deacon.acc.text" },
-                { inputId: "deacon-name-en", dataKey: "client_en_US_goa|cl.ordinand.deacon.gen.text" }
-            ]
-        },
-        priest: {
-            checkId: "ord-priest-check",
-            fields: [
-                { inputId: "priest-name-gr-acc", dataKey: "client_gr_US_goa|cl.ordinand.priest.acc.text" },
-                { inputId: "priest-name-gr-gen", dataKey: "client_gr_US_goa|cl.ordinand.priest.gen.text" },
-                { inputId: "priest-name-en", dataKey: "client_en_US_goa|cl.ordinand.priest.acc.text" },
-                { inputId: "priest-name-en", dataKey: "client_en_US_goa|cl.ordinand.priest.gen.text" }
-            ]
-        }
-    };
-
-
-    /**
-     * Updates the second dropdown based on the first selection
-     */
-   function updateEntityDropdown() {
-        const jurisSelect = document.getElementById('jurisdiction-select');
-        const entitySelect = document.getElementById('entity-select');
-        const entitySection = document.getElementById('section-entity');
-        const selectedJuris = jurisSelect.value;
-
-        // Clear previous options
-        entitySelect.innerHTML = '';
-
-        if (selectedJuris && entityMapping[selectedJuris]) {
-            // Show the section
-            entitySection.style.display = 'block';
-
-            // Populate options
-            entityMapping[selectedJuris].forEach(item => {
-                let opt = document.createElement('option');
-                opt.value = item.value;
-                opt.innerHTML = item.text;
-                entitySelect.appendChild(opt);
-            });
-        } else {
-            entitySection.style.display = 'none';
-        }
-    }
- 
-    function replaceEntityText() {
-        const serviceFrame = window.parent.document.getElementById('FrameText');
-        const serviceDoc = serviceFrame.contentDocument || serviceFrame.contentWindow.document;
-        const $s = window.parent.jQuery(serviceDoc);
-
-        for (const [entityId, mapping] of Object.entries(entityMapping)) {
-            const inputElement = document.getElementById(entityId);
-
-            if (inputElement) {
-                const value = inputElement.value;
-
-                mapping.classes.forEach(keyString => {
-                    // We search for the specific data-key attribute in the service text.
-                    // Using the 'contains' selector [*=] ensures we find the key even 
-                    // if it has a prefix like 'gr_US_goa|' attached to it.
-                    const target = $s.find(`[data-key*="${keyString}"]`);
-
-                    if (target.length > 0) {
-                        target.text(value);
-                    }
-                });
-            }
-        }
-        console.log("Text replacement via data-key complete.");
-    }
-
-    function setServiceCategory(category) {
-        console.log("Service Category selected: " + category);
-
-        const btnStd = document.getElementById('btn-standard');
-        const btnHli = document.getElementById('btn-hli');
-
-        // 1. Swap the 'active' class (The Red Light)
-        if (category === 'standard') {
-            btnStd.classList.add('active');
-            btnHli.classList.remove('active');
-        } else if (category === 'hierarchical') {
-            btnHli.classList.add('active');
-            btnStd.classList.remove('active');
-        }
-
-        // 2. Immediately push the change to the service frame
-        updateServiceVisibility(category);
-    }
-
-    function updateServiceVisibility(category) {
-        const serviceFrame = window.parent.document.getElementById('FrameText');
-        const serviceDoc = serviceFrame.contentDocument || serviceFrame.contentWindow.document;
-        const $s = window.parent.jQuery(serviceDoc);
-        const isHierarchical = (category === 'hierarchical');
-        const ordSection = document.getElementById('section-ordination');
-        if (ordSection) {
-            ordSection.style.display = isHierarchical ? 'block' : 'none';
-        }
-        // 1. UI RESET & VISIBILITY: Handle the Panel Sidebar
-        const deaconCheck = document.getElementById('ord-deacon-check');
-        const priestCheck = document.getElementById('ord-priest-check');
-        const deaconFields = document.getElementById('deacon-name-fields');
-        const priestFields = document.getElementById('priest-name-fields');
-
-        if (!isHierarchical) {
-            // Force uncheck the boxes so no "hidden" ordination stays active
-            if (deaconCheck) deaconCheck.checked = false;
-            if (priestCheck) priestCheck.checked = false;
-
-            // Hide the name input groups in the panel
-            if (deaconFields) deaconFields.style.display = 'none';
-            if (priestFields) priestFields.style.display = 'none';
-
-            // Hide the entire ordination section/titles if you have a wrapper ID
-            const ordSection = document.getElementById('ordination-section');
-            if (ordSection) ordSection.style.display = 'none';
-        } else {
-            // Show the ordination section/titles in Hierarchical mode
-            const ordSection = document.getElementById('ordination-section');
-            if (ordSection) ordSection.style.display = 'block';
-
-            // Ensure name fields match the current checkbox state
-            if (deaconFields) deaconFields.style.display = deaconCheck.checked ? 'flex' : 'none';
-            if (priestFields) priestFields.style.display = priestCheck.checked ? 'flex' : 'none';
-        }
-
-        // 2. CLEAN SLATE: Hide every row in the Service Frame containing any BCC/ECC pair
-        $s.find('tr:has([class*="bcc_"])').each(function () {
-            const bccClass = window.parent.jQuery(this).find('[class*="bcc_"]').attr('class').split(' ')[0];
-            const eccClass = bccClass.replace('bcc_', 'ecc_');
-            $s.find('tr:has(.' + bccClass + ')')
-                .nextUntil('tr:has(.' + eccClass + ')')
-                .addBack()
-                .add($s.find('tr:has(.' + eccClass + ')'))
-                .hide();
-        });
-
-        // 3. SERVICE VISIBILITY: Show the primary category (Standard vs Hierarchical)
-        const prefix = isHierarchical ? 'hli_' : 'li_';
-        $s.find('tr:has([class*="bcc_' + prefix + '"])').each(function () {
-            const bccClass = window.parent.jQuery(this).find('[class*="bcc_' + prefix + '"]').attr('class').split(' ')[0];
-
-            // Skip ordination blocks here; they are handled separately by checkboxes below
-            if (bccClass.includes('ordination')) return;
-
-            showBlock($s, bccClass.replace('bcc_', ''));
-        });
-
-        // 4. SUBSET VISIBILITY: Handle Ordination paragraphs in the Service Frame
-        if (isHierarchical) {
-            if (deaconCheck && deaconCheck.checked) {
-                showBlock($s, 'hli_ordination_deacon');
-            }
-            if (priestCheck && priestCheck.checked) {
-                showBlock($s, 'hli_ordination_priest');
-            }
-        }
-    }
-
-    /**
-     * Helper function to show a specific BCC/ECC range
-     */
-    function showBlock($s, slug) {
-        const bcc = 'bcc_' + slug;
-        const ecc = 'ecc_' + slug;
-        $s.find('tr:has(.' + bcc + ')')
-            .nextUntil('tr:has(.' + ecc + ')')
-            .addBack()
-            .add($s.find('tr:has(.' + ecc + ')'))
-            .show();
-    }
-
-    function applyOverrides() {
-        // 1. SETUP THE FRAME ACCESS
-        const serviceFrame = window.parent.document.getElementById('FrameText');
-        if (!serviceFrame) return;
-        const serviceDoc = serviceFrame.contentDocument || serviceFrame.contentWindow.document;
-        const $s = window.parent.jQuery(serviceDoc);
-
-        // 2. PART A: JURISDICTION TEXT REPLACEMENT
-        const selectedID = document.getElementById('entity-select').value;
-        if (selectedID && dioceseData[selectedID]) {
-            const dataKeys = dioceseData[selectedID].keys;
-            Object.keys(dataKeys).forEach(key => {
-                const val = dataKeys[key];
-                if (val !== "") {
-                    $s.find(`[data-key="${key}"]`).text(val);
-                }
-            });
-            console.log("Text replaced for: " + dioceseData[selectedID].label);
-        }
-
-        // 3. PART B: SERVICE CATEGORY VISIBILITY
-        const isStd = document.getElementById('btn-standard').classList.contains('active');
-        const isHli = document.getElementById('btn-hli').classList.contains('active');
-
-        if (isStd || isHli) {
-            const category = isStd ? 'standard' : 'hierarchical';
-            updateServiceVisibility(category);
-        }
-
-        // 4. PART C: ORDINATION NAME REPLACEMENT (Independent of Jurisdiction)
-        if (isHli) {
-            ['deacon', 'priest'].forEach(role => {
-                const config = ordinationMapping[role];
-                const checkEl = document.getElementById(config.checkId);
-                const isChecked = checkEl && checkEl.checked;
-
-                config.fields.forEach(field => {
-                    const inputEl = document.getElementById(field.inputId);
-                    // If checked, use the input value (or underscores if empty). If unchecked, always underscores.
-                    const finalVal = isChecked ? (inputEl.value || "_______") : "_______";
-
-                    $s.find(`[data-key="${field.dataKey}"]`).text(finalVal);
-                });
-            });
-        }
-    }
-
-    function resetCustomizerPanel() {
-        console.log("Performing Full Factory Reset...");
-
-        // 1. Reset Jurisdiction Dropdown to the placeholder (index 0)
-        const jurisdictionSelect = document.getElementById('jurisdiction-select');
-        if (jurisdictionSelect) {
-            jurisdictionSelect.selectedIndex = 0;
-        }
-
-        // 2. RESET DIOCESE/METROPOLIS FIELD
-        const metroSelect = document.getElementById('metropolis-select');
-        if (metroSelect) {
-            // Clear all previous options (GOA, OCA, etc.)
-            metroSelect.innerHTML = '<option value="">-- Select Metropolis --</option>';
-            // Lock it until a Jurisdiction is chosen again
-            metroSelect.disabled = true;
-            // Ensure the value is nulled
-            metroSelect.value = "";
-        }
-
-        // 3. Deactivate ALL Service Category Buttons (Remove the "Red Light")
-        const btnStd = document.getElementById('btn-standard');
-        const btnHli = document.getElementById('btn-hli');
-        if (btnStd) btnStd.classList.remove('active');
-        if (btnHli) btnHli.classList.remove('active');
-
-        // 4. Hide the entire Ordination Section in the panel
-        const ordinationSection = document.getElementById('section-ordination');
-        if (ordinationSection) ordinationSection.style.display = 'none';
-
-        // 5. Uncheck Ordination Checkboxes & Hide their name input groups
-        const dCheck = document.getElementById('ord-deacon-check');
-        const pCheck = document.getElementById('ord-priest-check');
-        if (dCheck) dCheck.checked = false;
-        if (pCheck) pCheck.checked = false;
-
-        const dFields = document.getElementById('deacon-name-fields');
-        const pFields = document.getElementById('priest-name-fields');
-        if (dFields) dFields.style.display = 'none';
-        if (pFields) pFields.style.display = 'none';
-
-        // 6. Wipe all text inputs (Metropolis custom name, Deacon/Priest names)
-        const allInputs = document.querySelectorAll('.sc-input-text');
-        allInputs.forEach(input => {
-            input.value = "";
-        });
-
-        // 7. Synchronize the Service Frame (The Live View)
-        // Hides all hierarchical and ordination content
-        updateServiceVisibility('none');
-
-        // Reverts all names in the service to "_______"
-        updateOrdinandNames();
-
-        // Runs your primary text replacement to clear Diocese/Bishop names
-        if (typeof replaceEntityText === "function") {
-            replaceEntityText();
-        }
-
-        console.log("Full System Reset Complete.");
-    }
-
-    </script>
+    <script src="js/lib/service-customizer.js"></script>
 </body>
 
 </html>
