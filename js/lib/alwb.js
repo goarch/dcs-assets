@@ -3248,11 +3248,15 @@ function initCollapsibleRows() {
 }
 
 // --- Execution ---
-// Execute the function once the entire document is ready.
+// Execute the function once the entire document is ready
+// as long as document is not /li1/ i.e. customizable liturgy
 $(document).ready(function () {
-  initCollapsibleRows();
+  if (window.location.href.includes('/li1/')) {
+    $('.bmc_collapse, .emc_collapse').css('display', 'none');
+  } else {
+    initCollapsibleRows();
+  }
 });
-
 
 
 // AUDIO PLAYER - Unified Player Logic (DIV-based)
