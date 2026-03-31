@@ -165,22 +165,11 @@ function showAll() {
   displayingBilingual = true;
 }
 
-//This function is handled by pref.generation.ares
-//$(document).ready(function(){
-//	$("td.leftCell span.versiondesignation").css("display","none");
-//	});
-
-
 $.expr[':'].notext = function detectNoText(x) { return x.innerHTML && x.innerHTML.replace(/(<!--.*(?!-->))|\s+/g, '').length === 0 }
 
 function notAvailable() {
   $('p.hymn:has(span.dummy)').removeClass("hymn").addClass("notavailable").text("This text was inaccessible at the time of publication or unavailable due to copyright restrictions.").css("background-color", "white");
 }
-
-//This version of the script displays the versiondesgination
-//function notAvailable() {
-//		$('p.hymn > span.dummy').removeClass("hymn").addClass("notavailable").text("This text was //inaccessible at the time of publication or unavailable due to copyright //restrictions.").css("background-color","white");
-//		}
 
 $.expr[':'].noValue = function detectNoValue(x) {
   if ($(x).find("div.media-group").length > 0) {
@@ -1030,7 +1019,7 @@ $(document).ready(function () {
     });
   }
 
-  notAvailable();
+//  notAvailable();
   hideEmptyRows();
 
 });
