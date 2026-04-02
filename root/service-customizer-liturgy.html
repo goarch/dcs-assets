@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="el-en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>DCS Service Customizer</title>
+    <link rel="stylesheet" href="css/service-customizer.css">
+    <style>  
+    /* Hide these sections by default so the JS can reveal them one by one */
+    #section-jurisdiction,
+    #section-entity,
+    #section-category-selection,
+    #section-liturgy-options,
+    #section-hli-liturgy-options,
+    #section-ordination {
+    display: none;
+    }
+    </style>
+
+
+    <script src="js/lib/jquery-2.0.3.min.js"></script>
+    <script src="js/lib/jquery.dropdown.js"></script>
+
+    <script src="js/app/sc-diocese-data.js"></script>
+    <script src="js/app/sc-ordination-data.js"></script>
+    <script src="js/app/sc-apolytikion1-data.js"></script>
+    <script src="js/app/sc-mapping-defs.js"></script>
+
+    <script src="js/app/service-customizer.js"></script>
+    
+</head>
+
+<body>
+    <header class="customizer-header">
+        <h1>Service Customizer</h1>
+            <div class="launch-section">
+                <label class="input-label">1. Select Service Date</label>
+                <div class="toggle-group">
+                    <input type="date" id="service-date-picker">
+                    <button id="btn-launch" type="button" onclick="launchService()">
+                        Open Service
+                    </button>
+                </div>
+            </div>
+    </header>
+
+    <main class="panel-grid">
+        <div id="custom-controls-container" class="sc-section">
+            <div id="section-jurisdiction" class="sc-control-group">
+                <label class="input-label">Jurisdiction</label>
+                <select id="jurisdiction-select" class="sc-input-select" onchange="updateEntityDropdown()">
+                    <option value="">-- Select Jurisdiction --</option>
+                    <option value="goa">Greek Orthodox Archdiocese</option>
+                    <option value="oca">Orthodox Church in America</option>
+                    <option value="ant">Antiochian Archdiocese</option>
+                </select>
+            </div>
+
+            <div id="section-entity" class="sc-control-group" style="display: none;">
+                <label class="input-label" id="entity-label">Diocese / Metropolis</label>
+                <select id="entity-select" class="sc-input-select" onchange="handleMetropolisChange()"></select>
+            </div>
+
+            <div id="section-category-selection" class="sc-control-group" style="display: none;">
+                <label class="input-label">Service Category</label>
+                <div class="toggle-group">
+                    <button id="btn-standard" type="button" class="sc-btn-toggle"
+                        onclick="setServiceCategory('standard')">Standard</button>
+                    <button id="btn-hli" type="button" class="sc-btn-toggle"
+                        onclick="setServiceCategory('hierarchical')">Hierarchical</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="liturgy-options-container">
+            <div id="section-liturgy-options" class="sc-section">
+                <label class="input-label">Liturgy Options (Standard)</label>
+                <div class="toggle-group" style="display: flex; gap: 8px;">
+                    <div class="li-options-col" style="flex: 1;" title="Inserts the litanies after the Gospel.">
+                        <input type="checkbox" id="li_opt_litanies" onchange="toggleLiturgyOption(this)" checked>
+                        <label for="li_opt_litanies" class="li-option-label">Litanies</label>
+                    </div>
+                    <div class="li-options-col" style="flex: 1;" title="Inserts the Prayers before Communion.">
+                        <input type="checkbox" id="li_opt_precommunionprayers" onchange="toggleLiturgyOption(this)" checked>
+                        <label for="li_opt_precommunionprayers" class="li-option-label">Prayers</label>
+                    </div>
+                    <div class="li-options-col" style="flex: 1;" title="Inserts the Memorial Service.">
+                        <input type="checkbox" id="li_opt_memorial" onchange="toggleLiturgyOption(this)" checked>
+                        <label for="li_opt_memorial" class="li-option-label">Memorial</label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="section-hli-liturgy-options" class="sc-section" style="display: none;">
+                <label class="input-label">Liturgy Options (Hierarchical)</label>
+                <div class="toggle-group" style="display: flex; gap: 8px;">
+                    <div class="li-options-col" style="flex: 1;" title="Inserts the litanies after the Gospel.">
+                        <input type="checkbox" id="hli_opt_litanies" onchange="toggleLiturgyOption(this)" checked>
+                        <label for="hli_opt_litanies" class="li-option-label">Litanies</label>
+                    </div>
+                    <div class="li-options-col" style="flex: 1;" title="Inserts the Prayers before Communion.">
+                        <input type="checkbox" id="hli_opt_precommunionprayers" onchange="toggleLiturgyOption(this)" checked>
+                        <label for="hli_opt_precommunionprayers" class="li-option-label">Prayers</label>
+                    </div>
+                    <div class="li-options-col" style="flex: 1;" title="Inserts the Memorial Service.">
+                        <input type="checkbox" id="hli_opt_memorial" onchange="toggleLiturgyOption(this)" checked>
+                        <label for="hli_opt_memorial" class="li-option-label">Memorial</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="section-ordination" class="sc-section" style="display: none;">
+            <div class="ordination-grid">
+                <div class="ordination-col">
+                    <div class="ord-checkbox-row">
+                        <input type="checkbox" id="ord-deacon-check" class="ord-checkbox-input"
+                            onchange="toggleNameFields('deacon')">
+                        <label for="ord-deacon-check" class="ord-checkbox-label">Deacon Ordination</label>
+                    </div>
+
+                    <div id="deacon-name-fields" class="name-field-group" style="display: none;">
+                        <input type="text" id="deacon-name-gr-acc" class="sc-input-text" placeholder="Greek Accusative">
+                        <input type="text" id="deacon-name-gr-gen" class="sc-input-text" placeholder="Greek Genitive">
+                        <input type="text" id="deacon-name-en" class="sc-input-text" placeholder="English Name">
+                    </div>
+                </div>
+
+                <div class="ordination-col">
+                    <div class="ord-checkbox-row">
+                        <input type="checkbox" id="ord-priest-check" class="ord-checkbox-input"
+                            onchange="toggleNameFields('priest')">
+                        <label for="ord-priest-check" class="ord-checkbox-label">Priest Ordination</label>
+                    </div>
+
+                    <div id="priest-name-fields" class="name-field-group" style="display: none;">
+                        <input type="text" id="priest-name-gr-acc" class="sc-input-text" placeholder="Greek Accusative">
+                        <input type="text" id="priest-name-gr-gen" class="sc-input-text" placeholder="Greek Genitive">
+                        <input type="text" id="priest-name-en" class="sc-input-text" placeholder="English Name">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="js/lib/service-customizer.js"></script>
+</body>
+
+</html>

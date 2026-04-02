@@ -175,6 +175,48 @@ body {
     background-color: #1a252f;
 }
 
+/* This makes the entire column a large, clickable box */
+.li-options-col {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #fdfdfd;
+    transition: background 0.2s;
+    /* Remove padding from the DIV so the Label can fill the edges */
+    padding: 0;
+    overflow: hidden;
+}
+
+.li-options-col:hover {
+    background-color: #f0f7ff;
+}
+
+/* 1. Make the checkbox stay on the left with some breathing room */
+.li-options-col input[type="checkbox"] {
+    margin-left: 15px;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    /* This ensures the checkbox stays on top of the label's click area */
+    position: relative;
+    z-index: 2;
+}
+
+/* 2. THE FIX: Make the label fill the ENTIRE box */
+.li-option-label {
+    flex-grow: 1;
+    display: block;
+    /* Large padding here makes the clickable area HUGE */
+    padding: 15px 10px;
+    margin: 0;
+    cursor: pointer;
+    font-size: 16px;
+    /* This allows the label to be the primary click target */
+    position: relative;
+    z-index: 1;
+}
+
 /* --- 4. ORDINATION SECTION --- */
 #section-ordination {
     padding: 20px;
@@ -189,12 +231,42 @@ body {
     gap: 20px;
 }
 
-.checkbox-row {
+/* Specific to the Ordination Section */
+.ord-checkbox-row {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-weight: bold;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 6px;
     margin-bottom: 10px;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    padding: 0;
+    overflow: hidden;
+}
+
+.ord-checkbox-row:hover {
+    background-color: #f0f7ff;
+    border-color: #007bff;
+}
+
+.ord-checkbox-input {
+    width: 22px;
+    /* Large for accessibility */
+    height: 22px;
+    margin-left: 12px;
+    cursor: pointer;
+}
+
+.ord-checkbox-label {
+    flex-grow: 1;
+    padding: 12px;
+    /* The "Hot Zone" padding */
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0;
+    user-select: none;
 }
 
 .name-field-group {

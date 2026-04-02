@@ -18,8 +18,21 @@ function launchService() {
     const year = parts[0], month = parts[1], day = parts[2];
     const targetUrl = `https://dcs.goarch.org/goa/dcs/h/s/${year}/${month}/${day}/li1/gr-en/index.html`;
 
-    // Connect to a named tab "DCS_Service_Display"
-    serviceWin = window.open(targetUrl, 'DCS_Service_Display');
+    /* --- NEW WINDOW PLACEMENT LOGIC --- */
+
+    // 1. Get the current Customizer Panel's position and size
+    const pLeft = window.screenX || window.screenLeft;
+    const pTop = window.screenY || window.screenTop;
+    //const pWidth = window.outerWidth;
+    const serviceWidth = 650;
+    const pHeight = window.outerHeight;
+
+    // 2. Define features: match panel height/width and snap to the RIGHT
+    // We add 'resizable=yes,scrollbars=yes' to ensure the Liturgy text is readable
+    const features = `height=${pHeight},width=${serviceWidth},top=${pTop},left=${pLeft + 500},resizable=yes,scrollbars=yes,toolbar=no,menubar=no`;
+
+    // 3. Open the service in a specific window instead of a generic tab
+    serviceWin = window.open(targetUrl, 'DCS_Service_Display', features);
 
     if (serviceWin) {
         serviceWin.focus();
@@ -235,10 +248,18 @@ function applyOverrides() {
     if (isHli) {
         ['deacon', 'priest'].forEach(role => {
             const config = ordinationMapping[role];
+            if (!config) return; // Safety check
+
             const isChecked = $('#' + config.checkId).is(':checked');
+
             config.fields.forEach(field => {
-                const val = $('#' + field.inputId).val();
+                const $input = $('#' + field.inputId);
+                const val = $input.val() || ''; // Get value or empty string
+
+                // If checked AND has text, use it. Otherwise, use underscores.
                 const finalVal = (isChecked && val.trim().length > 0) ? val : "_______";
+
+                // Find exact data-key matches in the service tab
                 $s.find(`[data-key="${field.dataKey}"]`).text(finalVal);
             });
         });
@@ -256,6 +277,12 @@ $(document).ready(function () {
     $('#btn-standard').on('click', () => setServiceCategory('standard'));
     $('#btn-hli').on('click', () => setServiceCategory('hierarchical'));
 
-    // Options & Ordination Names
-    $('#liturgy-options-container, #section-ordination').on('input change', 'input', applyOverrides);
+    // 1. Instant Listeners (Checkboxes)
+    // We use 'change' here so the liturgy range swaps immediately when clicked.
+    $('#liturgy-options-container, #section-ordination').on('change', 'input[type="checkbox"]', applyOverrides);
+
+    // 2. Delayed Listeners (Name Text Fields)
+    // By removing 'input' and only using 'change', the lag disappears. 
+    // The service updates only when the user tabs out or clicks away.
+    $('#section-ordination').on('change', 'input[type="text"]', applyOverrides);
 });

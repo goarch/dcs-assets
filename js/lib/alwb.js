@@ -1253,7 +1253,7 @@ function insertLiturgyTOB() {
 <p class="bookmarklink"><a href="#" onclick="scrollToBkmrk06(); return false;">Great Entrance</a></p>
 <p class="bookmarklink"><a href="#" onclick="scrollToBkmrk07(); return false;">The Creed</a></p>
 <p class="bookmarklink"><a href="#" onclick="scrollToBkmrk08(); return false;">Lord's Prayer</a></p>
-<p class="bookmarklink"><a href="#" onclick="scrollToBkmrk09(); return false;">Memorial Service</a></p>
+<p class="bookmarklink"><a href="#" onclick="scrollToBkmrk09(); return false;">Memorial Service<br><i>(as allowed and needed)</i></a></p>
 `;
       // Step 6: Get the parent element of the table and insert the new div
       const parent = table.parentNode;

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Service Customizer Launcher</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background-color: #f4f7f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .launcher-card {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 450px;
+            text-align: center;
+            border-top: 6px solid #2c3e50;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .menu-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .btn-launch {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-launch:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        /* Future-proofing for Matins/Vespers */
+        .btn-secondary {
+            background: #6c757d;
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="launcher-card">
+        <h1>Service Customizer</h1>
+        <p>Select a service to customize.</p>
+
+        <div class="menu-options">
+            <button class="btn-launch" onclick="launchPanel('service-customizer-liturgy.html')">
+                Divine Liturgy
+            </button>
+
+            <button class="btn-launch btn-secondary">Matins (Coming Soon)</button>
+            <button class="btn-launch btn-secondary">Vespers (Coming Soon)</button>
+        </div>
+    </div>
+
+    <script>
+        function launchPanel(panelUrl) {
+            const screenW = window.screen.availWidth;
+            const screenH = window.screen.availHeight;
+
+            // Dimensions: 80% Height, 500px Width
+            const winH = Math.floor(screenH * 0.8);
+            const winW = 500;
+
+            const topPos = Math.floor((screenH - winH) / 2);
+            // Position it at the left side of the "centered pair" 
+            const leftPos = Math.floor((screenW - (winW * 2)) / 2);
+
+            const features = `height=${winH},width=${winW},top=${topPos},left=${leftPos},resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no`;
+
+            // Opens the specific Panel (Liturgy, Matins, etc.)
+            window.open(panelUrl, 'CustomizerPanel', features);
+        }
+    </script>
+
+</body>
+
+</html>
