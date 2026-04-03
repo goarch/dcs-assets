@@ -104,6 +104,10 @@ function setServiceCategory(category) {
 
     // 4. Update the actual Service Tab
     updateServiceVisibility(category);
+
+    // --- NEW LOGIC: Reveal Export Tools ---
+    // Once a category is clicked, the service is "configured" enough to export.
+    document.getElementById('section-export-tools').style.display = 'block';
 }
 
 /* ============================================================
@@ -265,6 +269,343 @@ function applyOverrides() {
         });
     }
 }
+
+/* ============================================================
+   5. EXPORT UTILITIES
+   ============================================================ */
+
+/**
+ * Entry point for Word Export
+ */
+function exportToWord() {
+    performUnifiedExport('word');
+}
+
+/**
+ * Entry point for PDF Export
+ */
+function exportToPDF() {
+    performUnifiedExport('pdf');
+}
+
+/**
+ * Core logic that grabs, cleans, and processes the service table
+ */
+async function performUnifiedExport(format) {
+    // Check if the global serviceWin is active
+    if (!serviceWin || serviceWin.closed) {
+        alert("Please open and customize a service first.");
+        return;
+    }
+
+    const serviceDoc = serviceWin.document;
+    const liveTable = serviceDoc.getElementById('biTable') || serviceDoc.querySelector('table');
+
+    if (!liveTable) {
+        alert("Could not find the liturgy table to export.");
+        return;
+    }
+
+    // 1. Create the clean clone
+    const target = liveTable.cloneNode(true);
+
+    // 2. The Chainsaw: Remove hidden/technical elements
+    // This targets bcc/ecc/bmc/emc markers and items hidden by your customizer
+    const selectorsToRemove = [
+        'script', 'style', '.jqm-dropdown', '.key', '.source',
+        '[style*="display: none"]', '[style*="display:none"]',
+        '.nodisplay', '.noprintactor', '.noprintrub', '.noprintprayer',
+        '[class^="bcc_"]', '[class*=" bcc_"]', '[class^="ecc_"]', '[class*=" ecc_"]',
+        '[class^="bmc_"]', '[class*=" bmc_"]', '[class^="emc_"]', '[class*=" emc_"]'
+    ];
+
+    target.querySelectorAll(selectorsToRemove.join(',')).forEach(el => el.remove());
+
+    // 3. The Vacuum: Remove empty rows
+    target.querySelectorAll('tr').forEach(row => {
+        const hasText = row.textContent.replace(/\u00a0/g, ' ').trim().length > 0;
+        if (!hasText && !row.querySelector('img')) row.remove();
+    });
+
+    // 4. Execution
+    const fileName = serviceDoc.title || "Customized_Service";
+    if (format === 'word') {
+        await generateWordFile(target, fileName);
+    } else {
+        await generatePDFFile(target, fileName);
+    }
+}
+
+/**
+ * Specifically handles the Word blob and CSS injection
+ */
+async function generateWordFile(element, filename) {
+    const cssPath = "css/dcs_word_styles.css"; // Path relative to liturgy HTML
+    let cssText = "";
+
+    try {
+        const response = await fetch(cssPath);
+        cssText = await response.text();
+    } catch (e) {
+        console.warn("External CSS not found, using basic formatting.");
+    }
+
+    const htmlContent = `
+        <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+        <head><meta charset='utf-8'><style>${cssText}</style></head>
+        <body><div class="Section1">${element.outerHTML}</div></body>
+        </html>`;
+
+    const blob = new Blob(['\ufeff' + htmlContent], { type: 'application/msword' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename + ".doc";
+    link.click();
+}
+
+function generatePDFFile(element, filename) {
+    const printWin = window.open('', '_blank', 'width=900,height=800');
+    const rootURL = "https://dcs.goarch.org/goa/dcs/"; 
+
+    printWin.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <base href="${rootURL}">
+            <title>${filename}</title>
+            <link rel="stylesheet" href="css/dcs_word_styles.css">
+            
+            <style>
+                /* I. PHYSICAL PAGE SETUP */
+                @page {
+                    size: 8.5in 11in;
+                    margin: 0.5in 0.75in; 
+                }
+
+                body { 
+                    margin: 0; 
+                    padding: 0;
+                    font-family: "Times New Roman", Times, serif;
+                    -webkit-print-color-adjust: exact !important;
+                }
+
+                /* II. THE FIXED HEADER */
+                .print-header {
+                    position: fixed;
+                    top: -0.4in; 
+                    left: 0;
+                    right: 0;
+                    height: 20pt;
+                    text-align: center;
+                    font-weight: bold;
+                    color: #a91827;
+                    text-transform: uppercase;
+                    z-index: 9999;
+                }
+
+                /* III. THE FIXED FOOTER */
+                .print-footer {
+                    position: fixed;
+                    bottom: -0.4in; 
+                    left: 0;
+                    right: 0;
+                    height: 25pt;
+                    border-top: 0.5pt solid #888;
+                    z-index: 9999;
+                    background: white;
+                    padding-top: 4pt;
+                }
+
+                .footer-table { 
+                    width: 100%; 
+                    border: none; 
+                    border-collapse: collapse; 
+                    table-layout: fixed;
+                }
+
+                /* THE CLASS YOU WERE LOOKING FOR */
+                .footer-text {
+                    font-size: 8.5pt;
+                    text-align: left;
+                    white-space: nowrap !important; /* Forces the DCS line to stay on one line */
+                    width: 85%;
+                    color: #444;
+                }
+
+                .footer-page {
+                    font-size: 9pt;
+                    text-align: right;
+                    width: 15%;
+                    font-weight: bold;
+                }
+
+                /* IV. THE CONTENT AREA */
+                .dcs-export-container { 
+                    margin-top: 0.2in; 
+                    position: relative;
+                }
+
+                .dcs-export-container table { 
+                    width: 100% !important; 
+                    border-collapse: collapse;
+                }
+
+                tr { 
+                    page-break-inside: avoid !important; 
+                    break-inside: avoid !important;
+                }
+
+                td.leftCell, td.rightCell { 
+                    width: 50% !important; 
+                    padding: 4pt 10pt; 
+                }
+
+                .actor, .red, .boldred, .rubric, .designation { 
+                    color: #a91827 !important; 
+                }
+            </style>
+        </head>
+        <body>
+            <div class="print-header">DIVINE LITURGY</div>
+
+            <div class="dcs-export-container">
+                ${element.outerHTML}
+            </div>
+
+            <div class="print-footer">
+                <table class="footer-table">
+                    <tr>
+                        <td class="footer-text">
+                            Powered by Digital Chant Stand: A National Ministry of the Greek Orthodox Archdiocese of America
+                        </td>
+                        <td class="footer-page">PAGE</td>
+                    </tr>
+                </table>
+            </div>
+
+            <script>
+                window.onload = function() {
+                    setTimeout(function() { 
+                        window.print(); 
+                    }, 800);
+                };
+            <\/script>
+        </body>
+        </html>
+    `);
+
+    printWin.document.close();
+}
+
+function generatePDFFile(element, filename) {
+    const printWin = window.open('', '_blank', 'width=900,height=800');
+    const rootURL = "https://dcs.goarch.org/goa/dcs/";
+
+    printWin.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <base href="${rootURL}">
+            <title>${filename}</title>
+            <link rel="stylesheet" href="css/dcs_word_styles.css">
+            <style>
+                @page {
+                    size: 8.5in 11in;
+                    /* THE NEW FLOOR: 0.75 inches from the bottom edge */
+                    margin: 0.5in 0.75in 0.75in 0.75in;
+                    counter-increment: page;
+
+                    /* LEFT FOOTER: Anchored exactly at the .75in margin */
+                    @bottom-left {
+                        content: "Powered by Digital Chant Stand: A National Ministry of the GOA";
+                        font-family: "Times New Roman", serif;
+                        font-size: 8.5pt;
+                        color: #444;
+                        border-top: 0.5pt solid #888;
+                        width: 5.5in; 
+                        padding-top: 4pt;
+                        vertical-align: top;
+                    }
+
+                    /* RIGHT FOOTER: Anchored exactly at the .75in margin */
+                    @bottom-right {
+                        content: counter(page);
+                        font-family: "Times New Roman", serif;
+                        font-size: 10pt;
+                        font-weight: bold;
+                        border-top: 0.5pt solid #888;
+                        width: 1.5in; 
+                        padding-top: 4pt;
+                        text-align: right;
+                        vertical-align: top;
+                    }
+                }
+
+                body { margin: 0; padding: 0; font-family: "Times New Roman", serif; background: white; }
+
+                /* HEADER (Repeats on all pages) */
+                .master-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+                thead { display: table-header-group; }
+                .header-container {
+                    height: 40pt;
+                    text-align: center;
+                    vertical-align: middle;
+                    font-weight: bold;
+                    color: #a91827;
+                    font-size: 11pt;
+                    text-transform: uppercase;
+                }
+
+                /* BILINGUAL CONTENT FLOW (No clipping) */
+                .dcs-export-container { width: 100%; }
+                .dcs-export-container table, 
+                .dcs-export-container tbody { display: block !important; width: 100% !important; }
+                .dcs-export-container tr { 
+                    display: flex !important; 
+                    width: 100% !important;
+                    break-inside: auto !important;
+                }
+                .dcs-export-container td { 
+                    display: block !important; 
+                    width: 50% !important; 
+                    padding: 4pt 10pt;
+                    word-wrap: break-word;
+                }
+
+                /* Color Overrides for Liturgical Content */
+                .actor, .red, .boldred, .rubric { color: #a91827 !important; }
+            </style>
+        </head>
+        <body>
+            <table class="master-table">
+                <thead>
+                    <tr><th class="header-container">DIVINE LITURGY</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="dcs-export-container">
+                                ${element.outerHTML}
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <script>
+                window.onload = function() {
+                    // Slight delay to ensure all assets (fonts/CSS) are rendered 
+                    // before the print dialog freezes the page.
+                    setTimeout(() => { window.print(); }, 1200);
+                };
+            <\/script>
+        </body>
+        </html>
+    `);
+
+    printWin.document.close();
+}
+
 
 $(document).ready(function () {
     // Jurisdiction listener

@@ -142,9 +142,29 @@
             </div>
         </div>
 
+        <div id="section-export-tools" class="sc-section"
+            style="border-top: 2px solid #a91827; margin-top: 20px; padding-top: 15px; display: none;">
+            <label class="input-label">3. Export Customized Service</label>
+            <div class="toggle-group">
+                <button id="btn-export-word" type="button" class="sc-btn-toggle" onclick="exportToWord()"
+                    style="background-color: #2b579a; color: white;">
+                    Download Word (.doc)
+                </button>
+                <button id="btn-export-pdf" type="button" class="sc-btn-toggle" onclick="exportToPDF()"
+                    style="background-color: #b30000; color: white;">
+                    Download PDF (.pdf)
+                </button>
+            </div>
+        </div>
+
+
+
+
     </main>
 
-    <script src="js/lib/service-customizer.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    
 </body>
 
 </html>

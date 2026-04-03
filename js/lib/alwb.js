@@ -765,7 +765,7 @@ $(document).ready(function () {
 
     // Add print and services preference links
     if (!isMobile.iPad())
-      $(".content").prepend('<p class="print-btn"><a href="#" class="print-service"><i class="fa fa-print" title="Print this frame"></i></a></p>');
+    //  $(".content").prepend('<p class="print-btn"><a href="#" class="print-service"><i class="fa fa-print" title="Print this frame"></i></a></p>');
     $(".content").prepend('<p class="print-btn"><a href="#" class="prefMode"><i class="fa fa-list-ul prefMode" title="Open service preferences"></i></a></p>');
 
     // Bind click functions for Eothinon Gospels
@@ -899,11 +899,6 @@ $(document).ready(function () {
     $("#radio-mag-katavasia").click();
 
     $('.pref-panel').show();
-
-    $(".print-service").click(function (ev) {
-      ev.preventDefault();
-      window.print();
-    });
 
     $("tr:has(p[class^='bmc_'])").hide();
     $("tr:has(p[class^='emc_'])").hide();
@@ -1253,7 +1248,7 @@ function insertLiturgyTOB() {
 <p class="bookmarklink"><a href="#" onclick="scrollToBkmrk06(); return false;">Great Entrance</a></p>
 <p class="bookmarklink"><a href="#" onclick="scrollToBkmrk07(); return false;">The Creed</a></p>
 <p class="bookmarklink"><a href="#" onclick="scrollToBkmrk08(); return false;">Lord's Prayer</a></p>
-<p class="bookmarklink"><a href="#" onclick="scrollToBkmrk09(); return false;">Memorial Service<br><i>(as allowed and needed)</i></a></p>
+<p class="bookmarklink"><a href="#" onclick="scrollToBkmrk09(); return false;">Memorial Service (as allowed and needed)</a></p>
 `;
       // Step 6: Get the parent element of the table and insert the new div
       const parent = table.parentNode;
