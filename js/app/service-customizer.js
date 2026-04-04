@@ -309,17 +309,32 @@ async function performUnifiedExport(format) {
     // 1. Create the clean clone
     const target = liveTable.cloneNode(true);
 
-    // 2. The Chainsaw: Remove hidden/technical elements
-    // This targets bcc/ecc/bmc/emc markers and items hidden by your customizer
+    // 1. SELECTORS TO REMOVE (Purge tag AND content)
     const selectorsToRemove = [
-        'script', 'style', '.jqm-dropdown', '.key', '.source',
+        'script', 'style', '.jqm-dropdown', '.key', '.noprintdesig',
         '[style*="display: none"]', '[style*="display:none"]',
         '.nodisplay', '.noprintactor', '.noprintrub', '.noprintprayer',
         '[class^="bcc_"]', '[class*=" bcc_"]', '[class^="ecc_"]', '[class*=" ecc_"]',
-        '[class^="bmc_"]', '[class*=" bmc_"]', '[class^="emc_"]', '[class*=" emc_"]'
+        '[class^="bmc_"]', '[class*=" bmc_"]', '[class^="emc_"]', '[class*=" emc_"]',
+        '[class^="bkmrk"]', '[class*=" bkmrk"]',
+        '[class^="source"]', '[class*=" source"]',
+        '.dummy'
     ];
 
     target.querySelectorAll(selectorsToRemove.join(',')).forEach(el => el.remove());
+
+    // 2. CLASSES TO UNWRAP (Remove tag, but KEEP the text content)
+    const classesToUnwrap = [
+        '.achoir', '.aclergy', '.adeacon', '.ahierarch',
+        '.dchoir', '.dclergy', '.ddeacon', '.dhierarch',
+        '.dpeople', '.dpriest', '.dwachoir', '.dwadeacon',
+        '.kvp'
+    ];
+
+    target.querySelectorAll(classesToUnwrap.join(',')).forEach(el => {
+        // This dissolves the span but leaves the words for Word to read
+        el.replaceWith(...el.childNodes);
+    });
 
     // 3. The Vacuum: Remove empty rows
     target.querySelectorAll('tr').forEach(row => {
@@ -363,139 +378,6 @@ async function generateWordFile(element, filename) {
     link.click();
 }
 
-function generatePDFFile(element, filename) {
-    const printWin = window.open('', '_blank', 'width=900,height=800');
-    const rootURL = "https://dcs.goarch.org/goa/dcs/"; 
-
-    printWin.document.write(`
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <base href="${rootURL}">
-            <title>${filename}</title>
-            <link rel="stylesheet" href="css/dcs_word_styles.css">
-            
-            <style>
-                /* I. PHYSICAL PAGE SETUP */
-                @page {
-                    size: 8.5in 11in;
-                    margin: 0.5in 0.75in; 
-                }
-
-                body { 
-                    margin: 0; 
-                    padding: 0;
-                    font-family: "Times New Roman", Times, serif;
-                    -webkit-print-color-adjust: exact !important;
-                }
-
-                /* II. THE FIXED HEADER */
-                .print-header {
-                    position: fixed;
-                    top: -0.4in; 
-                    left: 0;
-                    right: 0;
-                    height: 20pt;
-                    text-align: center;
-                    font-weight: bold;
-                    color: #a91827;
-                    text-transform: uppercase;
-                    z-index: 9999;
-                }
-
-                /* III. THE FIXED FOOTER */
-                .print-footer {
-                    position: fixed;
-                    bottom: -0.4in; 
-                    left: 0;
-                    right: 0;
-                    height: 25pt;
-                    border-top: 0.5pt solid #888;
-                    z-index: 9999;
-                    background: white;
-                    padding-top: 4pt;
-                }
-
-                .footer-table { 
-                    width: 100%; 
-                    border: none; 
-                    border-collapse: collapse; 
-                    table-layout: fixed;
-                }
-
-                /* THE CLASS YOU WERE LOOKING FOR */
-                .footer-text {
-                    font-size: 8.5pt;
-                    text-align: left;
-                    white-space: nowrap !important; /* Forces the DCS line to stay on one line */
-                    width: 85%;
-                    color: #444;
-                }
-
-                .footer-page {
-                    font-size: 9pt;
-                    text-align: right;
-                    width: 15%;
-                    font-weight: bold;
-                }
-
-                /* IV. THE CONTENT AREA */
-                .dcs-export-container { 
-                    margin-top: 0.2in; 
-                    position: relative;
-                }
-
-                .dcs-export-container table { 
-                    width: 100% !important; 
-                    border-collapse: collapse;
-                }
-
-                tr { 
-                    page-break-inside: avoid !important; 
-                    break-inside: avoid !important;
-                }
-
-                td.leftCell, td.rightCell { 
-                    width: 50% !important; 
-                    padding: 4pt 10pt; 
-                }
-
-                .actor, .red, .boldred, .rubric, .designation { 
-                    color: #a91827 !important; 
-                }
-            </style>
-        </head>
-        <body>
-            <div class="print-header">DIVINE LITURGY</div>
-
-            <div class="dcs-export-container">
-                ${element.outerHTML}
-            </div>
-
-            <div class="print-footer">
-                <table class="footer-table">
-                    <tr>
-                        <td class="footer-text">
-                            Powered by Digital Chant Stand: A National Ministry of the Greek Orthodox Archdiocese of America
-                        </td>
-                        <td class="footer-page">PAGE</td>
-                    </tr>
-                </table>
-            </div>
-
-            <script>
-                window.onload = function() {
-                    setTimeout(function() { 
-                        window.print(); 
-                    }, 800);
-                };
-            <\/script>
-        </body>
-        </html>
-    `);
-
-    printWin.document.close();
-}
 
 function generatePDFFile(element, filename) {
     const printWin = window.open('', '_blank', 'width=900,height=800');
@@ -517,13 +399,14 @@ function generatePDFFile(element, filename) {
 
                     /* LEFT FOOTER: Anchored exactly at the .75in margin */
                     @bottom-left {
-                        content: "Powered by Digital Chant Stand: A National Ministry of the GOA";
+                        content: "Powered by Digital Chant Stand: A National Ministry of the Greek Orthodox Archdiocese of America";
                         font-family: "Times New Roman", serif;
-                        font-size: 8.5pt;
-                        color: #444;
-                        border-top: 0.5pt solid #888;
-                        width: 5.5in; 
-                        padding-top: 4pt;
+                        font-size: 10pt;
+                        font-style: italic;
+                        color: #a91827;
+                        border-top: 0.1pt solid #a91827;
+                        width: 6.5in; 
+                        padding-top: 5pt;
                         vertical-align: top;
                     }
 
@@ -532,10 +415,11 @@ function generatePDFFile(element, filename) {
                         content: counter(page);
                         font-family: "Times New Roman", serif;
                         font-size: 10pt;
-                        font-weight: bold;
-                        border-top: 0.5pt solid #888;
-                        width: 1.5in; 
-                        padding-top: 4pt;
+                        font-weight: normal;
+                        color: #a91827;
+                        border-top: 0.1pt solid #a91827;
+                        width: 0.5in; 
+                        padding-top: 5pt;
                         text-align: right;
                         vertical-align: top;
                     }
@@ -543,21 +427,42 @@ function generatePDFFile(element, filename) {
 
                 body { margin: 0; padding: 0; font-family: "Times New Roman", serif; background: white; }
 
-                /* HEADER (Repeats on all pages) */
-                .master-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-                thead { display: table-header-group; }
+                /* 1. THE HEADER (Text and Line) */
+                .master-table { 
+                    width: 100%; 
+                    border-collapse: collapse; 
+                    table-layout: fixed; 
+                }
+
+                thead { 
+                    display: table-header-group; 
+                }
+
                 .header-container {
-                    height: 40pt;
+                    height: 25pt;
                     text-align: center;
-                    vertical-align: middle;
-                    font-weight: bold;
+                    vertical-align: bottom;
                     color: #a91827;
                     font-size: 11pt;
-                    text-transform: uppercase;
+                    font-weight: normal;
+                    padding-bottom: 4pt; /* Space between text and line */
+                    border-bottom: 0.4pt solid #C0C0C0; /* The Gray Line */
+                }
+
+                /* 2. THE GUARANTEED SPACE AFTER THE LINE */
+                /* This creates a dedicated invisible gap that repeats with the header */
+                .header-spacer {
+                    height: 15pt;
+                }
+
+                /* Reset the main cell padding since we are using the spacer instead */
+                .master-table > tbody > tr > td {
+                    padding-top: 0 !important;
+                    vertical-align: top;
                 }
 
                 /* BILINGUAL CONTENT FLOW (No clipping) */
-                .dcs-export-container { width: 100%; }
+                .dcs-export-container { width: 100%; margin-top: 0;} /* We use the TD padding instead for better reliability */
                 .dcs-export-container table, 
                 .dcs-export-container tbody { display: block !important; width: 100% !important; }
                 .dcs-export-container tr { 
@@ -579,7 +484,8 @@ function generatePDFFile(element, filename) {
         <body>
             <table class="master-table">
                 <thead>
-                    <tr><th class="header-container">DIVINE LITURGY</th></tr>
+                    <tr><th class="header-container">Divine Liturgy</th></tr>
+                    <tr><th class="header-spacer"></th></tr>
                 </thead>
                 <tbody>
                     <tr>

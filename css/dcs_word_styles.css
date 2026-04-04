@@ -11,39 +11,50 @@ body {
 /* --- Table Setup --- */
 table {
     width: 100% !important;
-    /* Set to 100% so it fills the Page or the Column */
     border-collapse: collapse;
     page-break-inside: auto;
-    /* Allows table rows to flow across columns */
+    /* Prevents Word from "floating" the table */
     mso-table-lspace: 0pt;
     mso-table-rspace: 0pt;
+}
+
+tr {
+    page-break-inside: auto;
 }
 
 td {
     vertical-align: top;
     padding: 0pt;
-    /* Provides the gutter between text */
 }
 
 /* --- Layout Logic --- */
 
-/* 1. Bilingual: Ensure 50/50 split when both cells are present */
+/* 1. Bilingual: Shared split logic */
 td.leftCell,
 td.rightCell {
     width: 50%;
 }
 
-/* 2. Single Column: If a cell is alone (English-only or Greek-only), 
-   it must take up 100% of the available column width. */
-td:only-child {
-    width: 100% !important;
+td.leftCell {
+    border-right: 0.5pt solid #C0C0C0;
+    padding-right: 0.2in;
+    /* Gutter space */
 }
 
-/* 3. Row Logic: Allow breaks between rows, but try not to break inside a single row */
-tr {
-    page-break-inside: avoid;
-    page-break-after: auto;
+td.rightCell {
+    padding-left: 0.2in;
+    /* Gutter space */
 }
+
+/* 2. Single Column: Automatic 100% width for English-only rows */
+td:only-child {
+    width: 100% !important;
+    border-right: none;
+    /* Ensure no line appears if it's a single cell */
+    padding-right: 0pt;
+    padding-left: 0pt;
+}
+
 
 /* --- Global Baseline --- */
 
@@ -66,10 +77,10 @@ p {
 
 p.actor {
     mso-style-name: "actor";
-    font-size: 11pt;
+    font-size: 12pt;
     color: #a91827;
-    font-variant: small-caps;
     font-weight: bold;
+    page-break-after: avoid;
 }
 
 p.actorinaudible {
@@ -83,11 +94,13 @@ p.alttext {
     mso-style-name: "alttext";
     font-size: 10pt;
     background-color: #E6E6E6;
+    page-break-inside: auto;
 }
 
 p.chant {
     mso-style-name: "chant";
     text-indent: 20pt;
+    page-break-inside: auto;
 }
 
 p.chapverse {
@@ -96,6 +109,7 @@ p.chapverse {
     color: #a91827;
     font-style: italic;
     text-align: center;
+    page-break-after: avoid;
 }
 
 p.designation {
@@ -104,23 +118,28 @@ p.designation {
     font-size: 12pt;
     font-weight: bold;
     text-align: center;
+    page-break-after: avoid;
 }
 
 p.dialog {
     mso-style-name: "dialog";
+    font-size: 12pt;
     text-align: left;
     text-indent: 20pt;
+    page-break-inside: auto;
 }
 
 p.dialogzero {
     mso-style-name: "dialogzero";
+    font-size: 12pt;
     text-indent: 20pt;
     margin-bottom: 0;
+    page-break-inside: auto;
 }
 
 p.dialogwithactor {
     mso-style-name: "dialogwithactor";
-    font-size: 13pt;
+    font-size: 12pt;
 }
 
 p.greekmelody {
@@ -129,22 +148,31 @@ p.greekmelody {
     color: #a91827;
     font-style: italic;
     text-align: center;
+    page-break-after: avoid;
 }
 
 p.heirmos {
     mso-style-name: "heirmos";
     text-indent: 20pt;
-}
+    orphans: 2;
+    widows: 1;
+    page-break-inside: auto;
+    mso-pagination: widow-orphan;}
 
 p.hymn {
     mso-style-name: "hymn";
     text-indent: 20pt;
+    orphans: 2;
+    widows: 1;
+    page-break-inside: auto;
+    mso-pagination: widow-orphan;
 }
 
 p.hymnlinefirst {
     mso-style-name: "hymn line first";
     margin-bottom: 0;
     text-indent: 20pt;
+    page-break-after: avoid;
 }
 
 p.hymnlinemiddle {
@@ -152,6 +180,7 @@ p.hymnlinemiddle {
     margin-top: 0;
     margin-bottom: 0;
     text-align: left;
+    page-break-after: avoid;
 }
 
 p.hymnlinelast {
@@ -172,6 +201,7 @@ p.melody {
     color: #a91827;
     font-style: italic;
     text-align: center;
+    page-break-after: avoid;
 }
 
 p.mixed {
@@ -180,6 +210,7 @@ p.mixed {
     margin-top: 6pt;
     margin-bottom: 0;
     text-align: center;
+    page-break-after: avoid;
 }
 
 p.mode {
@@ -188,6 +219,7 @@ p.mode {
     color: #a91827;
     font-weight: bold;
     text-align: center;
+    page-break-after: avoid;
 }
 
 p.name {
@@ -211,12 +243,14 @@ p.prayer {
     line-height: 1.5;
     font-size: 12pt;
     text-indent: 20pt;
+    page-break-inside: auto;
 }
 
 p.reading {
     mso-style-name: "reading";
     font-size: 13pt;
     text-indent: 20pt;
+    page-break-inside: auto;
 }
 
 p.rubric {
@@ -253,6 +287,7 @@ p.titlezero {
     font-size: 10pt;
     color: #a91827;
     text-align: center;
+    page-break-after: avoid;
 }
 
 p.verse {
@@ -275,7 +310,6 @@ span.actorwithdialog {
     mso-style-name: "actor with dialog Char";
     color: #a91827;
     font-size: 12pt;
-    font-variant: small-caps;
     font-weight: bold;
 }
 
@@ -342,7 +376,7 @@ span.designation {
 span.dialogafteractor {
     mso-style-name: "dialog after actor";
     color: black;
-    font-size: 11pt;
+    font-size: 12pt;
     font-style: normal;
     font-weight: normal;
 }
@@ -455,4 +489,32 @@ span.versiondesignation {
     /* Optional: ensures Word doesn't reserve vertical space for the hidden item */
     height: 0;
     font-size: 0;
+}
+@media print {
+
+    /* 1. Remove the "Air" from Paragraphs */
+    p {
+        margin-top: 0 !important;
+        margin-bottom: 4pt !important;
+        /* Small gap between paragraphs */
+        padding: 0 !important;
+    }
+
+    /* 2. Tighten the Table Cells */
+    td {
+        padding-top: 2pt !important;
+        padding-bottom: 2pt !important;
+        /* Keep your 0.2in side padding for the gutter */
+    }
+
+    /* 3. Ensure the table doesn't have extra spacing */
+    table {
+        border-spacing: 0;
+        border-collapse: collapse;
+    }
+
+    /* 4. Optional: Shrink font slightly for PDF if it feels too big */
+    body {
+        font-size: 11pt;
+    }
 }
