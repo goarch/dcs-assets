@@ -141,7 +141,11 @@ function updateServiceVisibility(category) {
 
     } else if (category === 'hierarchical') {
         // 1. SHOW HIERARCHICAL BASE BLOCKS
-        const hliList = ['hli_enarxis', 'hli_antiphons', 'hli_smallentrance', 'hli_fimi', 'hli_readings', 'hli_dismissal'];
+        const hliList = [
+            'hli_enarxis', 'hli_antiphons', 'hli_smallentrance', 
+            'hli_apolytikion1', 'hli_apolytikion2', 'hli_kontakion',
+            'hli_trisagion', 'hli_fimi', 'hli_readings', 'hli_liturgy', 'hli_dismissal'
+        ];
         hliList.forEach(slug => showBlock($s, slug));
 
         // 2. COORDINATED ORDINATION LOGIC
