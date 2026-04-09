@@ -77,39 +77,43 @@
         </div>
 
         <div id="matins-options-container" class="sc-section">
-            <label class="input-label">Matins Options</label>
-                <div id="section-ma-options" class="sc-section">
-                    <div class="checkbox-row">
-                        <input type="checkbox" id="ma_opt_lauds_stichologia">
-                        <label for="ma_opt_lauds_stichologia">Include Lauds Stichologia</label>
+            <div id="section-ma-options">
+                <label class="input-label">Matins Options (Standard)</label>
+                <div class="toggle-group" style="display: flex; gap: 8px;">
+                    <div class="li-options-col" style="flex: 1;" title="Inserts the Stichologia at Lauds.">
+                        <input type="checkbox" id="ma_opt_lauds_stichologia" onchange="toggleMatinsOption(this)">
+                        <label for="ma_opt_lauds_stichologia" class="li-option-label">Stichologia</label>
                     </div>
-                    <div class="checkbox-row">
-                        <input type="checkbox" id="ma_opt_dismissal">
-                        <label for="ma_opt_dismissal">Include Dismissal</label>
+                    <div class="li-options-col" style="flex: 1;" title="Inserts the Litanies and Dismissal at the end.">
+                        <input type="checkbox" id="ma_opt_dismissal" onchange="toggleMatinsOption(this)">
+                        <label for="ma_opt_dismissal" class="li-option-label">Dismissal</label>
                     </div>
                 </div>
+            </div>
 
-                <div id="section-hma-options" class="sc-section" style="display:none;">
-                    <label class="input-label">Hierarchical Matins Options</label>
-                    <div class="checkbox-row">
-                        <input type="checkbox" id="hma_opt_kairo">
-                        <label for="hma_opt_kairo">Include Kairos (Bishop's Entry)</label>
+            <div id="section-hma-options" style="display: none;">
+                <label class="input-label">Matins Options (Hierarchical)</label>
+                <div class="toggle-group" style="display: flex; flex-wrap: wrap; gap: 8px;">
+                    <div class="li-options-col" style="flex: 1; min-width: 120px;" title="Inserts the Hierarch's Kairos at Lauds.">
+                        <input type="checkbox" id="hma_opt_kairo" onchange="toggleMatinsOption(this)">
+                        <label for="hma_opt_kairo" class="li-option-label">Kairos</label>
                     </div>
-                    <div class="checkbox-row">
-                        <input type="checkbox" id="hma_opt_lauds_stichologia">
-                        <label for="hma_opt_lauds_stichologia">Include Lauds Stichologia</label>
+                    <div class="li-options-col" style="flex: 1; min-width: 120px;" title="Inserts the Stichologia at Lauds.">
+                        <input type="checkbox" id="hma_opt_lauds_stichologia" onchange="toggleMatinsOption(this)">
+                        <label for="hma_opt_lauds_stichologia" class="li-option-label">Stichologia</label>
                     </div>
-                    <div class="checkbox-row">
-                        <input type="checkbox" id="hma_opt_dismissal">
-                        <label for="hma_opt_dismissal">Include Dismissal</label>
+                    <div class="li-options-col" style="flex: 1; min-width: 120px;" title="Inserts the Litanies and Dismissal at the end.">
+                        <input type="checkbox" id="hma_opt_dismissal" onchange="toggleMatinsOption(this)">
+                        <label for="hma_opt_dismissal" class="li-option-label">Dismissal</label>
                     </div>
                 </div>
+            </div>
         </div>
 
         <div id="section-ordination" class="sc-section" style="display: none;">
             <div class="ordination-grid" style="grid-template-columns: 1fr;">
                 <div class="ordination-col">
-                    <div class="ord-checkbox-row">
+                    <div class="ord-checkbox-row" title="Inserts Subdeacon Ordination prayers at the end of Matins.">
                         <input type="checkbox" id="ord-deacon-check" class="ord-checkbox-input"
                             onchange="toggleNameFields('deacon')">
                         <label for="ord-deacon-check" class="ord-checkbox-label">Subdeacon Ordination</label>

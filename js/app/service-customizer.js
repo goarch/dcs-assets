@@ -158,11 +158,17 @@ function setServiceCategory(category) {
 /* ============================================================
    4. EXPLICIT VISIBILITY MAPPING
    ============================================================ */
-
 function updateServiceVisibility(category) {
     if (!serviceWin || serviceWin.closed) return;
     const $s = $(serviceWin.document);
     const url = serviceWin.location.href;
+
+    // --- NEW: TOGGLE UI PANELS IN CONTROL PANEL ---
+    const isHierarchical = (category === 'hierarchical');
+    $('#section-ma-options').toggle(!isHierarchical);
+    $('#section-hma-options').toggle(isHierarchical);
+    $('#section-liturgy-options').toggle(!isHierarchical);
+    $('#section-hli-liturgy-options').toggle(isHierarchical);
 
     // --- 1. THE MASTER WIPE (Hide all BCC/ECC ranges) ---
     $s.find('tr:has([class*="bcc_"])').each(function () {
@@ -180,7 +186,7 @@ function updateServiceVisibility(category) {
             showBlock($s, 'ma_matins');
             if ($('#ma_opt_lauds_stichologia').is(':checked')) showBlock($s, 'ma_lauds_opt_stichologia');
             if ($('#ma_opt_dismissal').is(':checked')) showBlock($s, 'ma_opt_dismissal');
-        } else {
+        } else if (category === 'hierarchical') {
             showBlock($s, 'hma_matins');
             if ($('#hma_opt_kairo').is(':checked')) showBlock($s, 'hma_opt_kairo');
             if ($('#hma_opt_lauds_stichologia').is(':checked')) showBlock($s, 'hma_lauds_opt_stichologia');
@@ -194,7 +200,7 @@ function updateServiceVisibility(category) {
 
     } else {
         // ==========================================
-        // LITURGY LOGIC (li / hli) - From Yesterday
+        // LITURGY LOGIC (li / hli)
         // ==========================================
         if (category === 'standard') {
             const standardList = [
@@ -235,7 +241,7 @@ function updateServiceVisibility(category) {
             if ($('#hli_opt_memorial').is(':checked')) showBlock($s, 'hli_opt_memorial');
         }
     }
-}   
+}
 
 function toggleNameFields(type) {
     const isChecked = $('#ord-' + type + '-check').is(':checked');
@@ -283,6 +289,12 @@ function hideBlock($s, slug) {
 
 
 function toggleLiturgyOption(checkbox) {
+    const category = $('#btn-hli').hasClass('active') ? 'hierarchical' : 'standard';
+    updateServiceVisibility(category);
+}
+
+// Function for Matins options (Mirrors Liturgy version)
+function toggleMatinsOption(checkbox) {
     const category = $('#btn-hli').hasClass('active') ? 'hierarchical' : 'standard';
     updateServiceVisibility(category);
 }
