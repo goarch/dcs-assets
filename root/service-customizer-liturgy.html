@@ -23,7 +23,6 @@
 
     <script src="js/app/sc-diocese-data.js"></script>
     <script src="js/app/sc-ordination-data.js"></script>
-    <script src="js/app/sc-apolytikion1-data.js"></script>
     <script src="js/app/sc-mapping-defs.js"></script>
 
     <script src="js/app/service-customizer.js"></script>
@@ -37,7 +36,7 @@
                 <label class="input-label">1. Select Service Date</label>
                 <div class="toggle-group">
                     <input type="date" id="service-date-picker">
-                    <button id="btn-launch" type="button" onclick="launchService()">
+                    <button id="btn-launch" type="button" onclick="launchService('li1')">
                         Open Service
                     </button>
                 </div>
@@ -64,7 +63,7 @@
             <div id="section-category-selection" class="sc-control-group" style="display: none;">
                 <label class="input-label">Service Category</label>
                 <div class="toggle-group">
-                    <button id="btn-standard" type="button" class="sc-btn-toggle"
+                    <button id="btn-li" type="button" class="sc-btn-toggle"
                         onclick="setServiceCategory('standard')">Standard</button>
                     <button id="btn-hli" type="button" class="sc-btn-toggle"
                         onclick="setServiceCategory('hierarchical')">Hierarchical</button>

@@ -7,7 +7,15 @@ var serviceWin = null;
    2. TAB MANAGEMENT & WATERFALL FLOW
    ============================================================ */
 
-function launchService() {
+/* ============================================================
+   UPDATED SERVICE LAUNCHER
+   ============================================================ */
+
+/**
+ * Dynamically launches a DCS service based on date and type.
+ * @param {string} serviceCode - Defaults to 'li1' (Liturgy) if no argument is passed.
+ */
+function launchService(serviceCode = 'li1') {
     const dateInput = document.getElementById('service-date-picker').value;
     if (!dateInput) {
         alert("Please select a date first.");
@@ -16,19 +24,19 @@ function launchService() {
 
     const parts = dateInput.split('-');
     const year = parts[0], month = parts[1], day = parts[2];
-    const targetUrl = `https://dcs.goarch.org/goa/dcs/h/s/${year}/${month}/${day}/li1/gr-en/index.html`;
 
-    /* --- NEW WINDOW PLACEMENT LOGIC --- */
+    // The 'li1' in the URL is now replaced by the dynamic serviceCode variable
+    const targetUrl = `https://dcs.goarch.org/goa/dcs/h/s/${year}/${month}/${day}/${serviceCode}/gr-en/index.html`;
+
+    /* --- WINDOW PLACEMENT LOGIC --- */
 
     // 1. Get the current Customizer Panel's position and size
     const pLeft = window.screenX || window.screenLeft;
     const pTop = window.screenY || window.screenTop;
-    //const pWidth = window.outerWidth;
     const serviceWidth = 650;
     const pHeight = window.outerHeight;
 
     // 2. Define features: match panel height/width and snap to the RIGHT
-    // We add 'resizable=yes,scrollbars=yes' to ensure the Liturgy text is readable
     const features = `height=${pHeight},width=${serviceWidth},top=${pTop},left=${pLeft + 500},resizable=yes,scrollbars=yes,toolbar=no,menubar=no`;
 
     // 3. Open the service in a specific window instead of a generic tab
@@ -36,8 +44,9 @@ function launchService() {
 
     if (serviceWin) {
         serviceWin.focus();
-        // Step 1: Reveal Jurisdiction
-        document.getElementById('section-jurisdiction').style.display = 'block';
+        // Step 1: Reveal Jurisdiction (Waterfall Flow)
+        const jurisSection = document.getElementById('section-jurisdiction');
+        if (jurisSection) jurisSection.style.display = 'block';
     } else {
         alert("Pop-up/Tab blocked! Please allow pop-ups for this site.");
     }
@@ -78,109 +87,155 @@ function handleMetropolisChange() {
    3. CATEGORY SELECTION
    ============================================================ */
 
+/**
+ * Toggles between Standard and Hierarchical view in the service window.
+ * Supports updated naming: btn-li/btn-hli, btn-ma/btn-hma, btn-ve/btn-hve
+ */
 function setServiceCategory(category) {
+    if (!serviceWin || serviceWin.closed) return;
+
+    const url = serviceWin.location.href;
     const isHli = (category === 'hierarchical');
-    const btnStd = document.getElementById('btn-standard');
-    const btnHli = document.getElementById('btn-hli');
 
-    // 1. Toggle Button Visuals
-    btnStd.classList.toggle('active', !isHli);
-    btnHli.classList.toggle('active', isHli);
+    // 1. DYNAMIC PREFIX DETECTION
+    let prefix = 'li';
+    let hPrefix = 'hli';
 
-    // 2. Instant Panel Swap
-    if (isHli) {
-        $('#section-liturgy-options').hide();
-        $('#section-hli-liturgy-options').show();
-        $('#section-ordination').show();
-    } else {
-        $('#section-hli-liturgy-options').hide();
-        $('#section-ordination').hide();
-        $('#section-liturgy-options').show();
+    if (url.includes('/ma1/')) {
+        prefix = 'ma';
+        hPrefix = 'hma';
+    } else if (url.includes('/ve1/')) {
+        prefix = 've';
+        hPrefix = 'hve';
     }
 
-    // 3. Reset Checkboxes
-    $('#liturgy-options-container input, #section-ordination input').prop('checked', false);
+    // 2. TOGGLE BUTTON VISUALS
+    const btnStd = document.getElementById(`btn-${prefix}`) || document.getElementById('btn-standard') || document.getElementById('btn-ma');
+    const btnHli = document.getElementById(`btn-${hPrefix}`) || document.getElementById('btn-hli') || document.getElementById('btn-hma');
+
+    if (btnStd) btnStd.classList.toggle('active', !isHli);
+    if (btnHli) btnHli.classList.toggle('active', isHli);
+
+    // 3. PANEL SWAP LOGIC
+    // First, hide everything so we can start with a clean slate
+    $('#section-liturgy-options, #section-hli-liturgy-options').hide(); // Liturgy IDs
+    $('#section-ma-options, #section-hma-options').hide();             // Matins (Mountains) IDs
+    $('#section-ordination').hide();
+
+    // Ensure parent wrappers are visible
+    $('#liturgy-options-container, #matins-options-container').show();
+
+    if (isHli) {
+        // --- SHOW HIERARCHICAL OPTIONS ---
+        if (prefix === 'ma') {
+            $('#section-hma-options').show(); // Reveal Matins Hierarchical
+        } else {
+            $('#section-hli-liturgy-options').show(); // Reveal Liturgy Hierarchical
+        }
+        $('#section-ordination').show();
+    } else {
+        // --- SHOW STANDARD OPTIONS ---
+        if (prefix === 'ma') {
+            $('#section-ma-options').show(); // Reveal Matins Standard
+        } else {
+            $('#section-liturgy-options').show(); // Reveal Liturgy Standard
+        }
+    }
+
+    // 4. RESET CHECKBOXES
+    // This clears any "checked" values from the HTML tags
+    $('input[type="checkbox"]').prop('checked', false);
     $('.name-field-group').hide();
 
-    // 4. Update the actual Service Tab
+    // 5. UPDATE THE ACTUAL SERVICE WINDOW
     updateServiceVisibility(category);
 
-    // --- NEW LOGIC: Reveal Export Tools ---
-    // Once a category is clicked, the service is "configured" enough to export.
-    document.getElementById('section-export-tools').style.display = 'block';
+    // 6. REVEAL EXPORT TOOLS
+    const exportTools = document.getElementById('section-export-tools');
+    if (exportTools) exportTools.style.display = 'block';
 }
 
 /* ============================================================
    4. EXPLICIT VISIBILITY MAPPING
    ============================================================ */
+
 function updateServiceVisibility(category) {
     if (!serviceWin || serviceWin.closed) return;
     const $s = $(serviceWin.document);
+    const url = serviceWin.location.href;
 
-    // 1. THE MASTER WIPE (Hide all BCC/ECC ranges)
-    // We target every row that has a 'bcc_' class and hide it + everything until its 'ecc_' match
+    // --- 1. THE MASTER WIPE (Hide all BCC/ECC ranges) ---
     $s.find('tr:has([class*="bcc_"])').each(function () {
         const bccClass = $(this).find('[class*="bcc_"]').attr('class').split(' ')[0];
         const slug = bccClass.replace('bcc_', '');
         hideBlock($s, slug);
     });
 
-    if (category === 'standard') {
-        // 2. EXPLICIT STANDARD LIST
-        const standardList = [
-            'li_enarxis', 'li_antiphons', 'li_smallentrance',
-            'li_apolytikion1', 'li_apolytikion2', 'li_kontakion',
-            'li_trisagion', 'li_readings', 'li_liturgy', 'li_dismissal'
-        ];
-        standardList.forEach(slug => showBlock($s, slug));
+    // --- 2. DETECT SERVICE TYPE ---
+    if (url.includes('/ma1/')) {
+        // ==========================================
+        // MATINS LOGIC (ma / hma)
+        // ==========================================
+        if (category === 'standard') {
+            showBlock($s, 'ma_matins');
+            if ($('#ma_opt_lauds_stichologia').is(':checked')) showBlock($s, 'ma_lauds_opt_stichologia');
+            if ($('#ma_opt_dismissal').is(':checked')) showBlock($s, 'ma_opt_dismissal');
+        } else {
+            showBlock($s, 'hma_matins');
+            if ($('#hma_opt_kairo').is(':checked')) showBlock($s, 'hma_opt_kairo');
+            if ($('#hma_opt_lauds_stichologia').is(':checked')) showBlock($s, 'hma_lauds_opt_stichologia');
+            if ($('#hma_opt_dismissal').is(':checked')) showBlock($s, 'hma_opt_dismissal');
 
-        // Standard Options
-        if ($('#li_opt_litanies').is(':checked')) showBlock($s, 'li_opt_litanies');
-        if ($('#li_opt_precommunionprayers').is(':checked')) showBlock($s, 'li_opt_precommunionprayers');
-        if ($('#li_opt_memorial').is(':checked')) showBlock($s, 'li_opt_memorial');
-
-    } else if (category === 'hierarchical') {
-        // 1. SHOW HIERARCHICAL BASE BLOCKS
-        const hliList = [
-            'hli_enarxis', 'hli_antiphons', 'hli_smallentrance', 
-            'hli_apolytikion1', 'hli_apolytikion2', 'hli_kontakion',
-            'hli_trisagion', 'hli_fimi', 'hli_readings', 'hli_liturgy', 'hli_dismissal'
-        ];
-        hliList.forEach(slug => showBlock($s, slug));
-
-        // 2. COORDINATED ORDINATION LOGIC
-        const isDeacon = $('#ord-deacon-check').is(':checked');
-        const isPriest = $('#ord-priest-check').is(':checked');
-
-        // Initial Wipe of all ordination-related blocks and default liturgy
-        hideBlock($s, 'hli_liturgy');
-        hideBlock($s, 'hli_ordination_deacon');
-        hideBlock($s, 'hli_ordination_priest');
-        hideBlock($s, 'hli_ordination_priest_and_deacon');
-
-        if (isDeacon && isPriest) {
-            // BOTH: Show ONLY the special combined block
-            showBlock($s, 'hli_ordination_priest_and_deacon');
-        }
-        else if (isDeacon) {
-            // DEACON ONLY
-            showBlock($s, 'hli_ordination_deacon');
-        }
-        else if (isPriest) {
-            // PRIEST ONLY
-            showBlock($s, 'hli_ordination_priest');
-        }
-        else {
-            // NEITHER: Restore the default liturgy
-            showBlock($s, 'hli_liturgy');
+            // Subdeacon Ordination for Matins
+            if ($('#ord-deacon-check').is(':checked')) {
+                showBlock($s, 'hma_ordination_subdeacon');
+            }
         }
 
-        // 3. HIERARCHICAL OPTIONS
-        if ($('#hli_opt_litanies').is(':checked')) showBlock($s, 'hli_opt_litanies');
-        if ($('#hli_opt_precommunionprayers').is(':checked')) showBlock($s, 'hli_opt_precommunionprayers');
-        if ($('#hli_opt_memorial').is(':checked')) showBlock($s, 'hli_opt_memorial');
+    } else {
+        // ==========================================
+        // LITURGY LOGIC (li / hli) - From Yesterday
+        // ==========================================
+        if (category === 'standard') {
+            const standardList = [
+                'li_enarxis', 'li_antiphons', 'li_smallentrance',
+                'li_apolytikion1', 'li_apolytikion2', 'li_kontakion',
+                'li_trisagion', 'li_readings', 'li_liturgy', 'li_dismissal'
+            ];
+            standardList.forEach(slug => showBlock($s, slug));
+
+            if ($('#li_opt_litanies').is(':checked')) showBlock($s, 'li_opt_litanies');
+            if ($('#li_opt_precommunionprayers').is(':checked')) showBlock($s, 'li_opt_precommunionprayers');
+            if ($('#li_opt_memorial').is(':checked')) showBlock($s, 'li_opt_memorial');
+
+        } else if (category === 'hierarchical') {
+            const hliList = [
+                'hli_enarxis', 'hli_antiphons', 'hli_smallentrance',
+                'hli_apolytikion1', 'hli_apolytikion2', 'hli_kontakion',
+                'hli_trisagion', 'hli_fimi', 'hli_readings', 'hli_liturgy', 'hli_dismissal'
+            ];
+            hliList.forEach(slug => showBlock($s, slug));
+
+            // Coordinated Ordination Logic
+            const isDeacon = $('#ord-deacon-check').is(':checked');
+            const isPriest = $('#ord-priest-check').is(':checked');
+
+            hideBlock($s, 'hli_liturgy');
+            hideBlock($s, 'hli_ordination_deacon');
+            hideBlock($s, 'hli_ordination_priest');
+            hideBlock($s, 'hli_ordination_priest_and_deacon');
+
+            if (isDeacon && isPriest) showBlock($s, 'hli_ordination_priest_and_deacon');
+            else if (isDeacon) showBlock($s, 'hli_ordination_deacon');
+            else if (isPriest) showBlock($s, 'hli_ordination_priest');
+            else showBlock($s, 'hli_liturgy');
+
+            if ($('#hli_opt_litanies').is(':checked')) showBlock($s, 'hli_opt_litanies');
+            if ($('#hli_opt_precommunionprayers').is(':checked')) showBlock($s, 'hli_opt_precommunionprayers');
+            if ($('#hli_opt_memorial').is(':checked')) showBlock($s, 'hli_opt_memorial');
+        }
     }
-}
+}   
 
 function toggleNameFields(type) {
     const isChecked = $('#ord-' + type + '-check').is(':checked');
@@ -246,8 +301,10 @@ function applyOverrides() {
     }
 
     // 2. Refresh Visibility
-    const isStd = $('#btn-standard').hasClass('active');
-    const isHli = $('#btn-hli').hasClass('active');
+    // ADJUSTED: Detection now includes Matins (ma/hma) and Vespers (ve/hve) buttons
+    const isStd = $('#btn-standard, #btn-li, #btn-ma, #btn-ve').filter('.active').length > 0;
+    const isHli = $('#btn-hli, #btn-hli, #btn-hma, #btn-hve').filter('.active').length > 0;
+
     if (isStd || isHli) {
         updateServiceVisibility(isStd ? 'standard' : 'hierarchical');
     }
@@ -256,15 +313,14 @@ function applyOverrides() {
     if (isHli) {
         ['deacon', 'priest'].forEach(role => {
             const config = ordinationMapping[role];
-            if (!config) return; // Safety check
+            if (!config) return;
 
             const isChecked = $('#' + config.checkId).is(':checked');
 
             config.fields.forEach(field => {
                 const $input = $('#' + field.inputId);
-                const val = $input.val() || ''; // Get value or empty string
+                const val = $input.val() || '';
 
-                // If checked AND has text, use it. Otherwise, use underscores.
                 const finalVal = (isChecked && val.trim().length > 0) ? val : "_______";
 
                 // Find exact data-key matches in the service tab
@@ -524,16 +580,35 @@ $(document).ready(function () {
     // Metropolis listener
     $('#entity-select').on('change', handleMetropolisChange);
 
-    // Categories
-    $('#btn-standard').on('click', () => setServiceCategory('standard'));
+    /** * CATEGORY LISTENERS
+         * Updated to target the new ID naming convention
+         **/
+    // Liturgy
+    $('#btn-li').on('click', () => setServiceCategory('standard'));
     $('#btn-hli').on('click', () => setServiceCategory('hierarchical'));
+
+    // Matins
+    $('#btn-ma').on('click', () => setServiceCategory('standard'));
+    $('#btn-hma').on('click', () => setServiceCategory('hierarchical'));
+
+    // Vespers
+    $('#btn-ve').on('click', () => setServiceCategory('standard'));
+    $('#btn-hve').on('click', () => setServiceCategory('hierarchical'));
 
     // 1. Instant Listeners (Checkboxes)
     // We use 'change' here so the liturgy range swaps immediately when clicked.
-    $('#liturgy-options-container, #section-ordination').on('change', 'input[type="checkbox"]', applyOverrides);
+    $('#liturgy-options-container, #matins-options-container, #section-ordination').on('change', 'input[type="checkbox"]', applyOverrides);
 
     // 2. Delayed Listeners (Name Text Fields)
     // By removing 'input' and only using 'change', the lag disappears. 
     // The service updates only when the user tabs out or clicks away.
     $('#section-ordination').on('change', 'input[type="text"]', applyOverrides);
+
+    $('#matins-options-container').on('change', 'input[type="checkbox"]', function () {
+        // Determine if we are in 'ma' or 'hma' mode by checking the button class
+        const isHli = $('#btn-hma').hasClass('active');
+        const category = isHli ? 'hierarchical' : 'standard';
+
+        updateServiceVisibility(category);
+    });
 });

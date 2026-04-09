@@ -60,7 +60,7 @@
             transform: translateY(-2px);
         }
 
-        /* Future-proofing for Matins/Vespers */
+        /* Styling for remaining disabled buttons */
         .btn-secondary {
             background: #6c757d;
             opacity: 0.7;
@@ -80,7 +80,10 @@
                 Divine Liturgy
             </button>
 
-            <button class="btn-launch btn-secondary">Matins (Coming Soon)</button>
+            <button class="btn-launch" onclick="launchPanel('service-customizer-matins.html')">
+                Matins
+            </button>
+
             <button class="btn-launch btn-secondary">Vespers (Coming Soon)</button>
         </div>
     </div>
