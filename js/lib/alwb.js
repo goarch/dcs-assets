@@ -765,8 +765,8 @@ $(document).ready(function () {
 
     // Add print and services preference links
     if (!isMobile.iPad())
-    //  $(".content").prepend('<p class="print-btn"><a href="#" class="print-service"><i class="fa fa-print" title="Print this frame"></i></a></p>');
-    $(".content").prepend('<p class="print-btn"><a href="#" class="prefMode"><i class="fa fa-list-ul prefMode" title="Open service preferences"></i></a></p>');
+      //  $(".content").prepend('<p class="print-btn"><a href="#" class="print-service"><i class="fa fa-print" title="Print this frame"></i></a></p>');
+      $(".content").prepend('<p class="print-btn"><a href="#" class="prefMode"><i class="fa fa-list-ul prefMode" title="Open service preferences"></i></a></p>');
 
     // Bind click functions for Eothinon Gospels
     $("#radio-eothinon-1, #radio-eothinon-2").click(function () {
@@ -1014,7 +1014,7 @@ $(document).ready(function () {
     });
   }
 
-//  notAvailable();
+  //  notAvailable();
   hideEmptyRows();
 
 });
@@ -2276,13 +2276,21 @@ function insertMatinsOrdinary() {
 <tr>
 <td class='leftCell'>
 <p class='break'>&#xA0;&#xA0;&#xA0;</p>
-</td>
+</td>5
 <td class='rightCell'>
 <p class='break'>&#xA0;&#xA0;&#xA0;</p>
 </td>
 </tr>`;
     const currentPath = document.location.origin + document.location.pathname;
-    const today = new Date(); //parameter a string date to test other dates eg: "12/24/2025"
+    
+    const regex = /(?<year>\d{4})\/(?<month>\d{2})\/(?<day>\d{2})/;
+    const result = regex.exec(currentPath);
+
+    // Destructure the groups directly into variables
+    const { year, month, day } = result.groups;
+
+    //today is based on the date in the path
+    const today = new Date(`${month}/${day}/${year}`); //parameter a string date to test other dates eg: "12/24/2025"
 
     const thisYear = today.getFullYear();
     const baseDates = ["02-25-2024", "02-09-2025", "02-01-2026", "02-21-2027", "02-06-2028", "01-28-2029", "02-17-2030"];
