@@ -73,6 +73,8 @@ p {
     /* The "Anchor" for bilingual alignment */
     margin-bottom: 6pt;
     text-align: left;
+    orphans: 2 !important;
+    widows: 2 !important;
 }
 
 p.actor {
