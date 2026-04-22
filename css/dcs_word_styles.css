@@ -195,6 +195,7 @@ p.inaudible {
     mso-style-name: "inaudible Para";
     font-size: 11pt;
     text-indent: 20pt;
+    page-break-inside: auto;
 }
 
 p.melody {
