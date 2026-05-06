@@ -765,7 +765,7 @@ $(document).ready(function () {
 
     // Add print and services preference links
     if (!isMobile.iPad())
-      //  $(".content").prepend('<p class="print-btn"><a href="#" class="print-service"><i class="fa fa-print" title="Print this frame"></i></a></p>');
+      $(".content").prepend('<p class="print-btn"><a href="#" class="print-service"><i class="fa fa-print" title="Print this frame"></i></a></p>');
       $(".content").prepend('<p class="print-btn"><a href="#" class="prefMode"><i class="fa fa-list-ul prefMode" title="Open service preferences"></i></a></p>');
 
     // Bind click functions for Eothinon Gospels
@@ -3951,7 +3951,9 @@ function generateDynamicLinks() {
     .key, [hidden], .media-group, .media-links, 
     .jqm-dropdown, .noprint, i, script, style,
     [class^="bmc"], [class*=" bmc"], 
-    [class^="emc"], [class*=" emc"]
+    [class^="emc"], [class*=" emc"],
+    [class^="brc"], [class*=" brc"], 
+    [class^="erc"], [class*=" erc"]
 `).forEach(el => el.remove());
 
       // 2. THE CLASS SCRUBBER (The Eraser)
@@ -3961,7 +3963,10 @@ function generateDynamicLinks() {
         'apriest', 'areader', 'dchoir', 'dclergy', 'ddeacon',
         'dhierarch', 'dpeople', 'dpriest', 'dreader', 'dwachoir',
         'dwaclergy', 'dwadeacon', 'dwahierarch', 'dwapeople',
-        'dwapriest', 'dwareader'
+        'dwapriest', 'dwareader',
+        'achclhi', 'aclhi', 'adebl', 'adepr', 'aprhi',
+        'dclhi', 'ddepr', 'ddebl', 'dprhi',
+        'dwadebl', 'dwadepr', 'dwaprhi'
       ];
 
       classesToScrub.forEach(className => {
