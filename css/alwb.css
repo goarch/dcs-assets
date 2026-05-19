@@ -1522,6 +1522,14 @@ span.rubric {
     color: #a91827;
 }
 
+span.rubricnopdf {
+    font-variant: normal;
+    font-weight: normal;
+    font-style: italic;
+    font-size: 80%;
+    color: #a91827;
+}
+
 span.smaller {
     color: inherit;
     font-weight: normal;
