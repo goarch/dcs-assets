@@ -1711,10 +1711,9 @@ function insertMatinsOrdinary() {
 </tr>
 <tr>
 <td class='leftCell'><p class='dialog'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet19Sa.text'>Ἔτι δεόμεθα ὑπὲρ</span> 
-<span class='kvp' data-key='client_gr_US_goa|cl.bishop1.rank'>τοῦ Ἀρχιεπισκόπου ἡμῶν</span> 
-<span class='kvp' data-key='client_gr_US_goa|cl.bishop1.name_p'>(δεῖνος).</span> 
+<span class='kvp' data-key='client_gr_US_goa|cl.bishop1.name.petitionP'>(δεῖνος).</span>
 </p></td>
-<td class='rightCell'><p class='dialog'><span class='kvp' data-key='prayers_en_US_goa|pr.pet19Sa.text'>Again we pray for</span> <span class='kvp' data-key='client_en_US_goa|cl.bishop1.rank'>our Archbishop</span> <span class='kvp' data-key='client_en_US_goa|cl.bishop1.name_p'>(name).</span> </p></td>
+<td class='rightCell'><p class='dialog'><span class='kvp' data-key='prayers_en_US_goa|pr.pet19Sa.text'>Again we pray for</span> <span class='kvp' data-key='client_en_US_goa|cl.bishop1.name.petitionP'>(name).</span> </p></td>
 </tr>
 <tr>
 <td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Choir'>ΧΟΡΟΣ</span> 
@@ -2101,12 +2100,11 @@ function insertMatinsOrdinary() {
 </tr>
 <tr>
 <td class='leftCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet06a.text'>Ὑπὲρ</span> 
-<span class='kvp' data-key='client_gr_US_goa|cl.bishop1.rank'>τοῦ Ἀρχιεπισκόπου ἡμῶν</span> 
-<span class='kvp' data-key='client_gr_US_goa|cl.bishop1.name_c'>(δεῖνος),</span> 
+<span class='kvp' data-key='client_gr_US_goa|cl.bishop1.name.petitionC'>τοῦ Ἀρχιεπισκόπου ἡμῶν (δεῖνος),</span>
 <span class='kvp' data-key='prayers_gr_US_goa|pr.pet06b.text'>τοῦ τιμίου πρεσβυτερίου, τῆς ἐν Χριστῷ διακονίας, παντὸς τοῦ κλήρου καὶ τοῦ λαοῦ τοῦ Κυρίου δεηθῶμεν.</span> 
 </span> 
 </p></td>
-<td class='rightCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_en_US_goa|pr.pet06a.text'>For </span> <span class='kvp' data-key='client_en_US_goa|cl.bishop1.rank'>our Archbishop</span> <span class='kvp' data-key='client_en_US_goa|cl.bishop1.name_c'>(name),</span> <span class='kvp' data-key='prayers_en_US_goa|pr.pet06b.text'>for the honorable presbyterate, for the diaconate in Christ, and for all the clergy and the people, let us pray to the Lord.</span> </span> </p></td>
+<td class='rightCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_en_US_goa|pr.pet06a.text'>For </span> <span class='kvp' data-key='client_en_US_goa|cl.bishop1.name.petitionC'>our Archbishop (name),</span> <span class='kvp' data-key='prayers_en_US_goa|pr.pet06b.text'>for the honorable presbyterate, for the diaconate in Christ, and for all the clergy and the people, let us pray to the Lord.</span> </span> </p></td>
 </tr>
 <tr>
 <td class='leftCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
