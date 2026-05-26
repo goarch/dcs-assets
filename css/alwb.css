@@ -1666,14 +1666,6 @@ span.pbc {
     margin-right: auto;
 }
 
-span.sblieisodikonrefrain {
-    display: none;
-}
-
-span.sbmadismissal {
-    display: none;
-}
-
 table {
     margin: 0 3pt;
     padding: 0;
@@ -2247,6 +2239,13 @@ table.custom-index-table {
     gap: 10px;
 }
 
+span.sblieisodikonrefrain {
+    display: none;
+}
+
+span.sbmadismissal {
+    display: none;
+}
 
 span.sbhmakatavasias {
     display: none;
