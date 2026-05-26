@@ -2246,3 +2246,17 @@ table.custom-index-table {
     flex-direction: column;
     gap: 10px;
 }
+
+
+span.sbhmakatavasias {
+    display: none;
+}
+
+span.sbhmaexaposteilaria {
+    display: none;
+}
+
+span.sbhmalaudsmode {
+    display: none;
+}
+
