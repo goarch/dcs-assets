@@ -1317,6 +1317,24 @@ function insertVesperalLiturgyTOB() {
 
 function insertMatinsOrdinary() {
 
+  //This blocks matins ordinary from being injected into matins of service builder  
+  const currentUrl = window.location.href.toLowerCase();
+  const referrerUrl = (document.referrer || "").toLowerCase();
+
+  // Check if either file name shows up in the current URL OR the referrer
+  const isExcluded =
+    currentUrl.includes('sb-matins.html') ||
+    currentUrl.includes('sb-hmatins.html') ||
+    referrerUrl.includes('sb-matins.html') ||
+    referrerUrl.includes('sb-hmatins.html');
+
+  if (isExcluded) {
+    console.log("insertMatinsOrdinary() blocked via robust URL/Referrer check.");
+    return; // Exit early
+  }
+
+  //******************************************* */
+
   const pageTitle = document.title;
   const validEndings = ['.ma', '.ma2', '.ma3', '.ma4', '.ma5', '.ma6', '.ma9'];
 
