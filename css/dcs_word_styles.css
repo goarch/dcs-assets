@@ -486,7 +486,8 @@ span.versiondesignation {
 .nodisplay,
 .noprintactor,
 .noprintrub,
-.noprintprayer {
+.noprintprayer,
+.sbparishhname {
     display: none;
     mso-hide: all;
     /* Optional: ensures Word doesn't reserve vertical space for the hidden item */
