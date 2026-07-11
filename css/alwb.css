@@ -2239,6 +2239,14 @@ table.custom-index-table {
     gap: 10px;
 }
 
+span.ablch {
+    display: none;
+}
+
+span.ablhi {
+    display: none;
+}
+
 span.sblieisodikonrefrain {
     display: none;
 }
