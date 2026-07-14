@@ -766,7 +766,9 @@ $(document).ready(function () {
     // Add print and services preference links
     if (!isMobile.iPad())
     //  $(".content").prepend('<p class="print-btn"><a href="#" class="print-service"><i class="fa fa-print" title="Print this frame"></i></a></p>');
-      $(".content").prepend('<p class="print-btn"><a href="#" class="prefMode"><i class="fa fa-list-ul prefMode" title="Open service preferences"></i></a></p>');
+      $(".content").prepend('<p class="print-btn"><a style="cursor: pointer;" onclick="performUnifiedExport(\'pdf\'); return false;"><i class="fa fa-print" title="Print this frame"></i></a></p>');
+
+    $(".content").prepend('<p class="print-btn"><a href="#" class="prefMode"><i class="fa fa-list-ul prefMode" title="Open service preferences"></i></a></p>');
 
     // Bind click functions for Eothinon Gospels
     $("#radio-eothinon-1, #radio-eothinon-2").click(function () {
@@ -1317,7 +1319,7 @@ function insertVesperalLiturgyTOB() {
 
 function insertMatinsOrdinary() {
 
-  //This blocks matins ordinary from being injected into matins of service builder  
+//This blocks matins ordinary from being injected into matins of service builder  
   const currentUrl = window.location.href.toLowerCase();
   const referrerUrl = (document.referrer || "").toLowerCase();
 
@@ -1333,10 +1335,10 @@ function insertMatinsOrdinary() {
     return; // Exit early
   }
 
-  //******************************************* */
-
+    //******************************************* */
+  
   const pageTitle = document.title;
-  const validEndings = ['.ma', '.ma2', '.ma3', '.ma4', '.ma5', '.ma6', '.ma9'];
+  const validEndings = ['.ma', '.ma3', '.ma4', '.ma5', '.ma6', '.ma9'];
 
   if (validEndings.some(ending => pageTitle.endsWith(ending))) {
     console.log(`Document is a Matins. Running insertMatinsOrdinary script.`);
@@ -3761,8 +3763,8 @@ function generateDynamicLinks() {
 
   // --- CRITICAL CONFIGURATION: DEFINE ALL PERSON CODES HERE ---
   const PERSON_MAP = {
-    en: { audio: { default: 'dedes' }, score: { w: 'dedes', b: 'dedes' } },
-    gr: { audio: { default: 'dedes' }, score: { w: 'dedes', b: 'dedes' } }
+    en: { audio: { default: 'dedes' }, score: { w: 'dedes', b: 'theodoridis' } },
+    gr: { audio: { default: 'dedes' }, score: { w: 'dedes', b: 'theodoridis' } }
   };
   // -------------------------------------------------------------
 
@@ -3938,9 +3940,9 @@ function generateDynamicLinks() {
 // ------------------------------------------------------------------
 // --- jQuery Execution Wrapper ---
 // NOTE: Make sure the ALWB.JS code runs BEFORE this wrapper.
-//$(function () {
-//  generateDynamicLinks();
-//});
+$(function () {
+  generateDynamicLinks();
+});
 // ------------------------------------------------------------------
 
 /* --- DCS Automated Word Export Section --- */
@@ -4133,4 +4135,251 @@ function generateDynamicLinks() {
   setInterval(addWordButtons, 3000);
 })();
 
+
+async function performUnifiedExport(format) {
+  // Target the document of the current page directly
+  const currentDoc = document;
+  const liveTable = currentDoc.getElementById('biTable') || currentDoc.querySelector('table');
+  if (!liveTable) return;
+
+  const firstRow = liveTable.querySelector('tr');
+  const isSingleColumn = firstRow ? (Array.from(firstRow.cells).length === 1) : false;
+
+  let exportContainer = currentDoc.createElement('div');
+  exportContainer.className = 'dcs-export-wrapper';
+
+  if (isSingleColumn) {
+    const cells = liveTable.querySelectorAll('td');
+    cells.forEach(cell => {
+      const row = cell.closest('tr');
+      const style = window.getComputedStyle(row);
+      if (style.display === 'none' || style.visibility === 'hidden') return;
+
+      const block = currentDoc.createElement('div');
+      block.className = cell.className + ' dcs-block-unit';
+      block.innerHTML = cell.innerHTML;
+
+      cleanElement(block, isSingleColumn);
+
+      const text = block.textContent.replace(/[\s\u00a0\t\n\r]/g, '');
+      if (text.length > 0 || block.querySelector('img')) {
+        exportContainer.appendChild(block);
+      }
+    });
+  } else {
+    const tableClone = liveTable.cloneNode(true);
+    const rows = tableClone.querySelectorAll('tr');
+    rows.forEach(row => {
+      const liveEl = currentDoc.getElementById(row.id);
+      if (liveEl) {
+        const style = window.getComputedStyle(liveEl);
+        if (style.display === 'none' || style.visibility === 'hidden' || liveEl.offsetParent === null) {
+          row.remove();
+          return;
+        }
+      }
+      row.querySelectorAll('td').forEach(td => cleanElement(td, isSingleColumn));
+      const text = row.textContent.replace(/[\s\u00a0\t\n\r]/g, '');
+      if (text.length === 0 && !row.querySelector('img')) {
+        row.remove();
+      }
+    });
+    exportContainer.appendChild(tableClone);
+  }
+
+  function cleanElement(el, singleColMode) {
+    const selectorsToRemove = [
+      'script', 'style', '.jqm-dropdown', '.key', '.noprintdesig',
+      '[style*="display: none"]', '[style*="display:none"]',
+      '.nodisplay', '.noprintactor', '.noprintrub', '.noprintprayer',
+      '[class^="bcc_"]', '[class*=" bcc_"]', '[class^="ecc_"]', '[class*=" ecc_"]',
+      '[class^="bmc_"]', '[class*=" bmc_"]', '[class^="emc_"]', '[class*=" emc_"]',
+      '[class^="brc_"]', '[class*=" brc_"]', '[class^="erc_"]', '[class*=" erc_"]',
+      '[class^="bkmrk"]', '[class*=" bkmrk"]',
+      '[class^="source"]', '[class*=" source"]',
+      '.dummy', '.sbparishname'
+    ];
+    el.querySelectorAll(selectorsToRemove.join(',')).forEach(item => item.remove());
+
+    const classesToUnwrap = [
+      '.achoir', '.aclergy', '.adeacon', '.ahierarch',
+      '.dchoir', '.dclergy', '.ddeacon', '.dhierarch',
+      '.dpeople', '.dpriest', '.dwachoir', '.dwadeacon',
+      '.kvp'
+    ];
+    classesToUnwrap.forEach(s => {
+      el.querySelectorAll(s).forEach(item => {
+        item.replaceWith(...item.childNodes);
+      });
+    });
+
+    el.querySelectorAll('*').forEach(child => {
+      child.style.float = 'none';
+      child.style.position = 'static';
+      if (singleColMode) {
+        child.style.width = 'auto';
+        child.style.maxWidth = '100%';
+      }
+    });
+  }
+
+  const fileName = currentDoc.title || "Service_Export";
+
+  let displayTitle = "Divine Services";
+  if (fileName.includes('.li')) displayTitle = "Divine Liturgy";
+  else if (fileName.includes('.ma')) displayTitle = "Matins";
+  else if (fileName.includes('.ve')) displayTitle = "Vespers";
+
+  if (format === 'word') {
+    await generateWordFile(exportContainer, fileName, isSingleColumn, displayTitle);
+  } else {
+    await generatePDFFile(exportContainer, fileName, isSingleColumn, displayTitle);
+  }
+}
+
+function generatePDFFile(element, filename, isSingleColumn, displayTitle = "Divine Services") {
+  const clone = element.cloneNode(true);
+  const hiddenSelectors = '.nodisplay, .noprintactor, .noprintrub, .noprintprayer, [style*="display: none"], .sbparishname';
+  clone.querySelectorAll(hiddenSelectors).forEach(el => el.remove());
+
+  const children = clone.querySelectorAll('p, div, br');
+  for (let i = children.length - 1; i >= 0; i--) {
+    const node = children[i];
+    if (!node.textContent.trim() && !node.querySelector('img')) {
+      node.remove();
+    } else {
+      break;
+    }
+  }
+
+  const printWin = window.open('', '_blank', 'width=900,height=800');
+  const rootURL = `https://dcs.goarch.org/goa/dcs/`;
+
+  printWin.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <base href="${rootURL}">
+            <title>${filename}</title>
+            <link rel="stylesheet" href="css/dcs_word_styles.css">
+            <style>
+                @page {
+                    size: 8.5in 11in;
+                    margin-top: 1.1in; 
+                    margin-right: 0.75in;
+                    margin-bottom: 1.0in;
+                    margin-left: 0.75in;
+
+                    @top-center {
+                        content: "${displayTitle}";
+                        font-family: "Times New Roman", serif;
+                        font-size: 11pt;
+                        color: #a91827;
+                        width: 100%;
+                        border-bottom: 0.4pt solid #C0C0C0;
+                        vertical-align: bottom;
+                        padding-bottom: 5pt; 
+                        margin-bottom: 10pt;
+                    }
+                }
+
+                @page :right {
+                    @bottom-left {
+                        content: "Powered by Digital Chant Stand: A National Ministry of the Greek Orthodox Archdiocese of America";
+                        font-family: serif; font-size: 8pt; font-style: italic; color: #a91827;
+                        border-top: 0.1pt solid #a91827;
+                        vertical-align: top;
+                        padding-top: 10pt;
+                    }
+                    @bottom-right {
+                        content: counter(page);
+                        font-family: serif; font-size: 9pt; color: #a91827;
+                        border-top: 0.1pt solid #a91827;
+                        vertical-align: top;
+                        padding-top: 10pt;
+                        text-align: right;
+                    }
+                }
+
+                @page :left {
+                    @bottom-left {
+                        content: counter(page);
+                        font-family: serif; font-size: 9pt; color: #a91827;
+                        border-top: 0.1pt solid #a91827;
+                        vertical-align: top;
+                        padding-top: 10pt;
+                        text-align: left;
+                    }
+                    @bottom-right {
+                        content: "Powered by Digital Chant Stand: A National Ministry of the Greek Orthodox Archdiocese of America";
+                        font-family: serif; font-size: 8pt; font-style: italic; color: #a91827;
+                        border-top: 0.1pt solid #a91827;
+                        vertical-align: top;
+                        padding-top: 10pt;
+                        text-align: right;
+                    }
+                }
+
+                html, body {
+                    height: auto !important;
+                    overflow: visible !important;
+                    margin: 0; padding: 0;
+                }
+
+                .dcs-export-container {
+                    display: block !important;
+                    width: 100% !important;
+                }
+
+                p, td {
+                    orphans: 2 !important;
+                    widows: 2 !important;
+                }
+
+                .newspaper-flow {
+                    column-count: ${isSingleColumn ? '2' : '1'} !important;
+                    column-gap: 30pt;
+                    column-fill: auto !important;
+                }
+
+                p.actor, p.designation, p.mixed, p.mode, p.melody, p.name, p.servicesourcestitle {
+                    break-after: avoid !important;
+                    break-inside: avoid !important;
+                    page-break-after: avoid !important;
+                }
+
+                table {
+                    table-layout: fixed;
+                    width: 100% !important;
+                    border-collapse: collapse;
+                }
+
+                td {
+                    word-wrap: break-word;
+                    overflow-wrap: break-word;
+                }
+
+                .dcs-export-container > *:last-child {
+                    margin-bottom: 0 !important;
+                }
+            </style>
+            
+            <script>
+                window.onload = function() { 
+                    setTimeout(() => { 
+                        window.print(); 
+                    }, 1000); 
+                };
+            <\/script>
+        </head>
+        <body>
+            <div class="${isSingleColumn ? 'newspaper-flow' : ''} dcs-export-container">
+                ${clone.innerHTML}
+            </div>
+        </body>
+        </html>
+    `);
+
+  printWin.document.close();
+}
 
