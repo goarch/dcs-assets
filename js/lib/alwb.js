@@ -690,11 +690,9 @@ $(document).ready(function () {
       " Once you have " +
       " selected your preferences, click Apply. You will then be taken to the text of the service. If you want to change " +
       "your preferences, click on the Preferences Button on the right hand corner of the left frame.</p>" +
-      "<br><p>If you want to print the customized service as it appears in " +
-      "your browser in the left frame, turn off the media icons using the music button on the blue toolbar. " +
-      "Choose your bilingual or English only preference.</p> " + 
-      "<br><br><p>NEW INSTRUCTIONS</p><p>Click inside the left frame, where the service text is, and select all, or the parts you want to print. Right click and use the Print command of your browser. Bilingual texts will print in two columns. English only text will print in a " +
-      "single column, filling the page. The iPad app does not yet support printing of the customized text.</p></div>");
+      "<br><br><p>PDF PRINT</p><p>If you want to print the customized service as it appears in " +
+      "your browser in the left frame, click on the printer button that will appear on the " +
+      "right hand corner of the left frame. The iPad app does not yet support printing of the customized text.</p></div>");
 
     $(".pref-opts").append('<div class="pref-closer">Apply</div>');
 
