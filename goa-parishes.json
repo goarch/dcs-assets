@@ -1,0 +1,6578 @@
+[
+  {
+    "ID": 1001,
+    "Eparchy": ""
+    "Name": "Holy Trinity & Holy Cross Cathedral",
+    "Address1": "307 19th Street South",
+    "City": "Birmingham",
+    "Zip": "35233-1919",
+    "Phone": "(205) 716-3080",
+    "Email": "cathedral@holytrinity-holycross.org",
+    "Website": "https://www.holytrinity-holycross.church",
+    "State": "AL"
+  },
+  {
+    "ID": 1002,
+    "Eparchy": ""
+    "Name": "Saint Athanasios Greek Orthodox Church",
+    "Address1": "P .O. Box 3668",
+    "City": "Gulf Shores",
+    "Zip": "36547-3668",
+    "Phone": "(251) 967-2020",
+    "Email": "frsasa@stathansios.al.goarch.org",
+    "Website": "https://www.stathanasios.al.goarch.org",
+    "State": "AL"
+  },
+  {
+    "ID": 1003,
+    "Eparchy": ""
+    "Name": "Holy Cross - Sts. Constantine & Helen Greek Orthodox Church",
+    "Address1": "3021 University Drive Northwest",
+    "City": "Huntsville",
+    "Zip": "35816-3133",
+    "Phone": "(256) 534-4221",
+    "Email": "officehcch@gmail.com",
+    "Website": "https://www.orthodoxyhsv.org",
+    "State": "AL"
+  },
+  {
+    "ID": 1004,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "50 South Ann Street",
+    "City": "Mobile",
+    "Zip": "36604-2131",
+    "Phone": "(251) 438-9888",
+    "Email": "office@annunciation.al.goarch.org",
+    "Website": "https://www.annunciation.al.goarch.org",
+    "State": "AL"
+  },
+  {
+    "ID": 1005,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "1721 Mount Meigs Road",
+    "City": "Montgomery",
+    "Zip": "36107-2207",
+    "Phone": "(334) 263-1366",
+    "Email": "wmburrell@gmail.com",
+    "Website": "https://www.mgmoc.com",
+    "State": "AL"
+  },
+  {
+    "ID": 1006,
+    "Eparchy": ""
+    "Name": "Holy Transfiguration Greek Orthodox Church",
+    "Address1": "2800 Omalley Road",
+    "City": "Anchorage",
+    "Zip": "99507-4256",
+    "Phone": "(907) 344-0190",
+    "Email": "holytransfigurationanc@mail.goarch.org",
+    "Website": "https://www.transfiguration.ak.goarch.org",
+    "State": "AK"
+  },
+  {
+    "ID": 1007,
+    "Eparchy": ""
+    "Name": "Saint Katherine Greek Orthodox Church",
+    "Address1": "2716 North Dobson Road",
+    "City": "Chandler",
+    "Zip": "85224-1803",
+    "Phone": "(480) 899-3330",
+    "Email": "frtimotheos@gmail.com",
+    "Website": "https://www.stkatherineaz.org",
+    "State": "AZ"
+  },
+  {
+    "ID": 1008,
+    "Eparchy": ""
+    "Name": "Holy Cross Church",
+    "Address1": "PO Box 2164",
+    "City": "Flagstaff",
+    "Zip": "86003-2164",
+    "Phone": "(928) 225-3814",
+    "Email": "parishcouncil@holycrossflagstaff.org",
+    "Website": "https://www.holycrossflagstaff.org",
+    "State": "AZ"
+  },
+  {
+    "ID": 1009,
+    "Eparchy": ""
+    "Name": "Orthodox Mission Church of Arizona",
+    "Address1": "10010 East Harvest Road",
+    "City": "Florence",
+    "Zip": "85132",
+    "Phone": "",
+    "Email": "",
+    "Website": "https://www.orthodox-mission.org",
+    "State": "AZ"
+  },
+  {
+    "ID": 1010,
+    "Eparchy": ""
+    "Name": "Saint Haralambos Greek Orthodox Church",
+    "Address1": "7950 West Pinnacle Peak Road",
+    "City": "Peoria",
+    "Zip": "85383-1674",
+    "Phone": "(623) 486-8665",
+    "Email": "office@stharalambosaz.com",
+    "Website": "https://www.stharalambos.org",
+    "State": "AZ"
+  },
+  {
+    "ID": 1011,
+    "Eparchy": ""
+    "Name": "Holy Trinity Cathedral",
+    "Address1": "1973 East Maryland Avenue",
+    "City": "Phoenix",
+    "Zip": "85016-1415",
+    "Phone": "(602) 264-7863",
+    "Email": "admin@holytrinityphx.org",
+    "Website": "https://www.holytrinityphx.org",
+    "State": "AZ"
+  },
+  {
+    "ID": 1012,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "609 West Gurley Street",
+    "City": "Prescott",
+    "Zip": "86305-3619",
+    "Phone": "(928) 777-8750",
+    "Email": "prescottorthodox@gmail.com",
+    "Website": "https://www.prescottorthodox.com",
+    "State": "AZ"
+  },
+  {
+    "ID": 1013,
+    "Eparchy": ""
+    "Name": "Assumption Greek Orthodox Church",
+    "Address1": "8202 East Cactus Road",
+    "City": "Scottsdale",
+    "Zip": "85260-5211",
+    "Phone": "(480) 991-3009",
+    "Email": "priest@assumptionaz.org",
+    "Website": "https://www.assumptionaz.org",
+    "State": "AZ"
+  },
+  {
+    "ID": 1014,
+    "Eparchy": ""
+    "Name": "Saint Demetrios Greek Orthodox Church",
+    "Address1": "1145 East Fort Lowell Road",
+    "City": "Tucson",
+    "Zip": "85719-2116",
+    "Phone": "(520) 888-0505",
+    "Email": "ellaspm1@yahoo.com",
+    "Website": "https://www.stdemtucson.org",
+    "State": "AZ"
+  },
+  {
+    "ID": 1015,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "1100 Napa Valley Drive",
+    "City": "Little Rock",
+    "Zip": "72211-2312",
+    "Phone": "(501) 221-5300",
+    "Email": "churchadmin@orthodoxchurch.com",
+    "Website": "https://www.orthodoxchurch.com",
+    "State": "AR"
+  },
+  {
+    "ID": 1016,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "#13 West Street P .O. Box N-823",
+    "City": "Nassau",
+    "Zip": "",
+    "Phone": "(914) 514-8742",
+    "Email": "officemanager.agoc@gmail.com",
+    "Website": "https://www.annunciationbahamas.goarch.org",
+    "State": "BS"
+  },
+  {
+    "ID": 1017,
+    "Eparchy": ""
+    "Name": "Saint John the Baptist Greek Orthodox Church",
+    "Address1": "405 North Dale Avenue",
+    "City": "Anaheim",
+    "Zip": "92801-4818",
+    "Phone": "(714) 827-0181",
+    "Email": "pennie@stjohnanaheim.org",
+    "Website": "https://www.stjohnanaheim.org",
+    "State": "CA"
+  },
+  {
+    "ID": 1018,
+    "Eparchy": ""
+    "Name": "St. George Church",
+    "Address1": "401 Truxtun Avenue",
+    "City": "Bakersfield",
+    "Zip": "93301-5315",
+    "Phone": "(661) 325-8694",
+    "Email": "",
+    "Website": "https://www.stgeorgebakersfield.org",
+    "State": "CA"
+  },
+  {
+    "ID": 1019,
+    "Eparchy": ""
+    "Name": "Holy Cross Greek Orthodox Church",
+    "Address1": "900 Alameda De Las Pulgas",
+    "City": "Belmont",
+    "Zip": "94002-1604",
+    "Phone": "(650) 591-4447",
+    "Email": "office@goholycross.org",
+    "Website": "https://www.goholycross.org",
+    "State": "CA"
+  },
+  {
+    "ID": 1020,
+    "Eparchy": ""
+    "Name": "Saint Demetrios Greek Orthodox Church",
+    "Address1": "5575 Santa Rosa Road",
+    "City": "Camarillo",
+    "Zip": "93012-6829",
+    "Phone": "(805) 482-1273",
+    "Email": "info@saintdem.org",
+    "Website": "https://www.saintdem.org",
+    "State": "CA"
+  },
+  {
+    "ID": 1021,
+    "Eparchy": ""
+    "Name": "Saints Constantine & Helen Greek Orthodox Church",
+    "Address1": "3459 Manchester Avenue Apartment 32",
+    "City": "Cardiff By the Sea",
+    "Zip": "92007-1525",
+    "Phone": "(760) 942-0920",
+    "Email": "office@stsconstantinehelen.com",
+    "Website": "https://www.stsconstantinehelen.com",
+    "State": "CA"
+  },
+  {
+    "ID": 1022,
+    "Eparchy": ""
+    "Name": "Saint John the Baptist Greek Orthodox Church",
+    "Address1": "Lincoln and 9th Street",
+    "City": "Carmel-by-the-Sea",
+    "Zip": "93923",
+    "Phone": "(408) 605-0621",
+    "Email": "saintjohnmonterey@gmail.com",
+    "Website": "https://www.stjohn-monterey.org",
+    "State": "CA"
+  },
+  {
+    "ID": 1023,
+    "Eparchy": ""
+    "Name": "Greek Orthodox Church of the Resurrection",
+    "Address1": "20104 Center Street",
+    "City": "Castro Valley",
+    "Zip": "94546-4712",
+    "Phone": "(510) 581-8950",
+    "Email": "office@resurrectiongoc.org",
+    "Website": "https://www.resurrectiongoc.com",
+    "State": "CA"
+  },
+  {
+    "ID": 1024,
+    "Eparchy": ""
+    "Name": "Saint Demetrios Greek Orthodox Church",
+    "Address1": "1955 Kirker Pass Road",
+    "City": "Concord",
+    "Zip": "94521",
+    "Phone": "(925) 676-6967",
+    "Email": "sdoffice@astound.net",
+    "Website": "https://www.saintdemetriosconcord.org",
+    "State": "CA"
+  },
+  {
+    "ID": 1025,
+    "Eparchy": ""
+    "Name": "Saint Nectarios Greek Orthodox Church",
+    "Address1": "20340 East Covina Boulevard",
+    "City": "Covina",
+    "Zip": "91724-1608",
+    "Phone": "(626) 967-5524",
+    "Email": "stnectarioschurch@gmail.com",
+    "Website": "https://www.st-nectarios.org",
+    "State": "CA"
+  },
+  {
+    "ID": 1026,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "10830 Downey Avenue",
+    "City": "Downey",
+    "Zip": "90241-3720",
+    "Phone": "(562) 862-6461",
+    "Email": "office@stgeorgedowney.org",
+    "Website": "https://www.stgeorgedowney.org",
+    "State": "CA"
+  },
+  {
+    "ID": 1027,
+    "Eparchy": ""
+    "Name": "Saint Gregory of Nyssa Greek Orthodox Church",
+    "Address1": "1454 Jamacha Road",
+    "City": "El Cajon",
+    "Zip": "92019-3752",
+    "Phone": "(619) 593-0707",
+    "Email": "stgregoryofnyssa@gmail.com",
+    "Website": "https://www.saintgregoryofnyssa.org",
+    "State": "CA"
+  },
+  {
+    "ID": 1028,
+    "Eparchy": ""
+    "Name": "Saint Katherine Greek Orthodox Church",
+    "Address1": "9165 Peets Drive",
+    "City": "Elk Grove",
+    "Zip": "95758-7420",
+    "Phone": "(916) 683-3443",
+    "Email": "pappademos@saintkatherine.org",
+    "Website": "https://www.saintkatherine.org",
+    "State": "CA"
+  },
+  {
+    "ID": 1029,
+    "Eparchy": ""
+    "Name": "St. Lawrence Orthodox Church",
+    "Address1": "6192 Highway 9",
+    "City": "Felton",
+    "Zip": "95018",
+    "Phone": "(831) 335-0300",
+    "Email": "office@slocc.com",
+    "Website": "https://www.slocc.com",
+    "State": "CA"
+  },
+  {
+    "ID": 1030,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "2219 North Orchard Street",
+    "City": "Fresno",
+    "Zip": "93703-2323",
+    "Phone": "(559) 233-0397",
+    "Email": "sggoc@comcast.net",
+    "Website": "https://www.stgeorgefresno.org",
+    "State": "CA"
+  },
+  {
+    "ID": 1031,
+    "Eparchy": ""
+    "Name": "Saint Paul Greek Orthodox Church",
+    "Address1": "4949 Alton Parkway",
+    "City": "Irvine",
+    "Zip": "92604-8606",
+    "Phone": "(949) 733-2366",
+    "Email": "father@stpaulsirvine.org",
+    "Website": "https://www.stpaulsirvine.org",
+    "State": "CA"
+  },
+  {
+    "ID": 1032,
+    "Eparchy": ""
+    "Name": "Saints Constantine & Helen Greek Orthodox Church",
+    "Address1": "43404 30th Street West",
+    "City": "Lancaster",
+    "Zip": "93536-5319",
+    "Phone": "(661) 945-1212",
+    "Email": "frjohnbeal@stsch.org",
+    "Website": "https://www.stsch.org",
+    "State": "CA"
+  },
+  {
+    "ID": 1033,
+    "Eparchy": ""
+    "Name": "Assumption of the Blessed Virgin Mary Greek Orthodox Church",
+    "Address1": "5761 East Colorado Street",
+    "City": "Long Beach",
+    "Zip": "90814-1900",
+    "Phone": "(562) 494-8929",
+    "Email": "office@assumptionlb.org",
+    "Website": "https://www.assumptionlb.org",
+    "State": "CA"
+  },
+  {
+    "ID": 1034,
+    "Eparchy": ""
+    "Name": "Saint Sophia Cathedral",
+    "Address1": "1324 S. Normandie Ave.",
+    "City": "Los Angeles",
+    "Zip": "90006-4310",
+    "Phone": "(323) 737-2424",
+    "Email": "office@saintsophia.org",
+    "Website": "https://www.saintsophia.org",
+    "State": "CA"
+  },
+  {
+    "ID": 1035,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "313 Tokay Avenue",
+    "City": "Modesto",
+    "Zip": "95350",
+    "Phone": "(209) 522-7694",
+    "Email": "annunciationoffice@gmail.com",
+    "Website": "https://www.goannunciation.org",
+    "State": "CA"
+  },
+  {
+    "ID": 1036,
+    "Eparchy": ""
+    "Name": "Saint Nicholas Church",
+    "Address1": "41132 Guava Street",
+    "City": "Murrieta",
+    "Zip": "92562-9110",
+    "Phone": "(951) 296-6207",
+    "Email": "stnicholastemecula@gmail.com",
+    "Website": "https://www.stnicholastemecula.org",
+    "State": "CA"
+  },
+  {
+    "ID": 1037,
+    "Eparchy": ""
+    "Name": "Saint Nicholas Greek Orthodox Church",
+    "Address1": "9501 Balboa Boulevard",
+    "City": "Northridge",
+    "Zip": "91325-1901",
+    "Phone": "(818) 886-4040",
+    "Email": "mjanios@st-nicholas.info",
+    "Website": "https://www.st-nicholas.info",
+    "State": "CA"
+  },
+  {
+    "ID": 1038,
+    "Eparchy": ""
+    "Name": "Nativity of Christ Greek Orthodox Church",
+    "Address1": "1110 Highland Drive",
+    "City": "Novato",
+    "Zip": "94949-5481",
+    "Phone": "(415) 883-1998",
+    "Email": "office@nativityofchrist.org",
+    "Website": "https://www.nativityofchrist.org",
+    "State": "CA"
+  },
+  {
+    "ID": 1039,
+    "Eparchy": ""
+    "Name": "Ascension Cathedral",
+    "Address1": "4700 Lincoln Avenue",
+    "City": "Oakland",
+    "Zip": "94602-2535",
+    "Phone": "(510) 531-3400",
+    "Email": "frathanz@gmail.com",
+    "Website": "https://www.ascensioncathedral.com",
+    "State": "CA"
+  },
+  {
+    "ID": 1040,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "74-109 Larrea Street",
+    "City": "Palm Desert",
+    "Zip": "92260",
+    "Phone": "(760) 568-9901",
+    "Email": "pdsaintgeorge@gmail.com",
+    "Website": "https://www.go-stgeorge.org",
+    "State": "CA"
+  },
+  {
+    "ID": 1041,
+    "Eparchy": ""
+    "Name": "Saint Anthony Greek Orthodox Church",
+    "Address1": "778 South Rosemead Boulevard",
+    "City": "Pasadena",
+    "Zip": "91107-5613",
+    "Phone": "(626) 449-6943",
+    "Email": "frpeter@saint-anthonys.org",
+    "Website": "https://www.saint-anthonys.org",
+    "State": "CA"
+  },
+  {
+    "ID": 1042,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "1509 \u2018C\u2019 Yuba Street",
+    "City": "Redding",
+    "Zip": "96001-1090",
+    "Phone": "(530) 241-1575",
+    "Email": "stgeorgeredding@hotmail.com",
+    "Website": "https://www.stgeorgeredding.com",
+    "State": "CA"
+  },
+  {
+    "ID": 1043,
+    "Eparchy": ""
+    "Name": "Saint Katherine Greek Orthodox Church",
+    "Address1": "722 Knob Avenue",
+    "City": "Redondo Beach",
+    "Zip": "90277-4345",
+    "Phone": "(310) 540-2434",
+    "Email": "office@stkatherinegoc.org",
+    "Website": "https://www.stkatherinegoc.org",
+    "State": "CA"
+  },
+  {
+    "ID": 1044,
+    "Eparchy": ""
+    "Name": "Saint Anna Greek Orthodox Church",
+    "Address1": "1001 Stone Canyon Drive",
+    "City": "Roseville",
+    "Zip": "95661-4093",
+    "Phone": "(916) 772-9372",
+    "Email": "office@saintanna.org",
+    "Website": "https://www.saintanna.org",
+    "State": "CA"
+  },
+  {
+    "ID": 1045,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "616 Alhambra Boulevard",
+    "City": "Sacramento",
+    "Zip": "95816-3895",
+    "Phone": "(916) 443-2033",
+    "Email": "nrotas1@mac.com",
+    "Website": "https://www.annunciationsac.org",
+    "State": "CA"
+  },
+  {
+    "ID": 1046,
+    "Eparchy": ""
+    "Name": "Prophet Elias Church",
+    "Address1": "1035 Inland Center Drive",
+    "City": "San Bernardino",
+    "Zip": "92408",
+    "Phone": "(909) 885-6213",
+    "Email": "office@propheteliaschurch.org",
+    "Website": "https://www.propheteliaschurch.org",
+    "State": "CA"
+  },
+  {
+    "ID": 1047,
+    "Eparchy": ""
+    "Name": "Saint Spyridon Church",
+    "Address1": "3655 Park Boulevard",
+    "City": "San Diego",
+    "Zip": "92103-4546",
+    "Phone": "(619) 297-4165",
+    "Email": "office@stspyridon.org",
+    "Website": "https://www.stspyridon.org",
+    "State": "CA"
+  },
+  {
+    "ID": 1048,
+    "Eparchy": ""
+    "Name": "Annunciation Cathedral",
+    "Address1": "245 Valencia Street",
+    "City": "San Francisco",
+    "Zip": "94103- 2320",
+    "Phone": "(415) 864-8000",
+    "Email": "office@annunciation.org",
+    "Website": "https://www.annunciation.org",
+    "State": "CA"
+  },
+  {
+    "ID": 1049,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "999 Brotherhood Way",
+    "City": "San Francisco",
+    "Zip": "94132- 2904",
+    "Phone": "(415) 584-4747",
+    "Email": "fr.aris@yahoo.com",
+    "Website": "https://www.holytrinitysf.org",
+    "State": "CA"
+  },
+  {
+    "ID": 1050,
+    "Eparchy": ""
+    "Name": "Saint Nicholas Greek Orthodox Church",
+    "Address1": "986 Chapman Street",
+    "City": "San Jose",
+    "Zip": "95126",
+    "Phone": "(408) 246-2770",
+    "Email": "churchoffice@saintnicholas.org",
+    "Website": "https://www.saintnicholas.org",
+    "State": "CA"
+  },
+  {
+    "ID": 1051,
+    "Eparchy": ""
+    "Name": "St. Basil Greek Orthodox Church",
+    "Address1": "6430 Bose Lane",
+    "City": "San Jose",
+    "Zip": "95120-2816",
+    "Phone": "(408) 268-3214",
+    "Email": "office@stbasil.com",
+    "Website": "https://www.stbasil.com",
+    "State": "CA"
+  },
+  {
+    "ID": 1052,
+    "Eparchy": ""
+    "Name": "Saint Basil Greek Orthodox Church",
+    "Address1": "31612 El Camino Real",
+    "City": "San Juan Capistrano",
+    "Zip": "92675",
+    "Phone": "(949) 542-3445",
+    "Email": "office@stbasiloc.org",
+    "Website": "https://www.stbasiloc.org",
+    "State": "CA"
+  },
+  {
+    "ID": 1053,
+    "Eparchy": ""
+    "Name": "Saint Andrew the Apostle Greek Orthodox Church",
+    "Address1": "232 East Foot Boulevard",
+    "City": "San Luis Obispo",
+    "Zip": "93405-1540",
+    "Phone": "(805) 546-8337",
+    "Email": "saintandrewtheapostlegoc@gmail.com",
+    "Website": "https://www.standrewslo.org",
+    "State": "CA"
+  },
+  {
+    "ID": 1054,
+    "Eparchy": ""
+    "Name": "Saint Barbara Greek Orthodox Church",
+    "Address1": "1205 San Antonio Creek Road",
+    "City": "Santa Barbara",
+    "Zip": "93111- 1313",
+    "Phone": "(805) 683-4492",
+    "Email": "office@saintbarbara.net",
+    "Website": "https://wwwsaintbarbara.net",
+    "State": "CA"
+  },
+  {
+    "ID": 1055,
+    "Eparchy": ""
+    "Name": "Prophet Elias Greek Orthodox Church",
+    "Address1": "223 Church Street",
+    "City": "Santa Cruz",
+    "Zip": "95060-3809",
+    "Phone": "(831) 429-6500",
+    "Email": "info@propheteliassc.org",
+    "Website": "https://www.propheteliassc.org",
+    "State": "CA"
+  },
+  {
+    "ID": 1056,
+    "Eparchy": ""
+    "Name": "Saint Basil Greek Orthodox Church",
+    "Address1": "920 West March Lane",
+    "City": "Stockton",
+    "Zip": "95207-6209",
+    "Phone": "(209) 478-7564",
+    "Email": "office@gosaintbasil.org",
+    "Website": "https://www.gosaintbasil.org",
+    "State": "CA"
+  },
+  {
+    "ID": 1057,
+    "Eparchy": ""
+    "Name": "Saint Spyridon Greek Orthodox Church",
+    "Address1": "1391 Chaffee Street",
+    "City": "Upland",
+    "Zip": "91786-5552",
+    "Phone": "(909) 985-4411",
+    "Email": "",
+    "Website": "https://www.saintspyridon.org",
+    "State": "CA"
+  },
+  {
+    "ID": 1058,
+    "Eparchy": ""
+    "Name": "Saints Constantine & Helen Greek Orthodox Church",
+    "Address1": "1224 Alabama Street",
+    "City": "Vallejo",
+    "Zip": "94590",
+    "Phone": "(707) 642-6916",
+    "Email": "fatherninos@gmail.com",
+    "Website": "https://www.stscah.com",
+    "State": "CA"
+  },
+  {
+    "ID": 1059,
+    "Eparchy": ""
+    "Name": "Saints Peter & Paul Greek Orthodox Church",
+    "Address1": "5640 Jay Road",
+    "City": "Boulder",
+    "Zip": "80301-3042",
+    "Phone": "(303) 581-1434",
+    "Email": "",
+    "Website": "https://www.stspeterandpaulboulder.org",
+    "State": "CO"
+  },
+  {
+    "ID": 1060,
+    "Eparchy": ""
+    "Name": "Archangel Michael Church",
+    "Address1": "2215 Paseo Road",
+    "City": "Colorado Springs",
+    "Zip": "80907-7165",
+    "Phone": "(719) 634-5678",
+    "Email": "info@amgoc.org",
+    "Website": "https://www.amgoc.org",
+    "State": "CO"
+  },
+  {
+    "ID": 1061,
+    "Eparchy": ""
+    "Name": "Saint John the Baptist Greek Orthodox Church",
+    "Address1": "691 Green Street",
+    "City": "Craig",
+    "Zip": "81626",
+    "Phone": "(970) 824-6664",
+    "Email": "davidwh787@gmail.com",
+    "Website": "https://www.stjohnthebaptist.co.goarch.org",
+    "State": "CO"
+  },
+  {
+    "ID": 1062,
+    "Eparchy": ""
+    "Name": "Assumption Cathedral",
+    "Address1": "4610 East Alameda Avenue",
+    "City": "Denver",
+    "Zip": "80246-1301",
+    "Phone": "(303) 388-9314",
+    "Email": "info@assumptioncathedral.org",
+    "Website": "https://www.assumptioncathedral.org",
+    "State": "CO"
+  },
+  {
+    "ID": 1063,
+    "Eparchy": ""
+    "Name": "Saint Nicholas Greek Orthodox Church",
+    "Address1": "3585 North 12th Street",
+    "City": "Grand Jct",
+    "Zip": "81506-5437",
+    "Phone": "(970) 242-9590",
+    "Email": "jeremy.troy@gmail.com",
+    "Website": "https://www.saintnicholasgj.org",
+    "State": "CO"
+  },
+  {
+    "ID": 1064,
+    "Eparchy": ""
+    "Name": "Saint Catherine Greek Orthodox Church",
+    "Address1": "5555 South Yosemite Street",
+    "City": "Greenwood Village",
+    "Zip": "80111-3319",
+    "Phone": "(303) 773-3411",
+    "Email": "info@stcatherinechurch.org",
+    "Website": "https://www.stcatherinechurch.org",
+    "State": "CO"
+  },
+  {
+    "ID": 1065,
+    "Eparchy": ""
+    "Name": "Prophet Elias Chapel",
+    "Address1": "County Line Road",
+    "City": "Hot Sulphur Springs",
+    "Zip": "80451",
+    "Phone": "",
+    "Email": "",
+    "Website": "",
+    "State": "CO"
+  },
+  {
+    "ID": 1066,
+    "Eparchy": ""
+    "Name": "Sa int Spyridon Greek Orthodox Church",
+    "Address1": "807 West 29th Street",
+    "City": "Loveland",
+    "Zip": "80538-2659",
+    "Phone": "(970) 667-5778",
+    "Email": "info@saintspyridon.church",
+    "Website": "https://www.saintspyridon.church",
+    "State": "CO"
+  },
+  {
+    "ID": 1067,
+    "Eparchy": ""
+    "Name": "Saint John The Baptist Greek Orthodox Church",
+    "Address1": "1010 Spruce St.",
+    "City": "Pueblo",
+    "Zip": "81004",
+    "Phone": "(719) 544-8554",
+    "Email": "info@stjohngoc-pueblo.org",
+    "Website": "https://www.stjohngoc-pueblo.org",
+    "State": "CO"
+  },
+  {
+    "ID": 1068,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "4070 Park Avenue",
+    "City": "Bridgeport",
+    "Zip": "06604-1047",
+    "Phone": "(203) 374-5561",
+    "Email": "email@holytrinitybridgeport.org",
+    "Website": "https://holytrinitybridgeport.org",
+    "State": "CT"
+  },
+  {
+    "ID": 1069,
+    "Eparchy": ""
+    "Name": "Saint Demetrios Greek Orthodox Church",
+    "Address1": "31 Brightwood Road",
+    "City": "Bristol",
+    "Zip": "06010-4936",
+    "Phone": "(860) 583-3476",
+    "Email": "stdemetriosbristol@gmail.com",
+    "Website": "https://www. saintdemetriosbristol.org",
+    "State": "CT"
+  },
+  {
+    "ID": 1070,
+    "Eparchy": ""
+    "Name": "Assumption Greek Orthodox Church",
+    "Address1": "30 Clapboard Ridge Road",
+    "City": "Danbury",
+    "Zip": "06811-4542",
+    "Phone": "(203) 748-2992",
+    "Email": "office@agoc.us",
+    "Website": "https://www.agoc.us",
+    "State": "CT"
+  },
+  {
+    "ID": 1071,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "80 Water Street Post Office Box 236",
+    "City": "Danielson",
+    "Zip": "06239-0236",
+    "Phone": "(860) 774-6245",
+    "Email": "holytrinity6245@att.net",
+    "Website": "https://www.holytrinitydanielson.com",
+    "State": "CT"
+  },
+  {
+    "ID": 1072,
+    "Eparchy": ""
+    "Name": "Saint George Cathedral",
+    "Address1": "433 Fairfield Avenue",
+    "City": "Hartford",
+    "Zip": "06114-2718",
+    "Phone": "(860) 956-7586",
+    "Email": "elaine@stgeorgecathedral.org",
+    "Website": "https://www.stgeorgecathedral.org",
+    "State": "CT"
+  },
+  {
+    "ID": 1073,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "301 West Main Street",
+    "City": "New Britain",
+    "Zip": "06052",
+    "Phone": "(860) 229-0055",
+    "Email": "nbstgeorge@aol.com",
+    "Website": "https://www.stgeorgenb.com",
+    "State": "CT"
+  },
+  {
+    "ID": 1074,
+    "Eparchy": ""
+    "Name": "Saint Basil the Great Greek Orthodox Church",
+    "Address1": "1 Tower Lane",
+    "City": "New Haven",
+    "Zip": "06519",
+    "Phone": "(203) 777-8294",
+    "Email": "telem@goarch.org",
+    "Website": "https://www.stbasil.ct.goarch.org",
+    "State": "CT"
+  },
+  {
+    "ID": 1075,
+    "Eparchy": ""
+    "Name": "Saint Sophia Greek Orthodox Church",
+    "Address1": "200 Hempstead Street",
+    "City": "New London",
+    "Zip": "06320-6205",
+    "Phone": "(860) 442-2377",
+    "Email": "office@saintsophianl.org",
+    "Website": "https://www.saintsophianl.org",
+    "State": "CT"
+  },
+  {
+    "ID": 1076,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "238 West Rocks Road",
+    "City": "Norwalk",
+    "Zip": "06851-1133",
+    "Phone": "(203) 849-0611",
+    "Email": "secretary@stgeorgect.org",
+    "Website": "https://www.stgeorgect.org",
+    "State": "CT"
+  },
+  {
+    "ID": 1077,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "247 Washington Street",
+    "City": "Norwich",
+    "Zip": "06360-3517",
+    "Phone": "(860) 887-1458",
+    "Email": "holytrinitynorwich@snet.net",
+    "Website": "https://www.holytrinitynorwich.org",
+    "State": "CT"
+  },
+  {
+    "ID": 1078,
+    "Eparchy": ""
+    "Name": "Saint Barbara Greek Orthodox Church",
+    "Address1": "480 Racebrook Road",
+    "City": "Orange",
+    "Zip": "06477-2514",
+    "Phone": "(203) 795-1347",
+    "Email": "church@saintbarbara.org",
+    "Website": "https://www.saintbarbara.org",
+    "State": "CT"
+  },
+  {
+    "ID": 1079,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "1230 Newfield Avenue",
+    "City": "Stamford",
+    "Zip": "06905-1495",
+    "Phone": "(203) 322-2093",
+    "Email": "father_evan@yahoo.com",
+    "Website": "https://www.annunciationofstamford.org",
+    "State": "CT"
+  },
+  {
+    "ID": 1080,
+    "Eparchy": ""
+    "Name": "Archangels Greek Orthodox Church",
+    "Address1": "1527 Bedford Street",
+    "City": "Stamford",
+    "Zip": "06905-4713",
+    "Phone": "(203) 595-5902",
+    "Email": "office@archangelsgoc.org",
+    "Website": "https://www.archangelsgoc.org",
+    "State": "CT"
+  },
+  {
+    "ID": 1081,
+    "Eparchy": ""
+    "Name": "Three Hierarchs Chapel",
+    "Address1": "Post Office Box 818",
+    "City": "Storrs",
+    "Zip": "06268-0818",
+    "Phone": "(860) 429-8518",
+    "Email": "threehierarchssto@mail.goarch.org",
+    "Website": "",
+    "State": "CT"
+  },
+  {
+    "ID": 1082,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "937 Chase Parkway",
+    "City": "Waterbury",
+    "Zip": "06708-2903",
+    "Phone": "(203) 754-5189",
+    "Email": "office@holytrinitywaterbury.org",
+    "Website": "https://www.holytrinitywaterbury.org",
+    "State": "CT"
+  },
+  {
+    "ID": 1083,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Cathedral",
+    "Address1": "808 North Broom Street",
+    "City": "Wilmington",
+    "Zip": "19806-4625",
+    "Phone": "(302) 654-4446",
+    "Email": "greekorth@holytrinitywilmington.org",
+    "Website": "https://www.holytrinitywilmington.org",
+    "State": "DE"
+  },
+  {
+    "ID": 1084,
+    "Eparchy": ""
+    "Name": "Saint Sophia Cathedral",
+    "Address1": "2815 36th Street Northwest",
+    "City": "Washington",
+    "Zip": "20007",
+    "Phone": "(202) 333-4730",
+    "Email": "office@saintsophiadc.com",
+    "Website": "https://www.saintsophiadc.org",
+    "State": "DC"
+  },
+  {
+    "ID": 1085,
+    "Eparchy": ""
+    "Name": "Saint Mark Greek Orthodox Church",
+    "Address1": "9926 SE 36th Ave. / CR467",
+    "City": "Belleview",
+    "Zip": "34420",
+    "Phone": "(352) 245-0499",
+    "Email": "stmarkoffice@stmarksgoc.org",
+    "Website": "https://www.stmarksgoc.org",
+    "State": "FL"
+  },
+  {
+    "ID": 1086,
+    "Eparchy": ""
+    "Name": "Saint Mark Greek Orthodox Church",
+    "Address1": "2100 Northwest 51st Street",
+    "City": "Boca Raton",
+    "Zip": "33431-4323",
+    "Phone": "(561) 994-4822",
+    "Email": "office@saintmarkboca.net",
+    "Website": "https://www.saintmarkboca.net",
+    "State": "FL"
+  },
+  {
+    "ID": 1087,
+    "Eparchy": ""
+    "Name": "Holy Ascension Greek Orthodox Church",
+    "Address1": "1440 N. Laura Street",
+    "City": "Clearwater",
+    "Zip": "33755-5221",
+    "Phone": "(727) 469-8826",
+    "Email": "",
+    "Website": "",
+    "State": "FL"
+  },
+  {
+    "ID": 1088,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "409 S. Old Coachman Rd.",
+    "City": "Clearwater",
+    "Zip": "33765-4410",
+    "Phone": "(727) 799-4605",
+    "Email": "christineg@htclearwater.com",
+    "Website": "https://www.htclearwater.com",
+    "State": "FL"
+  },
+  {
+    "ID": 1089,
+    "Eparchy": ""
+    "Name": "Saint Demetrios Greek Orthodox Church",
+    "Address1": "129 North Halifax Avenue",
+    "City": "Daytona Beach",
+    "Zip": "32118- 4250",
+    "Phone": "(386) 252-6012",
+    "Email": "phyllis.hawkins@stdemetriosdaytona.org",
+    "Website": "https://www.stdemetriosdaytona.org",
+    "State": "FL"
+  },
+  {
+    "ID": 1090,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "8210 Cypress Lake Drive",
+    "City": "Fort Myers",
+    "Zip": "33919-5116",
+    "Phone": "(239) 481-2099",
+    "Email": "officeagoc@gmail.com",
+    "Website": "https://www.annunciation. fl.goarch.org",
+    "State": "FL"
+  },
+  {
+    "ID": 1091,
+    "Eparchy": ""
+    "Name": "Saint Nicholas Greek Orthodox Church",
+    "Address1": "2525 South 25th Street",
+    "City": "Fort Pierce",
+    "Zip": "34981-5644",
+    "Phone": "(772) 464-7194",
+    "Email": "stnickftp@aol.com",
+    "Website": "https://www.stnicholasfp.com",
+    "State": "FL"
+  },
+  {
+    "ID": 1092,
+    "Eparchy": ""
+    "Name": "Saint Demetrios Greek Orthodox Church",
+    "Address1": "820 NE 14th Ave.",
+    "City": "Ft Lauderdale",
+    "Zip": "33304-4402",
+    "Phone": "(954) 467-1515",
+    "Email": "office@stdemetrios.org",
+    "Website": "https://www.stdemetrios.org",
+    "State": "FL"
+  },
+  {
+    "ID": 1093,
+    "Eparchy": ""
+    "Name": "St. Elizabeth the Wonderworker Greek Orthodox Church",
+    "Address1": "5129 Northwest 53rd Avenue",
+    "City": "Gainesville",
+    "Zip": "32653-4318",
+    "Phone": "(352) 371-7258",
+    "Email": "saintelizabethchurch@yahoo.com",
+    "Website": "https://www.gnvorthodox.com",
+    "State": "FL"
+  },
+  {
+    "ID": 1094,
+    "Eparchy": ""
+    "Name": "Saint John Chrysostom Greek Orthodox Church",
+    "Address1": "10605 Southeast Federal Highway",
+    "City": "Hobe Sound",
+    "Zip": "33455",
+    "Phone": "(772) 546-8180",
+    "Email": "stjohngochs@aol.com",
+    "Website": "https://www.saintjohn.fl.goarch.org",
+    "State": "FL"
+  },
+  {
+    "ID": 1095,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "425 North 58th Avenue",
+    "City": "Hollywood",
+    "Zip": "33021-6213",
+    "Phone": "(954) 966-1898",
+    "Email": "fr.ioannis@gmail.com",
+    "Website": "https://www.stgeorgehollywood.org",
+    "State": "FL"
+  },
+  {
+    "ID": 1096,
+    "Eparchy": ""
+    "Name": "Saint John the Divine Greek Orthodox Church",
+    "Address1": "12760 Beach Boulevard",
+    "City": "Jacksonville",
+    "Zip": "32246",
+    "Phone": "(904) 396-5383",
+    "Email": "office@stjohnthedivine.com",
+    "Website": "https://www.stjohnthedivine.com",
+    "State": "FL"
+  },
+  {
+    "ID": 1097,
+    "Eparchy": ""
+    "Name": "Archangel Michael Greek Orthodox Church",
+    "Address1": "4705 West Gulf to Lake Highway",
+    "City": "Lecanto",
+    "Zip": "34461",
+    "Phone": "(352) 527-0766",
+    "Email": "office@stmichaelgoc.org",
+    "Website": "https://www.archangelmichaelgoc.org",
+    "State": "FL"
+  },
+  {
+    "ID": 1098,
+    "Eparchy": ""
+    "Name": "Holy Trinity Church",
+    "Address1": "1217 Trinity Woods Lane",
+    "City": "Maitland",
+    "Zip": "32751-3159",
+    "Phone": "(407) 331-4687",
+    "Email": "joyce@htgocorlando.org",
+    "Website": "https://www.htgocorlando.org",
+    "State": "FL"
+  },
+  {
+    "ID": 1099,
+    "Eparchy": ""
+    "Name": "Saints Markella & Demetrios Greek Orthodox Church",
+    "Address1": "104 Bryn Mawr Blvd.",
+    "City": "Mary Esther",
+    "Zip": "32569",
+    "Phone": "(850) 244-0822",
+    "Email": "office@stmarkella.org",
+    "Website": "https://www.stmarkella.org",
+    "State": "FL"
+  },
+  {
+    "ID": 1100,
+    "Eparchy": ""
+    "Name": "Saint Katherine Greek Orthodox Church",
+    "Address1": "5965 North Wickham Road",
+    "City": "Melbourne",
+    "Zip": "32940-2003",
+    "Phone": "(321) 254-1045",
+    "Email": "admin@saint-katherine.org",
+    "Website": "https://www.saint-katherine.org",
+    "State": "FL"
+  },
+  {
+    "ID": 1101,
+    "Eparchy": ""
+    "Name": "Saint Andrew Greek Orthodox Church",
+    "Address1": "7901 North Kendall Drive",
+    "City": "Miami",
+    "Zip": "33156-7456",
+    "Phone": "(305) 595-1343",
+    "Email": "standrewfl@gmail.com",
+    "Website": "https://www.standrewfl.com",
+    "State": "FL"
+  },
+  {
+    "ID": 1102,
+    "Eparchy": ""
+    "Name": "Saint Sophia Cathedral",
+    "Address1": "244 Southwest 24th Road",
+    "City": "Miami",
+    "Zip": "33129-2023",
+    "Phone": "(305) 854-2922",
+    "Email": "office@stsophiamiami.org",
+    "Website": "https://www.stsophiamiami.org",
+    "State": "FL"
+  },
+  {
+    "ID": 1103,
+    "Eparchy": ""
+    "Name": "Saint Katherine Greek Orthodox Church",
+    "Address1": "7100 Airport Rd. N.",
+    "City": "Naples",
+    "Zip": "34109-1716",
+    "Phone": "(239) 591-3430",
+    "Email": "office@stkatherine.net",
+    "Website": "https://stkatherinenaples.org",
+    "State": "FL"
+  },
+  {
+    "ID": 1104,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "9426 Little Road",
+    "City": "New Port Richey",
+    "Zip": "34654-3417",
+    "Phone": "(727) 868-5911",
+    "Email": "office@stgeorgenpr.org",
+    "Website": "https://www.stgeorgenpr.org",
+    "State": "FL"
+  },
+  {
+    "ID": 1105,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "12250 Northwest 2nd Avenue North",
+    "City": "Miami",
+    "Zip": "33168-4529",
+    "Phone": "(305) 681-1061",
+    "Email": "annunciationchurch@att.net",
+    "Website": "https://www.annunciationmiami.org",
+    "State": "FL"
+  },
+  {
+    "ID": 1106,
+    "Eparchy": ""
+    "Name": "Sts. Raphael, Nicholas & Irene Greek Orthodox Church",
+    "Address1": "1010 Riviere Road",
+    "City": "Palm Harbor",
+    "Zip": "34683",
+    "Phone": "(727) 789-5905",
+    "Email": "saintraphaelchurch1010@yahoo.com",
+    "Website": "https://www.straphael.fl.goarch.org",
+    "State": "FL"
+  },
+  {
+    "ID": 1107,
+    "Eparchy": ""
+    "Name": "Saint John The Theologian Greek Orthodox Church",
+    "Address1": "136 West Baldwin Road",
+    "City": "Panama City",
+    "Zip": "32405-4211",
+    "Phone": "(850) 769-3616",
+    "Email": "fathergeorge@pcorthodox.com",
+    "Website": "https://www.stjohnpanamacity.church",
+    "State": "FL"
+  },
+  {
+    "ID": 1108,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "1720 West Garden Street",
+    "City": "Pensacola",
+    "Zip": "32502-4416",
+    "Phone": "(850) 433-2662",
+    "Email": "office@annunciationgoc.orgwebsite",
+    "Website": "https://www.annunciationgoc.org",
+    "State": "FL"
+  },
+  {
+    "ID": 1109,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "24411 Rampart Boulevard",
+    "City": "Port Charlotte",
+    "Zip": "33980",
+    "Phone": "(941) 629-3888",
+    "Email": "holytrinitygocpc@gmail.com",
+    "Website": "https://www.holytrinitypc.org",
+    "State": "FL"
+  },
+  {
+    "ID": 1110,
+    "Eparchy": ""
+    "Name": "Saint Barbara Greek Orthodox Church",
+    "Address1": "7671 Lockwood Ridge Road",
+    "City": "Sarasota",
+    "Zip": "34243-4931",
+    "Phone": "(941) 355-2616",
+    "Email": "stbarbara34243@gmail.com",
+    "Website": "https://www.sarasotaorthodox. com",
+    "State": "FL"
+  },
+  {
+    "ID": 1111,
+    "Eparchy": ""
+    "Name": "Christ the Savior Orthodox Mission",
+    "Address1": "10401 Spring Drive",
+    "City": "Spring Hill",
+    "Zip": "34608",
+    "Phone": "(352) 796-8482",
+    "Email": "revjdl123@gmail.com",
+    "Website": "https://www.orthodoxhernandocountyfl.org",
+    "State": "FL"
+  },
+  {
+    "ID": 1112,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "2940 Country Road 214 (W. King Street)",
+    "City": "St Augustine",
+    "Zip": "32084-2718",
+    "Phone": "(904) 829-0504",
+    "Email": "holy3goc@gmail.com",
+    "Website": "https://www.holytrinitystaugustine.org",
+    "State": "FL"
+  },
+  {
+    "ID": 1113,
+    "Eparchy": ""
+    "Name": "Saint Stefanos Greek Orthodox Church",
+    "Address1": "3600 76th Street North",
+    "City": "St Petersburg",
+    "Zip": "33710-1262",
+    "Phone": "(727) 345-8235",
+    "Email": "office@ststefanos.org",
+    "Website": "https://www.ststefanos.org",
+    "State": "FL"
+  },
+  {
+    "ID": 1114,
+    "Eparchy": ""
+    "Name": "Holy Mother of God Greek Orthodox Church",
+    "Address1": "1645 Pips Road",
+    "City": "Tallahassee",
+    "Zip": "32308-5303",
+    "Phone": "(850) 878-0747",
+    "Email": "hmog@comcast.net",
+    "Website": "https://www.hmog.org",
+    "State": "FL"
+  },
+  {
+    "ID": 1115,
+    "Eparchy": ""
+    "Name": "Saint John the Baptist Greek Orthodox Church",
+    "Address1": "2418 West Swann Avenue",
+    "City": "Tampa",
+    "Zip": "33609-4712",
+    "Phone": "(813) 876-8830",
+    "Email": "office@stjohntpa.org",
+    "Website": "https://www.stjohntpa.org",
+    "State": "FL"
+  },
+  {
+    "ID": 1116,
+    "Eparchy": ""
+    "Name": "Saint Nicholas Cathedral",
+    "Address1": "17 East Tarpon Avenue",
+    "City": "Tarpon Springs",
+    "Zip": "34689- 3449",
+    "Phone": "(727) 937-3540",
+    "Email": "info@stnicholastarpon.org",
+    "Website": "https://www.stnicholastarpon.org",
+    "State": "FL"
+  },
+  {
+    "ID": 1117,
+    "Eparchy": ""
+    "Name": "Saint Catherine Greek Orthodox Church",
+    "Address1": "110 Southern Boulevard",
+    "City": "West Palm Beach",
+    "Zip": "33405-2736",
+    "Phone": "(561) 833-6387",
+    "Email": "stcatherinewpb@gmail.com",
+    "Website": "https://www.stcatherine-wpb.org",
+    "State": "FL"
+  },
+  {
+    "ID": 1118,
+    "Eparchy": ""
+    "Name": "St. Sophia Greek Orthodox Church",
+    "Address1": "1030 Bradbury Road",
+    "City": "Winter Haven",
+    "Zip": "33880-5201",
+    "Phone": "(863) 299-4532",
+    "Email": "saintsophiawinterhaven@gmail.com",
+    "Website": "https://www.stsophia.fl.goarch.org",
+    "State": "FL"
+  },
+  {
+    "ID": 1119,
+    "Eparchy": ""
+    "Name": "Annunciation Cathedral",
+    "Address1": "2500 Clairmont Road Northeast",
+    "City": "Atlanta",
+    "Zip": "30329-2709",
+    "Phone": "(404) 633-5870",
+    "Email": "office@atlgoc.org",
+    "Website": "https://www.atlgoc.org",
+    "State": "GA"
+  },
+  {
+    "ID": 1120,
+    "Eparchy": ""
+    "Name": "Archangel Michael Chapel",
+    "Address1": "2480 Clairmont Road Northeast",
+    "City": "Atlanta",
+    "Zip": "30329-3377",
+    "Phone": "(404) 634-9345",
+    "Email": "",
+    "Website": "",
+    "State": "GA"
+  },
+  {
+    "ID": 1121,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "953 Telfair Street",
+    "City": "Augusta",
+    "Zip": "30901-2205",
+    "Phone": "(706) 724-1087",
+    "Email": "augustaholytrinity@gmail.com",
+    "Website": "https://www.holytrinityaugusta.org",
+    "State": "GA"
+  },
+  {
+    "ID": 1122,
+    "Eparchy": ""
+    "Name": "St. George Chapel",
+    "Address1": "401 Newcastle Street",
+    "City": "Brunswick",
+    "Zip": "31520-8241",
+    "Phone": "(912)-236-8256",
+    "Email": "stpaulsgreekorthodox@comcast.net",
+    "Website": "https://www.stpaulsgoc.org/stgeorgeschapel",
+    "State": "GA"
+  },
+  {
+    "ID": 1123,
+    "Eparchy": ""
+    "Name": "Holy Transfiguration Mission Church",
+    "Address1": "4612 Gilbert Avenue",
+    "City": "Columbus",
+    "Zip": "31904-5938",
+    "Phone": "(706) 660-1777",
+    "Email": "",
+    "Website": "https://www.orthodoxcolumbus.org",
+    "State": "GA"
+  },
+  {
+    "ID": 1124,
+    "Eparchy": ""
+    "Name": "Saints Raphael, Nicholas and Irene Greek Orthodox Church",
+    "Address1": "3074 Bethelview Road",
+    "City": "Cumming",
+    "Zip": "30040",
+    "Phone": "(770) 781-5250",
+    "Email": "officeadmin@stsrni.org",
+    "Website": "https://www.stsrni.org",
+    "State": "GA"
+  },
+  {
+    "ID": 1125,
+    "Eparchy": ""
+    "Name": "Holy Cross Greek Orthodox Church",
+    "Address1": "859 1st Street",
+    "City": "Macon",
+    "Zip": "31201-6876",
+    "Phone": "(478) 621-0744",
+    "Email": "office@holycrossga.org",
+    "Website": "https://www.holycrossga.org",
+    "State": "GA"
+  },
+  {
+    "ID": 1126,
+    "Eparchy": ""
+    "Name": "Holy Transfiguration Greek Orthodox Church",
+    "Address1": "3431 Trickum Road Northeast",
+    "City": "Marietta",
+    "Zip": "30066-4660",
+    "Phone": "(770) 924-8080",
+    "Email": "holytrans@comcast.net",
+    "Website": "https://www.holytransfiguration. info",
+    "State": "GA"
+  },
+  {
+    "ID": 1127,
+    "Eparchy": ""
+    "Name": "Saint Christopher Greek Orthodox Church",
+    "Address1": "313 Dividend Drive",
+    "City": "Peachtree City",
+    "Zip": "30269",
+    "Phone": "(770) 347-7729",
+    "Email": "info@saintchristopherhoc.org",
+    "Website": "https://www.saintchristopherhoc.org",
+    "State": "GA"
+  },
+  {
+    "ID": 1128,
+    "Eparchy": ""
+    "Name": "Saint Paul Greek Orthodox Church",
+    "Address1": "14 West Anderson Street",
+    "City": "Savannah",
+    "Zip": "31401-6738",
+    "Phone": "(912) 236-8256",
+    "Email": "stpaulsgreekorthodox@comcast.net",
+    "Website": "https://www.stpaulsgoc.org",
+    "State": "GA"
+  },
+  {
+    "ID": 1129,
+    "Eparchy": ""
+    "Name": "Saint Philothea Greek Orthodox Church",
+    "Address1": "3761 Mars Road",
+    "City": "Watkinsville",
+    "Zip": "30677-1580",
+    "Phone": "(770) 725-5035",
+    "Email": "saint.philothea@gmail.com",
+    "Website": "https://www.stphilothea.org",
+    "State": "GA"
+  },
+  {
+    "ID": 1130,
+    "Eparchy": ""
+    "Name": "Saints Constantine & Helen Cathedral",
+    "Address1": "930 Lunalilo Street",
+    "City": "Honolulu",
+    "Zip": "96822-3562",
+    "Phone": "(808) 521-7220",
+    "Email": "office@greekorthodoxhawaii.org",
+    "Website": "https://www.schgoc.hi.goarch.org",
+    "State": "HI"
+  },
+  {
+    "ID": 1131,
+    "Eparchy": ""
+    "Name": "Maui Orthodox Christian Mission",
+    "Address1": "Post Office Box 532642",
+    "City": "Kihei",
+    "Zip": "96753-2642",
+    "Phone": "",
+    "Email": "fralexanderleong@yahoo.com",
+    "Website": "https://www.mauimission.org",
+    "State": "HI"
+  },
+  {
+    "ID": 1132,
+    "Eparchy": ""
+    "Name": "Saints Constantine & Helen Greek Orthodox Church",
+    "Address1": "2618 West Bannock Street",
+    "City": "Boise",
+    "Zip": "83702-4705",
+    "Phone": "(208) 345-6147",
+    "Email": "",
+    "Website": "https://boisegreekorthodoxchurch.org",
+    "State": "ID"
+  },
+  {
+    "ID": 1133,
+    "Eparchy": ""
+    "Name": "Assumption Greek Orthodox Church",
+    "Address1": "518 North 5th Avenue",
+    "City": "Pocatello",
+    "Zip": "83201",
+    "Phone": "(208) 232-5519",
+    "Email": "assumptiongreekorthodoxchurch@gmail.com",
+    "Website": "https://www. assumptionpocatello.net",
+    "State": "ID"
+  },
+  {
+    "ID": 1134,
+    "Eparchy": ""
+    "Name": "Saint Athanasios Greek Orthodox Church",
+    "Address1": "1855 5th Avenue",
+    "City": "Aurora",
+    "Zip": "60504-8776",
+    "Phone": "(630) 851-6106",
+    "Email": "saintathanasiosoffice@gmail.com",
+    "Website": "https://www.saintathanasios.com",
+    "State": "IL"
+  },
+  {
+    "ID": 1135,
+    "Eparchy": ""
+    "Name": "Three Hierarchs Greek Orthodox Church",
+    "Address1": "2010 Three Hierarchs Court",
+    "City": "Champaign",
+    "Zip": "61820-7232",
+    "Phone": "(217) 352-3452",
+    "Email": "office@threehierarchs.org",
+    "Website": "https://www.threehierarchs.org",
+    "State": "IL"
+  },
+  {
+    "ID": 1136,
+    "Eparchy": ""
+    "Name": "Annunciation Cathedral",
+    "Address1": "1017 North La Salle Drive",
+    "City": "Chicago",
+    "Zip": "60610-2699",
+    "Phone": "(312) 664-5485",
+    "Email": "communications@annunciationcathedralchicago.org",
+    "Website": "https://www.annunciationcathedralchicago.org",
+    "State": "IL"
+  },
+  {
+    "ID": 1137,
+    "Eparchy": ""
+    "Name": "Assumption Greek Orthodox Church",
+    "Address1": "601 South Central Avenue",
+    "City": "Chicago",
+    "Zip": "60644-5089",
+    "Phone": "(773) 626-3114",
+    "Email": "assumptionorthodoxchurch@gmail.com",
+    "Website": "https://www.assumptionchicago.org",
+    "State": "IL"
+  },
+  {
+    "ID": 1138,
+    "Eparchy": ""
+    "Name": "Saint Andrew Greek Orthodox Church",
+    "Address1": "5649 North Sheridan Road",
+    "City": "Chicago",
+    "Zip": "60660-4803",
+    "Phone": "(773) 334-4515",
+    "Email": "info@standreworthodox.org",
+    "Website": "https://www.standreworthodox.church",
+    "State": "IL"
+  },
+  {
+    "ID": 1139,
+    "Eparchy": ""
+    "Name": "Sts. Athanasios and John Greek Orthodox Church",
+    "Address1": "4200 N. Keeler Avenue",
+    "City": "Chicago",
+    "Zip": "60641-2298",
+    "Phone": "(773) 286-3735",
+    "Email": "",
+    "Website": "",
+    "State": "IL"
+  },
+  {
+    "ID": 1140,
+    "Eparchy": ""
+    "Name": "Saint Basil Greek Orthodox Church",
+    "Address1": "733 South Ashland Avenue",
+    "City": "Chicago",
+    "Zip": "60607-3103",
+    "Phone": "(312) 243-3738",
+    "Email": "athanasios.minetos@gmail.com",
+    "Website": "https://www.stbasilchicago.org",
+    "State": "IL"
+  },
+  {
+    "ID": 1141,
+    "Eparchy": ""
+    "Name": "Saint Demetrios Greek Orthodox Church",
+    "Address1": "2727 West Winona Street",
+    "City": "Chicago",
+    "Zip": "60625-2508",
+    "Phone": "(773) 561-5992",
+    "Email": "annascr@stdemetrioschicago.org",
+    "Website": "https://www.stdemetrioschicago.org",
+    "State": "IL"
+  },
+  {
+    "ID": 1142,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "2701 North Sheffield Avenue",
+    "City": "Chicago",
+    "Zip": "60614-1326",
+    "Phone": "(773) 525-1793",
+    "Email": "office@stgeorgechicago.net",
+    "Website": "https://www.stgeorgechicago.net",
+    "State": "IL"
+  },
+  {
+    "ID": 1143,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "570 North Union Street",
+    "City": "Decatur",
+    "Zip": "62522-2126",
+    "Phone": "(217) 429-7023",
+    "Email": "frdavid@annunciationdecatur.org",
+    "Website": "https://www.annunciationdecatur.org",
+    "State": "IL"
+  },
+  {
+    "ID": 1144,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "320 South 2nd Street",
+    "City": "Dekalb",
+    "Zip": "60115-3718",
+    "Phone": "(815) 758-5731",
+    "Email": "st.george5@frontier.com",
+    "Website": "https://www.stgeorge.il.goarch.org",
+    "State": "IL"
+  },
+  {
+    "ID": 1145,
+    "Eparchy": ""
+    "Name": "Saint John the Baptist Greek Orthodox Church",
+    "Address1": "2350 East Dempster Street",
+    "City": "Des Plaines",
+    "Zip": "60016-4839",
+    "Phone": "(847) 827-5510",
+    "Email": "stjohn@stjohnthebaptistgoc.org",
+    "Website": "https://www.stjohnthebaptistgoc.org",
+    "State": "IL"
+  },
+  {
+    "ID": 1146,
+    "Eparchy": ""
+    "Name": "Assumption Greek Orthodox Church",
+    "Address1": "4900 Kennedy Drive",
+    "City": "East Moline",
+    "Zip": "61244-4256",
+    "Phone": "(309) 792-2912",
+    "Email": "assumptionem@gmail.com",
+    "Website": "https://www.assumptionem.org",
+    "State": "IL"
+  },
+  {
+    "ID": 1147,
+    "Eparchy": ""
+    "Name": "Saint Sophia Greek Orthodox Church",
+    "Address1": "525 Church Road",
+    "City": "Elgin",
+    "Zip": "60123-9307",
+    "Phone": "(847) 888-2822",
+    "Email": "office@st-sophia.com",
+    "Website": "https://www.st-sophia.com",
+    "State": "IL"
+  },
+  {
+    "ID": 1148,
+    "Eparchy": ""
+    "Name": "Saint Demetrios Greek Orthodox Church",
+    "Address1": "893 North Church Road",
+    "City": "Elmhurst",
+    "Zip": "60126-1005",
+    "Phone": "(630) 834-7010",
+    "Email": "saintdemetriosoffice@gmail.com",
+    "Website": "https://www.saintdemetrioselmhurst.org",
+    "State": "IL"
+  },
+  {
+    "ID": 1149,
+    "Eparchy": ""
+    "Name": "Saints Peter & Paul Greek Orthodox Church",
+    "Address1": "1401 Wagner Road",
+    "City": "Glenview",
+    "Zip": "60025-2305",
+    "Phone": "(847) 729-2235",
+    "Email": "frrick@ssppglenview.org",
+    "Website": "https://www.ssppglenview.org",
+    "State": "IL"
+  },
+  {
+    "ID": 1150,
+    "Eparchy": ""
+    "Name": "Assumption Greek Orthodox Church",
+    "Address1": "13631 S. Brainard Ave.",
+    "City": "Hegewisch",
+    "Zip": "60633-1847",
+    "Phone": "(773) 646-2999",
+    "Email": "assumptionhegchi@gmail.com",
+    "Website": "https://www.facebook.com/assumption.goc.hegewisch",
+    "State": "IL"
+  },
+  {
+    "ID": 1151,
+    "Eparchy": ""
+    "Name": "Assumption Greek Orthodox Church",
+    "Address1": "15625 South Bell Road",
+    "City": "Homer Glen",
+    "Zip": "60491-9088",
+    "Phone": "(708) 645-0652",
+    "Email": "assumptionchurchofhomerglen@gmail.com",
+    "Website": "https://www. assumptiongreekorthodox.org",
+    "State": "IL"
+  },
+  {
+    "ID": 1152,
+    "Eparchy": ""
+    "Name": "All Saints Greek Orthodox Church",
+    "Address1": "102 North Broadway Street",
+    "City": "Joliet",
+    "Zip": "60435-7498",
+    "Phone": "(815) 722-1727",
+    "Email": "allsaintsjoliet@sbcglobal.net",
+    "Website": "https://www.allsaintsjoliet.com",
+    "State": "IL"
+  },
+  {
+    "ID": 1153,
+    "Eparchy": ""
+    "Name": "Holy Cross Greek Orthodox Church",
+    "Address1": "7560 S. Archer Avenue",
+    "City": "Justice",
+    "Zip": "60458",
+    "Phone": "(708) 594-2040",
+    "Email": "office@holycrossil.org",
+    "Website": "https://www. holycrosschurchjustice.org",
+    "State": "IL"
+  },
+  {
+    "ID": 1154,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "296 North Washington Avenue",
+    "City": "Kankakee",
+    "Zip": "60901-3761",
+    "Phone": "(815) 933-5482",
+    "Email": "nickgreanias@yahoo.com",
+    "Website": "",
+    "State": "IL"
+  },
+  {
+    "ID": 1155,
+    "Eparchy": ""
+    "Name": "Saint Demetrios Greek Orthodox Church",
+    "Address1": "1400 North O\u2019 Plaine Road",
+    "City": "Libertyville",
+    "Zip": "60048-4229",
+    "Phone": "(224) 513-5530",
+    "Email": "saintdemetrios@hotmail.com",
+    "Website": "https://www.saintdemetrioslibertyville.com",
+    "State": "IL"
+  },
+  {
+    "ID": 1156,
+    "Eparchy": ""
+    "Name": "Ascension of Our Lord Greek Orthodox Church",
+    "Address1": "1207 North Riverwoods Road",
+    "City": "Lincolnshire",
+    "Zip": "60069-2403",
+    "Phone": "(847) 482-1200",
+    "Email": "frsotirios@ascensiongoc.com",
+    "Website": "https://www.ascensiongoc.com",
+    "State": "IL"
+  },
+  {
+    "ID": 1157,
+    "Eparchy": ""
+    "Name": "Holy Taxiarhai and Saint Haralambos Greek Orthodox Church",
+    "Address1": "7373 North Caldwell Avenue",
+    "City": "Niles",
+    "Zip": "60714-4503",
+    "Phone": "(847) 647-8880",
+    "Email": "nilesgoc@aol.com",
+    "Website": "https://www.saintharalambosgoc.org",
+    "State": "IL"
+  },
+  {
+    "ID": 1158,
+    "Eparchy": ""
+    "Name": "Saint Nicholas Greek Orthodox Church",
+    "Address1": "10301 S. Kolmar Ave.",
+    "City": "Oak Lawn",
+    "Zip": "60453-4845",
+    "Phone": "(708) 636-5460",
+    "Email": "saintnicholasoffice@gmail.com",
+    "Website": "https://www.stnicholasil.org",
+    "State": "IL"
+  },
+  {
+    "ID": 1159,
+    "Eparchy": ""
+    "Name": "Saint Nektarios Greek Orthodox Church",
+    "Address1": "133 South Roselle Road",
+    "City": "Palatine",
+    "Zip": "60067-5855",
+    "Phone": "(847) 358-5170",
+    "Email": "office@stnectariosgoc.org",
+    "Website": "https://www.stnectariosgoc.org",
+    "State": "IL"
+  },
+  {
+    "ID": 1160,
+    "Eparchy": ""
+    "Name": "Saint Spyridon Greek Orthodox Church",
+    "Address1": "12307 South Ridgeland Avenue",
+    "City": "Palos Heights",
+    "Zip": "60463-1855",
+    "Phone": "(708) 385-2311",
+    "Email": "office@saint-spyridon.net",
+    "Website": "https://www.saint-spyridon.net",
+    "State": "IL"
+  },
+  {
+    "ID": 1161,
+    "Eparchy": ""
+    "Name": "Saints Constantine & Helen Greek Orthodox Church",
+    "Address1": "11025-45 South Roberts Rd",
+    "City": "Palos Hills",
+    "Zip": "60465-2398",
+    "Phone": "(708) 974-3400",
+    "Email": "sschpaloss@gmail.com",
+    "Website": "https://www.stconstantinehelen.org",
+    "State": "IL"
+  },
+  {
+    "ID": 1162,
+    "Eparchy": ""
+    "Name": "All Saints Greek Orthodox Church",
+    "Address1": "1812 N. Prospect Rd.",
+    "City": "Peoria",
+    "Zip": "61603-3329",
+    "Phone": "(309) 682-5824",
+    "Email": "allsaintspeoria@gmail.com",
+    "Website": "https://www.allsaintspeoria.org",
+    "State": "IL"
+  },
+  {
+    "ID": 1163,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "2930 31st Avenue",
+    "City": "Rock Island",
+    "Zip": "61201-6323",
+    "Phone": "(309) 786-8163",
+    "Email": "frmike99@aol.com",
+    "Website": "https://www.stgeorgeri.il.goarch.org",
+    "State": "IL"
+  },
+  {
+    "ID": 1164,
+    "Eparchy": ""
+    "Name": "Saints Constantine & Helen Greek Orthodox Church",
+    "Address1": "108 North 5th Street",
+    "City": "Rockford",
+    "Zip": "61107-4039",
+    "Phone": "(815) 963-8625",
+    "Email": "mail@constantineandhelen.org",
+    "Website": "https://www. constantineandhelen.org",
+    "State": "IL"
+  },
+  {
+    "ID": 1165,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "10050 Ivanhoe Ave",
+    "City": "Schiller Park",
+    "Zip": "60176",
+    "Phone": "(773) 622-5979",
+    "Email": "info@holytrinitychicago.com",
+    "Website": "https://www.holytrinitychicago. com",
+    "State": "IL"
+  },
+  {
+    "ID": 1166,
+    "Eparchy": ""
+    "Name": "Saint Anthony Greek Orthodox Church",
+    "Address1": "1600 South Glenwood Affvenue",
+    "City": "Springfield",
+    "Zip": "62704-3611",
+    "Phone": "(217) 522-7010",
+    "Email": "stanthonyspfld@aol.com",
+    "Website": "https://www.stanthony.il.goarch.org",
+    "State": "IL"
+  },
+  {
+    "ID": 1167,
+    "Eparchy": ""
+    "Name": "Saints Constantine & Helen Greek Orthodox Church",
+    "Address1": "405 Huntwood Road",
+    "City": "Swansea",
+    "Zip": "62226-1094",
+    "Phone": "(618) 277-0330",
+    "Email": "papaaces@gmail.com",
+    "Website": "https://www.ssconstantinehelen.org",
+    "State": "IL"
+  },
+  {
+    "ID": 1168,
+    "Eparchy": ""
+    "Name": "Holy Apostles Greek Orthodox Church",
+    "Address1": "2501 Wolf Rd.",
+    "City": "Westchester",
+    "Zip": "60154-4948",
+    "Phone": "(708) 562-2744",
+    "Email": "holyapostleschurchoffice@comcast.net",
+    "Website": "https://www.holyapostleschurch.com",
+    "State": "IL"
+  },
+  {
+    "ID": 1169,
+    "Eparchy": ""
+    "Name": "Holy Trinity Cathedral",
+    "Address1": "3500 West 106th Street",
+    "City": "Carmel",
+    "Zip": "46032-5513",
+    "Phone": "(317) 733-3033",
+    "Email": "office@htcindy.org",
+    "Website": "https://www.htcindy.org",
+    "State": "IN"
+  },
+  {
+    "ID": 1170,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "110 East Wallen Road",
+    "City": "Fort Wayne",
+    "Zip": "46825-2729",
+    "Phone": "(260) 489-0774",
+    "Email": "holytrinitygreekorthodox@gmail.com",
+    "Website": "https://www.holytrinityfortwayne.org",
+    "State": "IN"
+  },
+  {
+    "ID": 1171,
+    "Eparchy": ""
+    "Name": "Saint Demetrios Greek Orthodox Church",
+    "Address1": "7021 Hohman Ave. # 33",
+    "City": "Hammond",
+    "Zip": "46324-1813",
+    "Phone": "(219) 932-7347",
+    "Email": "stdemhammond@sbcglobal.net",
+    "Website": "https://www. stdemetrioshammond.org",
+    "State": "IN"
+  },
+  {
+    "ID": 1172,
+    "Eparchy": ""
+    "Name": "Holy Apostles Greek Orthodox Church",
+    "Address1": "4550 Central Avenue",
+    "City": "Indianapolis",
+    "Zip": "46205-1825",
+    "Phone": "(317) 908-8511",
+    "Email": "info@holyapostlesindy.org",
+    "Website": "https://www.holyapostlesindy.org",
+    "State": "IN"
+  },
+  {
+    "ID": 1173,
+    "Eparchy": ""
+    "Name": "Saints Constantine & Helen Cathedral",
+    "Address1": "8000 Madison Street",
+    "City": "Merrillville",
+    "Zip": "46410-5404",
+    "Phone": "(219) 769-2481",
+    "Email": "frted@ssconstantineandhelen.org",
+    "Website": "https://www.ssconstantineandhelen.org",
+    "State": "IN"
+  },
+  {
+    "ID": 1174,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "528 West 77th Avenue",
+    "City": "Schererville",
+    "Zip": "46375-2352",
+    "Phone": "(219) 322-6165",
+    "Email": "officemanagerstgeorgehoc@gmail.com",
+    "Website": "https://www.stgeorgenwi.org",
+    "State": "IN"
+  },
+  {
+    "ID": 1175,
+    "Eparchy": ""
+    "Name": "Saint Andrew Greek Orthodox Church",
+    "Address1": "52455 Ironwood Road",
+    "City": "South Bend",
+    "Zip": "46635-1124",
+    "Phone": "(574) 277-4688",
+    "Email": "office@saintandrewgoc.org",
+    "Website": "https://www.saintandrewgoc.org",
+    "State": "IN"
+  },
+  {
+    "ID": 1176,
+    "Eparchy": ""
+    "Name": "Saint Iakovos Greek Orthodox Church",
+    "Address1": "36 West 700 North",
+    "City": "Valparaiso",
+    "Zip": "46385-8503",
+    "Phone": "(219) 462-4052",
+    "Email": "stiakovos1@gmail.com",
+    "Website": "https://www.saintiakovos.org",
+    "State": "IN"
+  },
+  {
+    "ID": 1177,
+    "Eparchy": ""
+    "Name": "Saint John the Baptist Greek Orthodox Church",
+    "Address1": "501 A Avenue Northeast",
+    "City": "Cedar Rapids",
+    "Zip": "52401-1015",
+    "Phone": "(319) 364-5460",
+    "Email": "stjohncr@gmail.com",
+    "Website": "https://www.stjohncr.org",
+    "State": "IA"
+  },
+  {
+    "ID": 1178,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "1110 35th Street",
+    "City": "Des Moines",
+    "Zip": "50311-3704",
+    "Phone": "(515) 277-0780",
+    "Email": "priest@dsmorthodox.org",
+    "Website": "https://www.stgeorge.ia.goarch.org",
+    "State": "IA"
+  },
+  {
+    "ID": 1179,
+    "Eparchy": ""
+    "Name": "Prophet Elias Greek Orthodox Church",
+    "Address1": "419 North Grandview Avenue",
+    "City": "Dubuque",
+    "Zip": "52001-6363",
+    "Phone": "(563) 583-5902",
+    "Email": "",
+    "Website": "https://www.stelias.ia.goarch.org",
+    "State": "IA"
+  },
+  {
+    "ID": 1180,
+    "Eparchy": ""
+    "Name": "Transfiguration of our Lord Greek Orthodox Church",
+    "Address1": "1311 2nd Street Southwest",
+    "City": "Mason City",
+    "Zip": "50401-1700",
+    "Phone": "(641) 423-6238",
+    "Email": "greekmc@netconx.net",
+    "Website": "https://holytransfiguration.ia.goarch.org",
+    "State": "IA"
+  },
+  {
+    "ID": 1181,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "900 6th Street",
+    "City": "Sioux City",
+    "Zip": "51101-1818",
+    "Phone": "(712) 255-5559",
+    "Email": "holytrinitysiouxcity@gmail.com",
+    "Website": "https://www.holytrinity.ia.goarch.org",
+    "State": "IA"
+  },
+  {
+    "ID": 1182,
+    "Eparchy": ""
+    "Name": "St. Demetrios Greek Orthodox Church",
+    "Address1": "613 West 4th Street",
+    "City": "Waterloo",
+    "Zip": "50702-1501",
+    "Phone": "(319) 232-4773",
+    "Email": "stdemetrioswat@mail.goarch.org",
+    "Website": "https://www.st-demetrios.ia.goarch.org",
+    "State": "IA"
+  },
+  {
+    "ID": 1183,
+    "Eparchy": ""
+    "Name": "Saint Dionysios Greek Orthodox Church",
+    "Address1": "8100 West 95th Street",
+    "City": "Overland Park",
+    "Zip": "66212-3214",
+    "Phone": "(913) 341-7373",
+    "Email": "stdionysios@gmail.com",
+    "Website": "https://www.stdionysios.org",
+    "State": "KS"
+  },
+  {
+    "ID": 1184,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "805 North Dellrose Street",
+    "City": "Wichita",
+    "Zip": "67208-3439",
+    "Phone": "(316) 681-1165",
+    "Email": "holytrinitywichita@gmail.com",
+    "Website": "https://www.holytrinity.ks.goarch.org",
+    "State": "KS"
+  },
+  {
+    "ID": 1185,
+    "Eparchy": ""
+    "Name": "Holy Mother Queen of All Greek Orthodox Church",
+    "Address1": "3001 Tates Creek Road",
+    "City": "Lexington",
+    "Zip": "40502-2952",
+    "Phone": "(859) 266-1921",
+    "Email": "goclex@gmail.com",
+    "Website": "https://www.goclex.org",
+    "State": "KY"
+  },
+  {
+    "ID": 1186,
+    "Eparchy": ""
+    "Name": "Assumption Greek Orthodox Church",
+    "Address1": "930 Ormsby Lane",
+    "City": "Louisville",
+    "Zip": "40242-4536",
+    "Phone": "(502) 425-7775",
+    "Email": "office@agoclou.org",
+    "Website": "https://www.greekorthodoxlou.org",
+    "State": "KY"
+  },
+  {
+    "ID": 1187,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "2510 N. Stevendale Road",
+    "City": "Baton Rouge",
+    "Zip": "70819",
+    "Phone": "(225) 384-0571",
+    "Email": "fr.anthonymonteleone@yahoo.com",
+    "Website": "https://www.holytrinitygreekOrthodox churchbatonrouge.org",
+    "State": "LA"
+  },
+  {
+    "ID": 1188,
+    "Eparchy": ""
+    "Name": "Saints Constantine & Helen Greek Orthodox Church",
+    "Address1": "2011 Forsythe Avenue",
+    "City": "Monroe",
+    "Zip": "71201-3608",
+    "Phone": "(318) 331-5571",
+    "Email": "freudokimos@aol.com",
+    "Website": "https://www.constantine-helen.org",
+    "State": "LA"
+  },
+  {
+    "ID": 1189,
+    "Eparchy": ""
+    "Name": "Holy Trinity Cathedral",
+    "Address1": "1200 Allen Toussaint Boulevard",
+    "City": "New Orleans",
+    "Zip": "70122- 1337",
+    "Phone": "(504) 282-0259",
+    "Email": "vickie@holytrinitycathedral.org",
+    "Website": "https://www.holytrinitycathedral.org",
+    "State": "LA"
+  },
+  {
+    "ID": 1190,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "1719 Creswell Avenue",
+    "City": "Shreveport",
+    "Zip": "71101-4725",
+    "Phone": "(318) 222-5225",
+    "Email": "father.ioannis@gmail.com",
+    "Website": "https://www.gosaintgeorge.org",
+    "State": "LA"
+  },
+  {
+    "ID": 1191,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "90 Sanford Street",
+    "City": "Bangor",
+    "Zip": "04401-6132",
+    "Phone": "(207) 945-9588",
+    "Email": "church@mestgeorge.net",
+    "Website": "https://www.stgeorge.me.goarch.org",
+    "State": "ME"
+  },
+  {
+    "ID": 1192,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "155 Hogan Road",
+    "City": "Lewiston",
+    "Zip": "04240",
+    "Phone": "(207) 783-6795",
+    "Email": "holytrinitymaine@gmail.com",
+    "Website": "https://www.holytrinity.me.goarch.org",
+    "State": "ME"
+  },
+  {
+    "ID": 1193,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "133 Pleasant Street",
+    "City": "Portland",
+    "Zip": "04101-3808",
+    "Phone": "(207) 774-0281",
+    "Email": "htrinityportland@gmail.com",
+    "Website": "https://www.htrinityportland.org",
+    "State": "ME"
+  },
+  {
+    "ID": 1194,
+    "Eparchy": ""
+    "Name": "Saint Demetrios Greek Orthodox Church",
+    "Address1": "186 Bradley Street",
+    "City": "Saco",
+    "Zip": "04072-3103",
+    "Phone": "(207) 284-5651",
+    "Email": "",
+    "Website": "https://www.stdemetriosofmaine.com",
+    "State": "ME"
+  },
+  {
+    "ID": 1195,
+    "Eparchy": ""
+    "Name": "Saints Constantine & Helen Greek Orthodox Church",
+    "Address1": "2747 Riva Road",
+    "City": "Annapolis",
+    "Zip": "21401-7202",
+    "Phone": "(410) 573-2072",
+    "Email": "officeschannapolis@gmail.com",
+    "Website": "https://www.schgochurch.org",
+    "State": "MD"
+  },
+  {
+    "ID": 1196,
+    "Eparchy": ""
+    "Name": "Annunciation Cathedral",
+    "Address1": "24 West Preston Street",
+    "City": "Baltimore",
+    "Zip": "21201-5700",
+    "Phone": "(410) 727-1831",
+    "Email": "",
+    "Website": "https://www. annunciationbaltimore.org",
+    "State": "MD"
+  },
+  {
+    "ID": 1197,
+    "Eparchy": ""
+    "Name": "Saint Demetrios Greek Orthodox Church",
+    "Address1": "2504 Cub Rd.",
+    "City": "Baltimore",
+    "Zip": "21234-1006",
+    "Phone": "(410) 661-1090",
+    "Email": "saintdemetriosmd@gmail.com",
+    "Website": "https://www.stdemetriosmd.org",
+    "State": "MD"
+  },
+  {
+    "ID": 1198,
+    "Eparchy": ""
+    "Name": "Saint Nicholas Greek Orthodox Church",
+    "Address1": "520 Ponca Street",
+    "City": "Baltimore",
+    "Zip": "21224-4524",
+    "Phone": "(410) 633-5020",
+    "Email": "stnadmin@stnicholasmd.org",
+    "Website": "https://www.stnicholasmd.org",
+    "State": "MD"
+  },
+  {
+    "ID": 1199,
+    "Eparchy": ""
+    "Name": "Greek Orthodox Church of Saint George",
+    "Address1": "7701 Bradley Boulevard",
+    "City": "Bethesda",
+    "Zip": "20817-1442",
+    "Phone": "(301) 469-7990",
+    "Email": "office@stgeorge.org",
+    "Website": "https://www.stgeorge.org",
+    "State": "MD"
+  },
+  {
+    "ID": 1200,
+    "Eparchy": ""
+    "Name": "Saints Mary Magdalene & Markella Greek Orthodox Church",
+    "Address1": "Post Office Box 1575",
+    "City": "Darlington",
+    "Zip": "21014-7575",
+    "Phone": "(410) 457-0303",
+    "Email": "stsmmgoc@gmail.com",
+    "Website": "https://www.stsmm.org",
+    "State": "MD"
+  },
+  {
+    "ID": 1201,
+    "Eparchy": ""
+    "Name": "Saints Peter and Paul Greek Orthodox Church",
+    "Address1": "920 West 7th Street",
+    "City": "Frederick",
+    "Zip": "21701-8518",
+    "Phone": "(301) 663-0663",
+    "Email": "secretary@stspeterpaul.net",
+    "Website": "https://www.stspeterpaul.net",
+    "State": "MD"
+  },
+  {
+    "ID": 1202,
+    "Eparchy": ""
+    "Name": "Saint Theodore Greek Orthodox Church",
+    "Address1": "7101 Cipriano Road",
+    "City": "Lanham",
+    "Zip": "20706-3808",
+    "Phone": "(301) 552-3540",
+    "Email": "sttheodorelan@mail.goarch.org",
+    "Website": "https://www.sttheodores.org",
+    "State": "MD"
+  },
+  {
+    "ID": 1203,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "8805 Coastal Highway",
+    "City": "Ocean City",
+    "Zip": "21842-2739",
+    "Phone": "(410) 524-0990",
+    "Email": "stgeorgeoc@gmail.com",
+    "Website": "https://www.stgeorgebythesea.org",
+    "State": "MD"
+  },
+  {
+    "ID": 1204,
+    "Eparchy": ""
+    "Name": "Saints Constantine & Helen Greek Orthodox Church of Washington, DC",
+    "Address1": "701 Norwood Road",
+    "City": "Silver Spring",
+    "Zip": "20905-3801",
+    "Phone": "(240) 389-1366",
+    "Email": "admin@schgocdc.org",
+    "Website": "https://www.schgoc.org",
+    "State": "MD"
+  },
+  {
+    "ID": 1205,
+    "Eparchy": ""
+    "Name": "Saints Constantine & Helen Greek Orthodox Church",
+    "Address1": "71 Chandler Road",
+    "City": "Andover",
+    "Zip": "01810-1232",
+    "Phone": "(978) 470-0919",
+    "Email": "office@andoverorthodox.org",
+    "Website": "https://www.andoverorthodox.org",
+    "State": "MA"
+  },
+  {
+    "ID": 1206,
+    "Eparchy": ""
+    "Name": "Saint Athanasius the Great Greek Orthodox Church",
+    "Address1": "4 Appleton Street",
+    "City": "Arlington",
+    "Zip": "02476-5966",
+    "Phone": "(781) 646-0705",
+    "Email": "stathanasiusgoc@gmail.com",
+    "Website": "https://www.saintathanasius.org",
+    "State": "MA"
+  },
+  {
+    "ID": 1207,
+    "Eparchy": ""
+    "Name": "Annunciation Cathedral",
+    "Address1": "514 Parker Street",
+    "City": "Boston",
+    "Zip": "02120",
+    "Phone": "(617) 731-6633",
+    "Email": "office@bostoncathedral.org",
+    "Website": "https://www.bostoncathedral.org",
+    "State": "MA"
+  },
+  {
+    "ID": 1208,
+    "Eparchy": ""
+    "Name": "Saint John The Baptist Greek Orthodox Church",
+    "Address1": "15 Union Park Street",
+    "City": "Boston",
+    "Zip": "02118-2129",
+    "Phone": "(617) 536-5692",
+    "Email": "info@saintjohnthebaptist.org",
+    "Website": "https://www.saintjohnthebaptist. org",
+    "State": "MA"
+  },
+  {
+    "ID": 1209,
+    "Eparchy": ""
+    "Name": "Saint Catherine Greek Orthodox Church",
+    "Address1": "119 Common Street",
+    "City": "Braintree",
+    "Zip": "02184-1767",
+    "Phone": "(781) 843-0047",
+    "Email": "saintcatherinechurch@msn.com",
+    "Website": "https://www.stcatherinebraintree.org",
+    "State": "MA"
+  },
+  {
+    "ID": 1210,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "457 Oak Street",
+    "City": "Brockton",
+    "Zip": "02301-1340",
+    "Phone": "(508) 559-0910",
+    "Email": "office@annunciationbrockton.org",
+    "Website": "https://www.annunciationbrockton.org",
+    "State": "MA"
+  },
+  {
+    "ID": 1211,
+    "Eparchy": ""
+    "Name": "Saints Constantine & Helen Greek Orthodox Church",
+    "Address1": "14 Magazine Street",
+    "City": "Cambridge",
+    "Zip": "02139-3965",
+    "Phone": "(617) 876-3601",
+    "Email": "saintconstantinecambridge@gmail.com",
+    "Website": "https://www. stsconstantineandhelen-cambridge.org",
+    "State": "MA"
+  },
+  {
+    "ID": 1212,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "1130 Falmouth Road",
+    "City": "Centerville",
+    "Zip": "02632-3022",
+    "Phone": "(508) 559-0910",
+    "Email": "paula@stgeorge-capecod.com",
+    "Website": "https://www.stgeorge-capecod.com",
+    "State": "MA"
+  },
+  {
+    "ID": 1213,
+    "Eparchy": ""
+    "Name": "Saints Constantine & Helen Greek Orthodox Church",
+    "Address1": "30 Grattan Street",
+    "City": "Chicopee Falls",
+    "Zip": "01020",
+    "Phone": "(413) 592-3401",
+    "Email": "dnephp@gmail.com",
+    "Website": "https://www.stsconstantinehelen.ma.goarch.org",
+    "State": "MA"
+  },
+  {
+    "ID": 1214,
+    "Eparchy": ""
+    "Name": "St. Nicholas Greek Orthodox Church",
+    "Address1": "132 School Street",
+    "City": "Clinton",
+    "Zip": "01510",
+    "Phone": "(978) 365-9089",
+    "Email": "",
+    "Website": "https://www.stnicholas.ma.goarch.org",
+    "State": "MA"
+  },
+  {
+    "ID": 1215,
+    "Eparchy": ""
+    "Name": "Nativity-Assumption of the Virgin Mary Greek Orthodox Church",
+    "Address1": "811 Jerusalem Road",
+    "City": "Cohasset",
+    "Zip": "02025-1046",
+    "Phone": "(781) 383-4380",
+    "Email": "annungrort@aol.com",
+    "Website": "https://www.navm.org",
+    "State": "MA"
+  },
+  {
+    "ID": 1216,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "186 Cross Road, North",
+    "City": "Dartmouth",
+    "Zip": "02747",
+    "Phone": "(918) 356-9798",
+    "Email": "gosaintgeorge@gmail.com",
+    "Website": "https://www.gosaintgeorge.com",
+    "State": "MA"
+  },
+  {
+    "ID": 1217,
+    "Eparchy": ""
+    "Name": "Assumption of the Virgin Mary Greek Orthodox Church",
+    "Address1": "1160 Mammoth Rd",
+    "City": "Dracut",
+    "Zip": "01826-3147",
+    "Phone": "(978) 957-6051",
+    "Email": "assumptionchurchdracut@gmail.com",
+    "Website": "https://www.assumptionchurchdracut.org",
+    "State": "MA"
+  },
+  {
+    "ID": 1218,
+    "Eparchy": ""
+    "Name": "Greek Orthodox Church of Saint Luke",
+    "Address1": "400 Prospect Street",
+    "City": "East Longmeadow",
+    "Zip": "01028",
+    "Phone": "(413) 525-4551",
+    "Email": "saintlukego@gmail.com",
+    "Website": "https://www.stlukego.org",
+    "State": "MA"
+  },
+  {
+    "ID": 1219,
+    "Eparchy": ""
+    "Name": "Saint Demetrios Greek Orthodox Church",
+    "Address1": "289 North Main Street",
+    "City": "Fall River",
+    "Zip": "02720-2320",
+    "Phone": "(508) 672-2121",
+    "Email": "stdemetriosfr@gmail.com",
+    "Website": "https://www.stdemetriosfallriver.org",
+    "State": "MA"
+  },
+  {
+    "ID": 1220,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "1319 Main Street",
+    "City": "Fitchburg",
+    "Zip": "01420-3033",
+    "Phone": "(978) 342-1216",
+    "Email": "holytrinityfitchburg@gmail.com",
+    "Website": "https://www.holytrinity. ma.goarch.org",
+    "State": "MA"
+  },
+  {
+    "ID": 1221,
+    "Eparchy": ""
+    "Name": "Holy Apostles Sts. Peter & Paul Greek Orthodox Church",
+    "Address1": "154-156 Winter St",
+    "City": "Haverhill",
+    "Zip": "01830-5690",
+    "Phone": "(978) 373-3311",
+    "Email": "info@holyapostleshaver.org",
+    "Website": "https://www.holyapostleshaver.org",
+    "State": "MA"
+  },
+  {
+    "ID": 1222,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "410 Main Street",
+    "City": "Holyoke",
+    "Zip": "01040-5610",
+    "Phone": "(413) 533-9880",
+    "Email": "tcokotis@aol.com",
+    "Website": "https://www.holytrinityholyoke. ma.goarch.org",
+    "State": "MA"
+  },
+  {
+    "ID": 1223,
+    "Eparchy": ""
+    "Name": "Assumption Greek Orthodox Church",
+    "Address1": "8 Lafayette Road",
+    "City": "Ipswich",
+    "Zip": "01938-0006",
+    "Phone": "(978) 356-9730",
+    "Email": "info@greekorthodoxchurchipswich.org",
+    "Website": "https://www.greekorthodoxchurchipswich.org",
+    "State": "MA"
+  },
+  {
+    "ID": 1224,
+    "Eparchy": ""
+    "Name": "Saint Nicholas Greek Orthodox Church",
+    "Address1": "17 Meriam Street",
+    "City": "Lexington",
+    "Zip": "02420-5308",
+    "Phone": "(781) 862-0315",
+    "Email": "office@stnicholaslex.org",
+    "Website": "https://www.stnicholaslex.org",
+    "State": "MA"
+  },
+  {
+    "ID": 1225,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "62 Lewis Street",
+    "City": "Lowell",
+    "Zip": "01854-4213",
+    "Phone": "(978) 458-8092",
+    "Email": "holytrinity.lowell@gmail.com",
+    "Website": "https://www.holytrinitylowell.com",
+    "State": "MA"
+  },
+  {
+    "ID": 1226,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "44 Princeton Boulevard",
+    "City": "Lowell",
+    "Zip": "01851-2405",
+    "Phone": "(978) 459-9147",
+    "Email": "",
+    "Website": "https://info@stgeorgegreeklowell.org",
+    "State": "MA"
+  },
+  {
+    "ID": 1227,
+    "Eparchy": ""
+    "Name": "Transfiguration of our Savior Greek Orthodox Church",
+    "Address1": "25 Father John Sarantos Way",
+    "City": "Lowell",
+    "Zip": "01854-3583",
+    "Phone": "(978) 458-4321",
+    "Email": "info@transchurch.org",
+    "Website": "https://www.transfigurationlowell.org",
+    "State": "MA"
+  },
+  {
+    "ID": 1228,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "54 South Common Street",
+    "City": "Lynn",
+    "Zip": "01902-4495",
+    "Phone": "(781) 593-6162",
+    "Email": "stgeorgely@aol.com",
+    "Website": "https://www.stgeorgelynn.org",
+    "State": "MA"
+  },
+  {
+    "ID": 1229,
+    "Eparchy": ""
+    "Name": "Saint Gregory the Theologian Church",
+    "Address1": "1007 West Street",
+    "City": "Mansfield",
+    "Zip": "02048",
+    "Phone": "(508) 337-9986",
+    "Email": "stgregorytheologian@earthlink.net",
+    "Website": "https://www. saintgregorythetheologian.org",
+    "State": "MA"
+  },
+  {
+    "ID": 1230,
+    "Eparchy": ""
+    "Name": "Saints Anargyroi Greek Orthodox Church",
+    "Address1": "9 Central Street",
+    "City": "Marborough",
+    "Zip": "01752",
+    "Phone": "(508) 485-2575",
+    "Email": "parishcouncil@stsanargyroi.org",
+    "Website": "https://www.stsanargyroi.org",
+    "State": "MA"
+  },
+  {
+    "ID": 1231,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "7 Harris Street",
+    "City": "Newburyport",
+    "Zip": "01950-2645",
+    "Phone": "(978) 465-5757",
+    "Email": "agocport@gmail.com",
+    "Website": "https://www.annunciation.ma.goarch.org",
+    "State": "MA"
+  },
+  {
+    "ID": 1232,
+    "Eparchy": ""
+    "Name": "Saint Vasilios Greek Orthodox Church",
+    "Address1": "7 Paleologos St.",
+    "City": "Peabody",
+    "Zip": "01960-4452",
+    "Phone": "(978) 531-0777",
+    "Email": "irene@stvasilios.org",
+    "Website": "https://www.stvasilios.org",
+    "State": "MA"
+  },
+  {
+    "ID": 1233,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "73 Bradford Street",
+    "City": "Pittsfield",
+    "Zip": "01201-4523",
+    "Phone": "(413) 442-8113",
+    "Email": "stgeorgeortho@verizon.net",
+    "Website": "https://www.stgeorgepittsfield.com",
+    "State": "MA"
+  },
+  {
+    "ID": 1234,
+    "Eparchy": ""
+    "Name": "Saint Nectarios Church",
+    "Address1": "39 Belgrade Avenue",
+    "City": "Roslindale",
+    "Zip": "02131-3025",
+    "Phone": "(617) 327-1983",
+    "Email": "info@stnectariosma.org",
+    "Website": "https://www.stnectariosma.org",
+    "State": "MA"
+  },
+  {
+    "ID": 1235,
+    "Eparchy": ""
+    "Name": "Dormition of the Virgin Mary Greek Orthodox Church",
+    "Address1": "29 Central Street",
+    "City": "Somerville",
+    "Zip": "02143-2841",
+    "Phone": "(617) 625-2222",
+    "Email": "",
+    "Website": "https://www.dormitionchurch.org",
+    "State": "MA"
+  },
+  {
+    "ID": 1236,
+    "Eparchy": ""
+    "Name": "St. George Greek Orthodox Church",
+    "Address1": "55 North Street",
+    "City": "Southbridge",
+    "Zip": "01550-0025",
+    "Phone": "(508) 764-3398",
+    "Email": "stgeorgegreekorthodox@gmail.com",
+    "Website": "https://www.stgeorge.ma.goarch.org",
+    "State": "MA"
+  },
+  {
+    "ID": 1237,
+    "Eparchy": ""
+    "Name": "Saint George Cathedral",
+    "Address1": "22 Saint George Road",
+    "City": "Springfield",
+    "Zip": "01104-3332",
+    "Phone": "(413) 737-1496",
+    "Email": "stgeorgeculturalcenter@gmail.com",
+    "Website": "https://www.stgeorgecath.org",
+    "State": "MA"
+  },
+  {
+    "ID": 1238,
+    "Eparchy": ""
+    "Name": "Taxiarchae Archangels Greek Orthodox Church",
+    "Address1": "25 Bigelow Avenue",
+    "City": "Watertown",
+    "Zip": "02472-2041",
+    "Phone": "(617) 924-8182",
+    "Email": "office@goarchangels.com",
+    "Website": "https://www.goarchangels.org",
+    "State": "MA"
+  },
+  {
+    "ID": 1239,
+    "Eparchy": ""
+    "Name": "Saints Constantine & Helen Greek Orthodox Church",
+    "Address1": "Lake Parkway, P .O. Box 713",
+    "City": "Webster",
+    "Zip": "01570-0713",
+    "Phone": "(508) 943-8361",
+    "Email": "",
+    "Website": "https://www.schwebster.org",
+    "State": "MA"
+  },
+  {
+    "ID": 1240,
+    "Eparchy": ""
+    "Name": "Saint Demetrios Greek Orthodox Church",
+    "Address1": "57 Brown Street",
+    "City": "Weston",
+    "Zip": "02493-2601",
+    "Phone": "(781) 237-5561",
+    "Email": "csmith@stdemetriosweston.org",
+    "Website": "https://www.stdemetriosweston.org",
+    "State": "MA"
+  },
+  {
+    "ID": 1241,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "70 Montvale Avenue",
+    "City": "Woburn",
+    "Zip": "01801-4254",
+    "Phone": "(781) 935-2424",
+    "Email": "office@annunciationwoburn.net",
+    "Website": "https://www.annunciationwoburn.org",
+    "State": "MA"
+  },
+  {
+    "ID": 1242,
+    "Eparchy": ""
+    "Name": "Saint Spyridon Cathedral",
+    "Address1": "102 Russell Street",
+    "City": "Worcester",
+    "Zip": "01609-1908",
+    "Phone": "(508) 791-7326",
+    "Email": "spyridoncathedral@gmail.com",
+    "Website": "https://www.spyridoncathedral.org",
+    "State": "MA"
+  },
+  {
+    "ID": 1243,
+    "Eparchy": ""
+    "Name": "Saint Nicholas Greek Orthodox Church",
+    "Address1": "3109 Scio Church Road",
+    "City": "Ann Arbor",
+    "Zip": "48103-9634",
+    "Phone": "(734) 332-8200",
+    "Email": "secretary@stnickaa.org",
+    "Website": "https://www.stnickaa.org",
+    "State": "MI"
+  },
+  {
+    "ID": 1244,
+    "Eparchy": ""
+    "Name": "Sts. Constantine & Helen Chapel",
+    "Address1": "1020 Goguac St W",
+    "City": "Battle Creek",
+    "Zip": "49015",
+    "Phone": "(616) 963-3493",
+    "Email": "",
+    "Website": "",
+    "State": "MI"
+  },
+  {
+    "ID": 1245,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "43816 Woodward Avenue",
+    "City": "Bloomfield Hills",
+    "Zip": "48302-5019",
+    "Phone": "(248) 335-8869",
+    "Email": "stgeorge48302@hotmail.com",
+    "Website": "https://www.stgeorgebloomfield.org",
+    "State": "MI"
+  },
+  {
+    "ID": 1246,
+    "Eparchy": ""
+    "Name": "Annunciation Cathedral",
+    "Address1": "707 East Lafayette Boulevard",
+    "City": "Detroit",
+    "Zip": "48226-2990",
+    "Phone": "(313) 965-2988",
+    "Email": "annunciation@prodigy.net",
+    "Website": "https://www.annunciationcathedral.org",
+    "State": "MI"
+  },
+  {
+    "ID": 1247,
+    "Eparchy": ""
+    "Name": "Holy Cross Greek Orthodox Church",
+    "Address1": "25225 Middlebelt Road",
+    "City": "Farmington Hills",
+    "Zip": "48336-1381",
+    "Phone": "(248) 477-1677",
+    "Email": "office@holycrossgo.org",
+    "Website": "https://www.holycrossgo.org",
+    "State": "MI"
+  },
+  {
+    "ID": 1248,
+    "Eparchy": ""
+    "Name": "Assumption Greek Orthodox Church",
+    "Address1": "2245 East Baldwin Road",
+    "City": "Grand Blanc",
+    "Zip": "48439-8311",
+    "Phone": "(810) 771-4611",
+    "Email": "assumptiongrandblanc@gmail.com",
+    "Website": "https://www. assumptiongrandblanc.org",
+    "State": "MI"
+  },
+  {
+    "ID": 1249,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "330 Lakeside Drive Northeast",
+    "City": "Grand Rapids",
+    "Zip": "49503-3815",
+    "Phone": "(616) 454-6563",
+    "Email": "info@holytrinitygoc.org",
+    "Website": "https://www.holytrinitygoc.org",
+    "State": "MI"
+  },
+  {
+    "ID": 1250,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "507 South Westnedge Avenue",
+    "City": "Kalamazoo",
+    "Zip": "49007-5053",
+    "Phone": "(269) 345-5389",
+    "Email": "bigtheopapou@gmail.com",
+    "Website": "https://www.agockzoo.org",
+    "State": "MI"
+  },
+  {
+    "ID": 1251,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "1701 East Saginaw Street",
+    "City": "Lansing",
+    "Zip": "48912-2316",
+    "Phone": "(517) 482-7341",
+    "Email": "churchoffice@holytrinity-lansing.org",
+    "Website": "https://www.holytrinity-lansing.org",
+    "State": "MI"
+  },
+  {
+    "ID": 1252,
+    "Eparchy": ""
+    "Name": "St. Panteleimon Chapel",
+    "Address1": "7143 Cedar Road",
+    "City": "Lexington",
+    "Zip": "48450-8913",
+    "Phone": "(586) 977-6080",
+    "Email": "stpanteleimonlex@mail.goarch.org",
+    "Website": "",
+    "State": "MI"
+  },
+  {
+    "ID": 1253,
+    "Eparchy": ""
+    "Name": "Assumption Greek Orthodox Church",
+    "Address1": "235 West Ridge Street",
+    "City": "Marquette",
+    "Zip": "49855-4339",
+    "Phone": "(906) 226-6792",
+    "Email": "",
+    "Website": "",
+    "State": "MI"
+  },
+  {
+    "ID": 1254,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "185 East Pontaluna Road",
+    "City": "Muskegon",
+    "Zip": "49444",
+    "Phone": "(231) 799-0185",
+    "Email": "frjohn@agoc.mi.goarch.org",
+    "Website": "https://www.orthodoxmuskegon.church",
+    "State": "MI"
+  },
+  {
+    "ID": 1255,
+    "Eparchy": ""
+    "Name": "Annunciation & Saint Paraskevi Greek Orthodox Church",
+    "Address1": "18000 Behner Road",
+    "City": "New Buffalo",
+    "Zip": "49117",
+    "Phone": "(269) 469-0081",
+    "Email": "fatherpaulmartin@gmail.com",
+    "Website": "https://www.aapgoc.mi.goarch.org",
+    "State": "MI"
+  },
+  {
+    "ID": 1256,
+    "Eparchy": ""
+    "Name": "Nativity of the Virgin Mary Greek Orthodox Church",
+    "Address1": "39851 Five Mile Road",
+    "City": "Plymouth",
+    "Zip": "48170-2708",
+    "Phone": "(734) 420-0131",
+    "Email": "secretary@nativitygochurch.org",
+    "Website": "https://www.nativitygochurch.org",
+    "State": "MI"
+  },
+  {
+    "ID": 1257,
+    "Eparchy": ""
+    "Name": "Saint Demetrios Greek Orthodox Church",
+    "Address1": "4970 MacKinaw Road",
+    "City": "Saginaw",
+    "Zip": "48603-7249",
+    "Phone": "(989) 793-8822",
+    "Email": "stdemetriosmi@gmail.com",
+    "Website": "https://www.stdemetriosmi.org",
+    "State": "MI"
+  },
+  {
+    "ID": 1258,
+    "Eparchy": ""
+    "Name": "Assumption Greek Orthodox Church",
+    "Address1": "21800 Marter Road",
+    "City": "Saint Clair Shores",
+    "Zip": "48080-2464",
+    "Phone": "(586) 779-6111",
+    "Email": "assumptionchurchoffice@gmail.com",
+    "Website": "https://www.goassumption.org",
+    "State": "MI"
+  },
+  {
+    "ID": 1259,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "511 Court Street",
+    "City": "Sault Sainte Marie",
+    "Zip": "49783",
+    "Phone": "(906) 632-6351",
+    "Email": "",
+    "Website": "https://www.stgeorgessm.mi.goarch.org",
+    "State": "MI"
+  },
+  {
+    "ID": 1260,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "16300 Dix Toledo Road",
+    "City": "Southgate",
+    "Zip": "48195-2970",
+    "Phone": "(734) 283-8820",
+    "Email": "office@stgeorgesouthgate.org",
+    "Website": "https://www.stgeorgesouthgate.org",
+    "State": "MI"
+  },
+  {
+    "ID": 1261,
+    "Eparchy": ""
+    "Name": "Saint John the Baptist Greek Orthodox Church",
+    "Address1": "11455 Metro Parkway",
+    "City": "Sterling Heights",
+    "Zip": "48312-2937",
+    "Phone": "(586) 977-6080",
+    "Email": "parish@stjohngoc.net",
+    "Website": "https://www.stjohngoc.net",
+    "State": "MI"
+  },
+  {
+    "ID": 1262,
+    "Eparchy": ""
+    "Name": "Saint Nicholas Greek Orthodox Church",
+    "Address1": "760 West Wattles Road",
+    "City": "Troy",
+    "Zip": "48098-4500",
+    "Phone": "(248) 362-9575",
+    "Email": "office@stnicholastroy.org",
+    "Website": "https://www.stnicholastroy.org",
+    "State": "MI"
+  },
+  {
+    "ID": 1263,
+    "Eparchy": ""
+    "Name": "Saint Spyridon Chapel",
+    "Address1": "2560 Crooks Rd.",
+    "City": "Troy",
+    "Zip": "48084-4703",
+    "Phone": "",
+    "Email": "stspyridonchapeltro@mail.goarch.org",
+    "Website": "",
+    "State": "MI"
+  },
+  {
+    "ID": 1264,
+    "Eparchy": ""
+    "Name": "Saints Constantine & Helen Greek Orthodox Church",
+    "Address1": "36375 Joy Road",
+    "City": "Westland",
+    "Zip": "48185-1105",
+    "Phone": "(734) 525-6789",
+    "Email": "stcons2@gmail.com",
+    "Website": "https://www.stcons.org",
+    "State": "MI"
+  },
+  {
+    "ID": 1265,
+    "Eparchy": ""
+    "Name": "Archangel Gabriel Greek Orthodox Church",
+    "Address1": "7111 U.S. 31 N.",
+    "City": "Williamsburg",
+    "Zip": "49690",
+    "Phone": "(231) 492-0493",
+    "Email": "office@tcorthodoxchurch.com",
+    "Website": "https://www.tcorthodoxchurch.com",
+    "State": "MI"
+  },
+  {
+    "ID": 1266,
+    "Eparchy": ""
+    "Name": "The Twelve Holy Apostles Greek Orthodox Church",
+    "Address1": "632 East 2nd Street",
+    "City": "Duluth",
+    "Zip": "55805-2010",
+    "Phone": "218-722-5957",
+    "Email": "12apostleschurch@gmail.com",
+    "Website": "https://www.12holyapostles.org",
+    "State": "MN"
+  },
+  {
+    "ID": 1267,
+    "Eparchy": ""
+    "Name": "Saint Mary\u2019s Greek Orthodox Church",
+    "Address1": "3450 Irving Avenue South",
+    "City": "Minneapolis",
+    "Zip": "55408-3334",
+    "Phone": "(612) 825-9595",
+    "Email": "stmarysgoc@stmarysgoc.org",
+    "Website": "https://www.stmarysgoc.org",
+    "State": "MN"
+  },
+  {
+    "ID": 1268,
+    "Eparchy": ""
+    "Name": "Holy Anargyroi - Saints Cosmas & Damianos Greek Orthodox Church",
+    "Address1": "703 West Center Street",
+    "City": "Rochester",
+    "Zip": "55902-6231",
+    "Phone": "(507) 282-1529",
+    "Email": "office@rochesterorthodoxchurch.org",
+    "Website": "https://www.rochesterorthodoxchurch.org",
+    "State": "MN"
+  },
+  {
+    "ID": 1269,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "1111 Summit Avenue",
+    "City": "Saint Paul",
+    "Zip": "55105-2648",
+    "Phone": "(651) 222-6220",
+    "Email": "info@stgeorgegoc.org",
+    "Website": "https://www.stgeorgegoc.org",
+    "State": "MN"
+  },
+  {
+    "ID": 1270,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "255 Beauvoir Road",
+    "City": "Biloxi",
+    "Zip": "39531",
+    "Phone": "(228) 860-3376",
+    "Email": "georgeyurchak@yahoo.com",
+    "Website": "https://www.holytrinitybiloxi.org",
+    "State": "MS"
+  },
+  {
+    "ID": 1271,
+    "Eparchy": ""
+    "Name": "Holy Trinity & Saint John the Theologian Greek Orthodox Church",
+    "Address1": "5725 Pear Orchard Road",
+    "City": "Jackson",
+    "Zip": "39211-3309",
+    "Phone": "(601) 355-6325",
+    "Email": "frmike@holytrinitysaintjohnjackson.org",
+    "Website": "https://www.holytrinityjackson.org",
+    "State": "MS"
+  },
+  {
+    "ID": 1272,
+    "Eparchy": ""
+    "Name": "Saint Luke the Evangelist Greek Orthodox Church",
+    "Address1": "1510 Audubon Drive",
+    "City": "Columbia",
+    "Zip": "65201-6277",
+    "Phone": "(573) 817-0050",
+    "Email": "info@saintlukecolumbia.org",
+    "Website": "https://www.saintlukecolumbia.org",
+    "State": "MO"
+  },
+  {
+    "ID": 1273,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "12001 Wornall Road",
+    "City": "Kansas City",
+    "Zip": "64145-1116",
+    "Phone": "(816) 942-9100",
+    "Email": "info@annunciationkc.org",
+    "Website": "https://www.annunciationkc.org",
+    "State": "MO"
+  },
+  {
+    "ID": 1274,
+    "Eparchy": ""
+    "Name": "Saint Nicholas Greek Orthodox Church",
+    "Address1": "4967 Forest Park Avenue",
+    "City": "Saint Louis",
+    "Zip": "63108-1401",
+    "Phone": "(314) 361-6924",
+    "Email": "stnicholas@sngoc.org",
+    "Website": "https://www.sngoc.org",
+    "State": "MO"
+  },
+  {
+    "ID": 1275,
+    "Eparchy": ""
+    "Name": "Assumption Greek Orthodox Church",
+    "Address1": "1755 Des Peres Road",
+    "City": "Saint Louis",
+    "Zip": "63131-1405",
+    "Phone": "(314) 966-2255",
+    "Email": "office@assumptiongoc.org",
+    "Website": "https://www.assumptiongoc.org",
+    "State": "MO"
+  },
+  {
+    "ID": 1276,
+    "Eparchy": ""
+    "Name": "Sts. Constantine & Helen Greek Orthodox Church",
+    "Address1": "Post Office Box 2564",
+    "City": "Great Falls",
+    "Zip": "59403-2564",
+    "Phone": "(406) 452-3670",
+    "Email": "gforthodox@hotmail.com",
+    "Website": "",
+    "State": "MT"
+  },
+  {
+    "ID": 1277,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "301 South 6th Street West",
+    "City": "Missoula",
+    "Zip": "59801-3936",
+    "Phone": "(406) 543-0792",
+    "Email": "office@annunciationmt.org",
+    "Website": "https://www.annunciationmt.com",
+    "State": "MT"
+  },
+  {
+    "ID": 1278,
+    "Eparchy": ""
+    "Name": "Assumption Greek Orthodox Church",
+    "Address1": "810 1st Avenue",
+    "City": "Bayard",
+    "Zip": "69334",
+    "Phone": "(308) 586-1926",
+    "Email": "",
+    "Website": "https://www.assumption.ne.goarch.org",
+    "State": "NE"
+  },
+  {
+    "ID": 1279,
+    "Eparchy": ""
+    "Name": "All-Holy Spirit Greek Orthodox Church",
+    "Address1": "450 South 193rd Street,",
+    "City": "Elkhorn",
+    "Zip": "68022-2829",
+    "Phone": "(402) 934-3688",
+    "Email": "office@allholyspirit.com",
+    "Website": "https://www.allholyspirit.church",
+    "State": "NE"
+  },
+  {
+    "ID": 1280,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "950 North 63rd Street",
+    "City": "Lincoln",
+    "Zip": "68505-2286",
+    "Phone": "(402) 464-4427",
+    "Email": "greekorthodoxchurchlincoln@gmail.com",
+    "Website": "https://www.orthodoxlincoln.com",
+    "State": "NE"
+  },
+  {
+    "ID": 1281,
+    "Eparchy": ""
+    "Name": "Saint John the Baptist Greek Orthodox Church",
+    "Address1": "602 Park Avenue",
+    "City": "Omaha",
+    "Zip": "68105-2712",
+    "Phone": "(402) 345-7103",
+    "Email": "office@stjohnsgreekorthodox.org",
+    "Website": "https://www. stjohnsgreekorthodox.org",
+    "State": "NE"
+  },
+  {
+    "ID": 1282,
+    "Eparchy": ""
+    "Name": "St. Alexios Greek Orthodox Chapel",
+    "Address1": "Post Office Box 733, 12th & Lyons",
+    "City": "Ely",
+    "Zip": "89315",
+    "Phone": "(702) 289-3570",
+    "Email": "",
+    "Website": "",
+    "State": "NV"
+  },
+  {
+    "ID": 1283,
+    "Eparchy": ""
+    "Name": "Saint John the Baptist Greek Orthodox Church",
+    "Address1": "5300 El Camino Road",
+    "City": "Las Vegas",
+    "Zip": "89118-1922",
+    "Phone": "(702) 221-8245",
+    "Email": "frjohn@vegasgreekorthodox.com",
+    "Website": "https://www. vegasgreekorthodox.com",
+    "State": "NV"
+  },
+  {
+    "ID": 1284,
+    "Eparchy": ""
+    "Name": "St. Barbara Chapel",
+    "Address1": "North 4th Street",
+    "City": "McGill",
+    "Zip": "89318",
+    "Phone": "(702)289-3567",
+    "Email": "stbarbaramcg@mail.goarch.org",
+    "Website": "",
+    "State": "NV"
+  },
+  {
+    "ID": 1285,
+    "Eparchy": ""
+    "Name": "Saint Anthony Greek Orthodox Church",
+    "Address1": "4795 Lakeside Drive",
+    "City": "Reno",
+    "Zip": "89509-5814",
+    "Phone": "(775) 825-5365",
+    "Email": "saintanthonychurch@sbcglobal.net",
+    "Website": "https://www.saintanthonyreno.org",
+    "State": "NV"
+  },
+  {
+    "ID": 1286,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "68 North State Street",
+    "City": "Concord",
+    "Zip": "03301-4330",
+    "Phone": "(603) 225-2961",
+    "Email": "htgoc@comcast.net",
+    "Website": "https://www.holytrinitynh.org",
+    "State": "NH"
+  },
+  {
+    "ID": 1287,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "93 Locust Street",
+    "City": "Dover",
+    "Zip": "03820-3753",
+    "Phone": "(603) 742-7667",
+    "Email": "annunciationdover@gmail.com",
+    "Website": "https://www.annunciationdover.org",
+    "State": "NH"
+  },
+  {
+    "ID": 1288,
+    "Eparchy": ""
+    "Name": "Transfiguration Greek Orthodox Church",
+    "Address1": "28 S. Sulloway St.",
+    "City": "Franklin",
+    "Zip": "03235",
+    "Phone": "(603) 226-5847",
+    "Email": "holytrinity.office@yahoo.com",
+    "Website": "",
+    "State": "NH"
+  },
+  {
+    "ID": 1289,
+    "Eparchy": ""
+    "Name": "St. George Greek Orthodox Church",
+    "Address1": "Post Office Box 392",
+    "City": "Keene",
+    "Zip": "03431-0392",
+    "Phone": "(603) 352-6424",
+    "Email": "",
+    "Website": "https://www.stgeorgekeene.nh.goarch.org",
+    "State": "NH"
+  },
+  {
+    "ID": 1290,
+    "Eparchy": ""
+    "Name": "Taxiarchai Greek Orthodox Church",
+    "Address1": "811 N. Main Street",
+    "City": "Laconia",
+    "Zip": "03247-0086",
+    "Phone": "(603) 524-9415",
+    "Email": "info@taxiarchainh.org",
+    "Website": "https://www.taxiarchainh.org",
+    "State": "NH"
+  },
+  {
+    "ID": 1291,
+    "Eparchy": ""
+    "Name": "Assumption Greek Orthodox Church",
+    "Address1": "111 Island Pond Road",
+    "City": "Manchester",
+    "Zip": "03109-4807",
+    "Phone": "(603) 623-2045",
+    "Email": "info@assumptionnh.org",
+    "Website": "https://www.assumptionnh.org",
+    "State": "NH"
+  },
+  {
+    "ID": 1292,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Cathedral",
+    "Address1": "650 Hanover Street",
+    "City": "Manchester",
+    "Zip": "03104-5306",
+    "Phone": "(603) 622-9113",
+    "Email": "office@stgeorgenh.org",
+    "Website": "https://www.stgeorgenh.org",
+    "State": "NH"
+  },
+  {
+    "ID": 1293,
+    "Eparchy": ""
+    "Name": "Saint Nicholas Greek Orthodox Church",
+    "Address1": "1160 Bridge Street",
+    "City": "Manchester",
+    "Zip": "03104-5741",
+    "Phone": "(603) 625-6115",
+    "Email": "frphil.stnicks@gmail.com",
+    "Website": "https://www.stnicholasgreekchurch.com",
+    "State": "NH"
+  },
+  {
+    "ID": 1294,
+    "Eparchy": ""
+    "Name": "Saint Philip Greek Orthodox Church",
+    "Address1": "500 West Hollis Street",
+    "City": "Nashua",
+    "Zip": "03062-1314",
+    "Phone": "(603) 889-4000",
+    "Email": "office@stphilipnashua.com",
+    "Website": "https://www.stphilipnashua.com",
+    "State": "NH"
+  },
+  {
+    "ID": 1295,
+    "Eparchy": ""
+    "Name": "Saint Vasilios Greek Orthodox Church",
+    "Address1": "45 Winter Street, Newport NH 03773",
+    "City": "Newport",
+    "Zip": "03773-0428",
+    "Phone": "(603) 863-8376",
+    "Email": "barbara@georgitsis.org",
+    "Website": "https://www.stvasilios.nh.goarch.org",
+    "State": "NH"
+  },
+  {
+    "ID": 1296,
+    "Eparchy": ""
+    "Name": "Saint Nicholas Greek Orthodox Church",
+    "Address1": "40 Andrew Jarvis Drive",
+    "City": "Portsmouth",
+    "Zip": "03801-5448",
+    "Phone": "(603) 436-2733",
+    "Email": "stnickport@gmail.com",
+    "Website": "https://www.stnicholasportsmouthnh.org",
+    "State": "NH"
+  },
+  {
+    "ID": 1297,
+    "Eparchy": ""
+    "Name": "Assumption Greek Orthodox Church",
+    "Address1": "45 Tates Brook Rd",
+    "City": "Somersworth",
+    "Zip": "03878",
+    "Phone": "(617) 605-9846",
+    "Email": "ngp70@comcast.net",
+    "Website": "",
+    "State": "NH"
+  },
+  {
+    "ID": 1298,
+    "Eparchy": ""
+    "Name": "Saint Nicholas Greek Orthodox Church",
+    "Address1": "13 South Mount Vernon Avenue",
+    "City": "Atlantic City",
+    "Zip": "08401",
+    "Phone": "(609) 348-3495",
+    "Email": "epikentro@gmail.com",
+    "Website": "https://www.stnicholas.nj.goarch.org",
+    "State": "NJ"
+  },
+  {
+    "ID": 1299,
+    "Eparchy": ""
+    "Name": "Saint Thomas Greek Orthodox Church",
+    "Address1": "615 Mercer Street",
+    "City": "Cherry",
+    "Zip": "08002-2635",
+    "Phone": "(856) 665-1731",
+    "Email": "goc.stthomas@gmail.com",
+    "Website": "https://www.goc-stthomas.com",
+    "State": "NJ"
+  },
+  {
+    "ID": 1300,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "818 Valley Road",
+    "City": "Clifton",
+    "Zip": "07013-2206",
+    "Phone": "(973) 779-2626",
+    "Email": "office@stgeorgeclifton.org",
+    "Website": "https://www.stgeorgeclifton.org",
+    "State": "NJ"
+  },
+  {
+    "ID": 1301,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "7004 Ridge Avenue",
+    "City": "Egg Harbor Township",
+    "Zip": "08234-9651",
+    "Phone": "(609) 653-8092",
+    "Email": "frgeorgeliacopulos@gmail.com",
+    "Website": "https://www.holytrinityeggharbor.com",
+    "State": "NJ"
+  },
+  {
+    "ID": 1302,
+    "Eparchy": ""
+    "Name": "St. Fanourios Greek Orthodox Church",
+    "Address1": "1034 East Jersey Street",
+    "City": "Elizabeth",
+    "Zip": "07201-2544",
+    "Phone": "(908) 289-1250",
+    "Email": "stfanourioseli@mail.goarch.org",
+    "Website": "https://www.stfanourios-nj.org",
+    "State": "NJ"
+  },
+  {
+    "ID": 1303,
+    "Eparchy": ""
+    "Name": "Ascension Greek Orthodox Church",
+    "Address1": "101 Anderson Avenue",
+    "City": "Fairview",
+    "Zip": "07022-2003",
+    "Phone": "(201) 945-6448",
+    "Email": "info@ascensionfairview.org",
+    "Website": "https://www.ascensionfairview.org",
+    "State": "NJ"
+  },
+  {
+    "ID": 1304,
+    "Eparchy": ""
+    "Name": "Saint Anna Greek Orthodox Church",
+    "Address1": "85 Voorhees Corner Rd.",
+    "City": "Flemington",
+    "Zip": "08822- 2065",
+    "Phone": "(908) 968-4004",
+    "Email": "president@stannagoc.org",
+    "Website": "https://www.stannagoc.org",
+    "State": "NJ"
+  },
+  {
+    "ID": 1305,
+    "Eparchy": ""
+    "Name": "Kimisis Tis Theotokou Church",
+    "Address1": "20 crest Road",
+    "City": "Holmdel",
+    "Zip": "07733-1614",
+    "Phone": "(732) 739-1515",
+    "Email": "office@kimisis.com",
+    "Website": "https://www.kimisis.com",
+    "State": "NJ"
+  },
+  {
+    "ID": 1306,
+    "Eparchy": ""
+    "Name": "Evangelismos Tis Theotokou Greek Orthodox Church",
+    "Address1": "661 Montgomery Street",
+    "City": "Jersey City",
+    "Zip": "07306-2411",
+    "Phone": "(201) 432-2488",
+    "Email": "dkevangelismos@gmail.com",
+    "Website": "https://www.evangelismos.nj.goarch.org",
+    "State": "NJ"
+  },
+  {
+    "ID": 1307,
+    "Eparchy": ""
+    "Name": "St. Demetrios Greek Orthodox Church",
+    "Address1": "524 Summit Avenue",
+    "City": "Jersey City",
+    "Zip": "07306- 2913",
+    "Phone": "(201) 792-0697",
+    "Email": "church@stdemetriosjc.org",
+    "Website": "https://www.stdemetriosjc.org",
+    "State": "NJ"
+  },
+  {
+    "ID": 1308,
+    "Eparchy": ""
+    "Name": "Saint Demetrios Greek Orthodox Church",
+    "Address1": "321 Saint Demetrios Avenue",
+    "City": "North Wildwood",
+    "Zip": "08260-3107",
+    "Phone": "(609) 522-0152",
+    "Email": "stdemetriosnwi@mail.goarch.org",
+    "Website": "https://www.stdemetriosnewjersey.com",
+    "State": "NJ"
+  },
+  {
+    "ID": 1309,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "1033 West Park Avenue",
+    "City": "Ocean",
+    "Zip": "07712-7223",
+    "Phone": "(732) 775-2777",
+    "Email": "frandrew@stgeorgeap.org",
+    "Website": "https://www.stgeorgeap.org",
+    "State": "NJ"
+  },
+  {
+    "ID": 1310,
+    "Eparchy": ""
+    "Name": "Saint Athanasios Greek Orthodox Church",
+    "Address1": "51 Paramus Road",
+    "City": "Paramus",
+    "Zip": "07652-1320",
+    "Phone": "(201) 368-8881",
+    "Email": "info@stathanasiosnj.org",
+    "Website": "https://www.stathanasiosnj.org",
+    "State": "NJ"
+  },
+  {
+    "ID": 1311,
+    "Eparchy": ""
+    "Name": "Saint Demetrios Greek Orthodox Church",
+    "Address1": "41-47 Wisteria St",
+    "City": "Perth Amboy",
+    "Zip": "8861",
+    "Phone": "(732) 826-4466",
+    "Email": "stdgoa@gmail.com",
+    "Website": "https://www.stdemetriosperthamboy.org",
+    "State": "NJ"
+  },
+  {
+    "ID": 1312,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "1101 River Road",
+    "City": "Piscataway",
+    "Zip": "08854-5620",
+    "Phone": "(732) 463-1642",
+    "Email": "stgeorge@gocnj.org",
+    "Website": "https://www.gocnj.org",
+    "State": "NJ"
+  },
+  {
+    "ID": 1313,
+    "Eparchy": ""
+    "Name": "Saint Andrew Greek Orthodox Church",
+    "Address1": "1447 Sussex Turnpike",
+    "City": "Randolph",
+    "Zip": "07869-1830",
+    "Phone": "(973) 584-0388",
+    "Email": "info@standrewgonj.org",
+    "Website": "https://www.standrewgonj.org",
+    "State": "NJ"
+  },
+  {
+    "ID": 1314,
+    "Eparchy": ""
+    "Name": "Saints Nicholas, Constantine & Helen Greek Orthodox Church",
+    "Address1": "80 Laurel Avenue",
+    "City": "Roseland",
+    "Zip": "07068-1461",
+    "Phone": "(973) 251-2920",
+    "Email": "info@gcrmail.org",
+    "Website": "https://www. greekchurchroseland.org",
+    "State": "NJ"
+  },
+  {
+    "ID": 1315,
+    "Eparchy": ""
+    "Name": "Saint John the Theologian Cathedral",
+    "Address1": "353 East Clinton Avenue",
+    "City": "Tenafly",
+    "Zip": "07670-2319",
+    "Phone": "(201) 567-5072",
+    "Email": "frangelo@stjohntenafly.org",
+    "Website": "https://www.stjohntenafly.org",
+    "State": "NJ"
+  },
+  {
+    "ID": 1316,
+    "Eparchy": ""
+    "Name": "Saint Barbara Greek Orthodox Church",
+    "Address1": "2200 Church Road",
+    "City": "Toms River",
+    "Zip": "08753-8106",
+    "Phone": "(732) 255-5525",
+    "Email": "",
+    "Website": "https://www.stbarbaranj.org",
+    "State": "NJ"
+  },
+  {
+    "ID": 1317,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "1200 Klockner Road",
+    "City": "Trenton",
+    "Zip": "08619-3614",
+    "Phone": "(609) 586-4448",
+    "Email": "stgeorgehamilton@gmail.com",
+    "Website": "https://www.stgeorgehamilton.com",
+    "State": "NJ"
+  },
+  {
+    "ID": 1318,
+    "Eparchy": ""
+    "Name": "St. Demetrios Greek Orthodox Church",
+    "Address1": "721 Rahway Avenue",
+    "City": "Union",
+    "Zip": "07083-6689",
+    "Phone": "(908) 964-7957",
+    "Email": "grstdemetriosunion@hotmail.com",
+    "Website": "https://www.stdemetriosunion.org",
+    "State": "NJ"
+  },
+  {
+    "ID": 1319,
+    "Eparchy": ""
+    "Name": "Saint Anthony Greek Orthodox Church",
+    "Address1": "430 West Wheat Road",
+    "City": "Vineland",
+    "Zip": "08360-1911",
+    "Phone": "(856) 696-0917",
+    "Email": "stanthonychurch@snip.net",
+    "Website": "https://www.stanthonyvinelandnj.com",
+    "State": "NJ"
+  },
+  {
+    "ID": 1320,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "250 Gallows Road",
+    "City": "Westfield",
+    "Zip": "07090-1109",
+    "Phone": "(908) 233-8533",
+    "Email": "holytrinity@htgocnj.org",
+    "Website": "https://www.holytrinitywestfield.org",
+    "State": "NJ"
+  },
+  {
+    "ID": 1321,
+    "Eparchy": ""
+    "Name": "Saint Nicholas Greek Orthodox Church",
+    "Address1": "467 Grandview Avenue",
+    "City": "Wyckoff",
+    "Zip": "07481-2543",
+    "Phone": "(201) 652-4774",
+    "Email": "office@stnicholasnj.org",
+    "Website": "https://www.stnicholasnj.org",
+    "State": "NJ"
+  },
+  {
+    "ID": 1322,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "308 High Street Southeast",
+    "City": "Albuquerque",
+    "Zip": "87102-3631",
+    "Phone": "(505) 247-9411",
+    "Email": "office@stgeorgenm.org",
+    "Website": "https://www.stgeorgenm.org",
+    "State": "NM"
+  },
+  {
+    "ID": 1323,
+    "Eparchy": ""
+    "Name": "Saint Elias The Prophet Church",
+    "Address1": "46 Calle Electra",
+    "City": "Santa Fe",
+    "Zip": "87508-9143",
+    "Phone": "(505) 466-0015",
+    "Email": "",
+    "Website": "https://www.steliasnm.org",
+    "State": "NM"
+  },
+  {
+    "ID": 1324,
+    "Eparchy": ""
+    "Name": "Saint Sophia Greek Orthodox Church",
+    "Address1": "440 Whitehall Road",
+    "City": "Albany",
+    "Zip": "12208-1643",
+    "Phone": "(518) 489-4442",
+    "Email": "parishoffice@stsophiaalbany.org",
+    "Website": "https://www.stsophiaalbany.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1325,
+    "Eparchy": ""
+    "Name": "Saint Demetrios Cathedral",
+    "Address1": "3011 30th Drive",
+    "City": "Astoria",
+    "Zip": "11102-1854",
+    "Phone": "(718) 728-1718",
+    "Email": "franargyros@aol.com",
+    "Website": "https://www. saintdemetriosastoria.com",
+    "State": "NY"
+  },
+  {
+    "ID": 1326,
+    "Eparchy": ""
+    "Name": "Saint Catherine - Saint George Church",
+    "Address1": "22-30 33rd Street",
+    "City": "Astoria",
+    "Zip": "11105-2189",
+    "Phone": "(718) 728-1718",
+    "Email": "franargyros@aol.com",
+    "Website": "https://www. saintdemetriosastoria.com",
+    "State": "NY"
+  },
+  {
+    "ID": 1327,
+    "Eparchy": ""
+    "Name": "St. Cosmas Chapel",
+    "Address1": "2709 Crescent Street",
+    "City": "Astoria",
+    "Zip": "11102-3142",
+    "Phone": "(718) 626-5111",
+    "Email": "info@hellenicculturalcenter.org",
+    "Website": "https://www. hellenicculturalcenter.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1328,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "214 Court Street",
+    "City": "Binghamton",
+    "Zip": "13901-3605",
+    "Phone": "(607) 798-0963",
+    "Email": "",
+    "Website": "",
+    "State": "NY"
+  },
+  {
+    "ID": 1329,
+    "Eparchy": ""
+    "Name": "Saint John Greek Orthodox Church",
+    "Address1": "77 Montauk Highway",
+    "City": "Blue Point",
+    "Zip": "11715-1130",
+    "Phone": "(631) 363-6450",
+    "Email": "office@stjohnsbluepoint.org",
+    "Website": "https://www.stjohnsbluepoint.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1330,
+    "Eparchy": ""
+    "Name": "Saint Peter the Apostle Greek Orthodox Church",
+    "Address1": "3245 Kingsbridge Avenue",
+    "City": "Bronx",
+    "Zip": "10463-5514",
+    "Phone": "(718) 549-8773",
+    "Email": "nkatehis@gmail.com",
+    "Website": "https://www.stpeter.ny.goarch.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1331,
+    "Eparchy": ""
+    "Name": "Zoodohos Peghe Greek Orthodox Church",
+    "Address1": "3573 Bruckner Boulevard",
+    "City": "Bronx",
+    "Zip": "10461-4605",
+    "Phone": "(718) 823-2030",
+    "Email": "secretary@zoodohospeghe.org",
+    "Website": "https://www.zoodohospeghe.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1332,
+    "Eparchy": ""
+    "Name": "Holy Cross Greek Orthodox Church",
+    "Address1": "8401 Ridge Boulevard",
+    "City": "Brooklyn",
+    "Zip": "11209-4327",
+    "Phone": "(718) 836-3510",
+    "Email": "holycrossbrooklyn@gmail.com",
+    "Website": "https://www.holycrossbrooklyn.com",
+    "State": "NY"
+  },
+  {
+    "ID": 1333,
+    "Eparchy": ""
+    "Name": "Kimisis Tis Theotokou Greek Orthodox Church",
+    "Address1": "224 18th Street",
+    "City": "Brooklyn",
+    "Zip": "11215-5303",
+    "Phone": "(718) 788-0152",
+    "Email": "kimisistheotokou@gmail.com",
+    "Website": "https://www.kimisisbrooklyn.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1334,
+    "Eparchy": ""
+    "Name": "Saints Constantine & Helen Cathedral",
+    "Address1": "64 Schermerhorn Street",
+    "City": "Brooklyn",
+    "Zip": "11201-5005",
+    "Phone": "(718) 624-0595",
+    "Email": "churchsecretary@afantis.org",
+    "Website": "https://www. stconstantinecathedral.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1335,
+    "Eparchy": ""
+    "Name": "Three Hierarchs Greek Orthodox Church",
+    "Address1": "1724 Avenue P",
+    "City": "Brooklyn",
+    "Zip": "11229-1206",
+    "Phone": "(718) 339-0280",
+    "Email": "info@threehierarchsbrooklyn.org",
+    "Website": "https://www.threehierarchsbrooklynny.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1336,
+    "Eparchy": ""
+    "Name": "St. Nectarios Greek Orthodox Church",
+    "Address1": "340 67th Street",
+    "City": "Brooklyn",
+    "Zip": "11220-5301",
+    "Phone": "(718) 748-7667",
+    "Email": "",
+    "Website": "",
+    "State": "NY"
+  },
+  {
+    "ID": 1337,
+    "Eparchy": ""
+    "Name": "St. Nicholas and St. Marina Greek Orthodox Church",
+    "Address1": "1822 65th Street",
+    "City": "Brooklyn",
+    "Zip": "11204-1901",
+    "Phone": "(718) 232-7358",
+    "Email": "",
+    "Website": "",
+    "State": "NY"
+  },
+  {
+    "ID": 1338,
+    "Eparchy": ""
+    "Name": "Church of the Holy Resurrection",
+    "Address1": "1400 Cedar Swamp Road",
+    "City": "Brookville",
+    "Zip": "11545-2124",
+    "Phone": "(516) 671-5200",
+    "Email": "office@resurrectiongoc.org",
+    "Website": "https://www.resurrectiongoc.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1339,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "146 West Utica Street",
+    "City": "Buffalo",
+    "Zip": "14222-2018",
+    "Phone": "(716) 882-9485",
+    "Email": "office.hoca@gmail.com",
+    "Website": "https://www.greekorthodoxchurchbuffalo.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1340,
+    "Eparchy": ""
+    "Name": "Transfiguration of Christ Greek Orthodox Church",
+    "Address1": "3805 98th Street",
+    "City": "Corona",
+    "Zip": "11368-2170",
+    "Phone": "(718) 458-5251",
+    "Email": "info@transfiguration.com",
+    "Website": "https://www.transfigurationcorona.com",
+    "State": "NY"
+  },
+  {
+    "ID": 1341,
+    "Eparchy": ""
+    "Name": "Saint Athanasios Church",
+    "Address1": "210 Franklin Street",
+    "City": "Elmira",
+    "Zip": "14904-1706",
+    "Phone": "(607) 734-0771",
+    "Email": "",
+    "Website": "",
+    "State": "NY"
+  },
+  {
+    "ID": 1342,
+    "Eparchy": ""
+    "Name": "Saint Nicholas Shrine Greek Orthodox Church",
+    "Address1": "196-10 Northern Boulevard",
+    "City": "Flushing",
+    "Zip": "11358-3037",
+    "Phone": "(718) 357-4200",
+    "Email": "info@stnicholasflushing.org",
+    "Website": "https://www.stnicholasflushing.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1343,
+    "Eparchy": ""
+    "Name": "St. Basil the Great Chapel",
+    "Address1": "79 St. Basil Road",
+    "City": "Garrison",
+    "Zip": "10524-4127",
+    "Phone": "(845) 424-3500",
+    "Email": "",
+    "Website": "",
+    "State": "NY"
+  },
+  {
+    "ID": 1344,
+    "Eparchy": ""
+    "Name": "Sts. Theodoroi Greek Orthodox Church",
+    "Address1": "70 Washington Street",
+    "City": "Gloversville",
+    "Zip": "12078",
+    "Phone": "(518) 725-1386",
+    "Email": "saintstheodoroiglo@mail.goarch.org",
+    "Website": "",
+    "State": "NY"
+  },
+  {
+    "ID": 1345,
+    "Eparchy": ""
+    "Name": "Saint Paraskevi Greek Orthodox Shrine Church",
+    "Address1": "1 Shrine Place",
+    "City": "Greenlawn",
+    "Zip": "11740-1512",
+    "Phone": "(631) 261-7272",
+    "Email": "Stparaskevishrine@gmail.com",
+    "Website": "https://www.stparaskevi.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1346,
+    "Eparchy": ""
+    "Name": "Sts. Anargyroi, Taxiarchis and Gerasimos Greek Orthodox Church",
+    "Address1": "702 Main Street",
+    "City": "Greenport",
+    "Zip": "11944",
+    "Phone": "(631) 477-1801",
+    "Email": "",
+    "Website": "",
+    "State": "NY"
+  },
+  {
+    "ID": 1347,
+    "Eparchy": ""
+    "Name": "Saint Paul Cathedral",
+    "Address1": "110 Cathedral Avenue",
+    "City": "Hempstead",
+    "Zip": "11550-2050",
+    "Phone": "(516) 483-5700",
+    "Email": "office@stpaulhempstead.org",
+    "Website": "https://www.stpaulhempstead. org",
+    "State": "NY"
+  },
+  {
+    "ID": 1348,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "20 Field Avenue",
+    "City": "Hicksville",
+    "Zip": "11801-5321",
+    "Phone": "(516) 433-4522",
+    "Email": "holytrinityhicksville@gmail.com",
+    "Website": "https://www.holytrinitygoch.com",
+    "State": "NY"
+  },
+  {
+    "ID": 1349,
+    "Eparchy": ""
+    "Name": "Kimisis Tis Theotokos Greek Orthodox Church",
+    "Address1": "83 Newport Road",
+    "City": "Island Park",
+    "Zip": "11558-1012",
+    "Phone": "(516) 432-4086",
+    "Email": "panaghiaip@gmail.com",
+    "Website": "https://www.panaghiaip.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1350,
+    "Eparchy": ""
+    "Name": "Saint Catherine Greek Orthodox Church",
+    "Address1": "120 West Seneca Street",
+    "City": "Ithaca",
+    "Zip": "14850-4138",
+    "Phone": "(607) 273-2767",
+    "Email": "stcatherinegoc@gmail.com",
+    "Website": "https://www.stcatherine.ny.goarch.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1351,
+    "Eparchy": ""
+    "Name": "Saints Constantine & Helen Greek Orthodox Church",
+    "Address1": "37-57 72nd Street",
+    "City": "Jackson Heights",
+    "Zip": "11372-6144",
+    "Phone": "(718) 639-0611",
+    "Email": "sschofny78@yahoo.com",
+    "Website": "https://www.stsconstantinehelen.ny.goarch.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1352,
+    "Eparchy": ""
+    "Name": "Saint Demetrios Greek Orthodox Church",
+    "Address1": "84-35 152nd Street",
+    "City": "Jamaica",
+    "Zip": "11432-1641",
+    "Phone": "(718) 291-2420",
+    "Email": "krhth624@aol.com",
+    "Website": "https://www.stdemetrios.ny.goarch.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1353,
+    "Eparchy": ""
+    "Name": "Saint Nicholas Greek Orthodox Church",
+    "Address1": "Mt. Vernon Place & Francis Street",
+    "City": "Jamestown",
+    "Zip": "14701",
+    "Phone": "(716) 483-0022",
+    "Email": "stnicholasjamestown@gmail.com",
+    "Website": "https://www.stnicholasjamestown.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1354,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "294 Greenkill Ave",
+    "City": "Kingston",
+    "Zip": "12401",
+    "Phone": "(845) 331-3522",
+    "Email": "frjimk@goarch.org",
+    "Website": "https://www.saintgeorge.ny.goarch.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1355,
+    "Eparchy": ""
+    "Name": "Transfiguration Of Christ Greek Orthodox Church",
+    "Address1": "1950 Breakwater Rd,",
+    "City": "Mattituck",
+    "Zip": "11952",
+    "Phone": "(631) 298-9652",
+    "Email": "transgochurch@optonline.net",
+    "Website": "https://www. transfigurationofchrist.com",
+    "State": "NY"
+  },
+  {
+    "ID": 1356,
+    "Eparchy": ""
+    "Name": "Saint Demetrios Greek Orthodox Church",
+    "Address1": "24 Kenny Avenue",
+    "City": "Merrick",
+    "Zip": "11566-3918",
+    "Phone": "(516) 379-1368",
+    "Email": "saintdemetrios@yahoo.com",
+    "Website": "https://www.saint-demetrios.com",
+    "State": "NY"
+  },
+  {
+    "ID": 1357,
+    "Eparchy": ""
+    "Name": "Holy Cross Greek Orthodox Church",
+    "Address1": "2250 Goshen Turnpike",
+    "City": "Middletown",
+    "Zip": "10941-4031",
+    "Phone": "(845) 695-1976",
+    "Email": "holycgoc@aol.com",
+    "Website": "https://www.holycrossgreekorthodoxchurch.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1358,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "10 Mill Road",
+    "City": "New Rochelle",
+    "Zip": "10804-2119",
+    "Phone": "(914) 235-6100",
+    "Email": "franctil@aol.com",
+    "Website": "https://www.holytrinitynr.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1359,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "302 West 91st Street",
+    "City": "New York",
+    "Zip": "10024-1011",
+    "Phone": "(212) 724-2070",
+    "Email": "info@annunciation-nyc.org",
+    "Website": "https://www.annunciation-nyc.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1360,
+    "Eparchy": ""
+    "Name": "Holy Trinity Cathedral",
+    "Address1": "319 E 74th Street",
+    "City": "New York",
+    "Zip": "10021-3792",
+    "Phone": "(212) 288-3215",
+    "Email": "alexandra@thecathedralnyc.org",
+    "Website": "https://www.thecathedralnyc.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1361,
+    "Eparchy": ""
+    "Name": "Saint Barbara Greek Orthodox Church",
+    "Address1": "27 Forsyth Street",
+    "City": "New York",
+    "Zip": "10002-6001",
+    "Phone": "(212) 226-0499",
+    "Email": "stbarbaranyc@aol.com",
+    "Website": "https://www.stbarbaragoc.com",
+    "State": "NY"
+  },
+  {
+    "ID": 1362,
+    "Eparchy": ""
+    "Name": "Saint Eleftherios Greek Orthodox Church",
+    "Address1": "359 West 24th Street",
+    "City": "New York",
+    "Zip": "10011-1501",
+    "Phone": "(212) 924-3919",
+    "Email": "saint.eleftherios@gmail.com",
+    "Website": "https://www.steleftherios.ny.goarch.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1363,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "307 West 54th Street",
+    "City": "New York",
+    "Zip": "10019",
+    "Phone": "(212) 265-7808",
+    "Email": "stgeorgechurchnyc@gmail.com",
+    "Website": "https://www.saintgeorgenyc.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1364,
+    "Eparchy": ""
+    "Name": "Saint Gerasimos Greek Orthodox Church",
+    "Address1": "153 West 105th Street",
+    "City": "New York",
+    "Zip": "10025-4024",
+    "Phone": "(212) 749-0017",
+    "Email": "frpanagiotis@goarch.org",
+    "Website": "https://www.stgnyc.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1365,
+    "Eparchy": ""
+    "Name": "Saint John The Baptist Greek Orthodox Church",
+    "Address1": "143 East 17th Street",
+    "City": "New York",
+    "Zip": "10003-3402",
+    "Phone": "(212) 473-0648",
+    "Email": "saintjohn.churchnyc@gmail.com",
+    "Website": "https://www.stjohn.ny.goarch.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1366,
+    "Eparchy": ""
+    "Name": "Saint Nicholas Greek Orthodox Church and National Shrine",
+    "Address1": "130 Liberty Street",
+    "City": "New York",
+    "Zip": "10006",
+    "Phone": "(212) 774-0472",
+    "Email": "info@stnicholaswtc.org",
+    "Website": "https://www.stnicholaswtc.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1367,
+    "Eparchy": ""
+    "Name": "Saint Spyridon Greek Orthodox Church",
+    "Address1": "124 Wadsworth Avenue",
+    "City": "New York",
+    "Zip": "10033-4812",
+    "Phone": "(212) 795-5870",
+    "Email": "office@saintspyridon.net",
+    "Website": "https://www.saintspyridon.net",
+    "State": "NY"
+  },
+  {
+    "ID": 1368,
+    "Eparchy": ""
+    "Name": "Saints Anargyroi Greek Orthodox Church",
+    "Address1": "1547 Saint Nicholas Avenue",
+    "City": "New York",
+    "Zip": "10040-4505",
+    "Phone": "(212) 568-0367",
+    "Email": "fr.ierotheosmarkopoulos@gmail.com",
+    "Website": "https://www.saintsanargyroi.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1369,
+    "Eparchy": ""
+    "Name": "St. George - St. Demetrios Greek Orthodox Church",
+    "Address1": "140 E 103rd St",
+    "City": "New York",
+    "Zip": "10029",
+    "Phone": "(212) 722-6750",
+    "Email": "stgeorge.stdemetriosnyc@gmail.com",
+    "Website": "https://www.stgeorge-stdemetrios.ny.goarch.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1370,
+    "Eparchy": ""
+    "Name": "Saint Nicholas Greek Orthodox Church",
+    "Address1": "19 Fullerton Avenue",
+    "City": "Newburgh",
+    "Zip": "12550",
+    "Phone": "(845) 561-2556",
+    "Email": "stnicholasnewburgh@gmail.com",
+    "Website": "https://www.stnicholas.ny.goarch.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1371,
+    "Eparchy": ""
+    "Name": "Assumption Greek Orthodox Church",
+    "Address1": "430 Sheep Pasture Road",
+    "City": "Port Jefferson",
+    "Zip": "11777-2074",
+    "Phone": "(631) 473-0894",
+    "Email": "goc.assumption@gmail.com",
+    "Website": "https://www.kimisis.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1372,
+    "Eparchy": ""
+    "Name": "The Archangel Michael Greek Orthodox Church",
+    "Address1": "100 Fairway Drive",
+    "City": "Port Washington",
+    "Zip": "11050-4613",
+    "Phone": "(516) 944-3180",
+    "Email": "info@archangelmichaelchurch.org",
+    "Website": "https://www.archangelmichaelchurch.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1373,
+    "Eparchy": ""
+    "Name": "Kimisis Tis Theotokou Greek Orthodox Church",
+    "Address1": "140 South Grand Avenue",
+    "City": "Poughkeepsie",
+    "Zip": "12603-3010",
+    "Phone": "(845) 452-0772",
+    "Email": "frjasondickey@gmail.com",
+    "Website": "https://www.kimisisny.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1374,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "962 East Avenue",
+    "City": "Rochester",
+    "Zip": "14607-2241",
+    "Phone": "(585) 244-3377",
+    "Email": "office@agocroc.org",
+    "Website": "https://www.annunciationrochester.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1375,
+    "Eparchy": ""
+    "Name": "Holy Spirit Greek Orthodox Church",
+    "Address1": "835 South Avenue",
+    "City": "Rochester",
+    "Zip": "14620-2315",
+    "Phone": "(585) 244-1976",
+    "Email": "goholyspirit@gmail.com",
+    "Website": "https://www.goholyspirit.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1376,
+    "Eparchy": ""
+    "Name": "Church of Our Saviour",
+    "Address1": "2195 Westchester Avenue",
+    "City": "East Rye",
+    "Zip": "10580-1981",
+    "Phone": "(914) 967-2838",
+    "Email": "churchoffice@gocoos.org",
+    "Website": "https://www.gocoos.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1377,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "107 Clinton Street",
+    "City": "Schenectady",
+    "Zip": "12305-2001",
+    "Phone": "(518) 393-0742",
+    "Email": "office@saintgeorgegoc.com",
+    "Website": "https://www.saintgeorgegoc.com",
+    "State": "NY"
+  },
+  {
+    "ID": 1378,
+    "Eparchy": ""
+    "Name": "Dormition Greek Orthodox Cathedral of the Hamptons",
+    "Address1": "111 Saint Andrews Road",
+    "City": "Southampton",
+    "Zip": "11968- 3807",
+    "Phone": "(631) 283-6169",
+    "Email": "info@kimisishamptons.org",
+    "Website": "https://www.dormitionhamptons.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1379,
+    "Eparchy": ""
+    "Name": "Holy Trinity - Saint Nicholas Greek Orthodox Church",
+    "Address1": "1641 Richmond Avenue",
+    "City": "Staten Island",
+    "Zip": "10314-1570",
+    "Phone": "(718) 494-0658",
+    "Email": "vasapos@gmail.com",
+    "Website": "https://www.htsngoc.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1380,
+    "Eparchy": ""
+    "Name": "Saint Sophia Greek Orthodox Church",
+    "Address1": "325 Waring Road",
+    "City": "Syracuse",
+    "Zip": "13224-2254",
+    "Phone": "(315) 446-5222",
+    "Email": "frdavid@stsophias.org",
+    "Website": "https://www.stsophias.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1381,
+    "Eparchy": ""
+    "Name": "Saint Basil Greek Orthodox Church",
+    "Address1": "909 River Street",
+    "City": "Troy",
+    "Zip": "12180-1243",
+    "Phone": "(518) 273-8923",
+    "Email": "info@stbasiltroy.com",
+    "Website": "https://www.stbasiltroy.com",
+    "State": "NY"
+  },
+  {
+    "ID": 1382,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "4121 Ohara Rd.",
+    "City": "Vestal",
+    "Zip": "13850-3543",
+    "Phone": "(607) 797-0824",
+    "Email": "gosundaybulletin@hotmail.com",
+    "Website": "https://www.annunciationvestal.ny.goarch.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1383,
+    "Eparchy": ""
+    "Name": "Saint Markella Greek Orthodox Church",
+    "Address1": "1960 Jones Avenue North",
+    "City": "Wantagh",
+    "Zip": "11793-3352",
+    "Phone": "(516) 783-5760",
+    "Email": "saintmarkellali@yahoo.com",
+    "Website": "https://www.saintmarkella.ny.goarch.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1384,
+    "Eparchy": ""
+    "Name": "Saint Vasilios Greek Orthodox Church",
+    "Address1": "516 Franklin Street",
+    "City": "Watertown",
+    "Zip": "13601-3406",
+    "Phone": "(315) 788-4920",
+    "Email": "",
+    "Website": "https://www.saintvasilios.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1385,
+    "Eparchy": ""
+    "Name": "Saint Nicholas Greek Orthodox Church",
+    "Address1": "200 Great East Neck Road",
+    "City": "West Babylon",
+    "Zip": "11704-7821",
+    "Phone": "(631) 587-1150",
+    "Email": "stnickbabylon@gmail.com",
+    "Website": "https://www.stnicholasbabylon.com",
+    "State": "NY"
+  },
+  {
+    "ID": 1386,
+    "Eparchy": ""
+    "Name": "Saints Constantine & Helen Greek Orthodox Church",
+    "Address1": "1 Marycrest Rd.",
+    "City": "West Nyack",
+    "Zip": "10994-2426",
+    "Phone": "(845) 623-4023",
+    "Email": "westnyack@optonline.net",
+    "Website": "https://www.saintsconstantineandhelenwestnyack.com",
+    "State": "NY"
+  },
+  {
+    "ID": 1387,
+    "Eparchy": ""
+    "Name": "Holy Cross Greek Orthodox Church",
+    "Address1": "1105 150th Street",
+    "City": "Whitestone",
+    "Zip": "11357-1760",
+    "Phone": "(718) 767-2955",
+    "Email": "info@holycrossgreekchurch.com",
+    "Website": "https://www.holycrossgreekchurch.com",
+    "State": "NY"
+  },
+  {
+    "ID": 1388,
+    "Eparchy": ""
+    "Name": "Assumption Greek Orthodox Church",
+    "Address1": "Post Office Box 454",
+    "City": "Windham",
+    "Zip": "12496-0454",
+    "Phone": "(845) 866-8704",
+    "Email": "assumptionwindham@gmail.com",
+    "Website": "https://www.assumption.ny.goarch.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1389,
+    "Eparchy": ""
+    "Name": "Prophet Elias Greek Orthodox Church",
+    "Address1": "15 Leroy Avenue",
+    "City": "Yonkers",
+    "Zip": "10705-4562",
+    "Phone": "(914) 963-3638",
+    "Email": "prophet@prophetelias.org",
+    "Website": "https://www.prophetelias.ny.goarch.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1390,
+    "Eparchy": ""
+    "Name": "Saint George Orthodox Church",
+    "Address1": "20 Buckingham Road,",
+    "City": "Yonkers",
+    "Zip": "10701",
+    "Phone": "(914) 200-5476",
+    "Email": "announcements@stgeorgeyonkers.org",
+    "Website": "https://www.stgeorgeyonkers.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1391,
+    "Eparchy": ""
+    "Name": "Taxiarchai Chapel St. Michael Home",
+    "Address1": "3 Lehman Terrace",
+    "City": "Yonkers",
+    "Zip": "10705-3630",
+    "Phone": "(914) 969-8294",
+    "Email": "taxiarchaiyon@mail.goarch.org",
+    "Website": "https://www.stmichaelshome.org",
+    "State": "NY"
+  },
+  {
+    "ID": 1392,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "227 Cumberland Avenue",
+    "City": "Asheville",
+    "Zip": "28801",
+    "Phone": "(828) 253-3754",
+    "Email": "holytrinitywnc@bellsouth.net",
+    "Website": "https://www.holytrinityasheville.com",
+    "State": "NC"
+  },
+  {
+    "ID": 1393,
+    "Eparchy": ""
+    "Name": "St. Katherine Greek Orthodox Church",
+    "Address1": "2150 West Front Street",
+    "City": "Burlington",
+    "Zip": "27215",
+    "Phone": "(336) 226-8243",
+    "Email": "stkatherinegocburlington@gmail.com",
+    "Website": "https://www.stkatherine.nc.goarch.org",
+    "State": "NC"
+  },
+  {
+    "ID": 1394,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Cathedral",
+    "Address1": "600 East Boulevard",
+    "City": "Charlotte",
+    "Zip": "28203-5112",
+    "Phone": "(704) 334-4771",
+    "Email": "office@htgo.org",
+    "Website": "https://www.htgo.org",
+    "State": "NC"
+  },
+  {
+    "ID": 1395,
+    "Eparchy": ""
+    "Name": "Saint Nektarios Greek Orthodox Church",
+    "Address1": "5108 Kuykendall Road",
+    "City": "Charlotte",
+    "Zip": "28270-0269",
+    "Phone": "(704) 708-4669",
+    "Email": "office@stnektarios.org",
+    "Website": "https://www.stnektarios.org",
+    "State": "NC"
+  },
+  {
+    "ID": 1396,
+    "Eparchy": ""
+    "Name": "Saint Barbara Greek Orthodox Church",
+    "Address1": "8306 Nc Highway 751",
+    "City": "Durham",
+    "Zip": "27713-6860",
+    "Phone": "(919) 484-1600",
+    "Email": "fatherstavroforos2012@gmail.com",
+    "Website": "https://www.stbarbarachurchdurhamnc.com",
+    "State": "NC"
+  },
+  {
+    "ID": 1397,
+    "Eparchy": ""
+    "Name": "Saints Constantine & Helen Greek Orthodox Church",
+    "Address1": "614 Oakridge Avenue",
+    "City": "Fayetteville",
+    "Zip": "28305-4626",
+    "Phone": "(910) 484-2010",
+    "Email": "litsadarosa@yahoo.com",
+    "Website": "https://www.faygreekchurch.com",
+    "State": "NC"
+  },
+  {
+    "ID": 1398,
+    "Eparchy": ""
+    "Name": "Dormition of the Theotokos Greek Orthodox Church",
+    "Address1": "800 Westridge Road",
+    "City": "Greensboro",
+    "Zip": "27410-4504",
+    "Phone": "(336) 292-8013",
+    "Email": "office@dormition.nc.goarch.org",
+    "Website": "https://www.dormition.nc.goarch.org",
+    "State": "NC"
+  },
+  {
+    "ID": 1399,
+    "Eparchy": ""
+    "Name": "Holy Apostles Mission",
+    "Address1": "Post Office Box 31055",
+    "City": "Greenville",
+    "Zip": "27833-1055",
+    "Phone": "(252) 702-5853",
+    "Email": "frsolberg@yahoo.com",
+    "Website": "https://www.holyapostlesgreenvillenc.org",
+    "State": "NC"
+  },
+  {
+    "ID": 1400,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "808 North Hamilton Street",
+    "City": "High Point",
+    "Zip": "27262-4027",
+    "Phone": "(336) 889-9020",
+    "Email": "ffrunza1@aol.com",
+    "Website": "https://www.saintgeorgehp.org",
+    "State": "NC"
+  },
+  {
+    "ID": 1401,
+    "Eparchy": ""
+    "Name": "Saint Porphyrios Greek Orthodox Mission",
+    "Address1": "1201B Hargett Street",
+    "City": "Jacksonville",
+    "Zip": "28540",
+    "Phone": "",
+    "Email": "stporphyriosjacksonville@gmail.com",
+    "Website": "https://www.stporphyriosjacksonville.org",
+    "State": "NC"
+  },
+  {
+    "ID": 1402,
+    "Eparchy": ""
+    "Name": "Saint Luke Greek Orthodox Church",
+    "Address1": "134-A Talbert Pointe Dr.",
+    "City": "Mooresville",
+    "Zip": "28117",
+    "Phone": "(704) 660-6915",
+    "Email": "office@stluke-nc.org",
+    "Website": "https://www.stlukegoc.org",
+    "State": "NC"
+  },
+  {
+    "ID": 1403,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "5000 Lead Mine Road",
+    "City": "Raleigh",
+    "Zip": "27612-3434",
+    "Phone": "(919) 781-4548",
+    "Email": "htraleighoffice@gmail.com",
+    "Website": "https://www.holytrinityraleigh.org",
+    "State": "NC"
+  },
+  {
+    "ID": 1404,
+    "Eparchy": ""
+    "Name": "Saint Nicholas Greek Orthodox Church",
+    "Address1": "608 South College Road",
+    "City": "Wilmington",
+    "Zip": "28403-3202",
+    "Phone": "(910) 392-4444",
+    "Email": "office@stnicholaswilmington.org",
+    "Website": "https://www.stnicholaswilmington.org",
+    "State": "NC"
+  },
+  {
+    "ID": 1405,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "435 Keating Drive",
+    "City": "Winston Salem",
+    "Zip": "27104-3907",
+    "Phone": "(336) 765-7145",
+    "Email": "office@wsgoc.org",
+    "Website": "https://www.wsgoc.org",
+    "State": "NC"
+  },
+  {
+    "ID": 1406,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "129 South Union Street",
+    "City": "Akron",
+    "Zip": "44304-1518",
+    "Phone": "(330) 434-0000",
+    "Email": "info@annunciationakron.org",
+    "Website": "https://www.annunciationakron.org",
+    "State": "OH"
+  },
+  {
+    "ID": 1407,
+    "Eparchy": ""
+    "Name": "Saint James Greek Orthodox Mission",
+    "Address1": "120 Maple Street",
+    "City": "Belpre",
+    "Zip": "45714",
+    "Phone": "(740) 423-6674",
+    "Email": "stgeorgehwv@gmail.com",
+    "Website": "https://www.stjamesbelpre.org",
+    "State": "OH"
+  },
+  {
+    "ID": 1408,
+    "Eparchy": ""
+    "Name": "Archangel Michael Greek Orthodox Church",
+    "Address1": "401 12th Street",
+    "City": "Campbell",
+    "Zip": "44405-1454",
+    "Phone": "(330) 755-3596",
+    "Email": "archangel@zoominternet.net",
+    "Website": "https://www.archangelmichael.oh.goarch.org",
+    "State": "OH"
+  },
+  {
+    "ID": 1409,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "4705 Fairhaven Avenue Northwest",
+    "City": "Canton",
+    "Zip": "44709-1348",
+    "Phone": "(330) 494-8770",
+    "Email": "office@htgoc.net",
+    "Website": "https://www.htgoc.net",
+    "State": "OH"
+  },
+  {
+    "ID": 1410,
+    "Eparchy": ""
+    "Name": "Saint Haralambos Greek Orthodox Church",
+    "Address1": "251 25th Street Northwest",
+    "City": "Canton",
+    "Zip": "44709-3923",
+    "Phone": "(330) 454-7278",
+    "Email": "haralambos251@stharalambos.com",
+    "Website": "https://www.stharalambos.com",
+    "State": "OH"
+  },
+  {
+    "ID": 1411,
+    "Eparchy": ""
+    "Name": "Holy Trinity - Saint Nicholas Greek Orthodox Church",
+    "Address1": "7000 Winton Road",
+    "City": "Cincinnati",
+    "Zip": "45224-1331",
+    "Phone": "(513) 591-0030",
+    "Email": "office@htsnchurch.org",
+    "Website": "https://www.htsnchurch.org",
+    "State": "OH"
+  },
+  {
+    "ID": 1412,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "2187 West 14th Street",
+    "City": "Cleveland",
+    "Zip": "44113-3609",
+    "Phone": "(216) 861-0116",
+    "Email": "office@annunciationcleveland.net",
+    "Website": "https://www.annunciationcleveland.net",
+    "State": "OH"
+  },
+  {
+    "ID": 1413,
+    "Eparchy": ""
+    "Name": "Saints Constantine & Helen Cathedral",
+    "Address1": "3352 Mayfield Road",
+    "City": "Cleveland Heights",
+    "Zip": "44118-1330",
+    "Phone": "(216) 932-3300",
+    "Email": "office@stsconstantine.com",
+    "Website": "https://www.stsconstantine.com",
+    "State": "OH"
+  },
+  {
+    "ID": 1414,
+    "Eparchy": ""
+    "Name": "Annunciation Cathedral",
+    "Address1": "555 North High Street",
+    "City": "Columbus",
+    "Zip": "43215-2068",
+    "Phone": "(614) 224-9020",
+    "Email": "generalinfo@greekcathedral.com",
+    "Website": "https://www.greekcathedral.com",
+    "State": "OH"
+  },
+  {
+    "ID": 1415,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "500 Belmonte Park North",
+    "City": "Dayton",
+    "Zip": "45405-4705",
+    "Phone": "(937) 224-0601",
+    "Email": "office@daytonannunciation.org",
+    "Website": "https://www.daytonannunciation.org",
+    "State": "OH"
+  },
+  {
+    "ID": 1416,
+    "Eparchy": ""
+    "Name": "Saint Nicholas Greek Orthodox Church",
+    "Address1": "2000 Tower Boulevard",
+    "City": "Lorain",
+    "Zip": "44053-3034",
+    "Phone": "(440) 960-2992",
+    "Email": "stnlorain@yahoo.com",
+    "Website": "https://www.stnlorain.com",
+    "State": "OH"
+  },
+  {
+    "ID": 1417,
+    "Eparchy": ""
+    "Name": "Saints Constantine & Helen Greek Orthodox Church",
+    "Address1": "265 West 3rd Street",
+    "City": "Mansfield",
+    "Zip": "44903-7200",
+    "Phone": "(419) 526-0129",
+    "Email": "greekorthodoxmansfield@gmail.com",
+    "Website": "https://www.greekorthodoxmansfield.org",
+    "State": "OH"
+  },
+  {
+    "ID": 1418,
+    "Eparchy": ""
+    "Name": "Zoodochos Peghe Greek Orthodox Church",
+    "Address1": "314 North 5th Street # 316",
+    "City": "Martins Ferry",
+    "Zip": "43935-1647",
+    "Phone": "(740) 633-3707",
+    "Email": "",
+    "Website": "https://www.lifegivingfount.oh.goarch.org",
+    "State": "OH"
+  },
+  {
+    "ID": 1419,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "364 1st Street Southeast",
+    "City": "Massillon",
+    "Zip": "44646-6718",
+    "Phone": "(330) 832-3659",
+    "Email": "",
+    "Website": "https://www.stgeorgemassillon.org",
+    "State": "OH"
+  },
+  {
+    "ID": 1420,
+    "Eparchy": ""
+    "Name": "Sts. Constantine & Helen Greek Orthodox Church",
+    "Address1": "2500 Grand Avenue",
+    "City": "Middletown",
+    "Zip": "45044-4712",
+    "Phone": "(513) 422-2312",
+    "Email": "",
+    "Website": "https://www. gostsconstantineandhelen.org",
+    "State": "OH"
+  },
+  {
+    "ID": 1421,
+    "Eparchy": ""
+    "Name": "Saint Paul Greek Orthodox Church",
+    "Address1": "4548 Wallings Road",
+    "City": "North Royalton",
+    "Zip": "44133-3121",
+    "Phone": "(440) 237-8998",
+    "Email": "messenger@stpaulgoc.org",
+    "Website": "https://www.stpaulgoc.org",
+    "State": "OH"
+  },
+  {
+    "ID": 1422,
+    "Eparchy": ""
+    "Name": "Saint Demetrios Greek Orthodox Church",
+    "Address1": "22909 Center Ridge Road",
+    "City": "Rocky River",
+    "Zip": "44116-3047",
+    "Phone": "(440) 331-2246",
+    "Email": "sdgoc@ohiocoxmail.com",
+    "Website": "https://www.saintdemetriosrr.org",
+    "State": "OH"
+  },
+  {
+    "ID": 1423,
+    "Eparchy": ""
+    "Name": "Assumption Greek Orthodox Church",
+    "Address1": "1127 East High Street",
+    "City": "Springfield",
+    "Zip": "45505-1376",
+    "Phone": "(937) 322-8169",
+    "Email": "father1d1@gmail.com",
+    "Website": "https://www.assumption.oh.goarch.org",
+    "State": "OH"
+  },
+  {
+    "ID": 1424,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "300 South 4th Street",
+    "City": "Steubenville",
+    "Zip": "43952-5788",
+    "Phone": "(740) 282-9835",
+    "Email": "office@holytrinitystb.org",
+    "Website": "https://www.holytrinitystb.org",
+    "State": "OH"
+  },
+  {
+    "ID": 1425,
+    "Eparchy": ""
+    "Name": "Holy Trinity Cathedral",
+    "Address1": "740 Superior Street",
+    "City": "Toledo",
+    "Zip": "43604-1737",
+    "Phone": "(419) 243-9189",
+    "Email": "holytrinitytoledo@gmail.com",
+    "Website": "https://www.holytrinitytoledo.com",
+    "State": "OH"
+  },
+  {
+    "ID": 1426,
+    "Eparchy": ""
+    "Name": "Saint Demetrios Greek Orthodox Church",
+    "Address1": "429 High Street",
+    "City": "Warren",
+    "Zip": "44482-4214",
+    "Phone": "(330) 394-9021",
+    "Email": "arlene@stdemetrioswarren.org",
+    "Website": "https://www.saintdemetrioswarren.org",
+    "State": "OH"
+  },
+  {
+    "ID": 1427,
+    "Eparchy": ""
+    "Name": "Saint John the Forerunner Greek Orthodox Church",
+    "Address1": "4955 Glenwood Avenue",
+    "City": "Youngstown",
+    "Zip": "44512-1460",
+    "Phone": "(330) 788-5257",
+    "Email": "stjohnboardman@yahoo.com",
+    "Website": "https://www.stjohnboardman.org",
+    "State": "OH"
+  },
+  {
+    "ID": 1428,
+    "Eparchy": ""
+    "Name": "Saint Nicholas Greek Orthodox Church",
+    "Address1": "220 North Walnut Street",
+    "City": "Youngstown",
+    "Zip": "44503-1623",
+    "Phone": "(330) 743-5493",
+    "Email": "frjdistefano@yahoo.com",
+    "Website": "https://www.stnicksyou.com",
+    "State": "OH"
+  },
+  {
+    "ID": 1429,
+    "Eparchy": ""
+    "Name": "Saint George Church",
+    "Address1": "2101 Northwest 145th Street",
+    "City": "Oklahoma City",
+    "Zip": "73134-6112",
+    "Phone": "(405) 751-1885",
+    "Email": "tsaras.john@gmail.com",
+    "Website": "https://www.saintgeorgeokc.org",
+    "State": "OK"
+  },
+  {
+    "ID": 1430,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "1222 South Guthrie Avenue",
+    "City": "Tulsa",
+    "Zip": "74119-2612",
+    "Phone": "(918) 583-2082",
+    "Email": "frgeo@htgoctulsa.org",
+    "Website": "https://www.htgoctulsa.org",
+    "State": "OK"
+  },
+  {
+    "ID": 1431,
+    "Eparchy": ""
+    "Name": "Saint John the Baptist Greek Orthodox Church",
+    "Address1": "14485 Southwest Walker Road",
+    "City": "Beaverton",
+    "Zip": "97006-6041",
+    "Phone": "(503) 644-7444",
+    "Email": "churchoffice@stjohngoc.org",
+    "Website": "https://www.stjohngoc.org",
+    "State": "OR"
+  },
+  {
+    "ID": 1432,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "202 View Lane #1",
+    "City": "Eugene",
+    "Zip": "97408-5018",
+    "Phone": "(541) 683-3519",
+    "Email": "frgerasimos@sntgrg.org",
+    "Website": "https://www.stgeorgeor.org",
+    "State": "OR"
+  },
+  {
+    "ID": 1433,
+    "Eparchy": ""
+    "Name": "Holy Trinity Cathedral",
+    "Address1": "3131 Northeast Glisan Street",
+    "City": "Portland",
+    "Zip": "97232-2501",
+    "Phone": "(503) 234-0468",
+    "Email": "gail@goholytrinity.org",
+    "Website": "https://www.goholytrinity.org",
+    "State": "OR"
+  },
+  {
+    "ID": 1434,
+    "Eparchy": ""
+    "Name": "Holy Cross Greek Orthodox Church",
+    "Address1": "1024 Southeast Cass Avenue",
+    "City": "Roseburg",
+    "Zip": "97470",
+    "Phone": "(541) 673-1930",
+    "Email": "frgerasimos@sntgrg.org",
+    "Website": "https://www.roseburgorthodoxchurch.org",
+    "State": "OR"
+  },
+  {
+    "ID": 1435,
+    "Eparchy": ""
+    "Name": "Holy Resurrection Greek Orthodox Church of Salem",
+    "Address1": "4373 Market Street Northeast",
+    "City": "Salem",
+    "Zip": "97301",
+    "Phone": "(503) 877-3037",
+    "Email": "stussing@hchc.edu",
+    "Website": "https://www. salemorthodoxchurch.org",
+    "State": "OR"
+  },
+  {
+    "ID": 1436,
+    "Eparchy": ""
+    "Name": "Kimisis Tis Theotokou Greek Orthodox Church",
+    "Address1": "2111 Davidson Street",
+    "City": "Aliquippa",
+    "Zip": "15001-2706",
+    "Phone": "(724) 375-5341",
+    "Email": "fryanniv@gmail.com",
+    "Website": "https://www.theotokou.org",
+    "State": "PA"
+  },
+  {
+    "ID": 1437,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "1433 13th Avenue",
+    "City": "Altoona",
+    "Zip": "16601-3339",
+    "Phone": "(814) 943-0091",
+    "Email": "",
+    "Website": "",
+    "State": "PA"
+  },
+  {
+    "ID": 1438,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "2930 Beaver Road",
+    "City": "Ambridge",
+    "Zip": "15003-1418",
+    "Phone": "(724) 266-5336",
+    "Email": "holytrinityamb@gmail.com",
+    "Website": "https://www.htgoc.org",
+    "State": "PA"
+  },
+  {
+    "ID": 1439,
+    "Eparchy": ""
+    "Name": "Saint Nicholas Greek Orthodox Cathedral",
+    "Address1": "1607 West Union Boulevard",
+    "City": "Bethlehem",
+    "Zip": "18018-3416",
+    "Phone": "(610) 867-1327",
+    "Email": "secretary@stnicholas.org",
+    "Website": "https://www.stnicholas.org",
+    "State": "PA"
+  },
+  {
+    "ID": 1440,
+    "Eparchy": ""
+    "Name": "Saint Matthew Greek Orthodox Church",
+    "Address1": "8477 Allentown Pike",
+    "City": "Blandon",
+    "Zip": "19510-9451",
+    "Phone": "(484) 955-1334",
+    "Email": "demetri7@aol.com",
+    "Website": "https://www.stmattsorthodox.org",
+    "State": "PA"
+  },
+  {
+    "ID": 1441,
+    "Eparchy": ""
+    "Name": "Saint Luke Greek Orthodox Church",
+    "Address1": "35 North Malin Road",
+    "City": "Broomall",
+    "Zip": "19008-1932",
+    "Phone": "(610) 353-1592",
+    "Email": "fatherck@aol.com",
+    "Website": "https://www.st-luke.org",
+    "State": "PA"
+  },
+  {
+    "ID": 1442,
+    "Eparchy": ""
+    "Name": "Holy Trinity Cathedral",
+    "Address1": "1000 Yverdon Drive",
+    "City": "Camp",
+    "Zip": "17011-1239",
+    "Phone": "(717) 763-7441",
+    "Email": "secretary@holytrinityhbg.org",
+    "Website": "https://www.holytrinityhbg.org",
+    "State": "PA"
+  },
+  {
+    "ID": 1443,
+    "Eparchy": ""
+    "Name": "All Saints Greek Orthodox Church",
+    "Address1": "601 West McMurray Road",
+    "City": "Canonsburg",
+    "Zip": "15317-2437",
+    "Phone": "(724) 745-5205",
+    "Email": "office@allsaintscbg.org",
+    "Website": "https://www.allsaintscbg.org",
+    "State": "PA"
+  },
+  {
+    "ID": 1444,
+    "Eparchy": ""
+    "Name": "St. Anthony Greek Orthodox Church",
+    "Address1": "424 Miller Ave",
+    "City": "Clairton",
+    "Zip": "15025-1719",
+    "Phone": "(412) 233-4004",
+    "Email": "",
+    "Website": "",
+    "State": "PA"
+  },
+  {
+    "ID": 1445,
+    "Eparchy": ""
+    "Name": "Presentation of Christ Greek Orthodox Church",
+    "Address1": "1672 Electric Avenue",
+    "City": "East Pittsburgh",
+    "Zip": "15112-0310",
+    "Phone": "(412) 824-9188",
+    "Email": "presentationofchristoffice@gmail.com",
+    "Website": "https://www.presentationofchristpgh.org",
+    "State": "PA"
+  },
+  {
+    "ID": 1446,
+    "Eparchy": ""
+    "Name": "Evangelismos Greek Orthodox Church",
+    "Address1": "319 South 20th Street",
+    "City": "Easton",
+    "Zip": "18042-4643",
+    "Phone": "(610) 253-8147",
+    "Email": "annunciationpa@hotmail.com",
+    "Website": "https://www.evangelismos.pa.goarch.org",
+    "State": "PA"
+  },
+  {
+    "ID": 1447,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "7921 Old York Road",
+    "City": "Elkins Park",
+    "Zip": "19027-2306",
+    "Phone": "(215) 635-0316",
+    "Email": "office@anngoc.org",
+    "Website": "https://www.anngoc.org",
+    "State": "PA"
+  },
+  {
+    "ID": 1448,
+    "Eparchy": ""
+    "Name": "Koimisis Tis Theotokou Greek Orthodox Church",
+    "Address1": "4376 West Lake Road",
+    "City": "Erie",
+    "Zip": "16505-1416",
+    "Phone": "(814) 838-8808",
+    "Email": "eriegreekorthodoxchurch@gmail.com",
+    "Website": "https://www.eriegreekorthodox.org",
+    "State": "PA"
+  },
+  {
+    "ID": 1449,
+    "Eparchy": ""
+    "Name": "Evangelismos Greek Orthodox Church",
+    "Address1": "1007 Washington Street",
+    "City": "Farrell",
+    "Zip": "16121-1871",
+    "Phone": "(724) 342-2070",
+    "Email": "polykarpfeb23@gmail.com",
+    "Website": "",
+    "State": "PA"
+  },
+  {
+    "ID": 1450,
+    "Eparchy": ""
+    "Name": "Saint Sophia, Saints Faith, Hope & Agape Greek Orthodox Church",
+    "Address1": "900 South Trooper Road",
+    "City": "Jeffersonville",
+    "Zip": "19403-5212",
+    "Phone": "(610) 650-8960",
+    "Email": "office@saintsophiachurch.org",
+    "Website": "https://www.saintsophiachurch.org",
+    "State": "PA"
+  },
+  {
+    "ID": 1451,
+    "Eparchy": ""
+    "Name": "St. Mary\u2019s Greek Orthodox Church",
+    "Address1": "435 Somerset Street",
+    "City": "Johnstown",
+    "Zip": "15901-2529",
+    "Phone": "(814) 341-5630",
+    "Email": "",
+    "Website": "https://www.stmary.pa.goarch.org",
+    "State": "PA"
+  },
+  {
+    "ID": 1452,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "64 Hershey Avenue",
+    "City": "Lancaster",
+    "Zip": "17603-5498",
+    "Phone": "(717) 394-1735",
+    "Email": "eleni@agochurch.com",
+    "Website": "https://www.annunciationorthodox.org",
+    "State": "PA"
+  },
+  {
+    "ID": 1453,
+    "Eparchy": ""
+    "Name": "Transfiguration of our Saviour Greek Orthodox Church",
+    "Address1": "26 Copperfield Circle",
+    "City": "Lititz",
+    "Zip": "17543",
+    "Phone": "(717) 725-1861",
+    "Email": "aagoussetis@gmail.com",
+    "Website": "",
+    "State": "PA"
+  },
+  {
+    "ID": 1454,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "30 East Forge Road",
+    "City": "Media",
+    "Zip": "19063-4345",
+    "Phone": "(610) 459-0366",
+    "Email": "office@stgeorgemedia.org",
+    "Website": "https://www.stgeorgemedia.org",
+    "State": "PA"
+  },
+  {
+    "ID": 1455,
+    "Eparchy": ""
+    "Name": "Saint Spyridon Greek Orthodox Church",
+    "Address1": "117 Saint Spyridon Lane",
+    "City": "Monessen",
+    "Zip": "15062-1933",
+    "Phone": "(724) 684-5411",
+    "Email": "",
+    "Website": "https://www.stspyridon.pa.goarch.org",
+    "State": "PA"
+  },
+  {
+    "ID": 1456,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "315 West Englewood Avenue",
+    "City": "New Castle",
+    "Zip": "16105-1805",
+    "Phone": "(724) 654-8521",
+    "Email": "",
+    "Website": "https://www.stgeorgenewcastle.org",
+    "State": "PA"
+  },
+  {
+    "ID": 1457,
+    "Eparchy": ""
+    "Name": "Dormition of the Theotokos Greek Orthodox Church",
+    "Address1": "12 Washington Avenue",
+    "City": "Oakmont",
+    "Zip": "15139-2114",
+    "Phone": "(412) 828-4144",
+    "Email": "info@dormitionpgh.org",
+    "Website": "https://www.dormitionpgh.org",
+    "State": "PA"
+  },
+  {
+    "ID": 1458,
+    "Eparchy": ""
+    "Name": "Evangelismos Greek Orthodox Church",
+    "Address1": "6501-05 Bustleton Avenue",
+    "City": "Philadelphia",
+    "Zip": "19149-2906",
+    "Phone": "(215) 743-7982",
+    "Email": "evangelismosphi@mail.goarch.org",
+    "Website": "https://www.evangelismosbustleton.pa.goarch.org",
+    "State": "PA"
+  },
+  {
+    "ID": 1459,
+    "Eparchy": ""
+    "Name": "Saint George Cathedral",
+    "Address1": "256 South 8th Street",
+    "City": "Philadelphia",
+    "Zip": "19107-5731",
+    "Phone": "(215) 627-4389",
+    "Email": "office@saintgeorgecathedral.org",
+    "Website": "https://www.saintgeorgecathedral.org",
+    "State": "PA"
+  },
+  {
+    "ID": 1460,
+    "Eparchy": ""
+    "Name": "Holy Cross Greek Orthodox Church",
+    "Address1": "123 Gilkeson Road",
+    "City": "Pittsburgh",
+    "Zip": "15228-1015",
+    "Phone": "(412) 833-3355",
+    "Email": "holycrosspittsburgh@gmail.com",
+    "Website": "https://www.holycrosspgh.org",
+    "State": "PA"
+  },
+  {
+    "ID": 1461,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "985 Providence Boulevard",
+    "City": "Pittsburgh",
+    "Zip": "15237-5951",
+    "Phone": "(412) 366-8700",
+    "Email": "office@holytrinitypgh.org",
+    "Website": "https://www.holytrinitypgh.org",
+    "State": "PA"
+  },
+  {
+    "ID": 1462,
+    "Eparchy": ""
+    "Name": "Saint Nicholas Cathedral",
+    "Address1": "419 South Dithridge Street",
+    "City": "Pittsburgh",
+    "Zip": "15213-3509",
+    "Phone": "(412) 682-3866",
+    "Email": "church@stnickspgh.org",
+    "Website": "https://www.stnickspgh.org",
+    "State": "PA"
+  },
+  {
+    "ID": 1463,
+    "Eparchy": ""
+    "Name": "Saints Constantine & Helen Greek Orthodox Church",
+    "Address1": "1001 East Wyomissing Boulevard",
+    "City": "Reading",
+    "Zip": "19611-1763",
+    "Phone": "(610) 374-7511",
+    "Email": "office@stsconstantinehelen.org",
+    "Website": "https://www.stsconstantinehelen.org",
+    "State": "PA"
+  },
+  {
+    "ID": 1464,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "505 N. Washington Ave",
+    "City": "Scranton",
+    "Zip": "18509",
+    "Phone": "(570) 342-0566",
+    "Email": "",
+    "Website": "https://www.annunciationscranton.org",
+    "State": "PA"
+  },
+  {
+    "ID": 1465,
+    "Eparchy": ""
+    "Name": "Holy Cross Greek Orthodox Church",
+    "Address1": "135 Stokes Avenue",
+    "City": "Stroudsburg",
+    "Zip": "18360-2337",
+    "Phone": "(570) 421-5734",
+    "Email": "",
+    "Website": "https://www.holycross.pa.goarch.org",
+    "State": "PA"
+  },
+  {
+    "ID": 1466,
+    "Eparchy": ""
+    "Name": "Saint Demetrios Greek Orthodox Church",
+    "Address1": "229 Powell Lane",
+    "City": "Upper Darby",
+    "Zip": "19082-3328",
+    "Phone": "(610) 352-7212",
+    "Email": "office@saintdemetrios.org",
+    "Website": "https://www.saintdemetrios.org",
+    "State": "PA"
+  },
+  {
+    "ID": 1467,
+    "Eparchy": ""
+    "Name": "Sts. Constantine & Helen Greek Orthodox Church",
+    "Address1": "167 Lincoln Avenue",
+    "City": "Vandergrift",
+    "Zip": "15690-1209",
+    "Phone": "",
+    "Email": "",
+    "Website": "",
+    "State": "PA"
+  },
+  {
+    "ID": 1468,
+    "Eparchy": ""
+    "Name": "Annunciation of the Theotokos Greek Orthodox Church",
+    "Address1": "1128 Summit St.",
+    "City": "White Oak",
+    "Zip": "15131-1556",
+    "Phone": "(412) 673-1224",
+    "Email": "",
+    "Website": "https://www.annunciationwo.pa.goarch.org",
+    "State": "PA"
+  },
+  {
+    "ID": 1469,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "32 East Ross Street",
+    "City": "Wilkes Barre",
+    "Zip": "18701-2304",
+    "Phone": "(570) 823-4805",
+    "Email": "greekorthodoxchurch@hotmail.com",
+    "Website": "https://www.annunciationwb.pa.goarch.org",
+    "State": "PA"
+  },
+  {
+    "ID": 1470,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "2500 Pine Grove Road",
+    "City": "York",
+    "Zip": "17403-5132",
+    "Phone": "(717) 741-4200",
+    "Email": "annunciationyork@comcast.net",
+    "Website": "https://www.agocy.org",
+    "State": "PA"
+  },
+  {
+    "ID": 1471,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "175 Oaklawn Avenue",
+    "City": "Cranston",
+    "Zip": "02920-9320",
+    "Phone": "(401) 942-4188",
+    "Email": "office@annunciationri.org",
+    "Website": "https://www.annunciationri.org",
+    "State": "RI"
+  },
+  {
+    "ID": 1472,
+    "Eparchy": ""
+    "Name": "Saint Spyridon Greek Orthodox Church",
+    "Address1": "390 Thames Street",
+    "City": "Newport",
+    "Zip": "02840",
+    "Phone": "(401) 846-0555",
+    "Email": "priest@stspyridonchurch.org",
+    "Website": "https://www.stspyridonchurch.org",
+    "State": "RI"
+  },
+  {
+    "ID": 1473,
+    "Eparchy": ""
+    "Name": "Assumption Greek Orthodox Church",
+    "Address1": "97 Walcott Street",
+    "City": "Pawtucket",
+    "Zip": "02860-3205",
+    "Phone": "(401) 725-3127",
+    "Email": "secretary@assumptionri.org",
+    "Website": "https://www.assumptionri.org",
+    "State": "RI"
+  },
+  {
+    "ID": 1474,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "30 Race Street",
+    "City": "Charleston",
+    "Zip": "29403-8600",
+    "Phone": "(843) 577-2063",
+    "Email": "office@gocharleston.org",
+    "Website": "https://www.gocharleston.org",
+    "State": "SC"
+  },
+  {
+    "ID": 1475,
+    "Eparchy": ""
+    "Name": "Holy Trinity Cathedral",
+    "Address1": "1931 Sumter Street",
+    "City": "Columbia",
+    "Zip": "29201-2503",
+    "Phone": "(803) 252-6758",
+    "Email": "htgocc@gmail.com",
+    "Website": "https://www.holytrinitysc.com",
+    "State": "SC"
+  },
+  {
+    "ID": 1476,
+    "Eparchy": ""
+    "Name": "Transfiguration Greek Orthodox Church",
+    "Address1": "2990 South Cashua Drive",
+    "City": "Florence",
+    "Zip": "29501-6327",
+    "Phone": "(843) 662-5471",
+    "Email": "info@gotflorence.com",
+    "Website": "https://www.gotflorence.com",
+    "State": "SC"
+  },
+  {
+    "ID": 1477,
+    "Eparchy": ""
+    "Name": "Saint George Cathedral",
+    "Address1": "406 North Academy Street",
+    "City": "Greenville",
+    "Zip": "29601-2046",
+    "Phone": "(864) 233-8531",
+    "Email": "office@stgeorgegreenville.org",
+    "Website": "https://www.stgeorgegreenville.org",
+    "State": "SC"
+  },
+  {
+    "ID": 1478,
+    "Eparchy": ""
+    "Name": "Holy Resurrection Greek Orthodox Church",
+    "Address1": "296 Spanish Wells Road",
+    "City": "Hilton Head",
+    "Zip": "29926",
+    "Phone": "(843) 681-5587",
+    "Email": "ekh103@aol.com",
+    "Website": "https://www.resurrectionccc.com",
+    "State": "SC"
+  },
+  {
+    "ID": 1479,
+    "Eparchy": ""
+    "Name": "Saint John The Baptist Greek Orthodox Church",
+    "Address1": "3301 33rd Avenue Extension North",
+    "City": "Myrtle Beach",
+    "Zip": "29577-5883",
+    "Phone": "(843) 448-3773",
+    "Email": "office@stjohn-mb.org",
+    "Website": "https://www.stjohn-mb.org",
+    "State": "SC"
+  },
+  {
+    "ID": 1480,
+    "Eparchy": ""
+    "Name": "Saint Nicholas Greek Orthodox Church",
+    "Address1": "697 Asheville Highway",
+    "City": "Spartanburg",
+    "Zip": "29303",
+    "Phone": "(864) 585-5961",
+    "Email": "stnickgoc@gmail.com",
+    "Website": "https://www.stnicholasgoc.org",
+    "State": "SC"
+  },
+  {
+    "ID": 1481,
+    "Eparchy": ""
+    "Name": "Holy Transfiguration Greek Orthodox Church",
+    "Address1": "1936 South Summit Avenue",
+    "City": "Sioux Falls",
+    "Zip": "57105-2726",
+    "Phone": "(605) 334-5301",
+    "Email": "inquiries@transfigurationgoc.org",
+    "Website": "https://www.transfigurationgoc.org",
+    "State": "SD"
+  },
+  {
+    "ID": 1482,
+    "Eparchy": ""
+    "Name": "Christ the Savior Greek Orthodox Church",
+    "Address1": "150 Elizabeth Ann Circle",
+    "City": "Bluff City",
+    "Zip": "37618-1868",
+    "Phone": "(888) 537-0087",
+    "Email": "info@christthesaviororthodox.org",
+    "Website": "https://www.christthesaviororthodox.org",
+    "State": "TN"
+  },
+  {
+    "ID": 1483,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "722 Glenwood Drive",
+    "City": "Chattanooga",
+    "Zip": "37404-1104",
+    "Phone": "(423) 629-4881",
+    "Email": "office@annunciationgreek.org",
+    "Website": "https://www.annunciationgreek.org",
+    "State": "TN"
+  },
+  {
+    "ID": 1484,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "4070 Kingston Pike",
+    "City": "Knoxville",
+    "Zip": "37919-5245",
+    "Phone": "(865) 522-5043",
+    "Email": "stgeorgeknoxville@gmail.com",
+    "Website": "https://www.saintgeorgeknoxville.com",
+    "State": "TN"
+  },
+  {
+    "ID": 1485,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "573 North Highland Street",
+    "City": "Memphis",
+    "Zip": "38122-5107",
+    "Phone": "(901) 327-8177",
+    "Email": "annunciationmemphis@gmail.com",
+    "Website": "https://www.goann.net",
+    "State": "TN"
+  },
+  {
+    "ID": 1486,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "4905 Franklin Pike",
+    "City": "Nashville",
+    "Zip": "37220-1517",
+    "Phone": "(615) 333-1047",
+    "Email": "htgocoffice@gmail.com",
+    "Website": "https://www.holytrinitynashville.org",
+    "State": "TN"
+  },
+  {
+    "ID": 1487,
+    "Eparchy": ""
+    "Name": "Saint John Chrysostom Mission Parish",
+    "Address1": "6705 Charlotte Pike",
+    "City": "Nashville",
+    "Zip": "37209",
+    "Phone": "(615) 957-2975",
+    "Email": "stjohnnashville@gmail.com",
+    "Website": "https://www.stjohnnashville.com",
+    "State": "TN"
+  },
+  {
+    "ID": 1488,
+    "Eparchy": ""
+    "Name": "St. John the Prodromos Greek Orthodox Church",
+    "Address1": "1101 Bell Street",
+    "City": "Amarillo",
+    "Zip": "79106-4215",
+    "Phone": "(806) 355-0683",
+    "Email": "",
+    "Website": "https://www.stjohnprodromos.org",
+    "State": "TX"
+  },
+  {
+    "ID": 1489,
+    "Eparchy": ""
+    "Name": "Transfiguration Greek Orthodox Church",
+    "Address1": "414 St Stephens School Road",
+    "City": "Austin",
+    "Zip": "78746-3101",
+    "Phone": "(512) 329-6363",
+    "Email": "office@transfiguration.org",
+    "Website": "https://www.transfiguration.org",
+    "State": "TX"
+  },
+  {
+    "ID": 1490,
+    "Eparchy": ""
+    "Name": "Saint Nicholas Greek Orthodox Church",
+    "Address1": "502 South Chaparral Street",
+    "City": "Corpus Christi",
+    "Zip": "78401-3501",
+    "Phone": "(361) 883-9843",
+    "Email": "frthomas@stnicholasgoc.net",
+    "Website": "https://www.stnicholasgoc.net",
+    "State": "TX"
+  },
+  {
+    "ID": 1491,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "13555 Hillcrest Road",
+    "City": "Dallas",
+    "Zip": "75240-5412",
+    "Phone": "(972) 991-1166",
+    "Email": "htgoc@holytrinitydallas.org",
+    "Website": "https://www.holytrinitydallas.org",
+    "State": "TX"
+  },
+  {
+    "ID": 1492,
+    "Eparchy": ""
+    "Name": "St. Nicholas Greek Orthodox Church",
+    "Address1": "124 South Festival Drive",
+    "City": "El Paso",
+    "Zip": "79912-5802",
+    "Phone": "(915) 833-0882",
+    "Email": "stnicholasorthodox@hotmail.com",
+    "Website": "https://www.stnicholasep.com",
+    "State": "TX"
+  },
+  {
+    "ID": 1493,
+    "Eparchy": ""
+    "Name": "Saint John the Baptist Church",
+    "Address1": "303 Cullum Drive",
+    "City": "Euless",
+    "Zip": "76040-4625",
+    "Phone": "(817) 283-2291",
+    "Email": "office@stjohndfw.info",
+    "Website": "https://www.stjohndfw.info",
+    "State": "TX"
+  },
+  {
+    "ID": 1494,
+    "Eparchy": ""
+    "Name": "Saint Demetrios Greek Orthodox Church",
+    "Address1": "2020 Northwest 21st Street",
+    "City": "Fort Worth",
+    "Zip": "76164-7708",
+    "Phone": "(817) 626-5578",
+    "Email": "frnicholas@stdemetrios.net",
+    "Website": "https://www.stdemetrios.net",
+    "State": "TX"
+  },
+  {
+    "ID": 1495,
+    "Eparchy": ""
+    "Name": "Assumption Greek Orthodox Church",
+    "Address1": "714 19th Street",
+    "City": "Galveston",
+    "Zip": "77550",
+    "Phone": "(409) 762-7591",
+    "Email": "galvestongreekchurch@gmail.com",
+    "Website": "https://www.assumptiontx.org",
+    "State": "TX"
+  },
+  {
+    "ID": 1496,
+    "Eparchy": ""
+    "Name": "Annunciation Cathedral",
+    "Address1": "3511 Yoakum Boulevard",
+    "City": "Houston",
+    "Zip": "77006-4326",
+    "Phone": "(713) 526-5377",
+    "Email": "frmichael@agoc.org",
+    "Website": "https://www.agoc.org",
+    "State": "TX"
+  },
+  {
+    "ID": 1497,
+    "Eparchy": ""
+    "Name": "Saint Basil the Great Greek Orthodox Church",
+    "Address1": "1100 Eldridge Parkway",
+    "City": "Houston",
+    "Zip": "77077-1647",
+    "Phone": "(281) 679-5395",
+    "Email": "office@mystbasil.org",
+    "Website": "https://www.stbasilxtx.com",
+    "State": "TX"
+  },
+  {
+    "ID": 1498,
+    "Eparchy": ""
+    "Name": "Saint Andrew Greek Orthodox Church",
+    "Address1": "6001 81st St",
+    "City": "Lubbock",
+    "Zip": "79424",
+    "Phone": "(806) 798-1828",
+    "Email": "greekchurchlubbock@gmail.com",
+    "Website": "https://www.saintandrewlubbock.com",
+    "State": "TX"
+  },
+  {
+    "ID": 1499,
+    "Eparchy": ""
+    "Name": "Assumption Greek Orthodox Church",
+    "Address1": "801 Montecito Drive",
+    "City": "San Angelo",
+    "Zip": "76903-7224",
+    "Phone": "(325) 653-6074",
+    "Email": "ericmorrow@outlook.com",
+    "Website": "https://www.orthodoxsanangelo.org",
+    "State": "TX"
+  },
+  {
+    "ID": 1500,
+    "Eparchy": ""
+    "Name": "Saint Sophia Greek Orthodox Church",
+    "Address1": "2504 North Saint Marys Street",
+    "City": "San Antonio",
+    "Zip": "78212-3738",
+    "Phone": "(210) 735-5051",
+    "Email": "office@stsophiagoc.org",
+    "Website": "https://www.stsophiagoc.org",
+    "State": "TX"
+  },
+  {
+    "ID": 1501,
+    "Eparchy": ""
+    "Name": "Saint Stephen Orthodox Mission",
+    "Address1": "110 Brittain Circle,",
+    "City": "Stephenville",
+    "Zip": "76401",
+    "Phone": "(325) 642-1340",
+    "Email": "ericmorrow@outlook.com",
+    "Website": "",
+    "State": "TX"
+  },
+  {
+    "ID": 1502,
+    "Eparchy": ""
+    "Name": "Saint Nicholas Greek Orthodox Church",
+    "Address1": "617 North 17th Street",
+    "City": "Waco",
+    "Zip": "76707-3522",
+    "Phone": "(978) 328-8181",
+    "Email": "frdanielwright@gmail.com",
+    "Website": "https://www.stnicholaswaco.org",
+    "State": "TX"
+  },
+  {
+    "ID": 1503,
+    "Eparchy": ""
+    "Name": "St. John the Theologian Greek Orthodox Church",
+    "Address1": "202 North Walnut Street",
+    "City": "Webster",
+    "Zip": "77598-5125",
+    "Phone": "(281) 554-7223",
+    "Email": "office@stjohnclearlake.org",
+    "Website": "https://www.stjohnclearlake.org",
+    "State": "TX"
+  },
+  {
+    "ID": 1504,
+    "Eparchy": ""
+    "Name": "Holy Cross Greek Orthodox Church",
+    "Address1": "3804 Seymour Road",
+    "City": "Wichita Falls",
+    "Zip": "76309-2902",
+    "Phone": "(940) 692-0860",
+    "Email": "",
+    "Website": "https://www.holycross.tx.goarch.org",
+    "State": "TX"
+  },
+  {
+    "ID": 1505,
+    "Eparchy": ""
+    "Name": "Transfiguration Greek Orthodox Church",
+    "Address1": "674 42nd Street",
+    "City": "Ogden",
+    "Zip": "84403-2851",
+    "Phone": "(801) 399-2231",
+    "Email": "frmtg@yahoo.com",
+    "Website": "https://www.tgoc.ut.goarch.org",
+    "State": "UT"
+  },
+  {
+    "ID": 1506,
+    "Eparchy": ""
+    "Name": "Assumption Greek Orthodox Church",
+    "Address1": "61 South 2nd Street",
+    "City": "Price",
+    "Zip": "84501",
+    "Phone": "(435) 637-0704",
+    "Email": "fr.seraphim.monachos@gmail.com",
+    "Website": "https://www.agoc.ut.goarch.org",
+    "State": "UT"
+  },
+  {
+    "ID": 1507,
+    "Eparchy": ""
+    "Name": "Holy Trinity Cathedral",
+    "Address1": "279 South 300 West",
+    "City": "Salt Lake City",
+    "Zip": "84101-1703",
+    "Phone": "(801) 328-9681",
+    "Email": "orthodoxy3@gmail.com",
+    "Website": "https://www.gocslc.org",
+    "State": "UT"
+  },
+  {
+    "ID": 1508,
+    "Eparchy": ""
+    "Name": "Prophet Elias Greek Orthodox Church",
+    "Address1": "5335 Highland Drive",
+    "City": "Holladay",
+    "Zip": "84117",
+    "Phone": "(801) 277-2693",
+    "Email": "orthodoxy3@gmail.com",
+    "Website": "https://www.gocslc.org",
+    "State": "UT"
+  },
+  {
+    "ID": 1509,
+    "Eparchy": ""
+    "Name": "Saint Anna Greek Orthodox Church",
+    "Address1": "9201 1300 East",
+    "City": "Sandy",
+    "Zip": "84094",
+    "Phone": "(385) 342-0927",
+    "Email": "info@stannagocutah.org",
+    "Website": "https://www.stannagocutah.org",
+    "State": "UT"
+  },
+  {
+    "ID": 1510,
+    "Eparchy": ""
+    "Name": "Dormition of The Mother Of God Greek Orthodox Church",
+    "Address1": "600 South Willard Street",
+    "City": "Burlington",
+    "Zip": "05401",
+    "Phone": "(802) 862-2155",
+    "Email": "office@gocvt.org",
+    "Website": "https://www.gocvt.org",
+    "State": "VT"
+  },
+  {
+    "ID": 1511,
+    "Eparchy": ""
+    "Name": "Saint Nicholas Greek Orthodox Church",
+    "Address1": "44 Hillsdale Road",
+    "City": "Rutland",
+    "Zip": "05701-2501",
+    "Phone": "",
+    "Email": "",
+    "Website": "",
+    "State": "VT"
+  },
+  {
+    "ID": 1512,
+    "Eparchy": ""
+    "Name": "Holy Transfiguration Greek Orthodox Church",
+    "Address1": "100 Perry Drive",
+    "City": "Charlottesville",
+    "Zip": "22902-4340",
+    "Phone": "(434) 295-5337",
+    "Email": "ask.transfiguration.questions@gmail.com",
+    "Website": "https://www.transfiguration.va.goarch.org",
+    "State": "VA"
+  },
+  {
+    "ID": 1513,
+    "Eparchy": ""
+    "Name": "St. Peter Greek Orthodox Church",
+    "Address1": "116 Jefferson Avenue",
+    "City": "Danville",
+    "Zip": "24541",
+    "Phone": "(434) 421-1105",
+    "Email": "saint_peters1@verizon.net",
+    "Website": "https://www.stpeter.va.goarch.org",
+    "State": "VA"
+  },
+  {
+    "ID": 1514,
+    "Eparchy": ""
+    "Name": "Holy Apostles Greek Orthodox Church",
+    "Address1": "21580 Atlantic Blvd, Building D, Unit 160",
+    "City": "Dulles",
+    "Zip": "20166-6856",
+    "Phone": "(703) 421-7515",
+    "Email": "liaecon@comcast.net",
+    "Website": "https://www.holyapostlesgreekorthodox.org",
+    "State": "VA"
+  },
+  {
+    "ID": 1515,
+    "Eparchy": ""
+    "Name": "Saint Katherine Greek Orthodox Church",
+    "Address1": "3149 Glen Carlyn Road",
+    "City": "Falls Church",
+    "Zip": "22041-2430",
+    "Phone": "(703) 671-1515",
+    "Email": "rvazquez@stkchurch.com",
+    "Website": "https://www.saint-katherines.org",
+    "State": "VA"
+  },
+  {
+    "ID": 1516,
+    "Eparchy": ""
+    "Name": "Nativity of the Theotokos Church",
+    "Address1": "12326 Spotswood Furnace Road",
+    "City": "Fredericksburg",
+    "Zip": "22407-2207",
+    "Phone": "(540) 548-2665",
+    "Email": "office@ntgoc.org",
+    "Website": "https://www.nativity.va.goarch.org",
+    "State": "VA"
+  },
+  {
+    "ID": 1517,
+    "Eparchy": ""
+    "Name": "St. Elpis Greek Orthodox Church",
+    "Address1": "107 Memorial Avenue",
+    "City": "Hopewell",
+    "Zip": "23860-1204",
+    "Phone": "(804) 458-4142",
+    "Email": "",
+    "Website": "https://www.stelpis.va.goarch.org",
+    "State": "VA"
+  },
+  {
+    "ID": 1518,
+    "Eparchy": ""
+    "Name": "St. George Greek Orthodox Church",
+    "Address1": "1724 Langhorne Road",
+    "City": "Lynchburg",
+    "Zip": "24503-3120",
+    "Phone": "(434) 384-7585",
+    "Email": "stgeorgelyn@mail.goarch.org",
+    "Website": "https://www.orthodoxlynchburg.org",
+    "State": "VA"
+  },
+  {
+    "ID": 1519,
+    "Eparchy": ""
+    "Name": "Saints Constantine & Helen Church",
+    "Address1": "60 Traverse Road",
+    "City": "Newport News",
+    "Zip": "23606-3507",
+    "Phone": "(757) 596-6151",
+    "Email": "office@schgochurch.va.goarch.org",
+    "Website": "https://www.schgochurch.va.goarch.org",
+    "State": "VA"
+  },
+  {
+    "ID": 1520,
+    "Eparchy": ""
+    "Name": "Annunciation Cathedral",
+    "Address1": "7220 Granby Street",
+    "City": "Norfolk",
+    "Zip": "23505-4002",
+    "Phone": "(757) 440-0500",
+    "Email": "officeadmin@annunciationva.org",
+    "Website": "https://www.annunciationva.org",
+    "State": "VA"
+  },
+  {
+    "ID": 1521,
+    "Eparchy": ""
+    "Name": "Saints Constantine & Helen Cathedral",
+    "Address1": "30 Malvern Avenue",
+    "City": "Richmond",
+    "Zip": "23221-2658",
+    "Phone": "(804) 355-3687",
+    "Email": "office@vagocathedral.org",
+    "Website": "https://www.vagocathedral.org",
+    "State": "VA"
+  },
+  {
+    "ID": 1522,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "30 Huntington Boulevard Northeast",
+    "City": "Roanoke",
+    "Zip": "24012-3605",
+    "Phone": "(540) 362-3601",
+    "Email": "webmaster@holytrinityroanoke.com",
+    "Website": "https://www.holytrinityroanoke.com",
+    "State": "VA"
+  },
+  {
+    "ID": 1523,
+    "Eparchy": ""
+    "Name": "Saint Nicholas Greek Orthodox Church",
+    "Address1": "621 First Colonial Road",
+    "City": "Virginia Beach",
+    "Zip": "23451-6121",
+    "Phone": "(757) 422-5600",
+    "Email": "secretary@stnicksgoc.org",
+    "Website": "https://www.stnicksgoc.org",
+    "State": "VA"
+  },
+  {
+    "ID": 1524,
+    "Eparchy": ""
+    "Name": "Saint Demetrios Greek Orthodox Church",
+    "Address1": "4900 Mooretown Road",
+    "City": "Williamsburg",
+    "Zip": "23188",
+    "Phone": "(757) 220-0994",
+    "Email": "churchoffice@saintdemetriosgoc.org",
+    "Website": "https://www.saintdemetriosgoc.org",
+    "State": "VA"
+  },
+  {
+    "ID": 1525,
+    "Eparchy": ""
+    "Name": "Dormition of the Virgin Mary Greek Orthodox Church",
+    "Address1": "1700 Amherst Street",
+    "City": "Winchester",
+    "Zip": "22601-2807",
+    "Phone": "(540) 667-1416",
+    "Email": "office.dormition@dormitionatwinchesterva.com",
+    "Website": "https://www.dormition.va.goarch.org",
+    "State": "VA"
+  },
+  {
+    "ID": 1526,
+    "Eparchy": ""
+    "Name": "Saint Sophia Greek Orthodox Church",
+    "Address1": "510 East Sunset Drive",
+    "City": "Bellingham",
+    "Zip": "98225-1926",
+    "Phone": "(360) 734-8745",
+    "Email": "stsophia.bellingham@gmail.com",
+    "Website": "https://www.saintsophias.org",
+    "State": "WA"
+  },
+  {
+    "ID": 1527,
+    "Eparchy": ""
+    "Name": "Saint Nectarios Mission",
+    "Address1": "627 West Bonneville Street",
+    "City": "Pasco",
+    "Zip": "99301-5432",
+    "Phone": "(509) 547-3968",
+    "Email": "tricityorthodox@aol.com",
+    "Website": "https://www.stnectariostricities.org",
+    "State": "WA"
+  },
+  {
+    "ID": 1528,
+    "Eparchy": ""
+    "Name": "Assumption Greek Orthodox Church",
+    "Address1": "1804 13th Avenue",
+    "City": "Seattle",
+    "Zip": "98122-2515",
+    "Phone": "(206) 323-8557",
+    "Email": "frdean@assumptionseattle.org",
+    "Website": "https://www.assumptionseattle.org",
+    "State": "WA"
+  },
+  {
+    "ID": 1529,
+    "Eparchy": ""
+    "Name": "Saint Demetrios Greek Orthodox Church",
+    "Address1": "2100 Boyer Avenue East",
+    "City": "Seattle",
+    "Zip": "98112-2115",
+    "Phone": "(206) 631-2500",
+    "Email": "frphotios@saintdemetrios.com",
+    "Website": "https://www.saintdemetrios.com",
+    "State": "WA"
+  },
+  {
+    "ID": 1530,
+    "Eparchy": ""
+    "Name": "Holy Apostles Greek Orthodox Church",
+    "Address1": "19421 Ashworth Avenue North",
+    "City": "Shoreline",
+    "Zip": "98133-3657",
+    "Phone": "(206) 542-1391",
+    "Email": "holyapostles@comcast.net",
+    "Website": "https://www.holyapostlesgo.org",
+    "State": "WA"
+  },
+  {
+    "ID": 1531,
+    "Eparchy": ""
+    "Name": "Holy Trinity Church",
+    "Address1": "1703 North Washington Street",
+    "City": "Spokane",
+    "Zip": "99205-4769",
+    "Phone": "(509) 328-9310",
+    "Email": "frdaniel@holytrinityspokane.org",
+    "Website": "https://www.holytrinityspokane.org",
+    "State": "WA"
+  },
+  {
+    "ID": 1532,
+    "Eparchy": ""
+    "Name": "Saint Nicholas Greek Orthodox Church",
+    "Address1": "1523 S. Yakima Avenue",
+    "City": "Tacoma",
+    "Zip": "98405-4460",
+    "Phone": "(253) 272-0466",
+    "Email": "mail@stnicholastacoma.org",
+    "Website": "https://www.stnicholastacoma.org",
+    "State": "WA"
+  },
+  {
+    "ID": 1533,
+    "Eparchy": ""
+    "Name": "St. John Greek Orthodox Church",
+    "Address1": "3512 MacCorkle Avenue Southeast",
+    "City": "Charleston",
+    "Zip": "25304-1420",
+    "Phone": "(304) 925-3906",
+    "Email": "office@stjohnwv.org",
+    "Website": "https://www.stjohnwv.org",
+    "State": "WV"
+  },
+  {
+    "ID": 1534,
+    "Eparchy": ""
+    "Name": "Saint Spyridon Greek Orthodox Church",
+    "Address1": "1010 Factory Street",
+    "City": "Clarksburg",
+    "Zip": "26302-4176",
+    "Phone": "(304) 624-5331",
+    "Email": "",
+    "Website": "https://www.stspyridon.wv.goarch.org",
+    "State": "WV"
+  },
+  {
+    "ID": 1535,
+    "Eparchy": ""
+    "Name": "Saint George Greek Orthodox Church",
+    "Address1": "701 11th Ave",
+    "City": "Huntington",
+    "Zip": "25701-3213",
+    "Phone": "(304) 522-7890",
+    "Email": "stgeorgehwv@gmail.com",
+    "Website": "https://www.stgeorgehwv.org",
+    "State": "WV"
+  },
+  {
+    "ID": 1536,
+    "Eparchy": ""
+    "Name": "Assumption Greek Orthodox Church",
+    "Address1": "447 Spruce Street",
+    "City": "Morgantown",
+    "Zip": "26505-5525",
+    "Phone": "(304) 292-9048",
+    "Email": "",
+    "Website": "https://www.assumption.wv.goarch.org",
+    "State": "WV"
+  },
+  {
+    "ID": 1537,
+    "Eparchy": ""
+    "Name": "All Saints Greek Orthodox Church",
+    "Address1": "3528 West Street",
+    "City": "Weirton",
+    "Zip": "26062",
+    "Phone": "(304) 797-9884",
+    "Email": "office@allstswwv.org",
+    "Website": "https://www.allstswwv.org",
+    "State": "WV"
+  },
+  {
+    "ID": 1538,
+    "Eparchy": ""
+    "Name": "Saint John the Divine Greek Orthodox Church",
+    "Address1": "2215 Chapline Street",
+    "City": "Wheeling",
+    "Zip": "26003-3842",
+    "Phone": "(304) 233-0757",
+    "Email": "secretary@stjohngochurch.org",
+    "Website": "https://www.stjohngochurch.org",
+    "State": "WV"
+  },
+  {
+    "ID": 1539,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "198 North Macy Street",
+    "City": "Fond du Lac",
+    "Zip": "54935",
+    "Phone": "(920) 921-4364",
+    "Email": "holytrinityfdl@gmail.com",
+    "Website": "https://www.holytrinity.wi.goarch.org",
+    "State": "WI"
+  },
+  {
+    "ID": 1540,
+    "Eparchy": ""
+    "Name": "Assumption Greek Orthodox Church",
+    "Address1": "11 North 7th Street",
+    "City": "Madison",
+    "Zip": "53704-4904",
+    "Phone": "(608) 244-1001",
+    "Email": "frchristos@gmail.com",
+    "Website": "https://www.agocwi.org",
+    "State": "WI"
+  },
+  {
+    "ID": 1541,
+    "Eparchy": ""
+    "Name": "Kimisis tis Theotokou Greek Orthodox Church",
+    "Address1": "1335 South Green Bay Road",
+    "City": "Racine",
+    "Zip": "53406-4405",
+    "Phone": "(262) 632-5682",
+    "Email": "fatherjohnketchum@att.net",
+    "Website": "https://www.kimissis.org",
+    "State": "WI"
+  },
+  {
+    "ID": 1542,
+    "Eparchy": ""
+    "Name": "Saint Spyridon Greek Orthodox Church",
+    "Address1": "1427 South 10th Street",
+    "City": "Sheboygan",
+    "Zip": "53081-5337",
+    "Phone": "(920) 452-2296",
+    "Email": "frleo@stspyridonsheboygan.org",
+    "Website": "https://www.stspyridonsheboygan.org",
+    "State": "WI"
+  },
+  {
+    "ID": 1543,
+    "Eparchy": ""
+    "Name": "Annunciation Greek Orthodox Church",
+    "Address1": "9400 West Congress Street",
+    "City": "Wauwatosa",
+    "Zip": "53225-4812",
+    "Phone": "(414) 461-9400",
+    "Email": "info@annunciationwi.org",
+    "Website": "https://www.annunciationwi.org",
+    "State": "WI"
+  },
+  {
+    "ID": 1544,
+    "Eparchy": ""
+    "Name": "Saints Constantine & Helen Greek Orthodox Church",
+    "Address1": "2160 N. Wauwatosa Ave.",
+    "City": "Wauwatosa",
+    "Zip": "53213-1743",
+    "Phone": "(414) 778-1555",
+    "Email": "church@stsconstantinehelenwi.org",
+    "Website": "https://www. stsconstantinehelenwi.org",
+    "State": "WI"
+  },
+  {
+    "ID": 1545,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "1350 East C Street",
+    "City": "Casper",
+    "Zip": "82601-2127",
+    "Phone": "(307) 237-9969",
+    "Email": "frdanielpayne@gmail.com",
+    "Website": "https://www.holytrinitycasper.org",
+    "State": "WY"
+  },
+  {
+    "ID": 1546,
+    "Eparchy": ""
+    "Name": "Holy Apostles Greek Orthodox Church",
+    "Address1": "9505 Hynds Boulevard",
+    "City": "Cheyenne",
+    "Zip": "82009-1107",
+    "Phone": "(307) 514-5347",
+    "Email": "office@holyapostlescheyenne.com",
+    "Website": "https://www.holyapostles.online",
+    "State": "WY"
+  },
+  {
+    "ID": 1547,
+    "Eparchy": ""
+    "Name": "Saints Constantine & Helen Greek Orthodox Church",
+    "Address1": "501 West 27th Street",
+    "City": "Cheyenne",
+    "Zip": "82001",
+    "Phone": "(307) 635-5929",
+    "Email": "cheyennegoc@gmail.com",
+    "Website": "https://www.orthodoxcheyenne.org",
+    "State": "WY"
+  },
+  {
+    "ID": 1548,
+    "Eparchy": ""
+    "Name": "Holy Trinity Greek Orthodox Church",
+    "Address1": "405 N Street",
+    "City": "Rock Springs",
+    "Zip": "82902",
+    "Phone": "(307) 362-2930",
+    "Email": "parkerkx@hotmail.com",
+    "Website": "https://www.holytrinityrs.com",
+    "State": "WY"
+  }
+]
