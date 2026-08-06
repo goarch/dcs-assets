@@ -165,22 +165,11 @@ function showAll() {
   displayingBilingual = true;
 }
 
-//This function is handled by pref.generation.ares
-//$(document).ready(function(){
-//	$("td.leftCell span.versiondesignation").css("display","none");
-//	});
-
-
 $.expr[':'].notext = function detectNoText(x) { return x.innerHTML && x.innerHTML.replace(/(<!--.*(?!-->))|\s+/g, '').length === 0 }
 
 function notAvailable() {
   $('p.hymn:has(span.dummy)').removeClass("hymn").addClass("notavailable").text("This text was inaccessible at the time of publication or unavailable due to copyright restrictions.").css("background-color", "white");
 }
-
-//This version of the script displays the versiondesgination
-//function notAvailable() {
-//		$('p.hymn > span.dummy').removeClass("hymn").addClass("notavailable").text("This text was //inaccessible at the time of publication or unavailable due to copyright //restrictions.").css("background-color","white");
-//		}
 
 $.expr[':'].noValue = function detectNoValue(x) {
   if ($(x).find("div.media-group").length > 0) {
@@ -703,8 +692,8 @@ $(document).ready(function () {
       "your preferences, click on the Preferences Button on the right hand corner of the left frame.</p>" +
       "<br><p>If you want to print the customized service as it appears in " +
       "your browser in the left frame, turn off the media icons using the music button on the blue toolbar. " +
-      "Choose your bilingual or English only preference. Click on the printer button that will appear on the " +
-      "right hand corner of the left frame. Bilingual texts will print in two columns. English only text will print in a " +
+      "Choose your bilingual or English only preference.</p> " + 
+      "<br><br><p>NEW INSTRUCTIONS</p><p>Click inside the left frame, where the service text is, and select all, or the parts you want to print. Right click and use the Print command of your browser. Bilingual texts will print in two columns. English only text will print in a " +
       "single column, filling the page. The iPad app does not yet support printing of the customized text.</p></div>");
 
     $(".pref-opts").append('<div class="pref-closer">Apply</div>');
@@ -776,7 +765,9 @@ $(document).ready(function () {
 
     // Add print and services preference links
     if (!isMobile.iPad())
-      $(".content").prepend('<p class="print-btn"><a href="#" class="print-service"><i class="fa fa-print" title="Print this frame"></i></a></p>');
+    //  $(".content").prepend('<p class="print-btn"><a href="#" class="print-service"><i class="fa fa-print" title="Print this frame"></i></a></p>');
+      $(".content").prepend('<p class="print-btn"><a style="cursor: pointer;" onclick="performUnifiedExport(\'pdf\'); return false;"><i class="fa fa-print" title="Print this frame"></i></a></p>');
+
     $(".content").prepend('<p class="print-btn"><a href="#" class="prefMode"><i class="fa fa-list-ul prefMode" title="Open service preferences"></i></a></p>');
 
     // Bind click functions for Eothinon Gospels
@@ -911,11 +902,6 @@ $(document).ready(function () {
 
     $('.pref-panel').show();
 
-    $(".print-service").click(function (ev) {
-      ev.preventDefault();
-      window.print();
-    });
-
     $("tr:has(p[class^='bmc_'])").hide();
     $("tr:has(p[class^='emc_'])").hide();
     $("body").append('<div class="page-num-footer"></div>');
@@ -1030,7 +1016,7 @@ $(document).ready(function () {
     });
   }
 
-  notAvailable();
+  //  notAvailable();
   hideEmptyRows();
 
 });
@@ -1264,7 +1250,7 @@ function insertLiturgyTOB() {
 <p class="bookmarklink"><a href="#" onclick="scrollToBkmrk06(); return false;">Great Entrance</a></p>
 <p class="bookmarklink"><a href="#" onclick="scrollToBkmrk07(); return false;">The Creed</a></p>
 <p class="bookmarklink"><a href="#" onclick="scrollToBkmrk08(); return false;">Lord's Prayer</a></p>
-<p class="bookmarklink"><a href="#" onclick="scrollToBkmrk09(); return false;">Memorial Service</a></p>
+<p class="bookmarklink"><a href="#" onclick="scrollToBkmrk09(); return false;">Memorial Service (as allowed and needed)</a></p>
 `;
       // Step 6: Get the parent element of the table and insert the new div
       const parent = table.parentNode;
@@ -1333,8 +1319,26 @@ function insertVesperalLiturgyTOB() {
 
 function insertMatinsOrdinary() {
 
+//This blocks matins ordinary from being injected into matins of service builder  
+  const currentUrl = window.location.href.toLowerCase();
+  const referrerUrl = (document.referrer || "").toLowerCase();
+
+  // Check if either file name shows up in the current URL OR the referrer
+  const isExcluded =
+    currentUrl.includes('sb-matins.html') ||
+    currentUrl.includes('sb-hmatins.html') ||
+    referrerUrl.includes('sb-matins.html') ||
+    referrerUrl.includes('sb-hmatins.html');
+
+  if (isExcluded) {
+    console.log("insertMatinsOrdinary() blocked via robust URL/Referrer check.");
+    return; // Exit early
+  }
+
+    //******************************************* */
+  
   const pageTitle = document.title;
-  const validEndings = ['.ma', '.ma2', '.ma3', '.ma4', '.ma5', '.ma6', '.ma9'];
+  const validEndings = ['.ma', '.ma3', '.ma4', '.ma5', '.ma6', '.ma9'];
 
   if (validEndings.some(ending => pageTitle.endsWith(ending))) {
     console.log(`Document is a Matins. Running insertMatinsOrdinary script.`);
@@ -1727,10 +1731,9 @@ function insertMatinsOrdinary() {
 </tr>
 <tr>
 <td class='leftCell'><p class='dialog'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet19Sa.text'>Ἔτι δεόμεθα ὑπὲρ</span> 
-<span class='kvp' data-key='client_gr_US_goa|cl.bishop1.rank'>τοῦ Ἀρχιεπισκόπου ἡμῶν</span> 
-<span class='kvp' data-key='client_gr_US_goa|cl.bishop1.name_p'>(δεῖνος).</span> 
+<span class='kvp' data-key='client_gr_US_goa|cl.bishop1.name.petitionP'>(δεῖνος).</span>
 </p></td>
-<td class='rightCell'><p class='dialog'><span class='kvp' data-key='prayers_en_US_goa|pr.pet19Sa.text'>Again we pray for</span> <span class='kvp' data-key='client_en_US_goa|cl.bishop1.rank'>our Archbishop</span> <span class='kvp' data-key='client_en_US_goa|cl.bishop1.name_p'>(name).</span> </p></td>
+<td class='rightCell'><p class='dialog'><span class='kvp' data-key='prayers_en_US_goa|pr.pet19Sa.text'>Again we pray for</span> <span class='kvp' data-key='client_en_US_goa|cl.bishop1.name.petitionP'>(name).</span> </p></td>
 </tr>
 <tr>
 <td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Choir'>ΧΟΡΟΣ</span> 
@@ -2117,12 +2120,11 @@ function insertMatinsOrdinary() {
 </tr>
 <tr>
 <td class='leftCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet06a.text'>Ὑπὲρ</span> 
-<span class='kvp' data-key='client_gr_US_goa|cl.bishop1.rank'>τοῦ Ἀρχιεπισκόπου ἡμῶν</span> 
-<span class='kvp' data-key='client_gr_US_goa|cl.bishop1.name_c'>(δεῖνος),</span> 
+<span class='kvp' data-key='client_gr_US_goa|cl.bishop1.name.petitionC'>τοῦ Ἀρχιεπισκόπου ἡμῶν (δεῖνος),</span>
 <span class='kvp' data-key='prayers_gr_US_goa|pr.pet06b.text'>τοῦ τιμίου πρεσβυτερίου, τῆς ἐν Χριστῷ διακονίας, παντὸς τοῦ κλήρου καὶ τοῦ λαοῦ τοῦ Κυρίου δεηθῶμεν.</span> 
 </span> 
 </p></td>
-<td class='rightCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_en_US_goa|pr.pet06a.text'>For </span> <span class='kvp' data-key='client_en_US_goa|cl.bishop1.rank'>our Archbishop</span> <span class='kvp' data-key='client_en_US_goa|cl.bishop1.name_c'>(name),</span> <span class='kvp' data-key='prayers_en_US_goa|pr.pet06b.text'>for the honorable presbyterate, for the diaconate in Christ, and for all the clergy and the people, let us pray to the Lord.</span> </span> </p></td>
+<td class='rightCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_en_US_goa|pr.pet06a.text'>For </span> <span class='kvp' data-key='client_en_US_goa|cl.bishop1.name.petitionC'>our Archbishop (name),</span> <span class='kvp' data-key='prayers_en_US_goa|pr.pet06b.text'>for the honorable presbyterate, for the diaconate in Christ, and for all the clergy and the people, let us pray to the Lord.</span> </span> </p></td>
 </tr>
 <tr>
 <td class='leftCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
@@ -2292,13 +2294,21 @@ function insertMatinsOrdinary() {
 <tr>
 <td class='leftCell'>
 <p class='break'>&#xA0;&#xA0;&#xA0;</p>
-</td>
+</td>5
 <td class='rightCell'>
 <p class='break'>&#xA0;&#xA0;&#xA0;</p>
 </td>
 </tr>`;
     const currentPath = document.location.origin + document.location.pathname;
-    const today = new Date(); //parameter a string date to test other dates eg: "12/24/2025"
+    
+    const regex = /(?<year>\d{4})\/(?<month>\d{2})\/(?<day>\d{2})/;
+    const result = regex.exec(currentPath);
+
+    // Destructure the groups directly into variables
+    const { year, month, day } = result.groups;
+
+    //today is based on the date in the path
+    const today = new Date(`${month}/${day}/${year}`); //parameter a string date to test other dates eg: "12/24/2025"
 
     const thisYear = today.getFullYear();
     const baseDates = ["02-25-2024", "02-09-2025", "02-01-2026", "02-21-2027", "02-06-2028", "01-28-2029", "02-17-2030"];
@@ -3248,11 +3258,15 @@ function initCollapsibleRows() {
 }
 
 // --- Execution ---
-// Execute the function once the entire document is ready.
+// Execute the function once the entire document is ready
+// as long as document is not /li1/ i.e. customizable liturgy
 $(document).ready(function () {
-  initCollapsibleRows();
+  if (window.location.href.includes('/li1/')) {
+    $('.bmc_collapse, .emc_collapse').css('display', 'none');
+  } else {
+    initCollapsibleRows();
+  }
 });
-
 
 
 // AUDIO PLAYER - Unified Player Logic (DIV-based)
@@ -3749,8 +3763,8 @@ function generateDynamicLinks() {
 
   // --- CRITICAL CONFIGURATION: DEFINE ALL PERSON CODES HERE ---
   const PERSON_MAP = {
-    en: { audio: { default: 'dedes' }, score: { w: 'dedes', b: 'dedes' } },
-    gr: { audio: { default: 'dedes' }, score: { w: 'dedes', b: 'dedes' } }
+    en: { audio: { default: 'dedes' }, score: { w: 'dedes', b: 'theodoridis' } },
+    gr: { audio: { default: 'dedes' }, score: { w: 'dedes', b: 'theodoridis' } }
   };
   // -------------------------------------------------------------
 
@@ -3926,192 +3940,852 @@ function generateDynamicLinks() {
 // ------------------------------------------------------------------
 // --- jQuery Execution Wrapper ---
 // NOTE: Make sure the ALWB.JS code runs BEFORE this wrapper.
-//$(function () {
-//  generateDynamicLinks();
-//});
+$(function () {
+  generateDynamicLinks();
+});
 // ------------------------------------------------------------------
 
-/* --- DCS Automated Word Export Section --- */
-(function () {
-  if (!self.location.pathname.includes('/indexes/')) {
-    return;
-  }
 
-  const cssPath = "https://dcs.goarch.org/goa/dcs/css/dcs_word_styles.css";
+async function performUnifiedExport(format) {
+  // Target the document of the current page directly
+  const currentDoc = document;
+  const liveTable = currentDoc.getElementById('biTable') || currentDoc.querySelector('table');
+  if (!liveTable) return;
 
-  async function performWordExport(url, serviceName, lang) {
-    try {
-      const resp = await fetch(url);
-      const html = await resp.text();
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, 'text/html');
+  const firstRow = liveTable.querySelector('tr');
+  const isSingleColumn = firstRow ? (Array.from(firstRow.cells).length === 1) : false;
 
-      const target = doc.getElementById('biTable') || doc.querySelector('table');
-      if (!target) return;
+  let exportContainer = currentDoc.createElement('div');
+  exportContainer.className = 'dcs-export-wrapper';
 
-      // STEP 1: HARD REMOVALS (The Chainsaw)
-      target.querySelectorAll(`
-    [class^="source"], [class*=" source"], 
-    .key, [hidden], .media-group, .media-links, 
-    .jqm-dropdown, .noprint, i, script, style,
-    [class^="bmc"], [class*=" bmc"], 
-    [class^="emc"], [class*=" emc"]
-`).forEach(el => el.remove());
+  if (isSingleColumn) {
+    const cells = liveTable.querySelectorAll('td');
+    cells.forEach(cell => {
+      const row = cell.closest('tr');
+      const style = window.getComputedStyle(row);
+      if (style.display === 'none' || style.visibility === 'hidden') return;
 
-      // 2. THE CLASS SCRUBBER (The Eraser)
-      // Removes these class names but KEEPS the text inside the spans.
-      const classesToScrub = [
-        'kvp', 'achoir', 'aclergy', 'adeacon', 'ahierarch', 'apeople',
-        'apriest', 'areader', 'dchoir', 'dclergy', 'ddeacon',
-        'dhierarch', 'dpeople', 'dpriest', 'dreader', 'dwachoir',
-        'dwaclergy', 'dwadeacon', 'dwahierarch', 'dwapeople',
-        'dwapriest', 'dwareader'
-      ];
+      const block = currentDoc.createElement('div');
+      block.className = cell.className + ' dcs-block-unit';
+      block.innerHTML = cell.innerHTML;
 
-      classesToScrub.forEach(className => {
-        target.querySelectorAll('.' + className).forEach(el => {
-          el.classList.remove(className);
-          // Remove data-key if it exists (common in kvp spans)
-          if (el.hasAttribute('data-key')) el.removeAttribute('data-key');
-          // If no classes are left, remove the class attribute entirely
-          if (el.classList.length === 0) el.removeAttribute('class');
-        });
-      });
+      cleanElement(block, isSingleColumn);
 
-      // 3. BOOKMARK SCRUBBER (The Sniper)
-      // Deletes the entire table row if it is just a bookmark title.
-      target.querySelectorAll('p[class^="bkmrk"]').forEach(p => {
-        if (p.textContent.toLowerCase().includes('bookmark')) {
-          const row = p.closest('tr');
-          if (row) row.remove();
-        }
-      });
-
-      // 4. DROP-CAP RESET
-      // Prevents "float" styles from breaking the Word layout.
-      target.querySelectorAll('[class*="dropcap"], [class*="first-letter"]').forEach(el => {
-        el.style.float = "none";
-        el.style.display = "inline";
-      });
-
-      // 5. THE VACUUM (The Deep Clean)
-      // Removes any rows that are now empty after the previous steps.
-      target.querySelectorAll('tr').forEach(row => {
-        const hasText = row.textContent.replace(/\u00a0/g, ' ').trim().length > 0;
-        const hasImg = row.querySelector('img') !== null;
-        if (!hasText && !hasImg) {
+      const text = block.textContent.replace(/[\s\u00a0\t\n\r]/g, '');
+      if (text.length > 0 || block.querySelector('img')) {
+        exportContainer.appendChild(block);
+      }
+    });
+  } else {
+    const tableClone = liveTable.cloneNode(true);
+    const rows = tableClone.querySelectorAll('tr');
+    rows.forEach(row => {
+      const liveEl = currentDoc.getElementById(row.id);
+      if (liveEl) {
+        const style = window.getComputedStyle(liveEl);
+        if (style.display === 'none' || style.visibility === 'hidden' || liveEl.offsetParent === null) {
           row.remove();
-        }
-      });
-
-      // 6. FINAL TABLE ATTRIBUTES
-      target.removeAttribute('width');
-      target.removeAttribute('cellspacing');
-      target.removeAttribute('cellpadding');
-      target.style.width = "100%";
-      target.style.tableLayout = "auto";
-
-      // 1. THE CHECK: Does any row have more than one cell?
-      // We look at the first few rows to see if any are side-by-side
-      const rows = target.querySelectorAll('tr');
-      let isBilingual = false;
-
-      // Check the first 5 rows (to skip potential single-cell title rows)
-      for (let i = 0; i < Math.min(rows.length, 5); i++) {
-        if (rows[i].querySelectorAll('td').length > 1) {
-          isBilingual = true;
-          break;
+          return;
         }
       }
-
-      // 2. THE LOGIC:
-      // Bilingual = 1 Column Page (Full width table)
-      // English-Only = 2 Column Page (Newsletter flow)
-      const wordColumnCount = isBilingual ? 1 : 2;
-
-      // 3. DEBUG: Open your browser console (F12) to see this result
-      console.log("Bilingual Detected: " + isBilingual + " | Setting Word Columns to: " + wordColumnCount);
-
-      // --- THE FETCH ---
-      let cssText = "";
-      try {
-        // Force fresh CSS download every time
-        const cssResp = await fetch(cssPath + "?v=" + new Date().getTime());
-        cssText = await cssResp.text();
-      } catch (e) {
-        console.error("CSS Fetch failed, using fallback empty styles", e);
+      row.querySelectorAll('td').forEach(td => cleanElement(td, isSingleColumn));
+      const text = row.textContent.replace(/[\s\u00a0\t\n\r]/g, '');
+      if (text.length === 0 && !row.querySelector('img')) {
+        row.remove();
       }
-
-      // --- THE EXPORT ---
-      const fileContent = `
-        <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-        <head>
-            <meta charset='utf-8'>
-            <style>
-                /* Bulletproof Page Setup: Hardcoded for Word's Parser */
-                @page Section1 {
-                    size: 8.5in 11.0in;
-                    margin: .75in;
-                    mso-columns: ${wordColumnCount};
-                    mso-column-sep: .25in;
-                }
-                div.Section1 { 
-                    page: Section1; 
-                }
-                
-                /* Injected styles from your CSS file */
-                ${cssText}
-            </style>
-        </head>
-        <body>
-            <div class="Section1">
-                ${target.outerHTML}
-            </div>
-        </body>
-        </html>`;
-
-      const blob = new Blob(['\ufeff' + fileContent], { type: 'application/msword' });
-      const downloadLink = document.createElement('a');
-      downloadLink.href = URL.createObjectURL(blob);
-      downloadLink.download = serviceName.replace(/[\/\\?%*:|"<>]/g, '-') + '.doc';
-      downloadLink.click();
-    } catch (e) {
-      console.error("DCS Export Error:", e);
-    }
+    });
+    exportContainer.appendChild(tableClone);
   }
 
-  function addWordButtons() {
-    const fullDateHeader = document.querySelector('.index-title-date')?.innerText || "";
-    const dateMatch = fullDateHeader.match(/Services for\s+(.*)/i);
-    const dateStr = dateMatch ? dateMatch[1].trim() : "";
+  function cleanElement(el, singleColMode) {
+    const selectorsToRemove = [
+      'script', 'style', '.jqm-dropdown', '.key', '.noprintdesig',
+      '[style*="display: none"]', '[style*="display:none"]',
+      '.nodisplay', '.noprintactor', '.noprintrub', '.noprintprayer',
+      '[class^="bcc_"]', '[class*=" bcc_"]', '[class^="ecc_"]', '[class*=" ecc_"]',
+      '[class^="bmc_"]', '[class*=" bmc_"]', '[class^="emc_"]', '[class*=" emc_"]',
+      '[class^="brc_"]', '[class*=" brc_"]', '[class^="erc_"]', '[class*=" erc_"]',
+      '[class^="bkmrk"]', '[class*=" bkmrk"]',
+      '[class^="source"]', '[class*=" source"]',
+      '.dummy', '.sbparishname'
+    ];
+    el.querySelectorAll(selectorsToRemove.join(',')).forEach(item => item.remove());
 
-    document.querySelectorAll('a.index-file-link').forEach(link => {
-      if (link.textContent.trim() === "View" && !link.parentNode.querySelector('.btn-word-export')) {
-        const btn = document.createElement('button');
-        btn.innerHTML = 'Word';
-        btn.className = 'btn-word-export';
-        btn.style.cssText = 'margin-left:8px; padding:2px 8px; cursor:pointer; background:#800000; color:#fff; border:1px solid #500000; border-radius:3px; font-size:11px; font-weight:bold; vertical-align:middle;';
+    const classesToUnwrap = [
+      '.achoir', '.aclergy', '.adeacon', '.ahierarch',
+      '.dchoir', '.dclergy', '.ddeacon', '.dhierarch',
+      '.dpeople', '.dpriest', '.dwachoir', '.dwadeacon',
+      '.kvp'
+    ];
+    classesToUnwrap.forEach(s => {
+      el.querySelectorAll(s).forEach(item => {
+        item.replaceWith(...item.childNodes);
+      });
+    });
 
-        btn.onclick = (e) => {
-          e.preventDefault();
-          const currentRow = link.closest('tr');
-          const langText = currentRow.querySelector('.index-language')?.innerText.trim() || "";
-          let serviceHeader = "";
-          let prevRow = currentRow.previousElementSibling;
-          while (prevRow) {
-            if (prevRow.classList.contains('index-service-day-tr')) {
-              serviceHeader = prevRow.querySelector('.index-service-day')?.innerText.trim() || "";
-              break;
-            }
-            prevRow = prevRow.previousElementSibling;
-          }
-          performWordExport(link.href, `${dateStr} ${serviceHeader} ${langText}`.trim(), langText);
-        };
-        link.parentNode.appendChild(btn);
+    el.querySelectorAll('*').forEach(child => {
+      child.style.float = 'none';
+      child.style.position = 'static';
+      if (singleColMode) {
+        child.style.width = 'auto';
+        child.style.maxWidth = '100%';
       }
     });
   }
 
-  addWordButtons();
-  setInterval(addWordButtons, 3000);
-})();
+  const fileName = currentDoc.title || "Service_Export";
+
+  let displayTitle = "Divine Services";
+  if (fileName.includes('.li')) displayTitle = "Divine Liturgy";
+  else if (fileName.includes('.ma')) displayTitle = "Matins";
+  else if (fileName.includes('.ve')) displayTitle = "Vespers";
+
+  if (format === 'word') {
+    await generateWordFile(exportContainer, fileName, isSingleColumn, displayTitle);
+  } else {
+    await generatePDFFile(exportContainer, fileName, isSingleColumn, displayTitle);
+  }
+}
+
+function generatePDFFile(element, filename, isSingleColumn, displayTitle = "Divine Services") {
+  const clone = element.cloneNode(true);
+  const hiddenSelectors = '.nodisplay, .noprintactor, .noprintrub, .noprintprayer, [style*="display: none"], .sbparishname';
+  clone.querySelectorAll(hiddenSelectors).forEach(el => el.remove());
+
+  const children = clone.querySelectorAll('p, div, br');
+  for (let i = children.length - 1; i >= 0; i--) {
+    const node = children[i];
+    if (!node.textContent.trim() && !node.querySelector('img')) {
+      node.remove();
+    } else {
+      break;
+    }
+  }
+
+  const printWin = window.open('', '_blank', 'width=900,height=800');
+  const rootURL = `https://dcs.goarch.org/goa/dcs/`;
+
+  printWin.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <base href="${rootURL}">
+            <title>${filename}</title>
+            <link rel="stylesheet" href="css/dcs_word_styles.css">
+            <style>
+                @page {
+                    size: 8.5in 11in;
+                    margin-top: 1.1in; 
+                    margin-right: 0.75in;
+                    margin-bottom: 1.0in;
+                    margin-left: 0.75in;
+
+                    @top-center {
+                        content: "${displayTitle}";
+                        font-family: "Times New Roman", serif;
+                        font-size: 11pt;
+                        color: #a91827;
+                        width: 100%;
+                        border-bottom: 0.4pt solid #C0C0C0;
+                        vertical-align: bottom;
+                        padding-bottom: 5pt; 
+                        margin-bottom: 10pt;
+                    }
+                }
+
+                @page :right {
+                    @bottom-left {
+                        content: "Powered by Digital Chant Stand: A National Ministry of the Greek Orthodox Archdiocese of America";
+                        font-family: serif; font-size: 8pt; font-style: italic; color: #a91827;
+                        border-top: 0.1pt solid #a91827;
+                        vertical-align: top;
+                        padding-top: 10pt;
+                    }
+                    @bottom-right {
+                        content: counter(page);
+                        font-family: serif; font-size: 9pt; color: #a91827;
+                        border-top: 0.1pt solid #a91827;
+                        vertical-align: top;
+                        padding-top: 10pt;
+                        text-align: right;
+                    }
+                }
+
+                @page :left {
+                    @bottom-left {
+                        content: counter(page);
+                        font-family: serif; font-size: 9pt; color: #a91827;
+                        border-top: 0.1pt solid #a91827;
+                        vertical-align: top;
+                        padding-top: 10pt;
+                        text-align: left;
+                    }
+                    @bottom-right {
+                        content: "Powered by Digital Chant Stand: A National Ministry of the Greek Orthodox Archdiocese of America";
+                        font-family: serif; font-size: 8pt; font-style: italic; color: #a91827;
+                        border-top: 0.1pt solid #a91827;
+                        vertical-align: top;
+                        padding-top: 10pt;
+                        text-align: right;
+                    }
+                }
+
+                html, body {
+                    height: auto !important;
+                    overflow: visible !important;
+                    margin: 0; padding: 0;
+                }
+
+                .dcs-export-container {
+                    display: block !important;
+                    width: 100% !important;
+                }
+
+                p, td {
+                    orphans: 2 !important;
+                    widows: 2 !important;
+                }
+
+                .newspaper-flow {
+                    column-count: ${isSingleColumn ? '2' : '1'} !important;
+                    column-gap: 30pt;
+                    column-fill: auto !important;
+                }
+
+                p.actor, p.designation, p.mixed, p.mode, p.melody, p.name, p.servicesourcestitle {
+                    break-after: avoid !important;
+                    break-inside: avoid !important;
+                    page-break-after: avoid !important;
+                }
+
+                table {
+                    table-layout: fixed;
+                    width: 100% !important;
+                    border-collapse: collapse;
+                }
+
+                td {
+                    word-wrap: break-word;
+                    overflow-wrap: break-word;
+                }
+
+                .dcs-export-container > *:last-child {
+                    margin-bottom: 0 !important;
+                }
+            </style>
+            
+            <script>
+                window.onload = function() { 
+                    setTimeout(() => { 
+                        window.print(); 
+                    }, 1000); 
+                };
+            <\/script>
+        </head>
+        <body>
+            <div class="${isSingleColumn ? 'newspaper-flow' : ''} dcs-export-container">
+                ${clone.innerHTML}
+            </div>
+        </body>
+        </html>
+    `);
+
+  printWin.document.close();
+}
+
+
+function convertServicesIndexToCalendar() {
+    var indexContent = document.querySelector('.index-content');
+    var originalTable = document.querySelector('.services-index-table');
+    if (!indexContent || !originalTable) return;
+
+    // 1. Inject responsive CSS Grid styles
+    if (!document.getElementById('calendar-grid-styles')) {
+        var style = document.createElement('style');
+        style.id = 'calendar-grid-styles';
+        style.textContent = `
+            html, body, .index-content {
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                box-sizing: border-box !important;
+            }
+
+            .calendar-stack {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .calendar-container {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 10px;
+                scroll-margin-top: 20px;
+            }
+
+            .calendar-header {
+                text-align: center;
+                font-size: clamp(1.2rem, 4vw, 2rem);
+                font-weight: bold;
+                margin-bottom: 12px;
+                color: #333;
+            }
+
+            .calendar-grid {
+                display: grid;
+                grid-template-columns: repeat(7, 1fr);
+                width: 100%;
+                gap: 1px;
+                background-color: #ddd;
+                border: 1px solid #ddd;
+                box-sizing: border-box;
+            }
+
+            .calendar-day-header {
+                background-color: #8b0000;
+                color: #ffffff;
+                text-align: center;
+                padding: 10px 0;
+                font-weight: bold;
+                font-size: clamp(0.85rem, 2.5vw, 1.2rem);
+            }
+
+            .calendar-cell {
+                background-color: #fff;
+                aspect-ratio: 1 / 1;
+                box-sizing: border-box;
+            }
+
+            .calendar-cell.empty {
+                background-color: #f9f9f9;
+            }
+
+            .calendar-cell .index-day-link {
+                display: flex;
+                align-items: flex-start;
+                justify-content: flex-end;
+                width: 100%;
+                height: 100%;
+                font-weight: bold;
+                font-size: clamp(1rem, 3.5vw, 1.6rem);
+                text-decoration: none;
+                color: #333;
+                padding: 10%;
+                box-sizing: border-box;
+            }
+
+            .calendar-cell .index-day-link:hover {
+                background-color: #f0f4f8;
+                color: #8b0000;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    // 2. Parse the table rows and group items by Month Key (YYYYMM) extracted from hrefs
+    var rows = Array.from(originalTable.querySelectorAll('tr'));
+    var monthsMap = {}; 
+    var monthKeysOrder = []; 
+    var currentMonthTitle = "";
+
+    rows.forEach(function(row) {
+        var monthSpan = row.querySelector('.index-month');
+        var dayLink = row.querySelector('.index-day-link');
+
+        if (monthSpan) {
+            currentMonthTitle = monthSpan.textContent.trim();
+        } else if (dayLink) {
+            var href = dayLink.getAttribute('href');
+            // Match YYYYMMDD from filenames like 'indexes/20260810.html'
+            var match = href ? href.match(/(\d{4})(\d{2})(\d{2})/) : null;
+
+            if (match) {
+                var year = parseInt(match[1], 10);
+                var month = parseInt(match[2], 10); // 1-12
+                var day = parseInt(match[3], 10);
+                var monthKey = match[1] + match[2]; // e.g. "202608"
+
+                if (!monthsMap[monthKey]) {
+                    monthsMap[monthKey] = {
+                        title: currentMonthTitle || (year + "-" + match[2]),
+                        year: year,
+                        month: month,
+                        days: []
+                    };
+                    monthKeysOrder.push(monthKey);
+                }
+
+                monthsMap[monthKey].days.push({
+                    dayNumber: day,
+                    href: href
+                });
+            }
+        }
+    });
+
+    // 3. Build stacked calendar objects
+    var dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    var calendarStack = document.createElement('div');
+    calendarStack.className = 'calendar-stack';
+
+    monthKeysOrder.forEach(function(key) {
+        var monthData = monthsMap[key];
+        if (!monthData || monthData.days.length === 0) return;
+
+        var container = document.createElement('div');
+        container.className = 'calendar-container';
+
+        var header = document.createElement('div');
+        header.className = 'calendar-header';
+        header.textContent = monthData.title;
+        container.appendChild(header);
+
+        var grid = document.createElement('div');
+        grid.className = 'calendar-grid';
+
+        // Weekday Header Row
+        dayHeaders.forEach(function(dayName) {
+            var th = document.createElement('div');
+            th.className = 'calendar-day-header';
+            th.textContent = dayName;
+            grid.appendChild(th);
+        });
+
+        // 4. Calculate starting weekday using exact (Year, Month - 1, Day 1)
+        var firstDayDate = new Date(monthData.year, monthData.month - 1, 1);
+        var startDayOfWeek = firstDayDate.getDay(); // 0 = Sun, 1 = Mon, ..., 6 = Sat
+
+        // Leading empty cells
+        for (var i = 0; i < startDayOfWeek; i++) {
+            var emptyCell = document.createElement('div');
+            emptyCell.className = 'calendar-cell empty';
+            grid.appendChild(emptyCell);
+        }
+
+        // Active day cells
+        monthData.days.forEach(function(day) {
+            var cell = document.createElement('div');
+            cell.className = 'calendar-cell';
+
+            var a = document.createElement('a');
+            a.className = 'index-day-link';
+            a.setAttribute('href', day.href);
+            a.textContent = day.dayNumber;
+
+            cell.appendChild(a);
+            grid.appendChild(cell);
+        });
+
+        // Trailing padding cells to complete the grid row
+        var totalCells = startDayOfWeek + monthData.days.length;
+        var trailingCells = (7 - (totalCells % 7)) % 7;
+        for (var j = 0; j < trailingCells; j++) {
+            var padCell = document.createElement('div');
+            padCell.className = 'calendar-cell empty';
+            grid.appendChild(padCell);
+        }
+
+        container.appendChild(grid);
+        calendarStack.appendChild(container);
+    });
+
+    // 5. Replace original table
+    if (originalTable.parentNode) {
+        originalTable.parentNode.replaceChild(calendarStack, originalTable);
+    }
+
+    // 6. Scroll current month calendar to top of the frame
+    var now = new Date();
+    var currentYear = now.getFullYear();
+    var currentMonth = now.getMonth() + 1;
+    var targetKey = currentYear.toString() + (currentMonth < 10 ? '0' : '') + currentMonth;
+
+    var targetIndex = monthKeysOrder.indexOf(targetKey);
+    var targetContainer = null;
+
+    if (targetIndex !== -1 && calendarStack.children[targetIndex]) {
+        targetContainer = calendarStack.children[targetIndex];
+    } else if (calendarStack.children.length > 0) {
+        // Fallback to first available month if current month is not in the data
+        targetContainer = calendarStack.children[0];
+    }
+
+    if (targetContainer) {
+        targetContainer.scrollIntoView({ behavior: 'auto', block: 'start' });
+    }
+}
+
+// Execution timing safety for iframe rendering
+if (document.readyState === 'interactive' || document.readyState === 'complete') {
+    convertServicesIndexToCalendar();
+} else {
+    document.addEventListener('DOMContentLoaded', convertServicesIndexToCalendar);
+}
+
+
+/**
+ * Helper function to perform Word document generation and export from an HTML service page.
+ */
+async function performWordExport(url, serviceName, lang) {
+    const cssPath = "https://dcs.goarch.org/goa/dcs/css/dcs_word_styles.css";
+    try {
+        const resp = await fetch(url);
+        const html = await resp.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+
+        const target = doc.getElementById('biTable') || doc.querySelector('table');
+        if (!target) return;
+
+        // STEP 1: HARD REMOVALS
+        target.querySelectorAll(`
+            [class^="source"], [class*=" source"], 
+            .key, [hidden], .media-group, .media-links, 
+            .jqm-dropdown, .noprint, i, script, style,
+            [class^="bmc"], [class*=" bmc"], 
+            [class^="emc"], [class*=" emc"],
+            [class^="brc"], [class*=" brc"], 
+            [class^="erc"], [class*=" erc"]
+        `).forEach(el => el.remove());
+
+        // STEP 2: CLASS SCRUBBER
+        const classesToScrub = [
+            'kvp', 'achoir', 'aclergy', 'adeacon', 'ahierarch', 'apeople',
+            'apriest', 'areader', 'dchoir', 'dclergy', 'ddeacon',
+            'dhierarch', 'dpeople', 'dpriest', 'dreader', 'dwachoir',
+            'dwaclergy', 'dwadeacon', 'dwahierarch', 'dwapeople',
+            'dwapriest', 'dwareader',
+            'achclhi', 'aclhi', 'adebl', 'adepr', 'aprhi',
+            'dclhi', 'ddepr', 'ddebl', 'dprhi',
+            'dwadebl', 'dwadepr', 'dwaprhi'
+        ];
+
+        classesToScrub.forEach(className => {
+            target.querySelectorAll('.' + className).forEach(el => {
+                el.classList.remove(className);
+                if (el.hasAttribute('data-key')) el.removeAttribute('data-key');
+                if (el.classList.length === 0) el.removeAttribute('class');
+            });
+        });
+
+        // STEP 3: BOOKMARK SCRUBBER
+        target.querySelectorAll('p[class^="bkmrk"]').forEach(p => {
+            if (p.textContent.toLowerCase().includes('bookmark')) {
+                const row = p.closest('tr');
+                if (row) row.remove();
+            }
+        });
+
+        // STEP 4: DROP-CAP RESET
+        target.querySelectorAll('[class*="dropcap"], [class*="first-letter"]').forEach(el => {
+            el.style.float = "none";
+            el.style.display = "inline";
+        });
+
+        // STEP 5: THE VACUUM
+        target.querySelectorAll('tr').forEach(row => {
+            const hasText = row.textContent.replace(/\u00a0/g, ' ').trim().length > 0;
+            const hasImg = row.querySelector('img') !== null;
+            if (!hasText && !hasImg) {
+                row.remove();
+            }
+        });
+
+        // STEP 6: FINAL TABLE ATTRIBUTES
+        target.removeAttribute('width');
+        target.removeAttribute('cellspacing');
+        target.removeAttribute('cellpadding');
+        target.style.width = "100%";
+        target.style.tableLayout = "auto";
+
+        const rows = target.querySelectorAll('tr');
+        let isBilingual = false;
+
+        for (let i = 0; i < Math.min(rows.length, 5); i++) {
+            if (rows[i].querySelectorAll('td').length > 1) {
+                isBilingual = true;
+                break;
+            }
+        }
+
+        const wordColumnCount = isBilingual ? 1 : 2;
+        console.log("Bilingual Detected: " + isBilingual + " | Setting Word Columns to: " + wordColumnCount);
+
+        let cssText = "";
+        try {
+            const cssResp = await fetch(cssPath + "?v=" + new Date().getTime());
+            cssText = await cssResp.text();
+        } catch (e) {
+            console.error("CSS Fetch failed, using fallback empty styles", e);
+        }
+
+        const fileContent = `
+            <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+            <head>
+                <meta charset='utf-8'>
+                <style>
+                    @page Section1 {
+                        size: 8.5in 11.0in;
+                        margin: .75in;
+                        mso-columns: ${wordColumnCount};
+                        mso-column-sep: .25in;
+                    }
+                    div.Section1 { 
+                        page: Section1; 
+                    }
+                    ${cssText}
+                </style>
+            </head>
+            <body>
+                <div class="Section1">
+                    ${target.outerHTML}
+                </div>
+            </body>
+            </html>`;
+
+        const blob = new Blob(['\ufeff' + fileContent], { type: 'application/msword' });
+        const downloadLink = document.createElement('a');
+        downloadLink.href = URL.createObjectURL(blob);
+        downloadLink.download = serviceName.replace(/[\/\\?%*:|"<>]/g, '-') + '.doc';
+        downloadLink.click();
+    } catch (e) {
+        console.error("DCS Export Error:", e);
+    }
+}
+
+/**
+ * Transforms legacy service index tables into structured service cards.
+ * Executes if the page matches the pattern: .../dcs/indexes/YYYYMMDD.html
+ */
+function transformIndexLayout() {
+    // Verify the URL pattern ends with 'dcs/indexes/YYYYMMDD.html' or contains '/indexes/'
+    const pathRegex = /\/dcs\/indexes\/\d{8}\.html$/i;
+    if (!pathRegex.test(window.location.pathname) && !window.location.pathname.includes('/indexes/')) {
+        return;
+    }
+
+    const table = document.querySelector('.index-content table');
+    if (!table) return;
+
+    // 1. Inject styling for card layout, rows, language buttons, and flag colors
+    const styleEl = document.createElement('style');
+    styleEl.textContent = `
+        .service-group-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .service-card {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            padding: 0.85rem 1rem;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            border-left: 4px solid #8b0000;
+        }
+        .service-card-title {
+            font-weight: bold;
+            font-size: 1rem;
+            color: #a91827;
+            margin-bottom: 0.2rem;
+        }
+        .service-type-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding-left: 1rem;
+        }
+        .service-type-label {
+            font-weight: bold;
+            min-width: 105px;
+            font-size: 1rem;
+            color: #333;
+        }
+        .service-btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .lang-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.35rem 0.75rem;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            color: #333;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            font-family: inherit;
+            line-height: inherit;
+            cursor: pointer;
+            transition: all 0.15s ease-in-out;
+        }
+        .lang-btn:hover {
+            background-color: #f0f0f0;
+            border-color: #a91827;
+            text-decoration: none;
+        }
+        /* Color declarations for flag text */
+        .text-gr {
+            color: #0D5EAF;
+        }
+        .text-en {
+            color: #B22234;
+        }
+    `;
+    document.head.appendChild(styleEl);
+
+    // Helper to generate flag-colored inner HTML for buttons
+    function formatLangHTML(rawLangText) {
+        const upperLang = rawLangText.toUpperCase();
+        if (upperLang === 'GR') {
+            return '<span class="text-gr">Greek</span>';
+        } else if (upperLang === 'EN') {
+            return '<span class="text-en">English</span>';
+        } else if (upperLang === 'GR-EN') {
+            return '<span class="text-gr">GR</span>–<span class="text-en">EN</span>';
+        }
+        return rawLangText;
+    }
+
+    // Extract page header date string if available
+    const fullDateHeader = document.querySelector('.index-title-date')?.innerText || "";
+    const dateMatch = fullDateHeader.match(/Services for\s+(.*)/i);
+    const dateStr = dateMatch ? dateMatch[1].trim() : "";
+
+    // 2. Parse table rows and categorize options into Web View, Print-PDF, and Word Export
+    const services = [];
+    let currentService = null;
+
+    const rows = table.querySelectorAll('tr');
+    rows.forEach(row => {
+        if (row.classList.contains('index-service-day-tr')) {
+            const titleSpan = row.querySelector('.index-service-day');
+            if (titleSpan) {
+                currentService = {
+                    title: titleSpan.textContent.trim(),
+                    categories: {
+                        'Web View': [],
+                        'Print-PDF': [],
+                        'Word Export': []
+                    }
+                };
+                services.push(currentService);
+            }
+        } else if (row.classList.contains('index-service-language-tr') && currentService) {
+            const langSpan = row.querySelector('.index-language');
+            const linkAnchor = row.querySelector('a.index-file-link');
+
+            if (langSpan && linkAnchor) {
+                const rawLangText = langSpan.textContent.trim();
+                const upperLang = rawLangText.toUpperCase();
+                const href = linkAnchor.getAttribute('href') || '';
+                const linkText = linkAnchor.textContent.trim().toLowerCase();
+
+                const isPdf = href.toLowerCase().endsWith('.pdf') || linkText.includes('pdf') || linkText.includes('print');
+                const category = isPdf ? 'Print-PDF' : 'Web View';
+
+                // Clone original anchor and format as a button
+                const btnAnchor = linkAnchor.cloneNode(true);
+                btnAnchor.className = 'lang-btn';
+                btnAnchor.innerHTML = formatLangHTML(rawLangText);
+                btnAnchor.dataset.langCode = upperLang;
+
+                currentService.categories[category].push(btnAnchor);
+
+                // For web view HTML links, generate the corresponding Word Export button
+                if (!isPdf) {
+                    const exportBtn = document.createElement('button');
+                    exportBtn.type = 'button';
+                    exportBtn.className = 'lang-btn';
+                    exportBtn.innerHTML = formatLangHTML(rawLangText);
+                    exportBtn.dataset.langCode = upperLang;
+
+                    exportBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const fileName = `${dateStr} ${currentService.title} ${rawLangText}`.trim();
+                        performWordExport(linkAnchor.href, fileName, rawLangText);
+                    });
+
+                    currentService.categories['Word Export'].push(exportBtn);
+                }
+            }
+        }
+    });
+
+    // Priority sequence for language button ordering
+    const langOrder = ['GR', 'GR-EN', 'EN'];
+
+    // 3. Construct new DOM layout
+    const container = document.createElement('div');
+    container.className = 'service-group-container';
+
+    services.forEach(service => {
+        const card = document.createElement('div');
+        card.className = 'service-card';
+
+        const cardTitle = document.createElement('div');
+        cardTitle.className = 'service-card-title index-service-day';
+        cardTitle.textContent = service.title;
+        card.appendChild(cardTitle);
+
+        ['Web View', 'Print-PDF', 'Word Export'].forEach(category => {
+            const buttons = service.categories[category];
+            if (buttons && buttons.length > 0) {
+
+                // Sort buttons strictly according to GR -> GR-EN -> EN sequence
+                buttons.sort((a, b) => {
+                    const codeA = a.dataset.langCode;
+                    const codeB = b.dataset.langCode;
+
+                    let idxA = langOrder.indexOf(codeA);
+                    let idxB = langOrder.indexOf(codeB);
+
+                    if (idxA === -1) idxA = 99;
+                    if (idxB === -1) idxB = 99;
+
+                    return idxA - idxB;
+                });
+
+                const typeRow = document.createElement('div');
+                typeRow.className = 'service-type-row';
+
+                const label = document.createElement('span');
+                label.className = 'service-type-label';
+                label.textContent = category + ':';
+                typeRow.appendChild(label);
+
+                const btnGroup = document.createElement('div');
+                btnGroup.className = 'service-btn-group';
+
+                buttons.forEach(btn => btnGroup.appendChild(btn));
+                typeRow.appendChild(btnGroup);
+
+                card.appendChild(typeRow);
+            }
+        });
+
+        container.appendChild(card);
+    });
+
+    // 4. Replace original legacy table
+    if (table.parentNode) {
+        table.parentNode.replaceChild(container, table);
+    }
+}
+
+// Auto-run on DOMContentLoaded or immediate execution
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', transformIndexLayout);
+} else {
+    transformIndexLayout();
+}
+
