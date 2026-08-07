@@ -461,7 +461,10 @@ $(document).ready(function () {
   $('div#jqm-dropdown-pages > ul > li:eq(8)').remove(); // browser info link
   $('div#jqm-dropdown-pages > ul > li:eq(7)').remove(); // hr
   $('div#jqm-dropdown-pages > ul > li:eq(6)').remove(); // donate link
-  $('div#jqm-dropdown-pages > ul > li:eq(2)').remove(); // preferences link
+  // Change Dropdown Menu items
+  $('div#jqm-dropdown-pages > ul > li:eq(2)').html('<a href="https://dcs.goarch.org/goa/dcs/parish.html" target="_blank"><i class="fa fa-list-alt">&nbsp;Today\'s Services</i></a>');
+  $('div#jqm-dropdown-pages > ul > li:eq(1)').html('<a href="booksindex.html"><i class="fa fa-arrows">&nbsp;Music, Sacraments, Other</i></a>');
+  $('div#jqm-dropdown-pages > ul > li:eq(0)').html('<a href="servicesindex.html"><i class="fa fa-calendar">&nbsp;Services Calendar</i></a>'); 
 
   if (getLanguages()) {
     setLangVars();
