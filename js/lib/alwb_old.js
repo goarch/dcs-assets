@@ -690,11 +690,9 @@ $(document).ready(function () {
       " Once you have " +
       " selected your preferences, click Apply. You will then be taken to the text of the service. If you want to change " +
       "your preferences, click on the Preferences Button on the right hand corner of the left frame.</p>" +
-      "<br><p>If you want to print the customized service as it appears in " +
-      "your browser in the left frame, turn off the media icons using the music button on the blue toolbar. " +
-      "Choose your bilingual or English only preference.</p> " + 
-      "<br><br><p>NEW INSTRUCTIONS</p><p>Click inside the left frame, where the service text is, and select all, or the parts you want to print. Right click and use the Print command of your browser. Bilingual texts will print in two columns. English only text will print in a " +
-      "single column, filling the page. The iPad app does not yet support printing of the customized text.</p></div>");
+      "<br><br><p>PDF PRINT</p><p>If you want to print the customized service as it appears in " +
+      "your browser in the left frame, click on the printer button that will appear on the " +
+      "right hand corner of the left frame. The iPad app does not yet support printing of the customized text.</p></div>");
 
     $(".pref-opts").append('<div class="pref-closer">Apply</div>');
 
@@ -3945,6 +3943,196 @@ $(function () {
 });
 // ------------------------------------------------------------------
 
+/* --- DCS Automated Word Export Section --- */
+(function () {
+  if (!self.location.pathname.includes('/indexes/')) {
+    return;
+  }
+
+  const cssPath = "https://dcs.goarch.org/goa/dcs/css/dcs_word_styles.css";
+
+  async function performWordExport(url, serviceName, lang) {
+    try {
+      const resp = await fetch(url);
+      const html = await resp.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+
+      const target = doc.getElementById('biTable') || doc.querySelector('table');
+      if (!target) return;
+
+      // STEP 1: HARD REMOVALS (The Chainsaw)
+      target.querySelectorAll(`
+    [class^="source"], [class*=" source"], 
+    .key, [hidden], .media-group, .media-links, 
+    .jqm-dropdown, .noprint, i, script, style,
+    [class^="bmc"], [class*=" bmc"], 
+    [class^="emc"], [class*=" emc"],
+    [class^="brc"], [class*=" brc"], 
+    [class^="erc"], [class*=" erc"]
+`).forEach(el => el.remove());
+
+      // 2. THE CLASS SCRUBBER (The Eraser)
+      // Removes these class names but KEEPS the text inside the spans.
+      const classesToScrub = [
+        'kvp', 'achoir', 'aclergy', 'adeacon', 'ahierarch', 'apeople',
+        'apriest', 'areader', 'dchoir', 'dclergy', 'ddeacon',
+        'dhierarch', 'dpeople', 'dpriest', 'dreader', 'dwachoir',
+        'dwaclergy', 'dwadeacon', 'dwahierarch', 'dwapeople',
+        'dwapriest', 'dwareader',
+        'achclhi', 'aclhi', 'adebl', 'adepr', 'aprhi',
+        'dclhi', 'ddepr', 'ddebl', 'dprhi',
+        'dwadebl', 'dwadepr', 'dwaprhi'
+      ];
+
+      classesToScrub.forEach(className => {
+        target.querySelectorAll('.' + className).forEach(el => {
+          el.classList.remove(className);
+          // Remove data-key if it exists (common in kvp spans)
+          if (el.hasAttribute('data-key')) el.removeAttribute('data-key');
+          // If no classes are left, remove the class attribute entirely
+          if (el.classList.length === 0) el.removeAttribute('class');
+        });
+      });
+
+      // 3. BOOKMARK SCRUBBER (The Sniper)
+      // Deletes the entire table row if it is just a bookmark title.
+      target.querySelectorAll('p[class^="bkmrk"]').forEach(p => {
+        if (p.textContent.toLowerCase().includes('bookmark')) {
+          const row = p.closest('tr');
+          if (row) row.remove();
+        }
+      });
+
+      // 4. DROP-CAP RESET
+      // Prevents "float" styles from breaking the Word layout.
+      target.querySelectorAll('[class*="dropcap"], [class*="first-letter"]').forEach(el => {
+        el.style.float = "none";
+        el.style.display = "inline";
+      });
+
+      // 5. THE VACUUM (The Deep Clean)
+      // Removes any rows that are now empty after the previous steps.
+      target.querySelectorAll('tr').forEach(row => {
+        const hasText = row.textContent.replace(/\u00a0/g, ' ').trim().length > 0;
+        const hasImg = row.querySelector('img') !== null;
+        if (!hasText && !hasImg) {
+          row.remove();
+        }
+      });
+
+      // 6. FINAL TABLE ATTRIBUTES
+      target.removeAttribute('width');
+      target.removeAttribute('cellspacing');
+      target.removeAttribute('cellpadding');
+      target.style.width = "100%";
+      target.style.tableLayout = "auto";
+
+      // 1. THE CHECK: Does any row have more than one cell?
+      // We look at the first few rows to see if any are side-by-side
+      const rows = target.querySelectorAll('tr');
+      let isBilingual = false;
+
+      // Check the first 5 rows (to skip potential single-cell title rows)
+      for (let i = 0; i < Math.min(rows.length, 5); i++) {
+        if (rows[i].querySelectorAll('td').length > 1) {
+          isBilingual = true;
+          break;
+        }
+      }
+
+      // 2. THE LOGIC:
+      // Bilingual = 1 Column Page (Full width table)
+      // English-Only = 2 Column Page (Newsletter flow)
+      const wordColumnCount = isBilingual ? 1 : 2;
+
+      // 3. DEBUG: Open your browser console (F12) to see this result
+      console.log("Bilingual Detected: " + isBilingual + " | Setting Word Columns to: " + wordColumnCount);
+
+      // --- THE FETCH ---
+      let cssText = "";
+      try {
+        // Force fresh CSS download every time
+        const cssResp = await fetch(cssPath + "?v=" + new Date().getTime());
+        cssText = await cssResp.text();
+      } catch (e) {
+        console.error("CSS Fetch failed, using fallback empty styles", e);
+      }
+
+      // --- THE EXPORT ---
+      const fileContent = `
+        <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+        <head>
+            <meta charset='utf-8'>
+            <style>
+                /* Bulletproof Page Setup: Hardcoded for Word's Parser */
+                @page Section1 {
+                    size: 8.5in 11.0in;
+                    margin: .75in;
+                    mso-columns: ${wordColumnCount};
+                    mso-column-sep: .25in;
+                }
+                div.Section1 { 
+                    page: Section1; 
+                }
+                
+                /* Injected styles from your CSS file */
+                ${cssText}
+            </style>
+        </head>
+        <body>
+            <div class="Section1">
+                ${target.outerHTML}
+            </div>
+        </body>
+        </html>`;
+
+      const blob = new Blob(['\ufeff' + fileContent], { type: 'application/msword' });
+      const downloadLink = document.createElement('a');
+      downloadLink.href = URL.createObjectURL(blob);
+      downloadLink.download = serviceName.replace(/[\/\\?%*:|"<>]/g, '-') + '.doc';
+      downloadLink.click();
+    } catch (e) {
+      console.error("DCS Export Error:", e);
+    }
+  }
+
+  function addWordButtons() {
+    const fullDateHeader = document.querySelector('.index-title-date')?.innerText || "";
+    const dateMatch = fullDateHeader.match(/Services for\s+(.*)/i);
+    const dateStr = dateMatch ? dateMatch[1].trim() : "";
+
+    document.querySelectorAll('a.index-file-link').forEach(link => {
+      if (link.textContent.trim() === "View" && !link.parentNode.querySelector('.btn-word-export')) {
+        const btn = document.createElement('button');
+        btn.innerHTML = 'Word';
+        btn.className = 'btn-word-export';
+        btn.style.cssText = 'margin-left:8px; padding:2px 8px; cursor:pointer; background:#800000; color:#fff; border:1px solid #500000; border-radius:3px; font-size:11px; font-weight:bold; vertical-align:middle;';
+
+        btn.onclick = (e) => {
+          e.preventDefault();
+          const currentRow = link.closest('tr');
+          const langText = currentRow.querySelector('.index-language')?.innerText.trim() || "";
+          let serviceHeader = "";
+          let prevRow = currentRow.previousElementSibling;
+          while (prevRow) {
+            if (prevRow.classList.contains('index-service-day-tr')) {
+              serviceHeader = prevRow.querySelector('.index-service-day')?.innerText.trim() || "";
+              break;
+            }
+            prevRow = prevRow.previousElementSibling;
+          }
+          performWordExport(link.href, `${dateStr} ${serviceHeader} ${langText}`.trim(), langText);
+        };
+        link.parentNode.appendChild(btn);
+      }
+    });
+  }
+
+  addWordButtons();
+  setInterval(addWordButtons, 3000);
+})();
+
 
 async function performUnifiedExport(format) {
   // Target the document of the current page directly
@@ -4193,7 +4381,6 @@ function generatePDFFile(element, filename, isSingleColumn, displayTitle = "Divi
   printWin.document.close();
 }
 
-
 function convertServicesIndexToCalendar() {
     var indexContent = document.querySelector('.index-content');
     var originalTable = document.querySelector('.services-index-table');
@@ -4422,370 +4609,5 @@ if (document.readyState === 'interactive' || document.readyState === 'complete')
     convertServicesIndexToCalendar();
 } else {
     document.addEventListener('DOMContentLoaded', convertServicesIndexToCalendar);
-}
-
-
-/**
- * Helper function to perform Word document generation and export from an HTML service page.
- */
-async function performWordExport(url, serviceName, lang) {
-    const cssPath = "https://dcs.goarch.org/goa/dcs/css/dcs_word_styles.css";
-    try {
-        const resp = await fetch(url);
-        const html = await resp.text();
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-
-        const target = doc.getElementById('biTable') || doc.querySelector('table');
-        if (!target) return;
-
-        // STEP 1: HARD REMOVALS
-        target.querySelectorAll(`
-            [class^="source"], [class*=" source"], 
-            .key, [hidden], .media-group, .media-links, 
-            .jqm-dropdown, .noprint, i, script, style,
-            [class^="bmc"], [class*=" bmc"], 
-            [class^="emc"], [class*=" emc"],
-            [class^="brc"], [class*=" brc"], 
-            [class^="erc"], [class*=" erc"]
-        `).forEach(el => el.remove());
-
-        // STEP 2: CLASS SCRUBBER
-        const classesToScrub = [
-            'kvp', 'achoir', 'aclergy', 'adeacon', 'ahierarch', 'apeople',
-            'apriest', 'areader', 'dchoir', 'dclergy', 'ddeacon',
-            'dhierarch', 'dpeople', 'dpriest', 'dreader', 'dwachoir',
-            'dwaclergy', 'dwadeacon', 'dwahierarch', 'dwapeople',
-            'dwapriest', 'dwareader',
-            'achclhi', 'aclhi', 'adebl', 'adepr', 'aprhi',
-            'dclhi', 'ddepr', 'ddebl', 'dprhi',
-            'dwadebl', 'dwadepr', 'dwaprhi'
-        ];
-
-        classesToScrub.forEach(className => {
-            target.querySelectorAll('.' + className).forEach(el => {
-                el.classList.remove(className);
-                if (el.hasAttribute('data-key')) el.removeAttribute('data-key');
-                if (el.classList.length === 0) el.removeAttribute('class');
-            });
-        });
-
-        // STEP 3: BOOKMARK SCRUBBER
-        target.querySelectorAll('p[class^="bkmrk"]').forEach(p => {
-            if (p.textContent.toLowerCase().includes('bookmark')) {
-                const row = p.closest('tr');
-                if (row) row.remove();
-            }
-        });
-
-        // STEP 4: DROP-CAP RESET
-        target.querySelectorAll('[class*="dropcap"], [class*="first-letter"]').forEach(el => {
-            el.style.float = "none";
-            el.style.display = "inline";
-        });
-
-        // STEP 5: THE VACUUM
-        target.querySelectorAll('tr').forEach(row => {
-            const hasText = row.textContent.replace(/\u00a0/g, ' ').trim().length > 0;
-            const hasImg = row.querySelector('img') !== null;
-            if (!hasText && !hasImg) {
-                row.remove();
-            }
-        });
-
-        // STEP 6: FINAL TABLE ATTRIBUTES
-        target.removeAttribute('width');
-        target.removeAttribute('cellspacing');
-        target.removeAttribute('cellpadding');
-        target.style.width = "100%";
-        target.style.tableLayout = "auto";
-
-        const rows = target.querySelectorAll('tr');
-        let isBilingual = false;
-
-        for (let i = 0; i < Math.min(rows.length, 5); i++) {
-            if (rows[i].querySelectorAll('td').length > 1) {
-                isBilingual = true;
-                break;
-            }
-        }
-
-        const wordColumnCount = isBilingual ? 1 : 2;
-        console.log("Bilingual Detected: " + isBilingual + " | Setting Word Columns to: " + wordColumnCount);
-
-        let cssText = "";
-        try {
-            const cssResp = await fetch(cssPath + "?v=" + new Date().getTime());
-            cssText = await cssResp.text();
-        } catch (e) {
-            console.error("CSS Fetch failed, using fallback empty styles", e);
-        }
-
-        const fileContent = `
-            <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-            <head>
-                <meta charset='utf-8'>
-                <style>
-                    @page Section1 {
-                        size: 8.5in 11.0in;
-                        margin: .75in;
-                        mso-columns: ${wordColumnCount};
-                        mso-column-sep: .25in;
-                    }
-                    div.Section1 { 
-                        page: Section1; 
-                    }
-                    ${cssText}
-                </style>
-            </head>
-            <body>
-                <div class="Section1">
-                    ${target.outerHTML}
-                </div>
-            </body>
-            </html>`;
-
-        const blob = new Blob(['\ufeff' + fileContent], { type: 'application/msword' });
-        const downloadLink = document.createElement('a');
-        downloadLink.href = URL.createObjectURL(blob);
-        downloadLink.download = serviceName.replace(/[\/\\?%*:|"<>]/g, '-') + '.doc';
-        downloadLink.click();
-    } catch (e) {
-        console.error("DCS Export Error:", e);
-    }
-}
-
-/**
- * Transforms legacy service index tables into structured service cards.
- * Executes if the page matches the pattern: .../dcs/indexes/YYYYMMDD.html
- */
-function transformIndexLayout() {
-    // Verify the URL pattern ends with 'dcs/indexes/YYYYMMDD.html' or contains '/indexes/'
-    const pathRegex = /\/dcs\/indexes\/\d{8}\.html$/i;
-    if (!pathRegex.test(window.location.pathname) && !window.location.pathname.includes('/indexes/')) {
-        return;
-    }
-
-    const table = document.querySelector('.index-content table');
-    if (!table) return;
-
-    // 1. Inject styling for card layout, rows, language buttons, and flag colors
-    const styleEl = document.createElement('style');
-    styleEl.textContent = `
-        .service-group-container {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        .service-card {
-            display: flex;
-            flex-direction: column;
-            gap: 0.6rem;
-            padding: 0.85rem 1rem;
-            background-color: #f9f9f9;
-            border-radius: 4px;
-            border-left: 4px solid #8b0000;
-        }
-        .service-card-title {
-            font-weight: bold;
-            font-size: 1rem;
-            color: #a91827;
-            margin-bottom: 0.2rem;
-        }
-        .service-type-row {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            padding-left: 1rem;
-        }
-        .service-type-label {
-            font-weight: bold;
-            min-width: 105px;
-            font-size: 1rem;
-            color: #333;
-        }
-        .service-btn-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-        .lang-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.35rem 0.75rem;
-            background-color: #ffffff;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            color: #333;
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 600;
-            font-family: inherit;
-            line-height: inherit;
-            cursor: pointer;
-            transition: all 0.15s ease-in-out;
-        }
-        .lang-btn:hover {
-            background-color: #f0f0f0;
-            border-color: #a91827;
-            text-decoration: none;
-        }
-        /* Color declarations for flag text */
-        .text-gr {
-            color: #0D5EAF;
-        }
-        .text-en {
-            color: #B22234;
-        }
-    `;
-    document.head.appendChild(styleEl);
-
-    // Helper to generate flag-colored inner HTML for buttons
-    function formatLangHTML(rawLangText) {
-        const upperLang = rawLangText.toUpperCase();
-        if (upperLang === 'GR') {
-            return '<span class="text-gr">Greek</span>';
-        } else if (upperLang === 'EN') {
-            return '<span class="text-en">English</span>';
-        } else if (upperLang === 'GR-EN') {
-            return '<span class="text-gr">GR</span>–<span class="text-en">EN</span>';
-        }
-        return rawLangText;
-    }
-
-    // Extract page header date string if available
-    const fullDateHeader = document.querySelector('.index-title-date')?.innerText || "";
-    const dateMatch = fullDateHeader.match(/Services for\s+(.*)/i);
-    const dateStr = dateMatch ? dateMatch[1].trim() : "";
-
-    // 2. Parse table rows and categorize options into Web View, Print-PDF, and Word Export
-    const services = [];
-    let currentService = null;
-
-    const rows = table.querySelectorAll('tr');
-    rows.forEach(row => {
-        if (row.classList.contains('index-service-day-tr')) {
-            const titleSpan = row.querySelector('.index-service-day');
-            if (titleSpan) {
-                currentService = {
-                    title: titleSpan.textContent.trim(),
-                    categories: {
-                        'Web View': [],
-                        'Print-PDF': [],
-                        'Word Export': []
-                    }
-                };
-                services.push(currentService);
-            }
-        } else if (row.classList.contains('index-service-language-tr') && currentService) {
-            const langSpan = row.querySelector('.index-language');
-            const linkAnchor = row.querySelector('a.index-file-link');
-
-            if (langSpan && linkAnchor) {
-                const rawLangText = langSpan.textContent.trim();
-                const upperLang = rawLangText.toUpperCase();
-                const href = linkAnchor.getAttribute('href') || '';
-                const linkText = linkAnchor.textContent.trim().toLowerCase();
-
-                const isPdf = href.toLowerCase().endsWith('.pdf') || linkText.includes('pdf') || linkText.includes('print');
-                const category = isPdf ? 'Print-PDF' : 'Web View';
-
-                // Clone original anchor and format as a button
-                const btnAnchor = linkAnchor.cloneNode(true);
-                btnAnchor.className = 'lang-btn';
-                btnAnchor.innerHTML = formatLangHTML(rawLangText);
-                btnAnchor.dataset.langCode = upperLang;
-
-                currentService.categories[category].push(btnAnchor);
-
-                // For web view HTML links, generate the corresponding Word Export button
-                if (!isPdf) {
-                    const exportBtn = document.createElement('button');
-                    exportBtn.type = 'button';
-                    exportBtn.className = 'lang-btn';
-                    exportBtn.innerHTML = formatLangHTML(rawLangText);
-                    exportBtn.dataset.langCode = upperLang;
-
-                    exportBtn.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        const fileName = `${dateStr} ${currentService.title} ${rawLangText}`.trim();
-                        performWordExport(linkAnchor.href, fileName, rawLangText);
-                    });
-
-                    currentService.categories['Word Export'].push(exportBtn);
-                }
-            }
-        }
-    });
-
-    // Priority sequence for language button ordering
-    const langOrder = ['GR', 'GR-EN', 'EN'];
-
-    // 3. Construct new DOM layout
-    const container = document.createElement('div');
-    container.className = 'service-group-container';
-
-    services.forEach(service => {
-        const card = document.createElement('div');
-        card.className = 'service-card';
-
-        const cardTitle = document.createElement('div');
-        cardTitle.className = 'service-card-title index-service-day';
-        cardTitle.textContent = service.title;
-        card.appendChild(cardTitle);
-
-        ['Web View', 'Print-PDF', 'Word Export'].forEach(category => {
-            const buttons = service.categories[category];
-            if (buttons && buttons.length > 0) {
-
-                // Sort buttons strictly according to GR -> GR-EN -> EN sequence
-                buttons.sort((a, b) => {
-                    const codeA = a.dataset.langCode;
-                    const codeB = b.dataset.langCode;
-
-                    let idxA = langOrder.indexOf(codeA);
-                    let idxB = langOrder.indexOf(codeB);
-
-                    if (idxA === -1) idxA = 99;
-                    if (idxB === -1) idxB = 99;
-
-                    return idxA - idxB;
-                });
-
-                const typeRow = document.createElement('div');
-                typeRow.className = 'service-type-row';
-
-                const label = document.createElement('span');
-                label.className = 'service-type-label';
-                label.textContent = category + ':';
-                typeRow.appendChild(label);
-
-                const btnGroup = document.createElement('div');
-                btnGroup.className = 'service-btn-group';
-
-                buttons.forEach(btn => btnGroup.appendChild(btn));
-                typeRow.appendChild(btnGroup);
-
-                card.appendChild(typeRow);
-            }
-        });
-
-        container.appendChild(card);
-    });
-
-    // 4. Replace original legacy table
-    if (table.parentNode) {
-        table.parentNode.replaceChild(container, table);
-    }
-}
-
-// Auto-run on DOMContentLoaded or immediate execution
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', transformIndexLayout);
-} else {
-    transformIndexLayout();
 }
 
