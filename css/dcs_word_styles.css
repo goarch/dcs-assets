@@ -264,6 +264,13 @@ p.rubric {
     text-indent: 20pt;
 }
 
+p.service-header {
+    mso-style-name: "service-header";
+    font-size: 0pt;
+    color: white;
+    border-bottom: none;
+}
+
 p.servicesources {
     mso-style-name: "service sources";
     text-align: left;
