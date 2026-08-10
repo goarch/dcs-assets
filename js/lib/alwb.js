@@ -688,14 +688,13 @@ $(document).ready(function () {
     var spacer_text = "<div class='pref-spacer'></div>";
 
     $(".pref-panel").append("<div class='pref-opts'></div>");
-    $(".pref-opts").append("<div class='pref-instructions'><p>" +
-      "The pre-selected default preferences will display the Matins service as it is in the regular Matins file. Use this panel to choose which parts of the canon to display, and also the position of the Eothinon Gospel," +
-      " Kontakia and Katavasias, and whether or not to display end litanies and dismissal. Certain selections will make others inaccesible, to prevent mistakes. " +
-      " Once you have " +
+    $(".pref-opts").append("<div class='pref-instructions'><p class='dialog'>" +
+      "The pre-selected default preferences will display the Matins service as it is in the regular Matins file. Use this panel to choose which parts of the canon to display, and also the position of the " +
+      "Kontakia and Katavasias, and whether or not to display end litanies and dismissal. Certain selections will make others inaccesible, to prevent mistakes. </p><p class='dialog'>There is no longer the option to reposition the Sunday Eothinon Gospel. Only the order used by the EP and GOA is provided.</p>" +
+      "<p class='dialog'>Once you have " +
       " selected your preferences, click Apply. You will then be taken to the text of the service. If you want to change " +
       "your preferences, click on the Preferences Button on the right hand corner of the left frame.</p>" +
-      "<br>" + 
-      "<br><p>PDF EXPORT AND PRINT</p><p>To print the customized service as it appears in " +
+      "<p>PDF EXPORT AND PRINT</p><p class='dialog'>To print the customized service as it appears in " +
       "your browser in the left frame, after you apply your options, use the print button at the top of the customized service. The iPad app does not yet support printing of the customized text.</p></div>");
 
     $(".pref-opts").append('<div class="pref-closer">Apply</div>');
