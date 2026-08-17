@@ -4221,6 +4221,20 @@ function generatePDFFile(element, filename, isSingleColumn, displayTitle = "Divi
   printWin.document.close();
 }
 
+// Helper for cross-browser safe scrolling
+function safeScrollIntoView(element, alignToTop) {
+  if (!element) return;
+  try {
+    element.scrollIntoView({
+      behavior: 'auto',
+      block: alignToTop ? 'start' : 'center'
+    });
+  } catch (e) {
+    // Fallback for legacy browsers expecting boolean parameter
+    element.scrollIntoView(alignToTop);
+  }
+}
+
 // 1. Convert List Table to Calendar View
 function convertServicesIndexToCalendar() {
   var indexContent = document.querySelector('.index-content');
@@ -4231,106 +4245,106 @@ function convertServicesIndexToCalendar() {
   if (!document.getElementById('calendar-grid-styles')) {
     var style = document.createElement('style');
     style.id = 'calendar-grid-styles';
-    style.textContent = `
-            html, body, .index-content {
-                width: 100% !important;
-                margin: 0 !important;
-                padding: 0 !important;
-                box-sizing: border-box !important;
-            }
-
-            .calendar-stack {
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                gap: 30px;
-            }
-
-            .calendar-container {
-                width: 100%;
-                box-sizing: border-box;
-                padding: 10px;
-                scroll-margin-top: 20px;
-            }
-
-            .calendar-header {
-                text-align: center;
-                font-size: clamp(1.2rem, 4vw, 2rem);
-                font-weight: bold;
-                margin-bottom: 12px;
-                color: #333;
-            }
-
-            .calendar-grid {
-                display: grid;
-                grid-template-columns: repeat(7, 1fr);
-                width: 100%;
-                gap: 1px;
-                background-color: #ddd;
-                border: 1px solid #ddd;
-                box-sizing: border-box;
-            }
-
-            .calendar-day-header {
-                background-color: #8b0000;
-                color: #ffffff;
-                text-align: center;
-                padding: 10px 0;
-                font-weight: bold;
-                font-size: clamp(0.85rem, 2.5vw, 1.2rem);
-            }
-
-            .calendar-cell {
-                background-color: #fff;
-                aspect-ratio: 1 / 1;
-                box-sizing: border-box;
-            }
-
-            .calendar-cell.empty {
-                background-color: #f9f9f9;
-            }
-
-            .calendar-cell.today {
-                background-color: #fff8e1;
-                box-shadow: inset 0 0 0 2px #8b0000;
-            }
-
-            .calendar-cell.today .index-day-link {
-                color: #8b0000;
-                font-weight: bold;
-            }
-
-            .calendar-cell .index-day-link {
-                display: flex;
-                align-items: flex-start;
-                justify-content: flex-end;
-                width: 100%;
-                height: 100%;
-                font-weight: bold;
-                font-size: clamp(1rem, 3.5vw, 1.6rem);
-                text-decoration: none;
-                color: #333;
-                padding: 10%;
-                box-sizing: border-box;
-            }
-
-            .calendar-cell .index-day-link:hover {
-                background-color: #f0f4f8;
-                color: #8b0000;
-            }
-
-            /* List View Highlight Rules */
-            .services-index-table tr.today-row td:first-child,
-            .services-index-table tr.today-row {
-                border-left: 4px solid navy !important;
-            }
-
-            .services-index-table tr.today-row a,
-            .services-index-table tr.today-row td {
-                color: navy !important;
-                font-weight: bold;
-            }
-        `;
+    style.textContent = 
+      "html, body, .index-content {\n" +
+      "    width: 100% !important;\n" +
+      "    margin: 0 !important;\n" +
+      "    padding: 0 !important;\n" +
+      "    box-sizing: border-box !important;\n" +
+      "}\n" +
+      ".calendar-stack {\n" +
+      "    width: 100%;\n" +
+      "    display: flex;\n" +
+      "    flex-direction: column;\n" +
+      "    gap: 30px;\n" +
+      "}\n" +
+      ".calendar-container {\n" +
+      "    width: 100%;\n" +
+      "    box-sizing: border-box;\n" +
+      "    padding: 10px;\n" +
+      "    scroll-margin-top: 20px;\n" +
+      "}\n" +
+      ".calendar-header {\n" +
+      "    text-align: center;\n" +
+      "    font-size: 1.5rem;\n" + /* Fallback for legacy browsers */
+      "    font-size: clamp(1.2rem, 4vw, 2rem);\n" +
+      "    font-weight: bold;\n" +
+      "    margin-bottom: 12px;\n" +
+      "    color: #333;\n" +
+      "}\n" +
+      ".calendar-grid {\n" +
+      "    display: grid;\n" +
+      "    grid-template-columns: repeat(7, 1fr);\n" +
+      "    width: 100%;\n" +
+      "    gap: 1px;\n" +
+      "    background-color: #ddd;\n" +
+      "    border: 1px solid #ddd;\n" +
+      "    box-sizing: border-box;\n" +
+      "}\n" +
+      ".calendar-day-header {\n" +
+      "    background-color: #8b0000;\n" +
+      "    color: #ffffff;\n" +
+      "    text-align: center;\n" +
+      "    padding: 10px 0;\n" +
+      "    font-weight: bold;\n" +
+      "    font-size: 1rem;\n" + /* Fallback for legacy browsers */
+      "    font-size: clamp(0.85rem, 2.5vw, 1.2rem);\n" +
+      "}\n" +
+      ".calendar-cell {\n" +
+      "    background-color: #fff;\n" +
+      "    position: relative;\n" + /* Required for aspect-ratio fallback */
+      "    box-sizing: border-box;\n" +
+      "}\n" +
+      "/* 1:1 Aspect Ratio Fallback for Pale Moon & older engines */\n" +
+      ".calendar-cell::before {\n" +
+      "    content: '';\n" +
+      "    display: block;\n" +
+      "    padding-top: 100%;\n" +
+      "}\n" +
+      ".calendar-cell.empty {\n" +
+      "    background-color: #f9f9f9;\n" +
+      "}\n" +
+      ".calendar-cell.today {\n" +
+      "    background-color: #fff8e1;\n" +
+      "    box-shadow: inset 0 0 0 2px #8b0000;\n" +
+      "}\n" +
+      ".calendar-cell.today .index-day-link {\n" +
+      "    color: #8b0000;\n" +
+      "    font-weight: bold;\n" +
+      "}\n" +
+      ".calendar-cell .index-day-link {\n" +
+      "    position: absolute;\n" + /* Fill cell via absolute positioning */
+      "    top: 0;\n" +
+      "    left: 0;\n" +
+      "    right: 0;\n" +
+      "    bottom: 0;\n" +
+      "    display: flex;\n" +
+      "    align-items: flex-start;\n" +
+      "    justify-content: flex-end;\n" +
+      "    width: 100%;\n" +
+      "    height: 100%;\n" +
+      "    font-weight: bold;\n" +
+      "    font-size: 1.2rem;\n" + /* Fallback for legacy browsers */
+      "    font-size: clamp(1rem, 3.5vw, 1.6rem);\n" +
+      "    text-decoration: none;\n" +
+      "    color: #333;\n" +
+      "    padding: 10%;\n" +
+      "    box-sizing: border-box;\n" +
+      "}\n" +
+      ".calendar-cell .index-day-link:hover {\n" +
+      "    background-color: #f0f4f8;\n" +
+      "    color: #8b0000;\n" +
+      "}\n" +
+      "/* List View Highlight Rules */\n" +
+      ".services-index-table tr.today-row td:first-child,\n" +
+      ".services-index-table tr.today-row {\n" +
+      "    border-left: 4px solid navy !important;\n" +
+      "}\n" +
+      ".services-index-table tr.today-row a,\n" +
+      ".services-index-table tr.today-row td {\n" +
+      "    color: navy !important;\n" +
+      "    font-weight: bold;\n" +
+      "}\n";
     document.head.appendChild(style);
   }
 
@@ -4340,8 +4354,8 @@ function convertServicesIndexToCalendar() {
   var currentMonth = now.getMonth() + 1;
   var currentDay = now.getDate();
 
-  // Parse the table rows and group items by Month Key (YYYYMM) extracted from hrefs
-  var rows = Array.from(originalTable.querySelectorAll('tr'));
+  // Parse the table rows using ES5-compatible slice call instead of Array.from
+  var rows = Array.prototype.slice.call(originalTable.querySelectorAll('tr'));
   var monthsMap = {};
   var monthKeysOrder = [];
   var currentMonthTitle = "";
@@ -4460,7 +4474,7 @@ function convertServicesIndexToCalendar() {
     originalTable.parentNode.replaceChild(calendarStack, originalTable);
   }
 
-  // Scroll current month calendar to top of the frame
+  // Scroll current month calendar to top of the frame using safe fallback
   var targetKey = currentYear.toString() + (currentMonth < 10 ? '0' : '') + currentMonth;
 
   var targetIndex = monthKeysOrder.indexOf(targetKey);
@@ -4473,7 +4487,7 @@ function convertServicesIndexToCalendar() {
   }
 
   if (targetContainer) {
-    targetContainer.scrollIntoView({ behavior: 'auto', block: 'start' });
+    safeScrollIntoView(targetContainer, true);
   }
 }
 
@@ -4486,17 +4500,18 @@ function restoreServicesIndexTable() {
     var originalTable = calendarStack._originalTable;
     calendarStack.parentNode.replaceChild(originalTable, calendarStack);
 
-    // Scroll today's row into view in list view
+    // Scroll today's row into view in list view using safe fallback
     var todayRow = originalTable.querySelector('.today-row');
     if (todayRow) {
-      todayRow.scrollIntoView({ behavior: 'auto', block: 'center' });
+      safeScrollIntoView(todayRow, false);
     }
   }
 }
 
 // 3. Dynamic Toggle Button Creator
 function createViewToggleButtons() {
-  if (!window.location.pathname.includes('servicesindex.html')) return;
+  // Use indexOf instead of String.includes for legacy JS engines
+  if (window.location.pathname.indexOf('servicesindex.html') === -1) return;
 
   var menuLink = document.querySelector('.agesMenu > a[data-jqm-dropdown]');
   if (!menuLink || document.getElementById('view-toggle-wrapper')) return;
@@ -4514,7 +4529,7 @@ function createViewToggleButtons() {
   var listBtn = document.createElement('button');
   listBtn.type = 'button';
   listBtn.className = 'view-toggle-btn';
-  listBtn.innerHTML = '<i class="fa fa-list"></i> List View';
+  listBtn.innerHTML = '<i class="fa fa-list"></i> List';
   listBtn.addEventListener('click', restoreServicesIndexTable);
 
   wrapper.appendChild(calendarBtn);
