@@ -4529,7 +4529,7 @@ function createViewToggleButtons() {
   var listBtn = document.createElement('button');
   listBtn.type = 'button';
   listBtn.className = 'view-toggle-btn';
-  listBtn.innerHTML = '<i class="fa fa-list"></i> List';
+  listBtn.innerHTML = '<i class="fa fa-list"></i> List View';
   listBtn.addEventListener('click', restoreServicesIndexTable);
 
   wrapper.appendChild(calendarBtn);
