@@ -4221,17 +4221,17 @@ function generatePDFFile(element, filename, isSingleColumn, displayTitle = "Divi
   printWin.document.close();
 }
 
-
+// 1. Convert List Table to Calendar View
 function convertServicesIndexToCalendar() {
-    var indexContent = document.querySelector('.index-content');
-    var originalTable = document.querySelector('.services-index-table');
-    if (!indexContent || !originalTable) return;
+  var indexContent = document.querySelector('.index-content');
+  var originalTable = document.querySelector('.services-index-table');
+  if (!indexContent || !originalTable) return;
 
-    // 1. Inject responsive CSS Grid styles
-    if (!document.getElementById('calendar-grid-styles')) {
-        var style = document.createElement('style');
-        style.id = 'calendar-grid-styles';
-        style.textContent = `
+  // Inject responsive CSS Grid styles & List View Highlight styles
+  if (!document.getElementById('calendar-grid-styles')) {
+    var style = document.createElement('style');
+    style.id = 'calendar-grid-styles';
+    style.textContent = `
             html, body, .index-content {
                 width: 100% !important;
                 margin: 0 !important;
@@ -4290,6 +4290,16 @@ function convertServicesIndexToCalendar() {
                 background-color: #f9f9f9;
             }
 
+            .calendar-cell.today {
+                background-color: #fff8e1;
+                box-shadow: inset 0 0 0 2px #8b0000;
+            }
+
+            .calendar-cell.today .index-day-link {
+                color: #8b0000;
+                font-weight: bold;
+            }
+
             .calendar-cell .index-day-link {
                 display: flex;
                 align-items: flex-start;
@@ -4308,150 +4318,221 @@ function convertServicesIndexToCalendar() {
                 background-color: #f0f4f8;
                 color: #8b0000;
             }
-        `;
-        document.head.appendChild(style);
-    }
 
-    // 2. Parse the table rows and group items by Month Key (YYYYMM) extracted from hrefs
-    var rows = Array.from(originalTable.querySelectorAll('tr'));
-    var monthsMap = {}; 
-    var monthKeysOrder = []; 
-    var currentMonthTitle = "";
-
-    rows.forEach(function(row) {
-        var monthSpan = row.querySelector('.index-month');
-        var dayLink = row.querySelector('.index-day-link');
-
-        if (monthSpan) {
-            currentMonthTitle = monthSpan.textContent.trim();
-        } else if (dayLink) {
-            var href = dayLink.getAttribute('href');
-            // Match YYYYMMDD from filenames like 'indexes/20260810.html'
-            var match = href ? href.match(/(\d{4})(\d{2})(\d{2})/) : null;
-
-            if (match) {
-                var year = parseInt(match[1], 10);
-                var month = parseInt(match[2], 10); // 1-12
-                var day = parseInt(match[3], 10);
-                var monthKey = match[1] + match[2]; // e.g. "202608"
-
-                if (!monthsMap[monthKey]) {
-                    monthsMap[monthKey] = {
-                        title: currentMonthTitle || (year + "-" + match[2]),
-                        year: year,
-                        month: month,
-                        days: []
-                    };
-                    monthKeysOrder.push(monthKey);
-                }
-
-                monthsMap[monthKey].days.push({
-                    dayNumber: day,
-                    href: href
-                });
+            /* List View Highlight Rules */
+            .services-index-table tr.today-row td:first-child,
+            .services-index-table tr.today-row {
+                border-left: 4px solid navy !important;
             }
+
+            .services-index-table tr.today-row a,
+            .services-index-table tr.today-row td {
+                color: navy !important;
+                font-weight: bold;
+            }
+        `;
+    document.head.appendChild(style);
+  }
+
+  // Today's date reference for highlighting in both list and calendar views
+  var now = new Date();
+  var currentYear = now.getFullYear();
+  var currentMonth = now.getMonth() + 1;
+  var currentDay = now.getDate();
+
+  // Parse the table rows and group items by Month Key (YYYYMM) extracted from hrefs
+  var rows = Array.from(originalTable.querySelectorAll('tr'));
+  var monthsMap = {};
+  var monthKeysOrder = [];
+  var currentMonthTitle = "";
+
+  rows.forEach(function (row) {
+    var monthSpan = row.querySelector('.index-month');
+    var dayLink = row.querySelector('.index-day-link');
+
+    if (monthSpan) {
+      currentMonthTitle = monthSpan.textContent.trim();
+    } else if (dayLink) {
+      var href = dayLink.getAttribute('href');
+      // Match YYYYMMDD from filenames like 'indexes/20260810.html'
+      var match = href ? href.match(/(\d{4})(\d{2})(\d{2})/) : null;
+
+      if (match) {
+        var year = parseInt(match[1], 10);
+        var month = parseInt(match[2], 10); // 1-12
+        var day = parseInt(match[3], 10);
+        var monthKey = match[1] + match[2]; // e.g. "202608"
+
+        // Mark today's row in original table for list view
+        if (year === currentYear && month === currentMonth && day === currentDay) {
+          row.classList.add('today-row');
         }
+
+        if (!monthsMap[monthKey]) {
+          monthsMap[monthKey] = {
+            title: currentMonthTitle || (year + "-" + match[2]),
+            year: year,
+            month: month,
+            days: []
+          };
+          monthKeysOrder.push(monthKey);
+        }
+
+        monthsMap[monthKey].days.push({
+          dayNumber: day,
+          href: href
+        });
+      }
+    }
+  });
+
+  // Build stacked calendar objects
+  var dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  var calendarStack = document.createElement('div');
+  calendarStack.className = 'calendar-stack';
+
+  monthKeysOrder.forEach(function (key) {
+    var monthData = monthsMap[key];
+    if (!monthData || monthData.days.length === 0) return;
+
+    var container = document.createElement('div');
+    container.className = 'calendar-container';
+
+    var header = document.createElement('div');
+    header.className = 'calendar-header';
+    header.textContent = monthData.title;
+    container.appendChild(header);
+
+    var grid = document.createElement('div');
+    grid.className = 'calendar-grid';
+
+    // Weekday Header Row
+    dayHeaders.forEach(function (dayName) {
+      var th = document.createElement('div');
+      th.className = 'calendar-day-header';
+      th.textContent = dayName;
+      grid.appendChild(th);
     });
 
-    // 3. Build stacked calendar objects
-    var dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    var calendarStack = document.createElement('div');
-    calendarStack.className = 'calendar-stack';
+    // Calculate starting weekday using exact (Year, Month - 1, Day 1)
+    var firstDayDate = new Date(monthData.year, monthData.month - 1, 1);
+    var startDayOfWeek = firstDayDate.getDay(); // 0 = Sun, 1 = Mon, ..., 6 = Sat
 
-    monthKeysOrder.forEach(function(key) {
-        var monthData = monthsMap[key];
-        if (!monthData || monthData.days.length === 0) return;
+    // Leading empty cells
+    for (var i = 0; i < startDayOfWeek; i++) {
+      var emptyCell = document.createElement('div');
+      emptyCell.className = 'calendar-cell empty';
+      grid.appendChild(emptyCell);
+    }
 
-        var container = document.createElement('div');
-        container.className = 'calendar-container';
+    // Active day cells
+    monthData.days.forEach(function (day) {
+      var cell = document.createElement('div');
+      var isToday = (monthData.year === currentYear && monthData.month === currentMonth && day.dayNumber === currentDay);
 
-        var header = document.createElement('div');
-        header.className = 'calendar-header';
-        header.textContent = monthData.title;
-        container.appendChild(header);
+      cell.className = 'calendar-cell' + (isToday ? ' today' : '');
 
-        var grid = document.createElement('div');
-        grid.className = 'calendar-grid';
+      var a = document.createElement('a');
+      a.className = 'index-day-link';
+      a.setAttribute('href', day.href);
+      a.textContent = day.dayNumber;
 
-        // Weekday Header Row
-        dayHeaders.forEach(function(dayName) {
-            var th = document.createElement('div');
-            th.className = 'calendar-day-header';
-            th.textContent = dayName;
-            grid.appendChild(th);
-        });
-
-        // 4. Calculate starting weekday using exact (Year, Month - 1, Day 1)
-        var firstDayDate = new Date(monthData.year, monthData.month - 1, 1);
-        var startDayOfWeek = firstDayDate.getDay(); // 0 = Sun, 1 = Mon, ..., 6 = Sat
-
-        // Leading empty cells
-        for (var i = 0; i < startDayOfWeek; i++) {
-            var emptyCell = document.createElement('div');
-            emptyCell.className = 'calendar-cell empty';
-            grid.appendChild(emptyCell);
-        }
-
-        // Active day cells
-        monthData.days.forEach(function(day) {
-            var cell = document.createElement('div');
-            cell.className = 'calendar-cell';
-
-            var a = document.createElement('a');
-            a.className = 'index-day-link';
-            a.setAttribute('href', day.href);
-            a.textContent = day.dayNumber;
-
-            cell.appendChild(a);
-            grid.appendChild(cell);
-        });
-
-        // Trailing padding cells to complete the grid row
-        var totalCells = startDayOfWeek + monthData.days.length;
-        var trailingCells = (7 - (totalCells % 7)) % 7;
-        for (var j = 0; j < trailingCells; j++) {
-            var padCell = document.createElement('div');
-            padCell.className = 'calendar-cell empty';
-            grid.appendChild(padCell);
-        }
-
-        container.appendChild(grid);
-        calendarStack.appendChild(container);
+      cell.appendChild(a);
+      grid.appendChild(cell);
     });
 
-    // 5. Replace original table
-    if (originalTable.parentNode) {
-        originalTable.parentNode.replaceChild(calendarStack, originalTable);
+    // Trailing padding cells to complete the grid row
+    var totalCells = startDayOfWeek + monthData.days.length;
+    var trailingCells = (7 - (totalCells % 7)) % 7;
+    for (var j = 0; j < trailingCells; j++) {
+      var padCell = document.createElement('div');
+      padCell.className = 'calendar-cell empty';
+      grid.appendChild(padCell);
     }
 
-    // 6. Scroll current month calendar to top of the frame
-    var now = new Date();
-    var currentYear = now.getFullYear();
-    var currentMonth = now.getMonth() + 1;
-    var targetKey = currentYear.toString() + (currentMonth < 10 ? '0' : '') + currentMonth;
+    container.appendChild(grid);
+    calendarStack.appendChild(container);
+  });
 
-    var targetIndex = monthKeysOrder.indexOf(targetKey);
-    var targetContainer = null;
+  // Replace original table
+  if (originalTable.parentNode) {
+    calendarStack._originalTable = originalTable;
+    originalTable.parentNode.replaceChild(calendarStack, originalTable);
+  }
 
-    if (targetIndex !== -1 && calendarStack.children[targetIndex]) {
-        targetContainer = calendarStack.children[targetIndex];
-    } else if (calendarStack.children.length > 0) {
-        // Fallback to first available month if current month is not in the data
-        targetContainer = calendarStack.children[0];
-    }
+  // Scroll current month calendar to top of the frame
+  var targetKey = currentYear.toString() + (currentMonth < 10 ? '0' : '') + currentMonth;
 
-    if (targetContainer) {
-        targetContainer.scrollIntoView({ behavior: 'auto', block: 'start' });
-    }
+  var targetIndex = monthKeysOrder.indexOf(targetKey);
+  var targetContainer = null;
+
+  if (targetIndex !== -1 && calendarStack.children[targetIndex]) {
+    targetContainer = calendarStack.children[targetIndex];
+  } else if (calendarStack.children.length > 0) {
+    targetContainer = calendarStack.children[0];
+  }
+
+  if (targetContainer) {
+    targetContainer.scrollIntoView({ behavior: 'auto', block: 'start' });
+  }
 }
 
-// Execution timing safety for iframe rendering
+// 2. Restore Original List View & Auto-Scroll to Today
+function restoreServicesIndexTable() {
+  var calendarStack = document.querySelector('.calendar-stack');
+  if (!calendarStack || !calendarStack._originalTable) return;
+
+  if (calendarStack.parentNode) {
+    var originalTable = calendarStack._originalTable;
+    calendarStack.parentNode.replaceChild(originalTable, calendarStack);
+
+    // Scroll today's row into view in list view
+    var todayRow = originalTable.querySelector('.today-row');
+    if (todayRow) {
+      todayRow.scrollIntoView({ behavior: 'auto', block: 'center' });
+    }
+  }
+}
+
+// 3. Dynamic Toggle Button Creator
+function createViewToggleButtons() {
+  if (!window.location.pathname.includes('servicesindex.html')) return;
+
+  var menuLink = document.querySelector('.agesMenu > a[data-jqm-dropdown]');
+  if (!menuLink || document.getElementById('view-toggle-wrapper')) return;
+
+  var wrapper = document.createElement('span');
+  wrapper.id = 'view-toggle-wrapper';
+  wrapper.style.marginLeft = '10px';
+
+  var calendarBtn = document.createElement('button');
+  calendarBtn.type = 'button';
+  calendarBtn.className = 'view-toggle-btn';
+  calendarBtn.innerHTML = '<i class="fa fa-calendar"></i> Calendar';
+  calendarBtn.addEventListener('click', convertServicesIndexToCalendar);
+
+  var listBtn = document.createElement('button');
+  listBtn.type = 'button';
+  listBtn.className = 'view-toggle-btn';
+  listBtn.innerHTML = '<i class="fa fa-list"></i> List View';
+  listBtn.addEventListener('click', restoreServicesIndexTable);
+
+  wrapper.appendChild(calendarBtn);
+  wrapper.appendChild(listBtn);
+  menuLink.parentNode.insertBefore(wrapper, menuLink.nextSibling);
+}
+
+// 4. Page Initialization Execution
+function initServicesIndexPage() {
+  createViewToggleButtons();
+  convertServicesIndexToCalendar();
+}
+
 if (document.readyState === 'interactive' || document.readyState === 'complete') {
-    convertServicesIndexToCalendar();
+  initServicesIndexPage();
 } else {
-    document.addEventListener('DOMContentLoaded', convertServicesIndexToCalendar);
+  document.addEventListener('DOMContentLoaded', initServicesIndexPage);
 }
-
 
 /**
  * Helper function to perform Word document generation and export from an HTML service page.

@@ -376,7 +376,9 @@ div.panel-heading {
     bottom: -18px;
 }
 
-.fa-calendar {}
+.fa-calendar {
+    padding-top: 1px;
+}
 
 .fa-caret-square-o-left {}
 
@@ -390,6 +392,10 @@ div.panel-heading {
 
 .fa-info-circle {
     padding-left: 2px;
+}
+
+.fa-list {
+    padding-top: 1px;
 }
 
 .fa-list-alt {}
