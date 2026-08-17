@@ -2349,6 +2349,7 @@ function insertMatinsOrdinary() {
         targetRow.replaceWith(replacementHTML);
 
         hideGreekInEnglishOnlyService();
+        hideEnglishInGreekOnlyService();
 
         console.log(`Row containing bookmark (${targetBookmark.attr('id')}) has been replaced.`);
       } else {
@@ -2830,6 +2831,32 @@ function hideGreekInEnglishOnlyService() {
   } else {
     // This runs if the bookmark *was* found.
     console.warn("❌ Bookmark 'bkmrk02' WAS found. No 'leftCell' elements will be hidden.");
+  }
+}
+
+
+function hideEnglishInGreekOnlyService() {
+  // This function is called in insertMatinsOrdinary
+  // Search the document for the element with the ID "bkmark02R".
+  const bookmarkElement = document.getElementById("bkmrk02R");
+
+  // Check if the element was NOT found (i.e., bookmarkElement is null).
+  if (!bookmarkElement) {
+    console.log("✅ Bookmark 'bkmrk02R' was NOT found. Proceeding to hide rightCell.");
+
+    // Finds all <td> elements with the class "rightCell" in the main document.
+    const rightCells = document.querySelectorAll('td.rightCell');
+
+    // Loops through the found elements and sets their display style to 'none'.
+    rightCells.forEach(cell => {
+      cell.style.display = 'none';
+    });
+
+    console.log("All 'rightCell' elements are now display: none.");
+
+  } else {
+    // This runs if the bookmark *was* found.
+    console.warn("❌ Bookmark 'bkmrk02' WAS found. No 'rightCell' elements will be hidden.");
   }
 }
 
