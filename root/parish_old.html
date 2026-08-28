@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<!-- Google tag (gtag.js) -->
+
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-LKDVHGGRVQ"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+
+		gtag('config', 'G-LKDVHGGRVQ');
+	</script>
+	<title>Parish Index</title>
+	<base href="https://dcs.goarch.org/goa/dcs/" />
+	<!-- Meta Declarations -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width" />
+
+	<!-- Stylesheets -->
+	<link href="css/font-awesome/css/font-awesome.css" rel="stylesheet">
+	<link rel='stylesheet' type='text/css' href='css/alwb.css'>
+	<link rel='stylesheet' type='text/css' href='js/lib/bootstrap/css/bootstrap.css'>
+	<link rel="stylesheet" type="text/css" href="css/jquery.dropdown.css" />
+	<style>
+		p.parishcenter1 {
+			color: #a91827;
+			font-family: 'Arimo', sans-serif;
+			font-size: 5vw;
+			font-style: normal;
+			font-weight: bold;
+			margin-top: 0px;
+			margin-bottom: 0;
+			text-align: center;
+		}
+
+		p.parishcenter2 {
+			color: #a91827;
+			font-family: 'Arimo', sans-serif;
+			font-size: 10vw;
+			font-style: normal;
+			font-weight: bold;
+			margin-top: 80px;
+			margin-bottom: 0;
+			text-align: center;
+		}
+
+		p.parishcenter3 {
+			color: #a91827;
+			font-family: 'Arimo', sans-serif;
+			font-size: 6vw;
+			font-style: normal;
+			font-weight: bold;
+			margin-top: 60px;
+			margin-bottom: 0;
+			text-align: center;
+		}
+
+		p.parishcenter4 {
+			color: #a91827;
+			font-family: 'Arimo', sans-serif;
+			font-size: 3vw;
+			font-style: normal;
+			font-weight: normal;
+			margin-top: 80px;
+			margin-bottom: 0;
+			text-align: center;
+		}
+
+		p.parishcenter5 {
+			color: black;
+			font-family: 'Arimo', sans-serif;
+			font-size: 3vw;
+			font-style: italic;
+			font-weight: normal;
+			margin-top: 20px;
+			margin-bottom: 0;
+			text-align: center;
+		}
+	</style>
+
+	<!-- Scripts -->
+	<script data-main="js/app" src="js/lib/require.js"></script>
+
+</head>
+
+<body>
+	<div>
+		<p><img style="border:0;" src="img/goa-dcs-app-logotype-1200.png"
+				alt="Digital Chant Stand of the Greek Orthodox Archdiocese of America" width="100%" height="100%"></p>
+	</div>
+	<p class="parishcenter1" id="current-date"></p>
+	<p class="parishcenter1">Today's Services</p>
+
+	<div id="jan03-04Content" style="display: none;">
+		<div id="fridayDiv" style="display: none;">
+			<p class="parishcenter5">Friday before Epiphany</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2">No Liturgy Today</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/gh/gr-en/index.html" target="_blank">Great Hours</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+		</div>
+	</div>
+	<div id="jan05Content" style="display: none;">
+		<div id="mondayDiv" style="display: none;">
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/gh/gr-en/index.html" target="_blank">Great Hours</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/vl/gr-en/index.html" target="_blank">Vesperal Liturgy</a>
+			</p>
+		</div>
+		<div id="tuesdayDiv" style="display: none;">
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/gh/gr-en/index.html" target="_blank">Great Hours</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/vl/gr-en/index.html" target="_blank">Vesperal Liturgy</a>
+			</p>
+		</div>
+		<div id="wednesdayDiv" style="display: none;">
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/gh/gr-en/index.html" target="_blank">Great Hours</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/vl/gr-en/index.html" target="_blank">Vesperal Liturgy</a>
+			</p>
+		</div>
+		<div id="thursdayDiv" style="display: none;">
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/gh/gr-en/index.html" target="_blank">Great Hours</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/vl/gr-en/index.html" target="_blank">Vesperal Liturgy</a>
+			</p>
+		</div>
+		<div id="fridayDiv" style="display: none;">
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/gh/gr-en/index.html" target="_blank">Great Hours</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/vl/gr-en/index.html" target="_blank">Vesperal Liturgy</a>
+			</p>
+		</div>
+		<div id="saturdayDiv" style="display: none;">
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/li/gr-en/index.html" target="_blank">Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+		</div>
+		<div id="sundayDiv" style="display: none;">
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/li/gr-en/index.html" target="_blank">Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+		</div>
+	</div>
+	<div id="mar09Content" style="display: none;">
+		<div id="mondayDiv" style="display: none;">
+			<p class="parishcenter5">Memory of the Forty Martyrs</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/pl1/gr-en/index.html" target="_blank">Pre-sanctified Liturgy</a></p>
+			<p class="parishcenter5">or if not in Lent:</p>
+			<p class="parishcenter3"><a href="h/s/2025/01/01/pl1/gr-en/index.html" target="_blank">Liturgy</a></p>
+			<p class="parishcenter3"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Compline</a></p>
+		</div>
+		<div id="tuesdayDiv" style="display: none;">
+			<p class="parishcenter5">Memory of the Forty Martyrs</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/pl1/gr-en/index.html" target="_blank">Pre-sanctified Liturgy</a></p>
+			<p class="parishcenter5">or if not in Lent:</p>
+			<p class="parishcenter3"><a href="h/s/2025/01/01/pl1/gr-en/index.html" target="_blank">Liturgy</a></p>
+			<p class="parishcenter3"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Compline</a></p>
+		</div>
+		<div id="wedbesdayDiv" style="display: none;">
+			<p class="parishcenter5">Memory of the Forty Martyrs</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/pl1/gr-en/index.html" target="_blank">Pre-sanctified Liturgy</a></p>
+			<p class="parishcenter5">or if not in Lent:</p>
+			<p class="parishcenter3"><a href="h/s/2025/01/01/pl1/gr-en/index.html" target="_blank">Liturgy</a></p>
+			<p class="parishcenter3"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Compline</a></p>
+		</div>
+		<div id="thursdayDiv" style="display: none;">
+			<p class="parishcenter5">Memory of the Forty Martyrs</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/pl1/gr-en/index.html" target="_blank">Pre-sanctified Liturgy</a></p>
+			<p class="parishcenter5">or if not in Lent:</p>
+			<p class="parishcenter3"><a href="h/s/2025/01/01/pl1/gr-en/index.html" target="_blank">Liturgy</a></p>
+			<p class="parishcenter3"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Compline</a></p>
+		</div>
+		<div id="fridayDiv" style="display: none;">
+			<p class="parishcenter5">Memory of the Forty Martyrs</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/pl1/gr-en/index.html" target="_blank">Pre-sanctified Liturgy</a></p>
+			<p class="parishcenter5">or if not in Lent:</p>
+			<p class="parishcenter3"><a href="h/s/2025/01/01/pl1/gr-en/index.html" target="_blank">Liturgy</a></p>
+			<p class="parishcenter3"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Compline</a></p>
+		</div>
+		<div id="saturdayDiv" style="display: none;">
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/li/gr-en/index.html" target="_blank">Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+		</div>
+		<div id="sundayDiv" style="display: none;">
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/li/gr-en/index.html" target="_blank">Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+		</div>
+	</div>
+	<div id="mar24Content" style="display: none;">
+		<div id="mondayDiv" style="display: none;">
+			<p class="parishcenter5">Forefeast of Annunciation</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Great Vespers</a></p>
+		</div>
+		<div id="tuesdayDiv" style="display: none;">
+			<p class="parishcenter5">Forefeast of Annunciation</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Great Vespers</a></p>
+		</div>
+		<div id="wednesdayDiv" style="display: none;">
+			<p class="parishcenter5">Forefeast of Annunciation</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Great Vespers</a></p>
+		</div>
+		<div id="thursdayDiv" style="display: none;">
+			<p class="parishcenter5">Forefeast of Annunciation</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Great Vespers</a></p>
+		</div>
+		<div id="fridayDiv" style="display: none;">
+			<p class="parishcenter5">Forefeast of Annunciation</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Great Vespers</a></p>
+		</div>
+		<div id="saturdayDiv" style="display: none;">
+			<p class="parishcenter5">Forefeast of Annunciation</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/li/gr-en/index.html" target="_blank">Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Great Vespers</a></p>
+		</div>
+		<div id="sundayDiv" style="display: none;">
+			<p class="parishcenter5">Forefeast of Annunciation</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/li/gr-en/index.html" target="_blank">Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Great Vespers</a></p>
+		</div>
+	</div>
+	<div id="mar25Content" style="display: none;">
+		<p class="parishcenter5">Annunciation</p>
+		<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+		<p class="parishcenter2"><a href="h/s/2025/01/01/li/gr-en/index.html" target="_blank">Liturgy</a></p>
+		<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+		<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Compline</a></p>
+	</div>
+	<div id="dec22-23Content" style="display: none;">
+		<div id="fridayDiv" style="display: none;">
+			<p class="parishcenter5">Friday before Christmas</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2">No Liturgy Today</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/gh/gr-en/index.html" target="_blank">Great Hours</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+		</div>
+	</div>
+	<div id="dec24Content" style="display: none;">
+		<div id="mondayDiv" style="display: none;">
+			<p class="parishcenter5">Forefeast of Christmas</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/gh/gr-en/index.html" target="_blank">Great Hours</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/vl/gr-en/index.html" target="_blank">Vesperal Liturgy</a>
+			</p>
+		</div>
+		<div id="tuesdayDiv" style="display: none;">
+			<p class="parishcenter5">Forefeast of Christmas</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/gh/gr-en/index.html" target="_blank">Great Hours</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/vl/gr-en/index.html" target="_blank">Vesperal Liturgy</a>
+			</p>
+		</div>
+		<div id="wednesdayDiv" style="display: none;">
+			<p class="parishcenter5">Forefeast of Christmas</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/gh/gr-en/index.html" target="_blank">Great Hours</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/vl/gr-en/index.html" target="_blank">Vesperal Liturgy</a>
+			</p>
+		</div>
+		<div id="thursdayDiv" style="display: none;">
+			<p class="parishcenter5">Forefeast of Christmas</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/gh/gr-en/index.html" target="_blank">Great Hours</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/vl/gr-en/index.html" target="_blank">Vesperal Liturgy</a>
+			</p>
+		</div>
+		<div id="fridayDiv" style="display: none;">
+			<p class="parishcenter5">Forefeast of Christmas</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/gh/gr-en/index.html" target="_blank">Great Hours</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/vl/gr-en/index.html" target="_blank">Vesperal Liturgy</a>
+			</p>
+		</div>
+		<div id="saturdayDiv" style="display: none;">
+			<p class="parishcenter5">Forefeast of Christmas</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/li/gr-en/index.html" target="_blank">Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+		</div>
+		<div id="sundayDiv" style="display: none;">
+			<p class="parishcenter5">Forefeast of Christmas</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/li/gr-en/index.html" target="_blank">Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+		</div>
+	</div>
+	<div id="cheeseWeekContent" style="display: none;">
+		<div id="mondayDiv" style="display: none;">
+			<p class="parishcenter5">Monday of Cheese Week</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/li/gr-en/index.html" target="_blank">Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+		</div>
+		<div id="tuesdayDiv" style="display: none;">
+			<p class="parishcenter5">Tuesday of Cheese Week</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/li/gr-en/index.html" target="_blank">Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+		</div>
+		<div id="wednesdayDiv" style="display: none;">
+			<p class="parishcenter5">Wednesday of Cheese Week</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2">No Liturgy Today</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+		</div>
+		<div id="thursdayDiv" style="display: none;">
+			<p class="parishcenter5">Thursday of Cheese Week</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/li/gr-en/index.html" target="_blank">Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+		</div>
+		<div id="fridayDiv" style="display: none;">
+			<p class="parishcenter5">Friday of Cheese Week</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2">No Liturgy Today</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+		</div>
+		<div id="saturdayDiv" style="display: none;">
+			<p class="parishcenter5">Saturday of Cheese Week</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/li/gr-en/index.html" target="_blank">Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+		</div>
+		<div id="sundayDiv" style="display: none;">
+			<p class="parishcenter5">Cheesefare Sunday</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/li/gr-en/index.html" target="_blank">Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+		</div>
+	</div>
+	<div id="lent1Content" style="display: none;">
+		<div id="mondayDiv" style="display: none;">
+			<p class="parishcenter5">Clean Monday</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Lent 1 Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Compline</a></p>
+		</div>
+		<div id="tuesdayDiv" style="display: none;">
+			<p class="parishcenter5">Tuesday of Lent 1</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Compline</a></p>
+		</div>
+		<div id="wednesdayDiv" style="display: none;">
+			<p class="parishcenter5">Wednesday of Lent 1</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/pl1/gr-en/index.html" target="_blank">Pre-sanctified
+					Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Compline</a></p>
+		</div>
+		<div id="thursdayDiv" style="display: none;">
+			<p class="parishcenter5">Thursday of Lent 1</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Compline</a></p>
+		</div>
+		<div id="fridayDiv" style="display: none;">
+			<p class="parishcenter5">Friday of Lent 1</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/pl1/gr-en/index.html" target="_blank">Pre-sanctified
+					Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Small Compline -
+					Salutations</a></p>
+		</div>
+		<div id="saturdayDiv" style="display: none;">
+			<p class="parishcenter5">Saturday of Lent 1</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/li/gr-en/index.html" target="_blank">Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+		</div>
+		<div id="sundayDiv" style="display: none;">
+			<p class="parishcenter5">First Sunday of Lent</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/li/gr-en/index.html" target="_blank">Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+		</div>
+	</div>
+	<div id="lent2Content" style="display: none;">
+		<div id="mondayDiv" style="display: none;">
+			<p class="parishcenter5">Monday of Lent 2</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Compline</a></p>
+		</div>
+		<div id="tuesdayDiv" style="display: none;">
+			<p class="parishcenter5">Tuesday of Lent 2</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Compline</a></p>
+		</div>
+		<div id="wednesdayDiv" style="display: none;">
+			<p class="parishcenter5">Wednesday of Lent 2</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/pl1/gr-en/index.html" target="_blank">Pre-sanctified
+					Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Compline</a></p>
+		</div>
+		<div id="thursdayDiv" style="display: none;">
+			<p class="parishcenter5">Thursday of Lent 2</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Compline</a></p>
+		</div>
+		<div id="fridayDiv" style="display: none;">
+			<p class="parishcenter5">Friday of Lent 2</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/pl1/gr-en/index.html" target="_blank">Pre-sanctified
+					Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Small Compline -
+					Salutations</a></p>
+		</div>
+		<div id="saturdayDiv" style="display: none;">
+			<p class="parishcenter5">Saturday of Lent 2</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/li/gr-en/index.html" target="_blank">Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+		</div>
+		<div id="sundayDiv" style="display: none;">
+			<p class="parishcenter5">Second Sunday of Lent</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/li/gr-en/index.html" target="_blank">Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+		</div>
+	</div>
+	<div id="lent3Content" style="display: none;">
+		<div id="mondayDiv" style="display: none;">
+			<p class="parishcenter5">Monday of Lent 3</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Compline</a></p>
+		</div>
+		<div id="tuesdayDiv" style="display: none;">
+			<p class="parishcenter5">Tuesday of Lent 3</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Compline</a></p>
+		</div>
+		<div id="wednesdayDiv" style="display: none;">
+			<p class="parishcenter5">Wednesday of Lent 3</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/pl1/gr-en/index.html" target="_blank">Pre-sanctified
+					Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Compline</a></p>
+		</div>
+		<div id="thursdayDiv" style="display: none;">
+			<p class="parishcenter5">Thursday of Lent 3</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Compline</a></p>
+		</div>
+		<div id="fridayDiv" style="display: none;">
+			<p class="parishcenter5">Friday of Lent 3</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/pl1/gr-en/index.html" target="_blank">Pre-sanctified
+					Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Small Compline -
+					Salutations</a></p>
+		</div>
+		<div id="saturdayDiv" style="display: none;">
+			<p class="parishcenter5">Saturday of Lent 3</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/li/gr-en/index.html" target="_blank">Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+		</div>
+		<div id="sundayDiv" style="display: none;">
+			<p class="parishcenter5">Third Sunday of Lent</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/li/gr-en/index.html" target="_blank">Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+		</div>
+	</div>
+	<div id="lent4Content" style="display: none;">
+		<div id="mondayDiv" style="display: none;">
+			<p class="parishcenter5">Monday of Lent 4</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Compline</a></p>
+		</div>
+		<div id="tuesdayDiv" style="display: none;">
+			<p class="parishcenter5">Tuesday of Lent 4</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Compline</a></p>
+		</div>
+		<div id="wednesdayDiv" style="display: none;">
+			<p class="parishcenter5">Wednesday of Lent 4</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/pl1/gr-en/index.html" target="_blank">Pre-sanctified
+					Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Compline</a></p>
+		</div>
+		<div id="thursdayDiv" style="display: none;">
+			<p class="parishcenter5">Thursday of Lent 4</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Compline</a></p>
+		</div>
+		<div id="fridayDiv" style="display: none;">
+			<p class="parishcenter5">Friday of Lent 4</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/pl1/gr-en/index.html" target="_blank">Pre-sanctified
+					Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Small Compline -
+					Salutations</a></p>
+		</div>
+		<div id="saturdayDiv" style="display: none;">
+			<p class="parishcenter5">Saturday of Lent 4</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/li/gr-en/index.html" target="_blank">Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+		</div>
+		<div id="sundayDiv" style="display: none;">
+			<p class="parishcenter5">Fourth Sunday of Lent</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/li/gr-en/index.html" target="_blank">Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+		</div>
+	</div>
+	<div id="lent5Content" style="display: none;">
+		<div id="mondayDiv" style="display: none;">
+			<p class="parishcenter5">Monday of Lent 5</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Compline</a></p>
+		</div>
+		<div id="tuesdayDiv" style="display: none;">
+			<p class="parishcenter5">Tuesday of Lent 5</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Compline</a></p>
+		</div>
+		<div id="wednesdayDiv" style="display: none;">
+			<p class="parishcenter5">Wednesday of Lent 5</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/pl1/gr-en/index.html" target="_blank">Pre-sanctified
+					Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Small Compline - Great
+					Canon</a></p>
+		</div>
+		<div id="thursdayDiv" style="display: none;">
+			<p class="parishcenter5">Thursday of Lent 5</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/pl1/gr-en/index.html" target="_blank">Pre-sanctified
+					Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Compline</a></p>
+		</div>
+		<div id="fridayDiv" style="display: none;">
+			<p class="parishcenter5">Friday of Lent 5</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/pl1/gr-en/index.html" target="_blank">Pre-sanctified
+					Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Small Compline -
+					Akathist</a></p>
+		</div>
+		<div id="saturdayDiv" style="display: none;">
+			<p class="parishcenter5">Saturday of Lent 5</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/li/gr-en/index.html" target="_blank">Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+		</div>
+		<div id="sundayDiv" style="display: none;">
+			<p class="parishcenter5">Fifth Sunday of Lent</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/li/gr-en/index.html" target="_blank">Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+		</div>
+	</div>
+	<div id="lent6Content" style="display: none;">
+		<div id="mondayDiv" style="display: none;">
+			<p class="parishcenter5">Monday of Lent 6</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Compline</a></p>
+		</div>
+		<div id="tuesdayDiv" style="display: none;">
+			<p class="parishcenter5">Tuesday of Lent 6</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Compline</a></p>
+		</div>
+		<div id="wednesdayDiv" style="display: none;">
+			<p class="parishcenter5">Wednesday of Lent 6</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/pl1/gr-en/index.html" target="_blank">Pre-sanctified
+					Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Compline</a></p>
+		</div>
+		<div id="thursdayDiv" style="display: none;">
+			<p class="parishcenter5">Thursday of Lent 6</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Compline</a></p>
+		</div>
+		<div id="fridayDiv" style="display: none;">
+			<p class="parishcenter5">Friday of Lent 6</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/pl1/gr-en/index.html" target="_blank">Pre-sanctified
+					Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co/gr-en/index.html" target="_blank">Compline</a></p>
+		</div>
+		<div id="saturdayDiv" style="display: none;">
+			<p class="parishcenter5">Lazarus Saturday</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/li/gr-en/index.html" target="_blank">Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+		</div>
+	</div>
+	<div id="holyweekContent" style="display: none;">
+		<div id="sundayDiv" style="display: none;">
+			<p class="parishcenter5">Palm Sunday</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/li/gr-en/index.html" target="_blank">Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/em/gr-en/index.html" target="_blank">Bridegroom Service</a>
+			</p>
+		</div>
+		<div id="mondayDiv" style="display: none;">
+			<p class="parishcenter5">Holy Monday</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/pl1/gr-en/index.html" target="_blank">Pre-sanctified
+					Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/em/gr-en/index.html" target="_blank">Bridegroom Service</a>
+			</p>
+		</div>
+		<div id="tuesdayDiv" style="display: none;">
+			<p class="parishcenter5">Holy Tuesday</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/pl1/gr-en/index.html" target="_blank">Pre-sanctified
+					Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/em/gr-en/index.html" target="_blank">Bridegroom Service</a>
+			</p>
+		</div>
+		<div id="wednesdayDiv" style="display: none;">
+			<p class="parishcenter5">Holy Wednesday</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/pl1/gr-en/index.html" target="_blank">Pre-sanctified
+					Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/pl3/gr-en/index.html" target="_blank">Holy Unction</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/em/gr-en/index.html" target="_blank">Bridegroom Service</a>
+			</p>
+		</div>
+		<div id="thursdayDiv" style="display: none;">
+			<p class="parishcenter5">Holy Thursday</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/vl/gr-en/index.html" target="_blank">Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/em/gr-en/index.html" target="_blank">Twelve Gospels</a></p>
+		</div>
+		<div id="fridayDiv" style="display: none;">
+			<p class="parishcenter5">Good Friday</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/gh/gr-en/index.html" target="_blank">Great Hours</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers (Removal from
+					the Cross)</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/em/gr-en/index.html" target="_blank">Lamentations
+					Service</a></p>
+		</div>
+		<div id="saturdayDiv" style="display: none;">
+			<p class="parishcenter5">Holy Saturday</p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/vl/gr-en/index.html" target="_blank">Liturgy</a></p>
+			<p class="parishcenter2"><a href="h/s/2025/01/01/co1/gr-en/index.html" target="_blank">Pre-Resurrection
+					Service</a></p>
+			<p class="parishcenter3"><a href="h/b/pe/d071/ma/gr-en/index.html" target="_blank">Resurrection – Matins
+					(Short)</a></p>
+			<p class="parishcenter3"><a href="h/b/pe/d071/ma1/gr-en/index.html" target="_blank">Resurrection – Matins
+					(Medium)</a></p>
+			<p class="parishcenter3"><a href="h/b/pe/d071/ma3/gr-en/index.html" target="_blank">Resurrection – Matins
+					(Full)</a></p>
+			<p class="parishcenter2"><a href="h/b/pe/d071/li/gr-en/index.html" target="_blank">Paschal Liturgy</a></p>
+		</div>
+	</div>
+	<div id="easterContent" style="display: none;">
+		<p class="parishcenter5">Easter Sunday</p>
+		<p class="parishcenter2"><a href="h/b/pe/d071/ma/gr-en/index.html" target="_blank">Resurrection – Matins
+				(Short)</a></p>
+		<p class="parishcenter3"><a href="h/b/pe/d071/ma1/gr-en/index.html" target="_blank">Resurrection – Matins
+				(Medium)</a></p>
+		<p class="parishcenter3"><a href="h/b/pe/d071/ma3/gr-en/index.html" target="_blank">Resurrection – Matins
+				(Full)</a></p>
+		<p class="parishcenter2"><a href="h/b/pe/d071/li/gr-en/index.html" target="_blank">Paschal Liturgy</a></p>
+		<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Agape Vespers</a></p>
+	</div>
+	<div id="leavetakingContent" style="display: none;">
+		<p class="parishcenter5">Leavetaking of Pascha</p>
+		<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins (Short)</a></p>
+		<p class="parishcenter2"><a href="h/s/2025/01/01/ma1/gr-en/index.html" target="_blank">Matins (Medium)</a></p>
+		<p class="parishcenter2"><a href="h/s/2025/01/01/ma3/gr-en/index.html" target="_blank">Matins (Full)</a></p>
+		<p class="parishcenter2"><a href="h/s/2025/01/01/li/gr-en/index.html" target="_blank">Liturgy</a></p>
+		<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Great Vespers</a></p>
+	</div>
+	<div id="defaultContent" style="display: none;">
+		<p class="parishcenter2"><a href="h/s/2025/01/01/ma/gr-en/index.html" target="_blank">Matins</a></p>
+		<p class="parishcenter2"><a href="h/s/2025/01/01/li/gr-en/index.html" target="_blank">Liturgy</a></p>
+		<p class="parishcenter2"><a href="h/s/2025/01/01/ve/gr-en/index.html" target="_blank">Vespers</a></p>
+	</div>
+
+	<script>
+
+		const dateElement = document.getElementById('current-date');
+		let todayTemp = new Date(); //parameter a string date to test other dates eg: "12/24/2025"
+ 		todayTemp = Intl.DateTimeFormat('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }).format(todayTemp);
+		const today = new Date(todayTemp); 
+		// today = new Date("03/25/2026"); 
+		// const today = new Date("04/20/2025"); 
+		// const today = new Date("05/28/2025"); 
+		// const today = new Date("08/30/2025"); 
+
+		const thisYear = today.getFullYear();
+		const baseDates = ["02-25-2024", "02-09-2025", "02-01-2026", "02-21-2027", "02-06-2028", "01-28-2029", "02-17-2030"];
+		const baseDate = mostRecentPastDate(baseDates);
+		console.log(`base date: ${baseDate}`);
+		const daysSinceBaseDate = daysBetweenDates(baseDate, today) + 1;
+		console.log(`days since base date: ${daysSinceBaseDate}`);
+		const options = { month: 'long', day: 'numeric', weekday: 'long', year: 'numeric' };
+		const formattedDate = today.toLocaleDateString(undefined, options);
+		dateElement.textContent = formattedDate;
+
+
+		//Given a list of dates, return the most recent date that has passed
+		function mostRecentPastDate(dates) {
+			//const today = new Date();
+			let mostRecent = null;
+
+			for (const dateStr of dates) {
+				const [month, day, year] = dateStr.split('-').map(Number);
+				const date = new Date(year, month - 1, day);
+
+				if (date < today && (!mostRecent || date > mostRecent)) {
+					mostRecent = date;
+				}
+			}
+
+			// Return formatted as mm/dd/yyyy or null if none found
+			if (mostRecent) {
+				const mm = String(mostRecent.getMonth() + 1).padStart(2, '0');
+				const dd = String(mostRecent.getDate()).padStart(2, '0');
+				const yyyy = mostRecent.getFullYear();
+				return `${mm}/${dd}/${yyyy}`;
+			}
+
+			return null;
+		}
+
+		//given two dates, one in mm/dd/yyyy, the other as a date, return the number of days between them
+		function daysBetweenDates(date1Str, todayDate) {
+			// Helper to parse mm/dd/yyyy into a Date object
+			function parseDate(mmddyyyy) {
+				const [month, day, year] = mmddyyyy.split('/').map(Number);
+				return new Date(year, month - 1, day); // JavaScript months are 0-based
+			}
+
+			const date1 = parseDate(date1Str);
+			const date2 = todayDate;
+
+			// Calculate absolute difference in milliseconds, then convert to days
+			const diffMs = Math.abs(date1 - date2);
+			const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
+
+			return diffDays;
+		}
+
+		/**
+		 * This function gets passed an array of objects, each of which contains
+		 * startDate
+		 * endDate
+		 * contentId: corresponds to the id of the div to be shown 
+		 * 
+		 * The result of the function call is to display the matching divs and hide all other divs
+		 * @return: the id of the content to be shown
+		 * 
+		 * CHANGE: change date comparison to number comparison  (DONE)
+		*/
+		function displayContentByDateRanges(ranges) {
+
+			let contentToShow = 'defaultContent'; // Default content if no range matches
+
+			for (const range of ranges) {
+
+				if (isNaN(range.startDate)) {
+
+					const startDate = new Date(thisYear + "-" + range.startDate);
+					const endDate = new Date(thisYear + "-" + range.endDate);
+
+					if (today >= startDate && today <= endDate) {
+						contentToShow = range.contentId;
+						break; // Stop checking once a match is found
+					}
+
+				} else {
+					if (daysSinceBaseDate >= range.startDate && daysSinceBaseDate <= range.endDate) {
+						console.log('moveable cycle number' + daysSinceBaseDate);
+						contentToShow = range.contentId;
+						break; // Stop checking once a match is found
+					}
+				}
+			}
+
+			// Hide all range divs
+			for (const range of ranges) {
+				const element = document.getElementById(range.contentId);
+				if (element) {
+					element.style.display = 'none';
+				}
+			}
+
+			//Hide the default content
+			const defaultElement = document.getElementById('defaultContent');
+			if (defaultElement) {
+				defaultElement.style.display = 'none';
+			}
+
+			// Show the matching content
+			const elementToShow = document.getElementById(contentToShow);
+			if (elementToShow) {
+				elementToShow.style.display = 'block';
+			}
+			return contentToShow;
+		}
+
+		/**
+		 * Show the specific day's content within it's parent div
+		 * @param: id of the parent div
+		 * return: void
+		 * 
+		 * CHANGE: none
+		 * 
+		*/
+		function showDaySpecificContent(contentToShow) {
+
+
+			/**NEW LOGIC 5/22/25
+			 * 
+			 * If defalut content is passed, then set it on and return
+			 * 
+			 * If there is no child, then simply return bc the parent is turned on in the previous function
+			 * 
+			 * If there are children and there is a child match, turn it on
+			 * 
+			 * else if there is no child match, turn on the default content 
+			 *
+			 * */
+			console.log("NEW LOGIC:");
+
+			//default content
+			if (contentToShow == 'defaultContent') {
+				console.log("NEW LOGIC: default content");
+				document.getElementById('defaultContent').style.display = 'block';
+				return;
+			}
+
+
+			const divEl = document.getElementById(contentToShow);
+			const hasChildren = Array.from(divEl.children).some(child => child.tagName === 'DIV');
+			console.log("hav children that are divs: " + hasChildren);
+
+			//parent only
+			if (!hasChildren) {
+				console.log("NEW LOGIC: parent only");
+				return;
+			}
+
+			//has children that are divs
+			if (hasChildren) {
+				//children but no day of the week, to be turned off if there is a child found
+				document.getElementById('defaultContent').style.display = 'block';
+				console.log("NEW LOGIC: has children and default content has been turned on, pre-child search");
+
+
+				const divs = {
+					0: 'sundayDiv',
+					1: 'mondayDiv',
+					2: 'tuesdayDiv',
+					3: 'wednesdayDiv',
+					4: 'thursdayDiv',
+					5: 'fridayDiv',
+					6: 'saturdayDiv',
+				};
+
+				// Hide all divs first
+				for (const divId in divs) {
+					const element = document.getElementById(divs[divId]);
+					if (element) {
+						element.style.display = 'none';
+					}
+				}
+
+				// Show the div for the current day
+				const dayOfWeek = today.getDay();
+				console.log(dayOfWeek);
+				const currentDivId = divs[dayOfWeek];
+				let parentChildStr = `#${contentToShow} #${currentDivId}`;
+				console.log(parentChildStr);
+
+				const child = document.querySelector(parentChildStr);
+				console.log(child);
+				if (child) {
+					child.style.display = 'block';
+					console.log("NEW LOGIC: found day of the week, so turned it on and turned off default content");
+					//now turn off the default content
+					document.getElementById('defaultContent').style.display = 'none';
+				}
+				return;
+			}
+
+		}
+
+		const dateRanges = [
+			{
+				startDate: '01-03',
+				endDate: '01-05',
+				contentId: 'jan03-04Content'
+			},
+			{
+				startDate: '01-05',
+				endDate: '01-06',
+				contentId: 'jan05Content'
+			},
+			{
+				startDate: '03-09',
+				endDate: '03-10',
+				contentId: 'mar09Content'
+			},
+			{
+				startDate: '03-24',
+				endDate: '03-25',
+				contentId: 'mar24Content'
+			},
+			{
+				startDate: '03-25',
+				endDate: '03-26',
+				contentId: 'mar25Content'
+			},
+			{
+				startDate: '12-22',
+				endDate: '12-24',
+				contentId: 'dec22-23Content'
+			},
+			{
+				startDate: '12-24',
+				endDate: '12-25',
+				contentId: 'dec24Content'
+			},
+			{
+				startDate: 16,
+				endDate: 22,
+				contentId: 'cheeseWeekContent',
+			},
+			{
+				startDate: 23,
+				endDate: 29,
+				contentId: 'lent1Content',
+			},
+			{
+				startDate: 30,
+				endDate: 36,
+				contentId: 'lent2Content',
+			},
+			{
+				startDate: 37,
+				endDate: 43,
+				contentId: 'lent3Content',
+			},
+			{
+				startDate: 44,
+				endDate: 50,
+				contentId: 'lent4Content'
+			},
+			{
+				startDate: 51,
+				endDate: 57,
+				contentId: 'lent5Content'
+			},
+			{
+				startDate: 58,
+				endDate: 63,
+				contentId: 'lent6Content'
+			},
+			{
+				startDate: 64,
+				endDate: 70,
+				contentId: 'holyweekContent'
+			},
+			{
+				startDate: 71,
+				endDate: 71,
+				contentId: 'easterContent'
+			},
+			{
+				startDate: 109,
+				endDate: 109,
+				contentId: 'leavetakingContent'
+			}
+		];
+
+		//THE MAJOR FUNCTION CALL THAT SETS THE DISPLAYS
+		showDaySpecificContent(displayContentByDateRanges(dateRanges));
+
+		function updateDateInHref() {
+			const links = document.querySelectorAll('a');
+
+			const year = today.getFullYear();
+			const month = String(today.getMonth() + 1).padStart(2, '0');
+			const day = String(today.getDate()).padStart(2, '0');
+			const formattedDate = `${year}/${month}/${day}`;
+
+			links.forEach(link => {
+				const href = link.href;
+				const dateRegex = /(\d{4}[-.\/]?\d{2}[-.\/]?\d{2})/;
+				const match = href.match(dateRegex);
+				if (match) {
+					const originalDate = match[1];
+					const newHref = href.replace(originalDate, formattedDate);
+					link.href = newHref;
+				}
+			});
+		}
+		window.addEventListener('DOMContentLoaded', updateDateInHref);
+	</script>
+
+
+	<p class="parishcenter4"><a href="https://dcs.goarch.org/goa/dcs/servicesindex.html" target="_blank">To access the
+			full DCS, tap here.</a></p>
+	<script>
+		updateDateInHref();
+	</script>
+</body>
+
+</html>
