@@ -9117,11 +9117,13 @@
                     </li>
                     <li class="level_6">Sticheron 2
                         <ul>
+                        <li dcslink="https://dcs.goarch.org/media/m/dedes/en/me/m08/d29/ve/w/stichera02.pdf">Score: Staff<span class="contributor">SDedes</span></li>
                         <li dcslink="https://dcs.goarch.org/media/m/dedes/en/me/m08/d29/ve/b/stichera02.pdf">Score: Byzantine<span class="contributor">SDedes</span></li>
                         </ul>
                     </li>
                     <li class="level_6">Sticheron 3
                         <ul>
+                        <li dcslink="https://dcs.goarch.org/media/m/dedes/en/me/m08/d29/ve/w/stichera03.pdf">Score: Staff<span class="contributor">SDedes</span></li>
                         <li dcslink="https://dcs.goarch.org/media/m/dedes/en/me/m08/d29/ve/b/stichera03.pdf">Score: Byzantine<span class="contributor">SDedes</span></li>
                         </ul>
                     </li>
@@ -9151,11 +9153,13 @@
                     </li>
                     <li class="level_6">Apostichon 2
                         <ul>
+                        <li dcslink="https://dcs.goarch.org/media/m/dedes/en/me/m08/d29/ve/w/aposticha2.pdf">Score: Staff<span class="contributor">SDedes</span></li>
                         <li dcslink="https://dcs.goarch.org/media/m/dedes/en/me/m08/d29/ve/b/aposticha2.pdf">Score: Byzantine<span class="contributor">SDedes</span></li>
                         </ul>
                     </li>
                     <li class="level_6">Apostichon 3
                         <ul>
+                        <li dcslink="https://dcs.goarch.org/media/m/dedes/en/me/m08/d29/ve/w/aposticha3.pdf">Score: Staff<span class="contributor">SDedes</span></li>
                         <li dcslink="https://dcs.goarch.org/media/m/dedes/en/me/m08/d29/ve/b/aposticha3.pdf">Score: Byzantine<span class="contributor">SDedes</span></li>
                         </ul>
                     </li>
@@ -9401,6 +9405,18 @@
                         <ul>
                         <li dcslink="https://dcs.goarch.org/media/m/dedes/en/me/m09/d01/ve/w/stichera07.pdf">Score: Staff<span class="contributor">SDedes</span></li>
                         <li dcslink="https://dcs.goarch.org/media/m/dedes/en/me/m09/d01/ve/b/stichera07.pdf">Score: Byzantine<span class="contributor">SDedes</span></li>
+                        </ul>
+                    </li>
+                    <li class="level_6">Glory of Vespers
+                        <ul>
+                        <li dcslink="https://dcs.goarch.org/media/m/dedes/en/me/m09/d01/ve/w/sticglory.pdf">Score: Staff<span class="contributor">SDedes</span></li>
+                        <li dcslink="https://dcs.goarch.org/media/m/dedes/en/me/m09/d01/ve/b/sticglory.pdf">Score: Byzantine<span class="contributor">SDedes</span></li>
+                        </ul>
+                    </li>
+                    <li class="level_6">Both now of Vespers
+                        <ul>
+                        <li dcslink="https://dcs.goarch.org/media/m/dedes/en/me/m09/d01/ve/w/sticboth.pdf">Score: Staff<span class="contributor">SDedes</span></li>
+                        <li dcslink="https://dcs.goarch.org/media/m/dedes/en/me/m09/d01/ve/b/sticboth.pdf">Score: Byzantine<span class="contributor">SDedes</span></li>
                         </ul>
                     </li>
                     <li class="level_6">Apostichon 1
@@ -49465,7 +49481,7 @@
                                     <li class="level_3">When You come down
                                         <ul>
                                             <div class="treerubric">Ὅταν ἔλθῃς ὁ Θεός</div>
-                                            <li dcslink="https://dcs.goarch.org/media/scores/dedes/en/he/a/m1/w/whenyoucomedown.pdf">
+                                            <li dcslink="https://dcs.goarch.org/media/scores/dedes/en/he/a/m1/w/OtanElthisOTheos.pdf">
                                                 Score: Staff</li>
                                         </ul>
                                     </li>
