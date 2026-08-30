@@ -464,7 +464,7 @@ $(document).ready(function () {
   // Change Dropdown Menu items
   $('div#jqm-dropdown-pages > ul > li:eq(2)').html('<a href="https://dcs.goarch.org/goa/dcs/parish.html" target="_blank"><i class="fa fa-list-alt">&nbsp;Today\'s Services</i></a>');
   $('div#jqm-dropdown-pages > ul > li:eq(1)').html('<a href="booksindex.html"><i class="fa fa-arrows">&nbsp;Music, Sacraments, Other</i></a>');
-  $('div#jqm-dropdown-pages > ul > li:eq(0)').html('<a href="servicesindex.html"><i class="fa fa-calendar">&nbsp;Services Calendar</i></a>');
+  $('div#jqm-dropdown-pages > ul > li:eq(0)').html('<a href="servicesindex.html"><i class="fa fa-calendar">&nbsp;Services Calendar</i></a>'); 
 
   if (getLanguages()) {
     setLangVars();
@@ -766,7 +766,7 @@ $(document).ready(function () {
 
     // Add print and services preference links
     if (!isMobile.iPad())
-      //  $(".content").prepend('<p class="print-btn"><a href="#" class="print-service"><i class="fa fa-print" title="Print this frame"></i></a></p>');
+    //  $(".content").prepend('<p class="print-btn"><a href="#" class="print-service"><i class="fa fa-print" title="Print this frame"></i></a></p>');
       $(".content").prepend('<p class="print-btn"><a style="cursor: pointer;" onclick="performUnifiedExport(\'pdf\'); return false;"><i class="fa fa-print" title="Print this frame"></i></a></p>');
 
     $(".content").prepend('<p class="print-btn"><a href="#" class="prefMode"><i class="fa fa-list-ul prefMode" title="Open service preferences"></i></a></p>');
@@ -1029,8 +1029,7 @@ $(document).ready(function () {
   insertVespersTOB();
   insertLiturgyTOB();
   insertVesperalLiturgyTOB();
-  //insertMatinsOrdinary();
-  fetchMatinsHTML();
+  insertMatinsOrdinary();
   insertMatinsTOB();
   convertClassToId();
 });
@@ -1319,1051 +1318,1051 @@ function insertVesperalLiturgyTOB() {
   }//end if
 }//end insertVesperalLiturgyTOB
 
-// function insertMatinsOrdinary() {
+function insertMatinsOrdinary() {
 
-//   //This blocks matins ordinary from being injected into matins of service builder  
-//   const currentUrl = window.location.href.toLowerCase();
-//   const referrerUrl = (document.referrer || "").toLowerCase();
+//This blocks matins ordinary from being injected into matins of service builder  
+  const currentUrl = window.location.href.toLowerCase();
+  const referrerUrl = (document.referrer || "").toLowerCase();
 
-//   // Check if either file name shows up in the current URL OR the referrer
-//   const isExcluded =
-//     currentUrl.includes('sb-matins.html') ||
-//     currentUrl.includes('sb-hmatins.html') ||
-//     referrerUrl.includes('sb-matins.html') ||
-//     referrerUrl.includes('sb-hmatins.html');
+  // Check if either file name shows up in the current URL OR the referrer
+  const isExcluded =
+    currentUrl.includes('sb-matins.html') ||
+    currentUrl.includes('sb-hmatins.html') ||
+    referrerUrl.includes('sb-matins.html') ||
+    referrerUrl.includes('sb-hmatins.html');
 
-//   if (isExcluded) {
-//     console.log("insertMatinsOrdinary() blocked via robust URL/Referrer check.");
-//     return; // Exit early
-//   }
+  if (isExcluded) {
+    console.log("insertMatinsOrdinary() blocked via robust URL/Referrer check.");
+    return; // Exit early
+  }
 
-//   //******************************************* */
+    //******************************************* */
+  
+  const pageTitle = document.title;
+  const validEndings = ['.ma', '.ma3', '.ma4', '.ma5', '.ma6', '.ma9'];
 
-//   const pageTitle = document.title;
-//   const validEndings = ['.ma', '.ma3', '.ma4', '.ma5', '.ma6', '.ma9'];
+  if (validEndings.some(ending => pageTitle.endsWith(ending))) {
+    console.log(`Document is a Matins. Running insertMatinsOrdinary script.`);
 
-//   if (validEndings.some(ending => pageTitle.endsWith(ending))) {
-//     console.log(`Document is a Matins. Running insertMatinsOrdinary script.`);
+    removeHtmlLinkBeforeTable();
 
-//     removeHtmlLinkBeforeTable();
+    //Given a list of dates, return the most recent date that has passed
+    function mostRecentPastDate(dates) {
+      //const today = new Date();
+      let mostRecent = null;
 
-//     //Given a list of dates, return the most recent date that has passed
-//     function mostRecentPastDate(dates) {
-//       //const today = new Date();
-//       let mostRecent = null;
+      for (const dateStr of dates) {
+        const [month, day, year] = dateStr.split('-').map(Number);
+        const date = new Date(year, month - 1, day);
 
-//       for (const dateStr of dates) {
-//         const [month, day, year] = dateStr.split('-').map(Number);
-//         const date = new Date(year, month - 1, day);
+        if (date < today && (!mostRecent || date > mostRecent)) {
+          mostRecent = date;
+        }
+      }
 
-//         if (date < today && (!mostRecent || date > mostRecent)) {
-//           mostRecent = date;
-//         }
-//       }
+      // Return formatted as mm/dd/yyyy or null if none found
+      if (mostRecent) {
+        const mm = String(mostRecent.getMonth() + 1).padStart(2, '0');
+        const dd = String(mostRecent.getDate()).padStart(2, '0');
+        const yyyy = mostRecent.getFullYear();
+        return `${mm}/${dd}/${yyyy}`;
+      }
 
-//       // Return formatted as mm/dd/yyyy or null if none found
-//       if (mostRecent) {
-//         const mm = String(mostRecent.getMonth() + 1).padStart(2, '0');
-//         const dd = String(mostRecent.getDate()).padStart(2, '0');
-//         const yyyy = mostRecent.getFullYear();
-//         return `${mm}/${dd}/${yyyy}`;
-//       }
+      return null;
+    }
 
-//       return null;
-//     }
+    //given two dates, one in mm/dd/yyyy, the other as a date, return the number of days between them
+    function daysBetweenDates(date1Str, todayDate) {
+      // Helper to parse mm/dd/yyyy into a Date object
+      function parseDate(mmddyyyy) {
+        const [month, day, year] = mmddyyyy.split('/').map(Number);
+        return new Date(year, month - 1, day); // JavaScript months are 0-based
+      }
 
-//     //given two dates, one in mm/dd/yyyy, the other as a date, return the number of days between them
-//     function daysBetweenDates(date1Str, todayDate) {
-//       // Helper to parse mm/dd/yyyy into a Date object
-//       function parseDate(mmddyyyy) {
-//         const [month, day, year] = mmddyyyy.split('/').map(Number);
-//         return new Date(year, month - 1, day); // JavaScript months are 0-based
-//       }
+      const date1 = parseDate(date1Str);
+      const date2 = todayDate;
 
-//       const date1 = parseDate(date1Str);
-//       const date2 = todayDate;
+      // Calculate absolute difference in milliseconds, then convert to days
+      const diffMs = Math.abs(date1 - date2);
+      const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
 
-//       // Calculate absolute difference in milliseconds, then convert to days
-//       const diffMs = Math.abs(date1 - date2);
-//       const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
+      return diffDays;
+    };
 
-//       return diffDays;
-//     };
+    // 1. Define the target HTML structure (using a selector that targets the key elements).
+    //const targetSelector = 'tr > td:is(.leftCell, .rightCell) > p.mixed > span.kvp[data-key="miscellanea_gr_US_goa|misc.horizontal_line.solid1"]';
+    const matinsOrdinaryPaschal =
+      `<tr>
+	<td class='leftCell'>
+	<p class='designation'><span class='kvp' data-key='ho.ho03_gr_GR_cog|hoMA.MatinsOrdinary.title'>Ἀρχὴ τοῦ Ὄρθρου</span> 
+	</p>
+	</td>
+	<td class='rightCell'>
+	<p class='designation'><span class='kvp' data-key='ho.ho03_en_US_dedes|hoMA.MatinsOrdinary.title'>Beginning of Matins</span> </p>
+	</td>
+	</tr>
+	<tr>
+	<td class='leftCell'>
+	<p class='break'>&#xA0;&#xA0;&#xA0;</p>
+	</td>
+	<td class='rightCell'>
+	<p class='break'>&#xA0;&#xA0;&#xA0;</p>
+	</td>
+	</tr>
+	<tr>
+	<td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
+	</p></td>
+	<td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </p></td>
+	</tr>
+	<tr>
+	<td class='leftCell'><p class='dialog'><span class='kvp' data-key='prayers_gr_US_goa|pr.enarxis01.text'>Εὐλογητὸς ὁ Θεὸς ἡμῶν πάντοτε, νῦν καὶ ἀεὶ καὶ εἰς τοὺς αἰῶνας τῶν αἰώνων.</span> 
+	</p></td>
+	<td class='rightCell'><p class='dialog'><span class='kvp' data-key='prayers_en_US_goa|pr.enarxis01.text'>Blessed is our God always, now and ever and to the ages of ages.</span> </p></td>
+	</tr>
+	<tr>
+	<td class='leftCell'><p class='dialogwithactor'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
+	</span> 
+	<span class='kvp' data-key='prayers_gr_US_goa|pr.res04.text'>Ἀμήν.</span> 
+	</p></td>
+	<td class='rightCell'><p class='dialogwithactor'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Choir'>CHOIR:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res04.text'>Amen.</span> </p></td>
+	</tr>
+	<tr>
+	<td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
+	</p></td>
+	<td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </p></td>
+	</tr>
+			<tr>
+			<td class='leftCell'>
+			<p class='mode'><span class='kvp' data-key='miscellanea_gr_GR_cog|misc.Mode5'>Ἦχος πλ. αʹ.</span> 
+			</p>
+			</td>
+			<td class='rightCell'>
+			<p class='mode'><span class='kvp' data-key='miscellanea_en_US_dedes|misc.Mode5'>Mode pl. 1.</span> </p>
+			</td>
+			</tr>
+			<tr>
+			<td class='leftCell'><p class='source0'><span class='kvp' data-key='titles_gr_GR_cog|ti.sourcePentecostarion'>Τοῦ Πεντηκοσταρίου - - -</span> 
+			</p></td>
+			<td class='rightCell'><p class='source0'><span class='kvp' data-key='titles_en_US_dedes|ti.sourcePentecostarion'>From Pentecostarion - - -</span> </p></td>
+			</tr>
+			<tr>
+			<td class='leftCell'><p class='hymn'><span class='kvp' data-key='pe.d071_gr_GR_cog|peMA.Troparion.text'>Χριστὸς ἀνέστη ἐκ νεκρῶν, θανάτῳ θάνατον πατήσας, καὶ τοῖς ἐν τοῖς μνήμασι, ζωὴν χαρισάμενος.</span> 
+			</p></td>
+			<td class='rightCell'><p class='hymn'><span class='kvp' data-key='pe.d071_en_US_goa|peMA.Troparion.text'>Christ is risen from the dead, by death trampling down upon death, and to those in the tombs He has granted life.</span> <span class="versiondesignation">[GOA<span class='key' data-key='properties_en_US_goa|version.designation' hidden='hidden'></span>]</span>
+			</p></td>
+			</tr>
+	<tr>
+	<td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Choir'>ΧΟΡΟΣ</span> 
+	</p></td>
+	<td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Choir'>CHOIR</span> </p></td>
+	</tr>
+			<tr>
+			<td class='leftCell'>
+			<p class='mode'><span class='kvp' data-key='miscellanea_gr_GR_cog|misc.Mode5'>Ἦχος πλ. αʹ.</span> 
+			</p>
+			</td>
+			<td class='rightCell'>
+			<p class='mode'><span class='kvp' data-key='miscellanea_en_US_dedes|misc.Mode5'>Mode pl. 1.</span> </p>
+			</td>
+			</tr>
+			<tr>
+			<td class='leftCell'><p class='source0'><span class='kvp' data-key='titles_gr_GR_cog|ti.sourcePentecostarion'>Τοῦ Πεντηκοσταρίου - - -</span> 
+			</p></td>
+			<td class='rightCell'><p class='source0'><span class='kvp' data-key='titles_en_US_dedes|ti.sourcePentecostarion'>From Pentecostarion - - -</span> </p></td>
+			</tr>
+			<tr>
+			<td class='leftCell'><p class='hymn'><span class='kvp' data-key='pe.d071_gr_GR_cog|peMA.Troparion.text'>Χριστὸς ἀνέστη ἐκ νεκρῶν, θανάτῳ θάνατον πατήσας, καὶ τοῖς ἐν τοῖς μνήμασι, ζωὴν χαρισάμενος.</span> 
+			</p></td>
+			<td class='rightCell'><p class='hymn'><span class='kvp' data-key='pe.d071_en_US_goa|peMA.Troparion.text'>Christ is risen from the dead, by death trampling down upon death, and to those in the tombs He has granted life.</span> <span class="versiondesignation">[GOA<span class='key' data-key='properties_en_US_goa|version.designation' hidden='hidden'></span>]</span>
+			</p></td>
+			</tr>
+			<tr>
+			<td class='leftCell'><p class='hymn'><span class='kvp' data-key='pe.d071_gr_GR_cog|peMA.Troparion.text'>Χριστὸς ἀνέστη ἐκ νεκρῶν, θανάτῳ θάνατον πατήσας, καὶ τοῖς ἐν τοῖς μνήμασι, ζωὴν χαρισάμενος.</span> 
+			</p></td>
+			<td class='rightCell'><p class='hymn'><span class='kvp' data-key='pe.d071_en_US_goa|peMA.Troparion.text'>Christ is risen from the dead, by death trampling down upon death, and to those in the tombs He has granted life.</span> <span class="versiondesignation">[GOA<span class='key' data-key='properties_en_US_goa|version.designation' hidden='hidden'></span>]</span>
+			</p></td>
+			</tr>
+	<tr>
+	<td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Reader'>ΑΝΑΓΝΩΣΤΗΣ</span> 
+	</p></td>
+	<td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Reader'>READER</span> </p></td>
+	</tr>`;
+    const matinsOrdinaryAscension =
+      `<tr>
+<td class='leftCell'>
+<p class='designation'><span class='kvp' data-key='ho.ho03_gr_GR_cog|hoMA.MatinsOrdinary.title'>Ἀρχὴ τοῦ Ὄρθρου</span> 
+</p>
+</td>
+<td class='rightCell'>
+<p class='designation'><span class='kvp' data-key='ho.ho03_en_US_dedes|hoMA.MatinsOrdinary.title'>Beginning of Matins</span> </p>
+</td>
+</tr>
+<tr>
+<td class='leftCell'>
+<p class='break'>&#xA0;&#xA0;&#xA0;</p>
+</td>
+<td class='rightCell'>
+<p class='break'>&#xA0;&#xA0;&#xA0;</p>
+</td>
+</tr>
+<tr>
+<td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
+</p></td>
+<td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialog'><span class='kvp' data-key='prayers_gr_US_goa|pr.enarxis01.text'>Εὐλογητὸς ὁ Θεὸς ἡμῶν πάντοτε, νῦν καὶ ἀεὶ καὶ εἰς τοὺς αἰῶνας τῶν αἰώνων.</span> 
+</p></td>
+<td class='rightCell'><p class='dialog'><span class='kvp' data-key='prayers_en_US_goa|pr.enarxis01.text'>Blessed is our God always, now and ever and to the ages of ages.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialogwithactor'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Reader'>ΑΝΑΓΝΩΣΤΗΣ:</span> 
+</span> 
+<span class='kvp' data-key='prayers_gr_US_goa|pr.res04.text'>Ἀμήν.</span> 
+</p></td>
+<td class='rightCell'><p class='dialogwithactor'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Reader'>READER:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res04.text'>Amen.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'>
+<p class='designation'><span class='kvp' data-key='titles_gr_GR_cog|ti.Trisagion'>Τρισάγιον.</span> 
+</p>
+</td>
+<td class='rightCell'>
+<p class='designation'><span class='kvp' data-key='titles_en_US_dedes|ti.Trisagion'>Trisagion Prayers.</span> </p>
+</td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.HolyGod.text'>Ἅγιος ὁ Θεός, ἅγιος Ἰσχυρός, ἅγιος Ἀθάνατος, ἐλέησον ἡμᾶς.</span> 
+<span class='red'><span class='kvp' data-key='rubrical_gr_GR_cog|ru.Thrice'>(3)</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.HolyGod.text'>Holy God, Holy Mighty, Holy Immortal, have mercy on us.</span> <span class='red'><span class='kvp' data-key='rubrical_en_US_goa|ru.Thrice'>(3)</span> </span> </p></td>
+</tr>`;
+    const matinsOrdinaryNormal =
+      `<tr>
+<td class='leftCell'>
+<p class='designation'><span class='kvp' data-key='ho.ho03_gr_GR_cog|hoMA.MatinsOrdinary.title'>Ἀρχὴ τοῦ Ὄρθρου</span> 
+</p>
+</td>
+<td class='rightCell'>
+<p class='designation'><span class='kvp' data-key='ho.ho03_en_US_dedes|hoMA.MatinsOrdinary.title'>Beginning of Matins</span> </p>
+</td>
+</tr>
+<tr>
+<td class='leftCell'>
+<p class='break'>&#xA0;&#xA0;&#xA0;</p>
+</td>
+<td class='rightCell'>
+<p class='break'>&#xA0;&#xA0;&#xA0;</p>
+</td>
+</tr>
+<tr>
+<td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
+</p></td>
+<td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialog'><span class='kvp' data-key='prayers_gr_US_goa|pr.enarxis01.text'>Εὐλογητὸς ὁ Θεὸς ἡμῶν πάντοτε, νῦν καὶ ἀεὶ καὶ εἰς τοὺς αἰῶνας τῶν αἰώνων.</span> 
+</p></td>
+<td class='rightCell'><p class='dialog'><span class='kvp' data-key='prayers_en_US_goa|pr.enarxis01.text'>Blessed is our God always, now and ever and to the ages of ages.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialogwithactor'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Reader'>ΑΝΑΓΝΩΣΤΗΣ:</span> 
+</span> 
+<span class='kvp' data-key='prayers_gr_US_goa|pr.res04.text'>Ἀμήν.</span> 
+</p></td>
+<td class='rightCell'><p class='dialogwithactor'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Reader'>READER:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res04.text'>Amen.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
+</p></td>
+<td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.GloryToYouOurGod.text'>Δόξα σοι ὁ Θεὸς ἡμῶν, δόξα σοι.</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.GloryToYouOurGod.text'>Glory to You, our God, glory to You.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.HeavenlyKing.text'>Βασιλεῦ οὐράνιε, Παράκλητε, τὸ Πνεῦμα τῆς ἀληθείας, ὁ πανταχοῦ παρὼν καὶ τὰ πάντα πληρῶν, ὁ θησαυρὸς τῶν ἀγαθῶν καὶ ζωῆς χορηγός, ἐλθὲ καὶ σκήνωσον ἐν ἡμῖν καὶ καθάρισον ἡμᾶς ἀπὸ πάσης κηλῖδος καὶ σῷσον, Ἀγαθέ, τὰς ψυχὰς ἡμῶν.</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.HeavenlyKing.text'>Heavenly King, Comforter, Spirit of Truth, present in all places and filling all things, treasury of good things and giver of life: come; take Your abode in us; cleanse us of every stain, and save our souls, O Good one.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialogwithactor'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Reader'>ΑΝΑΓΝΩΣΤΗΣ:</span> 
+</span> 
+<span class='kvp' data-key='prayers_gr_US_goa|pr.res04.text'>Ἀμήν.</span> 
+</p></td>
+<td class='rightCell'><p class='dialogwithactor'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Reader'>READER:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res04.text'>Amen.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'>
+<p class='designation'><span class='kvp' data-key='titles_gr_GR_cog|ti.Trisagion'>Τρισάγιον.</span> 
+</p>
+</td>
+<td class='rightCell'>
+<p class='designation'><span class='kvp' data-key='titles_en_US_dedes|ti.Trisagion'>Trisagion Prayers.</span> </p>
+</td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.HolyGod.text'>Ἅγιος ὁ Θεός, ἅγιος Ἰσχυρός, ἅγιος Ἀθάνατος, ἐλέησον ἡμᾶς.</span> 
+<span class='red'><span class='kvp' data-key='rubrical_gr_GR_cog|ru.Thrice'>(3)</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.HolyGod.text'>Holy God, Holy Mighty, Holy Immortal, have mercy on us.</span> <span class='red'><span class='kvp' data-key='rubrical_en_US_goa|ru.Thrice'>(3)</span> </span> </p></td>
+</tr>`;
+    const matinsOrdinary_part2 =
+      `<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.GloryToTheFather.text'>Δόξα Πατρὶ καὶ Υἱῷ καὶ ἁγίῳ Πνεύματι.</span> 
+<span class='kvp' data-key='prayers_gr_US_goa|pr.BothNowAndEver.text'>Καὶ νῦν καὶ ἀεὶ καὶ εἰς τοὺς αἰῶνας τῶν αἰώνων. Ἀμήν.</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.GloryToTheFather.text'>Glory to the Father and the Son and the Holy Spirit.</span> <span class='kvp' data-key='prayers_en_US_goa|pr.BothNowAndEver.text'>Both now and ever and to the ages of ages. Amen.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.AllHolyTrinity.text'>Παναγία Τριάς, ἐλέησον ἡμᾶς. Κύριε, ἱλάσθητι ταῖς ἁμαρτίαις ἡμῶν. Δέσποτα, συγχώρησον τὰς ἀνομίας ἡμῖν. Ἅγιε, ἐπίσκεψαι καὶ ἴασαι τὰς ἀσθενείας ἡμῶν, ἕνεκεν τοῦ ὀνόματός σου.</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.AllHolyTrinity.text'>All-holy Trinity, have mercy on us. Lord, forgive our sins. Master, pardon our transgressions. Holy One, visit and heal our infirmities for Your name’s sake.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.res06.text'>Κύριε, ἐλέησον. Κύριε, ἐλέησον. Κύριε, ἐλέησον.</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.res06.text'>Lord, have mercy. Lord, have mercy. Lord, have mercy.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.GloryToTheFather.text'>Δόξα Πατρὶ καὶ Υἱῷ καὶ ἁγίῳ Πνεύματι.</span> 
+<span class='kvp' data-key='prayers_gr_US_goa|pr.BothNowAndEver.text'>Καὶ νῦν καὶ ἀεὶ καὶ εἰς τοὺς αἰῶνας τῶν αἰώνων. Ἀμήν.</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.GloryToTheFather.text'>Glory to the Father and the Son and the Holy Spirit.</span> <span class='kvp' data-key='prayers_en_US_goa|pr.BothNowAndEver.text'>Both now and ever and to the ages of ages. Amen.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.OurFather.text'>Πάτερ ἡμῶν ὁ ἐν τοῖς οὐρανοῖς, ἁγιασθήτω τὸ ὄνομά σου. Ἐλθέτω ἡ βασιλεία σου. Γενηθήτω τὸ θέλημά σου, ὡς ἐν οὐρανῷ καὶ ἐπὶ τῆς γῆς. Τὸν ἄρτον ἡμῶν τὸν ἐπιούσιον δὸς ἡμῖν σήμερον. Καὶ ἄφες ἡμῖν τὰ ὀφειλήματα ἡμῶν, ὡς καὶ ἡμεῖς ἀφίεμεν τοῖς ὀφειλέταις ἡμῶν. Καὶ μὴ εἰσενέγκῃς ἡμᾶς εἰς πειρασμόν, ἀλλὰ ῥῦσαι ἡμᾶς ἀπὸ τοῦ πονηροῦ.</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.OurFather.text'>Our Father, who art in heaven, hallowed be Thy name. Thy kingdom come, Thy will be done, on earth as it is in heaven. Give us this day our daily bread; and forgive us our trespasses, as we forgive those who trespass against us. And lead us not into temptation, but deliver us from evil.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
+</p></td>
+<td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialog'><span class='kvp' data-key='prayers_gr_US_goa|pr.exc20.text'>Ὅτι σοῦ ἐστιν ἡ βασιλεία καὶ ἡ δύναμις καὶ ἡ δόξα τοῦ Πατρὸς καὶ τοῦ Υἱοῦ καὶ τοῦ ἁγίου Πνεύματος, νῦν καὶ ἀεὶ καὶ εἰς τοὺς αἰῶνας τῶν αἰώνων.</span> 
+</p></td>
+<td class='rightCell'><p class='dialog'><span class='kvp' data-key='prayers_en_US_goa|pr.exc20.text'>For Thine is the kingdom and the power and the glory, of the Father and the Son and the Holy Spirit, now and ever and to ages of ages.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialogwithactor'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Reader'>ΑΝΑΓΝΩΣΤΗΣ:</span> 
+</span> 
+<span class='kvp' data-key='prayers_gr_US_goa|pr.res04.text'>Ἀμήν.</span> 
+</p></td>
+<td class='rightCell'><p class='dialogwithactor'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Reader'>READER:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res04.text'>Amen.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='me.m09.d14_gr_GR_cog|meVE.Apolytikion1.text'>Σῶσον, Κύριε, τὸν λαόν σου καὶ εὐλόγησον τὴν κληρονομίαν σου, νίκας τοῖς βασιλεῦσι κατὰ βαρβάρων δωρούμενος, καὶ τὸ σὸν φυλάττων διὰ τοῦ Σταυροῦ σου πολίτευμα.</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='me.m09.d14_en_US_goa|meVE.Apolytikion1.text'>Save, O Lord, Your people and bless Your inheritance, granting victory to the faithful over the enemy, and by Your Cross protecting Your commonwealth.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='verse'><span class='kvp' data-key='prayers_gr_US_goa|pr.GloryToTheFather.text'>Δόξα Πατρὶ καὶ Υἱῷ καὶ ἁγίῳ Πνεύματι.</span> 
+</p></td>
+<td class='rightCell'><p class='verse'><span class='kvp' data-key='prayers_en_US_goa|pr.GloryToTheFather.text'>Glory to the Father and the Son and the Holy Spirit.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='he.a.m4_gr_GR_cog|heAU.OYpsotheisEnToStavro.text'>Ὁ ὑψωθεὶς ἐν τῷ Σταυρῷ ἑκουσίως, τῇ ἐπωνύμῳ σου καινῇ πολιτείᾳ τοὺς οἰκτιρμούς σου δώρησαι, Χριστὲ ὁ Θεός· εὔφρανον ἐν τῇ δυνάμει σου τοὺς πιστοὺς βασιλεῖς ἡμῶν, νίκας χορηγῶν αὐτοῖς κατὰ τῶν πολεμίων· τὴν συμμαχίαν ἔχοιεν τὴν σήν, ὅπλον εἰρήνης, ἀήττητον τρόπαιον.</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='he.a.m4_en_US_dedes|heAU.OYpsotheisEnToStavro.text'>You who were lifted on the cross voluntarily, * O Christ our God, bestow Your tender compassions * upon Your new community to which You gave Your name. * Cause our faithful emperors to be glad in Your power, * granting them the victories against their adversaries. * And for an ally, Lord, may they have You, * peace as their armor, the trophy invincible.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='verse'><span class='kvp' data-key='prayers_gr_US_goa|pr.BothNowAndEver.text'>Καὶ νῦν καὶ ἀεὶ καὶ εἰς τοὺς αἰῶνας τῶν αἰώνων. Ἀμήν.</span> 
+</p></td>
+<td class='rightCell'><p class='verse'><span class='kvp' data-key='prayers_en_US_goa|pr.BothNowAndEver.text'>Both now and ever and to the ages of ages. Amen.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='ho.ho03_gr_GR_cog|hoMA.Troparion3.text'>Προστασία φοβερὰ καὶ ἀκαταίσχυντε, μὴ παρίδῃς, Ἀγαθή, τὰς ἱκεσίας ἡμῶν, πανύμνητε Θεοτόκε· στήριξον Ὀρθοδόξων πολιτείαν, σῷζε οὓς ἐκέλευσας βασιλεύειν, καὶ χορήγει αὐτοῖς οὐρανόθεν τὴν νίκην· διότι ἔτεκες τὸν Θεόν, μόνη εὐλογημένη.</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='ho.ho03_en_US_holycross|hoMA.Troparion3.text'>O awesome and unshamable Protection, O good and praiseworthy Theotokos, do not despise our petitions; make firm the community of the Orthodox; save those whom you have called to rule; grant them victory from heaven, for you gave birth to God and are truly blessed.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
+</p></td>
+<td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialog'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet17.text'>Ἐλέησον ἡμᾶς, ὁ Θεός, κατὰ τὸ μέγα ἔλεός σου, δεόμεθά σου, ἐπάκουσον καὶ ἐλέησον.</span> 
+</p></td>
+<td class='rightCell'><p class='dialog'><span class='kvp' data-key='prayers_en_US_goa|pr.pet17.text'>Have mercy on us, O God, according to Your great mercy, we pray You, hear us and have mercy.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Choir'>ΧΟΡΟΣ</span> 
+</p></td>
+<td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Choir'>CHOIR</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialog'><span class='kvp' data-key='prayers_gr_US_goa|pr.res01.text'>Κύριε, ἐλέησον.</span> 
+<span class='red'><span class='kvp' data-key='rubrical_gr_GR_cog|ru.Thrice'>(3)</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='dialog'><span class='kvp' data-key='prayers_en_US_goa|pr.res01.text'>Lord, have mercy.</span> <span class='red'><span class='kvp' data-key='rubrical_en_US_goa|ru.Thrice'>(3)</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
+</p></td>
+<td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialog'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet18.text'>Ἔτι δεόμεθα ὑπὲρ τῶν εὐσεβῶν καὶ ὀρθοδόξων χριστιανῶν.</span> 
+</p></td>
+<td class='rightCell'><p class='dialog'><span class='kvp' data-key='prayers_en_US_goa|pr.pet18.text'>Again we pray for pious and Orthodox Christians.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Choir'>ΧΟΡΟΣ</span> 
+</p></td>
+<td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Choir'>CHOIR</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialog'><span class='kvp' data-key='prayers_gr_US_goa|pr.res01.text'>Κύριε, ἐλέησον.</span> 
+<span class='red'><span class='kvp' data-key='rubrical_gr_GR_cog|ru.Thrice'>(3)</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='dialog'><span class='kvp' data-key='prayers_en_US_goa|pr.res01.text'>Lord, have mercy.</span> <span class='red'><span class='kvp' data-key='rubrical_en_US_goa|ru.Thrice'>(3)</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
+</p></td>
+<td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialog'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet19Sa.text'>Ἔτι δεόμεθα ὑπὲρ</span> 
+<span class='kvp' data-key='client_gr_US_goa|cl.bishop1.name.petitionP'>(δεῖνος).</span>
+</p></td>
+<td class='rightCell'><p class='dialog'><span class='kvp' data-key='prayers_en_US_goa|pr.pet19Sa.text'>Again we pray for</span> <span class='kvp' data-key='client_en_US_goa|cl.bishop1.name.petitionP'>(name).</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Choir'>ΧΟΡΟΣ</span> 
+</p></td>
+<td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Choir'>CHOIR</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialog'><span class='kvp' data-key='prayers_gr_US_goa|pr.res01.text'>Κύριε, ἐλέησον.</span> 
+<span class='red'><span class='kvp' data-key='rubrical_gr_GR_cog|ru.Thrice'>(3)</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='dialog'><span class='kvp' data-key='prayers_en_US_goa|pr.res01.text'>Lord, have mercy.</span> <span class='red'><span class='kvp' data-key='rubrical_en_US_goa|ru.Thrice'>(3)</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
+</p></td>
+<td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialog'><span class='kvp' data-key='prayers_gr_US_goa|pr.exc11.text'>Ὅτι ἐλεήμων καὶ φιλάνθρωπος Θεὸς ὑπάρχεις, καὶ σοὶ τὴν δόξαν ἀναπέμπομεν, τῷ Πατρὶ καὶ τῷ Υἱῷ καὶ τῷ ἁγίῳ Πνεύματι, νῦν καὶ ἀεὶ καὶ εἰς τοὺς αἰῶνας τῶν αἰώνων.</span> 
+</p></td>
+<td class='rightCell'><p class='dialog'><span class='kvp' data-key='prayers_en_US_goa|pr.exc11.text'>For You are merciful and benevolent God, and to You we offer up glory, to the Father and the Son and the Holy Spirit, now and ever and to the ages of ages.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Choir'>ΧΟΡΟΣ</span> 
+</p></td>
+<td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Choir'>CHOIR</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialog'><span class='kvp' data-key='prayers_gr_US_goa|pr.res04.text'>Ἀμήν.</span> 
+<span class='kvp' data-key='prayers_gr_US_goa|pr.InTheNameOfLordBless_father.text'>Ἐν ὀνόματι Κυρίου εὐλόγησον, πάτερ.</span> 
+</p></td>
+<td class='rightCell'><p class='dialog'><span class='kvp' data-key='prayers_en_US_goa|pr.res04.text'>Amen.</span> <span class='kvp' data-key='prayers_en_US_goa|pr.InTheNameOfLordBless_father.text'>In the name of the Lord, Father, bless!</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
+</p></td>
+<td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialog'><span class='kvp' data-key='prayers_gr_US_goa|pr.enarxis03.text'>Δόξα τῇ ἁγίᾳ καὶ ὁμοουσίῳ καὶ ζωοποιῷ καὶ ἀδιαιρέτῳ Τριάδι πάντοτε, νῦν καὶ ἀεὶ καὶ εἰς τοὺς αἰῶνας τῶν αἰώνων.</span> 
+</p></td>
+<td class='rightCell'><p class='dialog'><span class='kvp' data-key='prayers_en_US_goa|pr.enarxis03.text'>Glory to the holy and consubstantial and life-creating and undivided Trinity always, now and ever and to the ages of ages.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialogwithactor'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
+</span> 
+<span class='kvp' data-key='prayers_gr_US_goa|pr.res04.text'>Ἀμήν.</span> 
+</p></td>
+<td class='rightCell'><p class='dialogwithactor'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Choir'>CHOIR:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res04.text'>Amen.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='bkmrk01'><span class='kvp' data-key='miscellanea_gr_GR_cog|misc.bookmark'>bookmark</span> 
+</p></td>
+<td class='rightCell'><p class='bkmrk01'><span class='kvp' data-key='miscellanea_en_US_dedes|misc.bookmark'>bookmark</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='rubric'><span class='kvp' data-key='hi.hi04_gr_US_goa|hiMA.R101'>Εἶτα ὁ Προεστὼς ἢ ὁ Ἀναγνώστης ἀναγινώσκει εὐκρινῶς τὸν Ἑξάψαλμον, ἀκροωμένων πάντων ἐν σιωπῇ καὶ κατανύξει.</span> 
+</p></td>
+<td class='rightCell'><p class='rubric'><span class='kvp' data-key='hi.hi04_en_US_dedes|hiMA.R101'>Then the appointed Reader reverently reads the Six Psalms. The congregation should remain standing during this reading.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='rubric'><span class='kvp' data-key='rubrical_gr_GR_cog|ru.standing.prefix'>Ὁ λαὸς ἵσταται</span> 
+<span class='kvp' data-key='rubrical_gr_GR_cog|ru.standing.matins.sixpsalms'>διὰ τὴν ἀνάγνωσιν τοῦ Ἑξαψάλμου.</span> 
+</p></td>
+<td class='rightCell'><p class='rubric'><span class='kvp' data-key='rubrical_en_US_dedes|ru.standing.prefix'>Stand</span> <span class='kvp' data-key='rubrical_en_US_dedes|ru.standing.matins.sixpsalms'>for the reading of the Six Psalms.</span> </p></td>
+</tr>
+</tr>
+<tr>
+<td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Reader'>ΑΝΑΓΝΩΣΤΗΣ</span> 
+</p></td>
+<td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Reader'>READER</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'>
+<p class='designation'><span class='kvp' data-key='ho.ho03_gr_GR_cog|SixPsalms.title'>Ὁ Ἐξάψαλμος.</span> 
+</p>
+</td>
+<td class='rightCell'>
+<p class='designation'><span class='kvp' data-key='ho.ho03_en_US_goa|SixPsalms.title'>The Six Psalms</span> </p>
+</td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='le.go.os_gr_GR_cog|leosMA.SixPsalmsIntro1.text'>Δόξα ἐν ὑψίστοις Θεῷ καὶ ἐπὶ γῆς εἰρήνη, ἐν ἀνθρώποις εὐδοκία.</span> 
+<span class='italicsred'><span class='kvp' data-key='rubrical_gr_GR_cog|ru.Thrice'>(3)</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='le.go.os_en_US_rsv|leosMA.SixPsalmsIntro1.text'>Glory to God in the highest, and on earth peace, good will among men.</span> <span class='italicsred'><span class='kvp' data-key='rubrical_en_US_goa|ru.Thrice'>(3)</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_gr_GR_cog|psMA.sixpsalms.intro.v2.text'>Κύριε, τὰ χείλη μου ἀνοίξεις, καὶ τὸ στόμα μου ἀναγγελεῖ τὴν αἴνεσίν σου.</span> 
+<span class='italicsred'><span class='kvp' data-key='rubrical_gr_GR_cog|ru.Twice'>(δίς)</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_en_US_saas|psMA.sixpsalms.intro.v2.text'>O Lord, You shall open my lips, and my mouth will declare Your praise.</span> <span class='italicsred'><span class='kvp' data-key='rubrical_en_US_dedes|ru.Twice'>(2)</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'>
+<p class='designation'><span class='kvp' data-key='ps_gr_GR_cog|psa3.title'>Ψαλμὸς Γʹ (3).</span> 
+</p>
+</td>
+<td class='rightCell'>
+<p class='designation'><span class='kvp' data-key='ps_en_US_saas|psa3.title'>Psalm 3.</span> </p>
+</td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='ps_gr_GR_cog|psa3.text'>Κύριε, τί ἐπληθύνθησαν οἱ θλίβοντές με; Πολλοὶ ἐπανίστανται ἐπʼ ἐμέ. Πολλοὶ λέγουσι τῇ ψυχῇ μου· Οὐκ ἔστι σωτηρία αὐτῷ ἐν τῷ Θεῷ αὐτοῦ. Σὺ δέ, Κύριε, ἀντιλήπτωρ μου εἶ, δόξα μου καὶ ὑψῶν τὴν κεφαλήν μου. Φωνῇ μου πρὸς Κύριον ἐκέκραξα, καὶ ἐπήκουσέ μου ἐξ ὄρους ἁγίου αὐτοῦ. Ἐγὼ δὲ ἐκοιμήθην καὶ ὕπνωσα· ἐξηγέρθην, ὅτι Κύριος ἀντιλήψεταί μου. Οὐ φοβηθήσομαι ἀπὸ μυριάδων λαοῦ τῶν κύκλῳ συνεπιτιθεμένων μοι. Ἀνάστα, Κύριε, σῶσόν με ὁ Θεός μου, ὅτι σὺ ἐπάταξας πάντας τοὺς ἐχθραίνοντάς μοι ματαίως, ὀδόντας ἁμαρτωλῶν συνέτριψας. Τοῦ Κυρίου ἡ σωτηρία, καὶ ἐπὶ τὸν λαόν σου ἡ εὐλογία σου.</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='ps_en_US_saas|psa3.text'>O Lord, why do those who afflict me multiply? Many are those who rise up against me. Many are those who say to my soul, “There is no salvation for him in his God.” But You, O Lord, are my protector, my glory and the One who lifts up my head. I cried to the Lord with my voice, and He heard me from His holy hill. I lay down and slept; I awoke, for the Lord will help me. I will not be afraid of ten thousands of people who set themselves against me all around. Arise, O Lord, and save me, O my God, for You struck all those who were foolishly at enmity with me; You broke the teeth of sinners. Salvation is of the Lord, and Your blessing is upon Your people.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_gr_GR_cog|psMA.sixpsalms.ps3.end.v1.text'>Ἐγὼ ἐκοιμήθην καὶ ὕπνωσα· ἐξηγέρθην, ὅτι Κύριος ἀντιλήψεταί μου.</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_en_US_saas|psMA.sixpsalms.ps3.end.v1.text'>I lay down and slept; I awoke, for the Lord will help me.</span> <span class="versiondesignation">[SAAS<span class='key' data-key='properties_en_US_saas|version.designation' hidden='hidden'></span>]</span>
+</p></td>
+</tr>
+<tr>
+<td class='leftCell'>
+<p class='designation'><span class='kvp' data-key='ps_gr_GR_cog|psa37.title'>Ψαλμὸς ΛΖʹ (37).</span> 
+</p>
+</td>
+<td class='rightCell'>
+<p class='designation'><span class='kvp' data-key='ps_en_US_saas|psa37.title'>Psalm 37 (38).</span> </p>
+</td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='ps_gr_GR_cog|psa37.text'>Κύριε, μὴ τῷ θυμῷ σου ἐλέγξῃς με, μηδὲ τῇ ὀργῇ σου παιδεύσῃς με. Ὅτι τὰ βέλη σου ἐνεπάγησάν μοι, καὶ ἐπεστήριξας ἐπʼ ἐμὲ τὴν χεῖρά σου. Οὐκ ἔστιν ἴασις ἐν τῇ σαρκί μου ἀπὸ προσώπου τῆς ὀργῆς σου, οὐκ ἔστιν εἰρήνη ἐν τοῖς ὀστέοις μου ἀπὸ προσώπου τῶν ἁμαρτιῶν μου. Ὅτι αἱ ἀνομίαι μου ὑπερῇραν τὴν κεφαλήν μου, ὡσεὶ φορτίον βαρὺ ἐβαρύνθησαν ἐπʼ ἐμέ. Προσώζεσαν καὶ ἐσάπησαν οἱ μώλωπές μου ἀπὸ προσώπου τῆς ἀφροσύνης μου. Ἐταλαιπώρησα καὶ κατεκάμφθην ἕως τέλους, ὅλην τὴν ἡμέραν σκυθρωπάζων ἐπορευόμην. Ὅτι αἱ ψόαι μου ἐπλήσθησαν ἐμπαιγμάτων, καὶ οὐκ ἔστιν ἴασις ἐν τῇ σαρκί μου. Ἐκακώθην καὶ ἐταπεινώθην ἕως σφόδρα, ὠρυόμην ἀπὸ στεναγμοῦ τῆς καρδίας μου. Κύριε, ἐναντίον σου πᾶσα ἡ ἐπιθυμία μου, καὶ ὁ στεναγμός μου ἀπὸ σοῦ οὐκ ἀπεκρύβη. Ἡ καρδία μου ἐταράχθη, ἐγκατέλιπέ με ἡ ἰσχύς μου, καὶ τὸ φῶς τῶν ὀφθαλμῶν μου καὶ αὐτὸ οὐκ ἔστι μετʼ ἐμοῦ. Οἱ φίλοι μου καὶ οἱ πλησίον μου ἐξεναντίας μου ἤγγισαν καὶ ἔστησαν, καὶ οἱ ἔγγιστά μου ἀπὸ μακρόθεν ἔστησαν. Καὶ ἐξεβιάζοντο οἱ ζητοῦντες τὴν ψυχήν μου, καὶ οἱ ζητοῦντες τὰ κακά μοι ἐλάλησαν ματαιότητας, καὶ δολιότητας ὅλην τὴν ἡμέραν ἐμελέτησαν. Ἐγὼ δὲ ὡσεὶ κωφὸς οὐκ ἤκουον καὶ ὡσεὶ ἄλαλος οὐκ ἀνοίγων τὸ στόμα αὐτοῦ. Καὶ ἐγενόμην ὡσεὶ ἄνθρωπος οὐκ ἀκούων καὶ οὐκ ἔχων ἐν τῷ στόματι αὐτοῦ ἐλεγμούς. Ὅτι ἐπὶ σοί, Κύριε, ἤλπισα· σὺ εἰσακούσῃ, Κύριε ὁ Θεός μου. Ὅτι εἶπον· Μήποτε ἐπιχαρῶσί μοι οἱ ἐχθροί μου· καὶ ἐν τῷ σαλευθῆναι πόδας μου ἐπʼ ἐμὲ ἐμεγαλοῤῥημόνησαν. Ὅτι ἐγὼ εἰς μάστιγας ἕτοιμος, καὶ ἡ ἀλγηδών μου ἐνώπιόν μού ἐστι διὰ παντός. Ὅτι τὴν ἀνομίαν μου ἐγὼ ἀναγγελῶ καὶ μεριμνήσω ὑπὲρ τῆς ἁμαρτίας μου. Οἱ δὲ ἐχθροί μου ζῶσι καὶ κεκραταίωνται ὑπὲρ ἐμέ, καὶ ἐπληθύνθησαν οἱ μισοῦντές με ἀδίκως. Οἱ ἀνταποδιδόντες μοι κακὰ ἀντὶ ἀγαθῶν ἐνδιέβαλλόν με, ἐπεὶ κατεδίωκον ἀγαθωσύνην. Μὴ ἐγκαταλίπῃς με, Κύριε ὁ Θεός μου, μὴ ἀποστῇς ἀπʼ ἐμοῦ. Πρόσχες εἰς τὴν βοήθειάν μου, Κύριε τῆς σωτηρίας μου.</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='ps_en_US_saas|psa37.text'>O Lord, do not rebuke me in Your wrath, nor chasten me in Your anger. For Your arrows are fixed in me, and Your hand rests on me; there is no healing in my flesh because of Your wrath; there is no peace in my bones because of my sins. For my transgressions rise up over my head; like a heavy burden they are heavy on me. My wounds grow foul and fester because of my folly. I suffer misery, and I am utterly bowed down; I go all the day long with a sad face. For my loins are filled with mockeries, and there is no healing in my flesh. I am afflicted and greatly humbled; I roar because of the groaning of my heart. O Lord, all my desire is before You, and my groaning is not hidden from You. My heart is troubled; my strength fails me, and the light of my eyes, even this is not with me. My friends and neighbors draw near and stand against me, and my near of kin stand far off; and those who seek my soul use violence, and those who seek evil for me speak folly; and they meditate on deceit all the day long. But I like a deaf man do not hear, and I am like a mute who does not open his mouth. I am like a man who does not hear, and who has no reproofs in his mouth. For in You, O Lord, I hope; You will hear, O Lord my God. For I said, “Let not my enemies rejoice over me, for when my foot was shaken, they boasted against me.” For I am ready for wounds, and my pain is continually with me. For I will declare my transgression, and I will be anxious about my sin. But my enemies live, and are become stronger than I; and those who hate me unjustly are multiplied; those who repaid me evil for good slandered me, because I pursue righteousness; and they threw away my love as though it were a stinking corpse. Do not forsake me, O Lord; O my God, do not depart from me; give heed to help me, O Lord of my salvation.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_gr_GR_cog|psMA.sixpsalms.ps37.end.v1.text'>Μὴ ἐγκαταλίπῃς με, Κύριε· ὁ Θεός μου, μὴ ἀποστῇς ἀπʼ ἐμοῦ· πρόσχες εἰς τὴν βοήθειάν μου, Κύριε τῆς σωτηρίας μου.</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_en_US_saas|psMA.sixpsalms.ps37.end.v1.text'>Do not forsake me, O Lord; O my God, do not depart from me. Give heed to help me, O Lord of my salvation.</span> <span class="versiondesignation">[SAAS<span class='key' data-key='properties_en_US_saas|version.designation' hidden='hidden'></span>]</span>
+</p></td>
+</tr>
+<tr>
+<td class='leftCell'>
+<p class='designation'><span class='kvp' data-key='ps_gr_GR_cog|psa62.title'>Ψαλμὸς ΞΒʹ (62).</span> 
+</p>
+</td>
+<td class='rightCell'>
+<p class='designation'><span class='kvp' data-key='ps_en_US_saas|psa62.title'>Psalm 62 (63).</span> </p>
+</td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='ps_gr_GR_cog|psa62.text'>Ὁ Θεὸς ὁ Θεός μου, πρὸς σὲ ὀρθρίζω. Ἐδίψησέ σε ἡ ψυχή μου, ποσαπλῶς σοι ἡ σάρξ μου, ἐν γῇ ἐρήμῳ καὶ ἀβάτῳ καὶ ἀνύδρῳ. Οὕτως ἐν τῷ ἁγίῳ ὤφθην σοι τοῦ ἰδεῖν τὴν δύναμίν σου καὶ τὴν δόξαν σου. Ὅτι κρεῖσσον τὸ ἔλεός σου ὑπὲρ ζωάς· τὰ χείλη μου ἐπαινέσουσί σε. Οὕτως εὐλογήσω σε ἐν τῇ ζωῇ μου, καὶ ἐν τῷ ὀνόματί σου ἀρῶ τὰς χεῖράς μου. Ὡς ἐκ στέατος καὶ πιότητος ἐμπλησθείη ἡ ψυχή μου, καὶ χείλη ἀγαλλιάσεως αἰνέσει τὸ στόμα μου. Εἰ ἐμνημόνευόν σου ἐπὶ τῆς στρωμνῆς μου, ἐν τοῖς ὄρθροις ἐμελέτων εἰς σέ· ὅτι ἐγενήθης βοηθός μου, καὶ ἐν τῇ σκέπῃ τῶν πτερύγων σου ἀγαλλιάσομαι. Ἐκολλήθη ἡ ψυχή μου ὀπίσω σου, ἐμοῦ δὲ ἀντελάβετο ἡ δεξιά σου. Αὐτοὶ δὲ εἰς μάτην ἐζήτησαν τὴν ψυχήν μου, εἰσελεύσονται εἰς τὰ κατώτατα τῆς γῆς· παραδοθήσονται εἰς χεῖρας ῥομφαίας, μερίδες ἀλωπέκων ἔσονται. Ὁ δὲ βασιλεὺς εὐφρανθήσεται ἐπὶ τῷ Θεῷ, ἐπαινεθήσεται πᾶς ὁ ὀμνύων ἐν αὐτῷ, ὅτι ἐνεφράγη στόμα λαλούντων ἄδικα.</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='ps_en_US_saas|psa62.text'>O God, my God, I rise early to be with You; my soul thirsts for You. How often my flesh thirsts for You in a desolate, impassable, and waterless land. So in the holy place I appear before You, to see Your power and Your glory. Because Your mercy is better than life, my lips shall praise You. Thus I will bless You in my life; I will lift up my hands in Your name. May my soul be filled, as if with marrow and fatness, and my mouth shall sing praise to You with lips filled with rejoicing. If I remembered You on my bed, I meditated on You at daybreak; for You are my helper, and in the shelter of Your wings I will greatly rejoice. My soul follows close behind You; Your right hand takes hold of me. But they seek for my soul in vain; they shall go into the lowest parts of the earth. They shall be given over to the edge of the sword; they shall be a portion for foxes. But the king shall be glad in God; all who swear by Him shall be praised, for the mouth that speaks unrighteous things is stopped.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_gr_GR_cog|psMA.sixpsalms.ps62.end.v1.text'>Ἐν τοῖς ὄρθροις ἐμελέτων εἰς σέ· ὅτι ἐγενήθης βοηθός μου, καὶ ἐν τῇ σκέπῃ τῶν πτερύγων σου ἀγαλλιάσομαι.</span> 
+<span class='kvp' data-key='liturgical.verses_gr_GR_cog|psMA.sixpsalms.ps62.end.v2.text'>Ἐκολλήθη ἡ ψυχή μου ὀπίσω σου, ἐμοῦ δὲ ἀντελάβετο ἡ δεξιά σου.</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_en_US_saas|psMA.sixpsalms.ps62.end.v1.text'>I meditated on You at daybreak. For You are my helper, and in the shelter of Your wings I will greatly rejoice.</span> <span class='kvp' data-key='liturgical.verses_en_US_saas|psMA.sixpsalms.ps62.end.v2.text'>My soul follows close behind You; Your right hand takes hold of me.</span> <span class="versiondesignation">[SAAS<span class='key' data-key='properties_en_US_saas|version.designation' hidden='hidden'></span>]</span>
+</p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.GloryToTheFather.text'>Δόξα Πατρὶ καὶ Υἱῷ καὶ ἁγίῳ Πνεύματι.</span> 
+<span class='kvp' data-key='prayers_gr_US_goa|pr.BothNowAndEver.text'>Καὶ νῦν καὶ ἀεὶ καὶ εἰς τοὺς αἰῶνας τῶν αἰώνων. Ἀμήν.</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.GloryToTheFather.text'>Glory to the Father and the Son and the Holy Spirit.</span> <span class='kvp' data-key='prayers_en_US_goa|pr.BothNowAndEver.text'>Both now and ever and to the ages of ages. Amen.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.Alleluia3Glory.text'>Ἀλληλούϊα. Ἀλληλούϊα. Ἀλληλούϊα. Δόξα σοι, ὁ Θεός.</span> 
+<span class='italicsred'><span class='kvp' data-key='rubrical_gr_GR_cog|ru.Thrice'>(3)</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.Alleluia3Glory.text'>Alleluia. Alleluia. Alleluia. Glory to You, O God.</span> <span class='italicsred'><span class='kvp' data-key='rubrical_en_US_goa|ru.Thrice'>(3)</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.res01.text'>Κύριε, ἐλέησον.</span> 
+<span class='italicsred'><span class='kvp' data-key='rubrical_gr_GR_cog|ru.Thrice'>(3)</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.res01.text'>Lord, have mercy.</span> <span class='italicsred'><span class='kvp' data-key='rubrical_en_US_goa|ru.Thrice'>(3)</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.GloryToTheFather.text'>Δόξα Πατρὶ καὶ Υἱῷ καὶ ἁγίῳ Πνεύματι.</span> 
+<span class='kvp' data-key='prayers_gr_US_goa|pr.BothNowAndEver.text'>Καὶ νῦν καὶ ἀεὶ καὶ εἰς τοὺς αἰῶνας τῶν αἰώνων. Ἀμήν.</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.GloryToTheFather.text'>Glory to the Father and the Son and the Holy Spirit.</span> <span class='kvp' data-key='prayers_en_US_goa|pr.BothNowAndEver.text'>Both now and ever and to the ages of ages. Amen.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'>
+<p class='designation'><span class='kvp' data-key='ps_gr_GR_cog|psa87.title'>Ψαλμὸς ΠΖʹ (87)</span> 
+</p>
+</td>
+<td class='rightCell'>
+<p class='designation'><span class='kvp' data-key='ps_en_US_saas|psa87.title'>Psalm 87 (88).</span> </p>
+</td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='ps_gr_GR_cog|psa87.text'>Κύριε ὁ Θεὸς τῆς σωτηρίας μου, ἡμέρας ἐκέκραξα καὶ ἐν νυκτὶ ἐναντίον σου. Εἰσελθέτω ἐνώπιόν σου ἡ προσευχή μου, κλῖνον τὸ οὖς σου εἰς τὴν δέησίν μου. Ὅτι ἐπλήσθη κακῶν ἡ ψυχή μου, καὶ ἡ ζωή μου τῷ ᾅδῃ ἤγγισε. Προσελογίσθην μετὰ τῶν καταβαινόντων εἰς λάκκον, ἐγενήθην ὡσεὶ ἄνθρωπος ἀβοήθητος, ἐν νεκροῖς ἐλεύθερος, ὡσεὶ τραυματίαι καθεύδοντες ἐν τάφῳ, ὧν οὐκ ἐμνήσθης ἔτι, καὶ αὐτοὶ ἐκ τῆς χειρός σου ἀπώσθησαν. Ἔθεντό με ἐν λάκκῳ κατωτάτῳ, ἐν σκοτεινοῖς καὶ ἐν σκιᾷ θανάτου. Ἐπʼ ἐμὲ ἐπεστηρίχθη ὁ θυμός σου, καὶ πάντας τοὺς μετεωρισμούς σου ἐπήγαγες ἐπʼ ἐμέ. Ἐμάκρυνας τοὺς γνωστούς μου ἀπʼ ἐμοῦ, ἔθεντό με βδέλυγμα ἑαυτοῖς, παρεδόθην καὶ οὐκ ἐξεπορευόμην. Οἱ ὀφθαλμοί μου ἠσθένησαν ἀπὸ πτωχείας· ἐκέκραξα πρὸς σέ, Κύριε, ὅλην τὴν ἡμέραν, διεπέτασα πρὸς σὲ τὰς χεῖράς μου. Μὴ τοῖς νεκροῖς ποιήσεις θαυμάσια; ἢ ἰατροὶ ἀναστήσουσι καὶ ἐξομολογήσονταί σοι; Μὴ διηγήσεταί τις ἐν τῷ τάφῳ τὸ ἔλεός σου καὶ τὴν ἀλήθειάν σου ἐν τῇ ἀπωλείᾳ; Μὴ γνωσθήσεται ἐν τῷ σκότει τὰ θαυμάσιά σου καὶ ἡ δικαιοσύνη σου ἐν γῇ ἐπιλελησμένῃ; Κἀγὼ πρὸς σέ, Κύριε, ἐκέκραξα, καὶ τὸ πρωῒ ἡ προσευχή μου προφθάσει σε. Ἵνα τί, Κύριε, ἀπωθεῖς τὴν ψυχήν μου, ἀποστρέφεις τὸ πρόσωπόν σου ἀπʼ ἐμοῦ; Πτωχός εἰμι ἐγὼ καὶ ἐν κόποις ἐκ νεότητός μου, ὑψωθεὶς δὲ ἐταπεινώθην καὶ ἐξηπορήθην. Ἐπʼ ἐμὲ διῆλθον αἱ ὀργαί σου, οἱ φοβερισμοί σου ἐξετάραξάν με, ἐκύκλωσάν με ὡσεὶ ὕδωρ ὅλην τὴν ἡμέραν, περιέσχον με ἅμα. Ἐμάκρυνας ἀπʼ ἐμοῦ φίλον καὶ πλησίον, καὶ τοὺς γνωστούς μου ἀπὸ ταλαιπωρίας.</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='ps_en_US_saas|psa87.text'>O Lord God of my salvation, I cry day and night before You. Let my prayer come before You; incline Your ear to my supplication, O Lord. For my soul is filled with sorrows, and my soul draws near to Hades; I am counted among those who go down into the pit; I am like a helpless man, free among the dead, like slain men thrown down and sleeping in a grave, whom You remember no more, but they are removed from Your hand. They laid me in the lowest pit, in dark places and in the shadow of death. Your wrath rested upon me, and You brought all Your billows over me. You removed my acquaintances far from me; they made me an abomination among themselves; I was betrayed, and did not go forth. My eyes weakened from poverty; O Lord, I cry to You the whole day long; I spread out my hands to You. Will You work wonders for the dead? Or will physicians raise them up, and acknowledge You? Shall anyone in the grave describe Your mercy and Your truth in destruction? Shall Your wonders be known in darkness, and Your righteousness in a forgotten land? But I cry to You, O Lord, and in the morning my prayer shall come near to You. Why, O Lord, do You reject my soul, and turn away Your face from me? I am poor and in troubles from my youth; but having been exalted, I was humbled and brought into despair. Your fierce anger passed over me, and Your terrors greatly troubled me; they compassed me like water all the day long; they surrounded me at once. You removed far from me neighbor and friend, and my acquaintances because of my misery.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_gr_GR_cog|psMA.sixpsalms.ps87.end.v1.text'>Κύριε ὁ Θεὸς τῆς σωτηρίας μου, ἡμέρας ἐκέκραξα καὶ ἐν νυκτὶ ἐναντίον σου. Εἰσελθέτω ἐνώπιόν σου ἡ προσευχή μου, κλῖνον τὸ οὖς σου εἰς τὴν δέησίν μου.</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_en_US_saas|psMA.sixpsalms.ps87.end.v1.text'>O Lord God of my salvation, I cry day and night before You. Let my prayer come before You; incline Your ear to my supplication, O Lord.</span> <span class="versiondesignation">[SAAS<span class='key' data-key='properties_en_US_saas|version.designation' hidden='hidden'></span>]</span>
+</p></td>
+</tr>
+<tr>
+<td class='leftCell'>
+<p class='designation'><span class='kvp' data-key='ps_gr_GR_cog|psa102.title'>Ψαλμὸς ΡΒʹ (102).</span> 
+</p>
+</td>
+<td class='rightCell'>
+<p class='designation'><span class='kvp' data-key='ps_en_US_saas|psa102.title'>Psalm 102 (103).</span> </p>
+</td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='ps_gr_GR_cog|psa102.text'>Εὐλόγει, ἡ ψυχή μου, τὸν Κύριον, καί, πάντα τὰ ἐντός μου, τὸ ὄνομα τὸ ἅγιον αὐτοῦ. Εὐλόγει, ἡ ψυχή μου, τὸν Κύριον, καὶ μὴ ἐπιλανθάνου πάσας τὰς ἀνταποδόσεις αὐτοῦ. Τὸν εὐιλατεύοντα πάσας τὰς ἀνομίας σου, τὸν ἰώμενον πάσας τὰς νόσους σου. Τὸν λυτρούμενον ἐκ φθορᾶς τὴν ζωήν σου, τὸν στεφανοῦντά σε ἐν ἐλέει καὶ οἰκτιρμοῖς. Τὸν ἐμπιπλῶντα ἐν ἀγαθοῖς τὴν ἐπιθυμίαν σου, ἀνακαινισθήσεται ὡς ἀετοῦ ἡ νεότης σου. Ποιῶν ἐλεημοσύνας ὁ Κύριος καὶ κρῖμα πᾶσι τοῖς ἀδικουμένοις. Ἐγνώρισε τὰς ὁδοὺς αὐτοῦ τῷ Μωϋσῇ, τοῖς υἱοῖς Ἰσραὴλ τὰ θελήματα αὐτοῦ. Οἰκτίρμων καὶ ἐλεήμων ὁ Κύριος, μακρόθυμος καὶ πολυέλεος· οὐκ εἰς τέλος ὀργισθήσεται, οὐδὲ εἰς τὸν αἰῶνα μηνιεῖ. Οὐ κατὰ τὰς ἀνομίας ἡμῶν ἐποίησεν ἡμῖν, οὐδὲ κατὰ τὰς ἁμαρτίας ἡμῶν ἀνταπέδωκεν ἡμῖν, ὅτι κατὰ τὸ ὕψος τοῦ οὐρανοῦ ἀπὸ τῆς γῆς ἐκραταίωσε Κύριος τὸ ἔλεος αὐτοῦ ἐπὶ τοὺς φοβουμένους αὐτόν. Καθʼ ὅσον ἀπέχουσιν ἀνατολαὶ ἀπὸ δυσμῶν, ἐμάκρυνεν ἀφʼ ἡμῶν τὰς ἀνομίας ἡμῶν. Καθὼς οἰκτείρει πατὴρ υἱούς, ᾠκτείρησε Κύριος τοὺς φοβουμένους αὐτόν, ὅτι αὐτὸς ἔγνω τὸ πλάσμα ἡμῶν, ἐμνήσθη ὅτι χοῦς ἐσμεν. Ἄνθρωπος, ὡσεὶ χόρτος αἱ ἡμέραι αὐτοῦ· ὡσεὶ ἄνθος τοῦ ἀγροῦ, οὕτως ἐξανθήσει. Ὅτι πνεῦμα διῆλθεν ἐν αὐτῷ, καὶ οὐχ ὑπάρξει, καὶ οὐκ ἐπιγνώσεται ἔτι τὸν τόπον αὐτοῦ. Τὸ δὲ ἔλεος τοῦ Κυρίου ἀπὸ τοῦ αἰῶνος καὶ ἕως τοῦ αἰῶνος ἐπὶ τοὺς φοβουμένους αὐτόν, καὶ ἡ δικαιοσύνη αὐτοῦ ἐπὶ υἱοῖς υἱῶν, τοῖς φυλάσσουσι τὴν διαθήκην αὐτοῦ καὶ μεμνημένοις τῶν ἐντολῶν αὐτοῦ τοῦ ποιῆσαι αὐτάς. Κύριος ἐν τῷ οὐρανῷ ἡτοίμασε τὸν θρόνον αὐτοῦ, καὶ ἡ βασιλεία αὐτοῦ πάντων δεσπόζει. Εὐλογεῖτε τὸν Κύριον, πάντες οἱ Ἄγγελοι αὐτοῦ, δυνατοὶ ἰσχύϊ, ποιοῦντες τὸν λόγον αὐτοῦ, τοῦ ἀκοῦσαι τῆς φωνῆς τῶν λόγων αὐτοῦ. Εὐλογεῖτε τὸν Κύριον, πᾶσαι αἱ Δυνάμεις αὐτοῦ, λειτουργοὶ αὐτοῦ, ποιοῦντες τὸ θέλημα αὐτοῦ. Εὐλογεῖτε τὸν Κύριον, πάντα τὰ ἔργα αὐτοῦ, ἐν παντὶ τόπῳ τῆς δεσποτείας αὐτοῦ· εὐλόγει, ἡ ψυχή μου, τὸν Κύριον.</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='ps_en_US_saas|psa102.text'>Bless the Lord, O my soul, and everything within me, bless His holy name. Bless the Lord, O my soul, and forget not all His rewards: who is merciful to all your transgressions, who heals all your diseases, who redeems your life from corruption, who crowns you with mercy and compassion, who satisfies your desire with good things; and your youth is renewed like the eagle’s. The Lord shows mercies and judgment to all who are wronged. He made known His ways to Moses, the things He willed to the sons of Israel. The Lord is compassionate and merciful, slow to anger, and abounding in mercy. He will not become angry to the end, nor will He be wrathful forever; He did not deal with us according to our sins, nor reward us according to our transgressions; for according to the height of heaven from earth, so the Lord reigns in mercy over those who fear Him; as far as the east is from the west, so He removes our transgressions from us. As a father has compassion on his children, so the Lord has compassion on those who fear Him, for He knows how He formed us; He remembers we are dust. As for man, his days are like grass, as a flower of the field, so he flourishes; for the wind passes through it, and it shall not remain; and it shall no longer know its place. But the mercy of the Lord is from age to age upon those who fear Him, and His righteousness upon children’s children, to such as keep His covenant and remember His commandments, to do them. The Lord prepared His throne in heaven, and His Kingdom rules over all. Bless the Lord, all you His angels, mighty in strength, who do His word, so as to hear the voice of His words. Bless the Lord, all you His hosts, His ministers who do His will; bless the Lord, all His works, in all places of His dominion; bless the Lord, O my soul.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_gr_GR_cog|psMA.sixpsalms.ps102.end.v1.text'>Ἐν παντὶ τόπῳ τῆς δεσποτείας αὐτοῦ· εὐλόγει, ἡ ψυχή μου, τὸν Κύριον.</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_en_US_saas|psMA.sixpsalms.ps102.end.v1.text'>In all places of His dominion; Bless the Lord, O my soul.</span> <span class="versiondesignation">[SAAS<span class='key' data-key='properties_en_US_saas|version.designation' hidden='hidden'></span>]</span>
+</p></td>
+</tr>
+<tr>
+<td class='leftCell'>
+<p class='designation'><span class='kvp' data-key='ps_gr_GR_cog|psa142.title'>Ψαλμὸς ΡΜΒʹ (142).</span> 
+</p>
+</td>
+<td class='rightCell'>
+<p class='designation'><span class='kvp' data-key='ps_en_US_saas|psa142.title'>Psalm 142 (143).</span> </p>
+</td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='ps_gr_GR_cog|psa142.text'>Κύριε, εἰσάκουσον τῆς προσευχῆς μου, ἐνώτισαι τὴν δέησίν μου ἐν τῇ ἀληθείᾳ σου, εἰσάκουσόν μου ἐν τῇ δικαιοσύνῃ σου· καὶ μὴ εἰσέλθῃς εἰς κρίσιν μετὰ τοῦ δούλου σου, ὅτι οὐ δικαιωθήσεται ἐνώπιόν σου πᾶς ζῶν. Ὅτι κατεδίωξεν ὁ ἐχθρὸς τὴν ψυχήν μου, ἐταπείνωσεν εἰς γῆν τὴν ζωήν μου, ἐκάθισέ με ἐν σκοτεινοῖς ὡς νεκροὺς αἰῶνος· καὶ ἠκηδίασεν ἐπ᾽ ἐμὲ τὸ πνεῦμά μου, ἐν ἐμοὶ ἐταράχθη ἡ καρδία μου. Ἐμνήσθην ἡμερῶν ἀρχαίων, ἐμελέτησα ἐν πᾶσι τοῖς ἔργοις σου, ἐν ποιήμασι τῶν χειρῶν σου ἐμελέτων. Διεπέτασα πρὸς σὲ τὰς χεῖράς μου, ἡ ψυχή μου ὡς γῆ ἄνυδρός σοι. Ταχὺ εἰσάκουσόν μου, Κύριε, ἐξέλιπε τὸ πνεῦμά μου· μὴ ἀποστρέψῃς τὸ πρόσωπόν σου ἀπ᾽ ἐμοῦ, καὶ ὁμοιωθήσομαι τοῖς καταβαίνουσιν εἰς λάκκον. Ἀκουστὸν ποίησόν μοι τὸ πρωῒ τὸ ἔλεός σου, ὅτι ἐπὶ σοὶ ἤλπισα· γνώρισόν μοι, Κύριε, ὁδόν, ἐν ᾗ πορεύσομαι, ὅτι πρὸς σὲ ἦρα τὴν ψυχήν μου· ἐξελοῦ με ἐκ τῶν ἐχθρῶν μου, Κύριε· πρὸς σὲ κατέφυγον. Δίδαξόν με τοῦ ποιεῖν τὸ θέλημά σου, ὅτι σὺ εἶ ὁ Θεός μου· τὸ πνεῦμά σου τὸ ἀγαθὸν ὁδηγήσει με ἐν γῇ εὐθείᾳ. Ἕνεκεν τοῦ ὀνόματός σου, Κύριε, ζήσεις με· ἐν τῇ δικαιοσύνῃ σου ἐξάξεις ἐκ θλίψεως τὴν ψυχήν μου· καὶ ἐν τῷ ἐλέει σου ἐξολοθρεύσεις τοὺς ἐχθρούς μου· καὶ ἀπολεῖς πάντας τοὺς θλίβοντας τὴν ψυχήν μου, ὅτι ἐγὼ δοῦλός σού εἰμι.</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='ps_en_US_saas|psa142.text'>O Lord, hear my prayer; give ear to my supplication in Your truth; answer me in Your righteousness; do not enter into judgment with Your servant, for no one living shall become righteous in Your sight. For the enemy persecuted my soul; he humbled my life to the ground; he caused me to dwell in dark places as one long dead, and my spirit was in anguish within me; my heart was troubled within me. I remembered the days of old, and I meditated on all Your works; I meditated on the works of Your hands. I spread out my hands to You; my soul thirsts for You like a waterless land. Hear me speedily, O Lord; my spirit faints within me; turn not Your face from me, lest I become like those who go down into the pit. Cause me to hear Your mercy in the morning, for I hope in You; make me know, O Lord, the way wherein I should walk, for I lift up my soul to You. Deliver me from my enemies, O Lord, for to You I flee for refuge. Teach me to do Your will, for You are my God; Your good Spirit shall guide me in the land of uprightness. For Your name’s sake, O Lord, give me life; in Your righteousness You shall bring my soul out of affliction. In Your mercy You shall destroy my enemies; You shall utterly destroy all who afflict my soul, for I am Your servant.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_gr_GR_cog|psMA.sixpsalms.ps142.end.v1.text'>Εἰσάκουσόν μου, Κύριε, ἐν τῇ δικαιοσύνῃ σου· καὶ μὴ εἰσέλθῃς εἰς κρίσιν μετὰ τοῦ δούλου σου.</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_en_US_saas|psMA.sixpsalms.ps142.end.v1.text'>Answer me in Your righteousness, O Lord. Do not enter into judgment with Your servant.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_gr_GR_cog|psMA.sixpsalms.ps142.end.v1.text'>Εἰσάκουσόν μου, Κύριε, ἐν τῇ δικαιοσύνῃ σου· καὶ μὴ εἰσέλθῃς εἰς κρίσιν μετὰ τοῦ δούλου σου.</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_en_US_saas|psMA.sixpsalms.ps142.end.v1.text'>Answer me in Your righteousness, O Lord. Do not enter into judgment with Your servant.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_gr_GR_cog|psMA.sixpsalms.ps142.end.v2.text'>Τὸ πνεῦμά σου τὸ ἀγαθὸν ὁδηγήσει με ἐν γῇ εὐθείᾳ.</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_en_US_saas|psMA.sixpsalms.ps142.end.v2.text'>Your good Spirit shall guide me in the land of uprightness.</span> <span class="versiondesignation">[SAAS<span class='key' data-key='properties_en_US_saas|version.designation' hidden='hidden'></span>]</span>
+</p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.GloryToTheFather.text'>Δόξα Πατρὶ καὶ Υἱῷ καὶ ἁγίῳ Πνεύματι.</span> 
+<span class='kvp' data-key='prayers_gr_US_goa|pr.BothNowAndEver.text'>Καὶ νῦν καὶ ἀεὶ καὶ εἰς τοὺς αἰῶνας τῶν αἰώνων. Ἀμήν.</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.GloryToTheFather.text'>Glory to the Father and the Son and the Holy Spirit.</span> <span class='kvp' data-key='prayers_en_US_goa|pr.BothNowAndEver.text'>Both now and ever and to the ages of ages. Amen.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.Alleluia3Glory.text'>Ἀλληλούϊα. Ἀλληλούϊα. Ἀλληλούϊα. Δόξα σοι, ὁ Θεός.</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.Alleluia3Glory.text'>Alleluia. Alleluia. Alleluia. Glory to You, O God.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.Alleluia3Glory.text'>Ἀλληλούϊα. Ἀλληλούϊα. Ἀλληλούϊα. Δόξα σοι, ὁ Θεός.</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.Alleluia3Glory.text'>Alleluia. Alleluia. Alleluia. Glory to You, O God.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='rubric'><span class='kvp' data-key='rubrical_gr_GR_cog|ru.Intoned'>(χῦμα)</span> 
+</p></td>
+<td class='rightCell'><p class='rubric'><span class='kvp' data-key='rubrical_en_US_dedes|ru.Intoned'>(intoned)</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.Alleluia3Glory.text'>Ἀλληλούϊα. Ἀλληλούϊα. Ἀλληλούϊα. Δόξα σοι, ὁ Θεός.</span> 
+<span class='kvp' data-key='prayers_gr_US_goa|pr.OurHopeLord.text'>Ἡ ἐλπὶς ἡμῶν, Κύριε, δόξα σοι.</span> 
+</p></td>
+<td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.Alleluia3Glory.text'>Alleluia. Alleluia. Alleluia. Glory to You, O God.</span> <span class='kvp' data-key='prayers_en_US_goa|pr.OurHopeLord.text'>Our hope, O Lord, glory to You.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
+</p></td>
+<td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </p></td>
+</tr>
+<td class='leftCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet01.text'>Ἐν εἰρήνῃ τοῦ Κυρίου δεηθῶμεν.</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_en_US_goa|pr.pet01.text'>In peace let us pray to the Lord.</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
+</span> 
+<span class='kvp' data-key='prayers_gr_US_goa|pr.res01.text'>Κύριε, ἐλέησον.</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Choir'>CHOIR:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res01.text'>Lord, have mercy.</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet02.text'>Ὑπὲρ τῆς ἄνωθεν εἰρήνης καὶ τῆς σωτηρίας τῶν ψυχῶν ἡμῶν τοῦ Κυρίου δεηθῶμεν.</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_en_US_goa|pr.pet02.text'>For the peace from above and for the salvation of our souls, let us pray to the Lord.</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
+</span> 
+<span class='kvp' data-key='prayers_gr_US_goa|pr.res01.text'>Κύριε, ἐλέησον.</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Choir'>CHOIR:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res01.text'>Lord, have mercy.</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet03.text'>Ὑπὲρ τῆς εἰρήνης τοῦ σύμπαντος κόσμου, εὐσταθείας τῶν ἁγίων τοῦ Θεοῦ Ἐκκλησιῶν καὶ τῆς τῶν πάντων ἑνώσεως τοῦ Κυρίου δεηθῶμεν.</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_en_US_goa|pr.pet03.text'>For the peace of the whole world, for the stability of the holy churches of God, and for the unity of all, let us pray to the Lord.</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
+</span> 
+<span class='kvp' data-key='prayers_gr_US_goa|pr.res01.text'>Κύριε, ἐλέησον.</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Choir'>CHOIR:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res01.text'>Lord, have mercy.</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet04.text'>Ὑπὲρ τοῦ ἁγίου οἴκου τούτου καὶ τῶν μετὰ πίστεως, εὐλαβείας καὶ φόβου Θεοῦ εἰσιόντων ἐν αὐτῷ, τοῦ Κυρίου δεηθῶμεν.</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_en_US_goa|pr.pet04.text'>For this holy house and for those who enter it with faith, reverence, and the fear of God, let us pray to the Lord.</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
+</span> 
+<span class='kvp' data-key='prayers_gr_US_goa|pr.res01.text'>Κύριε, ἐλέησον.</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Choir'>CHOIR:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res01.text'>Lord, have mercy.</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet05.text'>Ὑπὲρ τῶν εὐσεβῶν καὶ ὀρθοδόξων χριστιανῶν τοῦ Κυρίου δεηθῶμεν.</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_en_US_goa|pr.pet05.text'>For pious and Orthodox Christians, let us pray to the Lord.</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
+</span> 
+<span class='kvp' data-key='prayers_gr_US_goa|pr.res01.text'>Κύριε, ἐλέησον.</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Choir'>CHOIR:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res01.text'>Lord, have mercy.</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet06a.text'>Ὑπὲρ</span> 
+<span class='kvp' data-key='client_gr_US_goa|cl.bishop1.name.petitionC'>τοῦ Ἀρχιεπισκόπου ἡμῶν (δεῖνος),</span>
+<span class='kvp' data-key='prayers_gr_US_goa|pr.pet06b.text'>τοῦ τιμίου πρεσβυτερίου, τῆς ἐν Χριστῷ διακονίας, παντὸς τοῦ κλήρου καὶ τοῦ λαοῦ τοῦ Κυρίου δεηθῶμεν.</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_en_US_goa|pr.pet06a.text'>For </span> <span class='kvp' data-key='client_en_US_goa|cl.bishop1.name.petitionC'>our Archbishop (name),</span> <span class='kvp' data-key='prayers_en_US_goa|pr.pet06b.text'>for the honorable presbyterate, for the diaconate in Christ, and for all the clergy and the people, let us pray to the Lord.</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
+</span> 
+<span class='kvp' data-key='prayers_gr_US_goa|pr.res01.text'>Κύριε, ἐλέησον.</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Choir'>CHOIR:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res01.text'>Lord, have mercy.</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet07L.text'>Ὑπὲρ τοῦ εὐσεβοῦς ἡμῶν γένους, τοῦ Προέδρου, πάσης ἀρχῆς καὶ ἐξουσίας ἐν τῷ κράτει ἡμῶν, καὶ τοῦ κατὰ ξηράν, θάλασσαν, καὶ ἀέρα φιλοχρίστου ἡμῶν στρατοῦ, τοῦ Κυρίου δεηθῶμεν.</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_en_US_goa|pr.pet07L.text'>For our country, the president, all those in public service, and for our armed forces everywhere, let us pray to the Lord.</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
+</span> 
+<span class='kvp' data-key='prayers_gr_US_goa|pr.res01.text'>Κύριε, ἐλέησον.</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Choir'>CHOIR:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res01.text'>Lord, have mercy.</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet08.text'>Ὑπὲρ τῆς Ἁγίας τοῦ Χριστοῦ Μεγάλης Ἐκκλησίας, τῆς Ἱερᾶς ἡμῶν Ἀρχιεπισκοπῆς, [τῆς Ἱερᾶς Μητροπόλεως ταύτης,] τῆς πόλεως καὶ κοινότητος ταύτης, πάσης πόλεως, χώρας καὶ τῶν πίστει οἰκούντων ἐν αὐταῖς, τοῦ Κυρίου δεηθῶμεν.</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_en_US_goa|pr.pet08.text'>For the Holy and Great Church of Christ, for our Sacred Archdiocese, [for this Sacred Metropolis,] for this city and parish, for every city and land, and for the faithful who live in them, let us pray to the Lord.</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
+</span> 
+<span class='kvp' data-key='prayers_gr_US_goa|pr.res01.text'>Κύριε, ἐλέησον.</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Choir'>CHOIR:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res01.text'>Lord, have mercy.</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet09.text'>Ὑπὲρ εὐκρασίας ἀέρων, εὐφορίας τῶν καρπῶν τῆς γῆς καὶ καιρῶν εἰρηνικῶν τοῦ Κυρίου δεηθῶμεν.</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_en_US_goa|pr.pet09.text'>For favorable weather, for an abundance of the fruits of the earth, and for peaceful times, let us pray to the Lord.</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
+</span> 
+<span class='kvp' data-key='prayers_gr_US_goa|pr.res01.text'>Κύριε, ἐλέησον.</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Choir'>CHOIR:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res01.text'>Lord, have mercy.</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet10.text'>Ὑπὲρ πλεόντων, ὁδοιπορούντων, νοσούντων, καμνόντων, αἰχμαλώτων καὶ τῆς σωτηρίας αὐτῶν τοῦ Κυρίου δεηθῶμεν.</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_en_US_goa|pr.pet10.text'>For those who travel by land, sea, and air, for the sick, the suffering, the captives and for their salvation, let us pray to the Lord.</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
+</span> 
+<span class='kvp' data-key='prayers_gr_US_goa|pr.res01.text'>Κύριε, ἐλέησον.</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Choir'>CHOIR:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res01.text'>Lord, have mercy.</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet11.text'>Ὑπὲρ τοῦ ῥυσθῆναι ἡμᾶς ἀπὸ πάσης θλίψεως, ὀργῆς, κινδύνου καὶ ἀνάγκης, τοῦ Κυρίου δεηθῶμεν.</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_en_US_goa|pr.pet11.text'>For our deliverance from all affliction, wrath, danger, and distress, let us pray to the Lord.</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
+</span> 
+<span class='kvp' data-key='prayers_gr_US_goa|pr.res01.text'>Κύριε, ἐλέησον.</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Choir'>CHOIR:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res01.text'>Lord, have mercy.</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet12.text'>Ἀντιλαβοῦ, σῶσον, ἐλέησον καὶ διαφύλαξον ἡμᾶς, ὁ Θεός, τῇ σῇ χάριτι.</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_en_US_goa|pr.pet12.text'>Help us, save us, have mercy on us, and protect us, O God, by Your grace.</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
+</span> 
+<span class='kvp' data-key='prayers_gr_US_goa|pr.res01.text'>Κύριε, ἐλέησον.</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Choir'>CHOIR:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res01.text'>Lord, have mercy.</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet13.text'>Τῆς παναγίας, ἀχράντου, ὑπερευλογημένης, ἐνδόξου, δεσποίνης ἡμῶν Θεοτόκου καὶ ἀειπαρθένου Μαρίας μετὰ πάντων τῶν ἁγίων μνημονεύσαντες, ἑαυτοὺς καὶ ἀλλήλους καὶ πᾶσαν τὴν ζωὴν ἡμῶν Χριστῷ τῷ Θεῷ παραθώμεθα.</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_en_US_goa|pr.pet13.text'>Remembering our all-holy, immaculate, most blessed, and glorious Lady, the Theotokos and ever-virgin Mary, with all the saints, let us commend ourselves and one another and our whole life to Christ our God.</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
+</span> 
+<span class='kvp' data-key='prayers_gr_US_goa|pr.res03.text'>Σοί, Κύριε.</span> 
+</span> 
+</p></td>
+<td class='rightCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Choir'>CHOIR:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res03.text'>To You, O Lord.</span> </span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
+</p></td>
+<td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialog'><span class='kvp' data-key='prayers_gr_US_goa|pr.exc01.text'>Ὅτι πρέπει σοι πᾶσα δόξα, τιμὴ καὶ προσκύνησις, τῷ Πατρὶ καὶ τῷ Υἱῷ καὶ τῷ ἁγίῳ Πνεύματι, νῦν καὶ ἀεὶ καὶ εἰς τοὺς αἰῶνας τῶν αἰώνων.</span> 
+</p></td>
+<td class='rightCell'><p class='dialog'><span class='kvp' data-key='prayers_en_US_goa|pr.exc01.text'>For to You belong all glory, honor, and worship, to the Father and the Son and the Holy Spirit, now and ever and to the ages of ages.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'><p class='dialogwithactor'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
+</span> 
+<span class='kvp' data-key='prayers_gr_US_goa|pr.res04.text'>Ἀμήν.</span> 
+</p></td>
+<td class='rightCell'><p class='dialogwithactor'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Choir'>CHOIR:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res04.text'>Amen.</span> </p></td>
+</tr>
+<tr>
+<td class='leftCell'>
+<p class='break'>&#xA0;&#xA0;&#xA0;</p>
+</td>5
+<td class='rightCell'>
+<p class='break'>&#xA0;&#xA0;&#xA0;</p>
+</td>
+</tr>`;
+    const currentPath = document.location.origin + document.location.pathname;
+    
+    const regex = /(?<year>\d{4})\/(?<month>\d{2})\/(?<day>\d{2})/;
+    const result = regex.exec(currentPath);
 
-//     // 1. Define the target HTML structure (using a selector that targets the key elements).
-//     //const targetSelector = 'tr > td:is(.leftCell, .rightCell) > p.mixed > span.kvp[data-key="miscellanea_gr_US_goa|misc.horizontal_line.solid1"]';
-//     const matinsOrdinaryPaschal =
-//       `<tr>
-// 	<td class='leftCell'>
-// 	<p class='designation'><span class='kvp' data-key='ho.ho03_gr_GR_cog|hoMA.MatinsOrdinary.title'>Ἀρχὴ τοῦ Ὄρθρου</span> 
-// 	</p>
-// 	</td>
-// 	<td class='rightCell'>
-// 	<p class='designation'><span class='kvp' data-key='ho.ho03_en_US_dedes|hoMA.MatinsOrdinary.title'>Beginning of Matins</span> </p>
-// 	</td>
-// 	</tr>
-// 	<tr>
-// 	<td class='leftCell'>
-// 	<p class='break'>&#xA0;&#xA0;&#xA0;</p>
-// 	</td>
-// 	<td class='rightCell'>
-// 	<p class='break'>&#xA0;&#xA0;&#xA0;</p>
-// 	</td>
-// 	</tr>
-// 	<tr>
-// 	<td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
-// 	</p></td>
-// 	<td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </p></td>
-// 	</tr>
-// 	<tr>
-// 	<td class='leftCell'><p class='dialog'><span class='kvp' data-key='prayers_gr_US_goa|pr.enarxis01.text'>Εὐλογητὸς ὁ Θεὸς ἡμῶν πάντοτε, νῦν καὶ ἀεὶ καὶ εἰς τοὺς αἰῶνας τῶν αἰώνων.</span> 
-// 	</p></td>
-// 	<td class='rightCell'><p class='dialog'><span class='kvp' data-key='prayers_en_US_goa|pr.enarxis01.text'>Blessed is our God always, now and ever and to the ages of ages.</span> </p></td>
-// 	</tr>
-// 	<tr>
-// 	<td class='leftCell'><p class='dialogwithactor'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
-// 	</span> 
-// 	<span class='kvp' data-key='prayers_gr_US_goa|pr.res04.text'>Ἀμήν.</span> 
-// 	</p></td>
-// 	<td class='rightCell'><p class='dialogwithactor'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Choir'>CHOIR:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res04.text'>Amen.</span> </p></td>
-// 	</tr>
-// 	<tr>
-// 	<td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
-// 	</p></td>
-// 	<td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </p></td>
-// 	</tr>
-// 			<tr>
-// 			<td class='leftCell'>
-// 			<p class='mode'><span class='kvp' data-key='miscellanea_gr_GR_cog|misc.Mode5'>Ἦχος πλ. αʹ.</span> 
-// 			</p>
-// 			</td>
-// 			<td class='rightCell'>
-// 			<p class='mode'><span class='kvp' data-key='miscellanea_en_US_dedes|misc.Mode5'>Mode pl. 1.</span> </p>
-// 			</td>
-// 			</tr>
-// 			<tr>
-// 			<td class='leftCell'><p class='source0'><span class='kvp' data-key='titles_gr_GR_cog|ti.sourcePentecostarion'>Τοῦ Πεντηκοσταρίου - - -</span> 
-// 			</p></td>
-// 			<td class='rightCell'><p class='source0'><span class='kvp' data-key='titles_en_US_dedes|ti.sourcePentecostarion'>From Pentecostarion - - -</span> </p></td>
-// 			</tr>
-// 			<tr>
-// 			<td class='leftCell'><p class='hymn'><span class='kvp' data-key='pe.d071_gr_GR_cog|peMA.Troparion.text'>Χριστὸς ἀνέστη ἐκ νεκρῶν, θανάτῳ θάνατον πατήσας, καὶ τοῖς ἐν τοῖς μνήμασι, ζωὴν χαρισάμενος.</span> 
-// 			</p></td>
-// 			<td class='rightCell'><p class='hymn'><span class='kvp' data-key='pe.d071_en_US_goa|peMA.Troparion.text'>Christ is risen from the dead, by death trampling down upon death, and to those in the tombs He has granted life.</span> <span class="versiondesignation">[GOA<span class='key' data-key='properties_en_US_goa|version.designation' hidden='hidden'></span>]</span>
-// 			</p></td>
-// 			</tr>
-// 	<tr>
-// 	<td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Choir'>ΧΟΡΟΣ</span> 
-// 	</p></td>
-// 	<td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Choir'>CHOIR</span> </p></td>
-// 	</tr>
-// 			<tr>
-// 			<td class='leftCell'>
-// 			<p class='mode'><span class='kvp' data-key='miscellanea_gr_GR_cog|misc.Mode5'>Ἦχος πλ. αʹ.</span> 
-// 			</p>
-// 			</td>
-// 			<td class='rightCell'>
-// 			<p class='mode'><span class='kvp' data-key='miscellanea_en_US_dedes|misc.Mode5'>Mode pl. 1.</span> </p>
-// 			</td>
-// 			</tr>
-// 			<tr>
-// 			<td class='leftCell'><p class='source0'><span class='kvp' data-key='titles_gr_GR_cog|ti.sourcePentecostarion'>Τοῦ Πεντηκοσταρίου - - -</span> 
-// 			</p></td>
-// 			<td class='rightCell'><p class='source0'><span class='kvp' data-key='titles_en_US_dedes|ti.sourcePentecostarion'>From Pentecostarion - - -</span> </p></td>
-// 			</tr>
-// 			<tr>
-// 			<td class='leftCell'><p class='hymn'><span class='kvp' data-key='pe.d071_gr_GR_cog|peMA.Troparion.text'>Χριστὸς ἀνέστη ἐκ νεκρῶν, θανάτῳ θάνατον πατήσας, καὶ τοῖς ἐν τοῖς μνήμασι, ζωὴν χαρισάμενος.</span> 
-// 			</p></td>
-// 			<td class='rightCell'><p class='hymn'><span class='kvp' data-key='pe.d071_en_US_goa|peMA.Troparion.text'>Christ is risen from the dead, by death trampling down upon death, and to those in the tombs He has granted life.</span> <span class="versiondesignation">[GOA<span class='key' data-key='properties_en_US_goa|version.designation' hidden='hidden'></span>]</span>
-// 			</p></td>
-// 			</tr>
-// 			<tr>
-// 			<td class='leftCell'><p class='hymn'><span class='kvp' data-key='pe.d071_gr_GR_cog|peMA.Troparion.text'>Χριστὸς ἀνέστη ἐκ νεκρῶν, θανάτῳ θάνατον πατήσας, καὶ τοῖς ἐν τοῖς μνήμασι, ζωὴν χαρισάμενος.</span> 
-// 			</p></td>
-// 			<td class='rightCell'><p class='hymn'><span class='kvp' data-key='pe.d071_en_US_goa|peMA.Troparion.text'>Christ is risen from the dead, by death trampling down upon death, and to those in the tombs He has granted life.</span> <span class="versiondesignation">[GOA<span class='key' data-key='properties_en_US_goa|version.designation' hidden='hidden'></span>]</span>
-// 			</p></td>
-// 			</tr>
-// 	<tr>
-// 	<td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Reader'>ΑΝΑΓΝΩΣΤΗΣ</span> 
-// 	</p></td>
-// 	<td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Reader'>READER</span> </p></td>
-// 	</tr>`;
-//     const matinsOrdinaryAscension =
-//       `<tr>
-// <td class='leftCell'>
-// <p class='designation'><span class='kvp' data-key='ho.ho03_gr_GR_cog|hoMA.MatinsOrdinary.title'>Ἀρχὴ τοῦ Ὄρθρου</span> 
-// </p>
-// </td>
-// <td class='rightCell'>
-// <p class='designation'><span class='kvp' data-key='ho.ho03_en_US_dedes|hoMA.MatinsOrdinary.title'>Beginning of Matins</span> </p>
-// </td>
-// </tr>
-// <tr>
-// <td class='leftCell'>
-// <p class='break'>&#xA0;&#xA0;&#xA0;</p>
-// </td>
-// <td class='rightCell'>
-// <p class='break'>&#xA0;&#xA0;&#xA0;</p>
-// </td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
-// </p></td>
-// <td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialog'><span class='kvp' data-key='prayers_gr_US_goa|pr.enarxis01.text'>Εὐλογητὸς ὁ Θεὸς ἡμῶν πάντοτε, νῦν καὶ ἀεὶ καὶ εἰς τοὺς αἰῶνας τῶν αἰώνων.</span> 
-// </p></td>
-// <td class='rightCell'><p class='dialog'><span class='kvp' data-key='prayers_en_US_goa|pr.enarxis01.text'>Blessed is our God always, now and ever and to the ages of ages.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialogwithactor'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Reader'>ΑΝΑΓΝΩΣΤΗΣ:</span> 
-// </span> 
-// <span class='kvp' data-key='prayers_gr_US_goa|pr.res04.text'>Ἀμήν.</span> 
-// </p></td>
-// <td class='rightCell'><p class='dialogwithactor'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Reader'>READER:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res04.text'>Amen.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'>
-// <p class='designation'><span class='kvp' data-key='titles_gr_GR_cog|ti.Trisagion'>Τρισάγιον.</span> 
-// </p>
-// </td>
-// <td class='rightCell'>
-// <p class='designation'><span class='kvp' data-key='titles_en_US_dedes|ti.Trisagion'>Trisagion Prayers.</span> </p>
-// </td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.HolyGod.text'>Ἅγιος ὁ Θεός, ἅγιος Ἰσχυρός, ἅγιος Ἀθάνατος, ἐλέησον ἡμᾶς.</span> 
-// <span class='red'><span class='kvp' data-key='rubrical_gr_GR_cog|ru.Thrice'>(3)</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.HolyGod.text'>Holy God, Holy Mighty, Holy Immortal, have mercy on us.</span> <span class='red'><span class='kvp' data-key='rubrical_en_US_goa|ru.Thrice'>(3)</span> </span> </p></td>
-// </tr>`;
-//     const matinsOrdinaryNormal =
-//       `<tr>
-// <td class='leftCell'>
-// <p class='designation'><span class='kvp' data-key='ho.ho03_gr_GR_cog|hoMA.MatinsOrdinary.title'>Ἀρχὴ τοῦ Ὄρθρου</span> 
-// </p>
-// </td>
-// <td class='rightCell'>
-// <p class='designation'><span class='kvp' data-key='ho.ho03_en_US_dedes|hoMA.MatinsOrdinary.title'>Beginning of Matins</span> </p>
-// </td>
-// </tr>
-// <tr>
-// <td class='leftCell'>
-// <p class='break'>&#xA0;&#xA0;&#xA0;</p>
-// </td>
-// <td class='rightCell'>
-// <p class='break'>&#xA0;&#xA0;&#xA0;</p>
-// </td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
-// </p></td>
-// <td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialog'><span class='kvp' data-key='prayers_gr_US_goa|pr.enarxis01.text'>Εὐλογητὸς ὁ Θεὸς ἡμῶν πάντοτε, νῦν καὶ ἀεὶ καὶ εἰς τοὺς αἰῶνας τῶν αἰώνων.</span> 
-// </p></td>
-// <td class='rightCell'><p class='dialog'><span class='kvp' data-key='prayers_en_US_goa|pr.enarxis01.text'>Blessed is our God always, now and ever and to the ages of ages.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialogwithactor'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Reader'>ΑΝΑΓΝΩΣΤΗΣ:</span> 
-// </span> 
-// <span class='kvp' data-key='prayers_gr_US_goa|pr.res04.text'>Ἀμήν.</span> 
-// </p></td>
-// <td class='rightCell'><p class='dialogwithactor'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Reader'>READER:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res04.text'>Amen.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
-// </p></td>
-// <td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.GloryToYouOurGod.text'>Δόξα σοι ὁ Θεὸς ἡμῶν, δόξα σοι.</span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.GloryToYouOurGod.text'>Glory to You, our God, glory to You.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.HeavenlyKing.text'>Βασιλεῦ οὐράνιε, Παράκλητε, τὸ Πνεῦμα τῆς ἀληθείας, ὁ πανταχοῦ παρὼν καὶ τὰ πάντα πληρῶν, ὁ θησαυρὸς τῶν ἀγαθῶν καὶ ζωῆς χορηγός, ἐλθὲ καὶ σκήνωσον ἐν ἡμῖν καὶ καθάρισον ἡμᾶς ἀπὸ πάσης κηλῖδος καὶ σῷσον, Ἀγαθέ, τὰς ψυχὰς ἡμῶν.</span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.HeavenlyKing.text'>Heavenly King, Comforter, Spirit of Truth, present in all places and filling all things, treasury of good things and giver of life: come; take Your abode in us; cleanse us of every stain, and save our souls, O Good one.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialogwithactor'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Reader'>ΑΝΑΓΝΩΣΤΗΣ:</span> 
-// </span> 
-// <span class='kvp' data-key='prayers_gr_US_goa|pr.res04.text'>Ἀμήν.</span> 
-// </p></td>
-// <td class='rightCell'><p class='dialogwithactor'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Reader'>READER:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res04.text'>Amen.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'>
-// <p class='designation'><span class='kvp' data-key='titles_gr_GR_cog|ti.Trisagion'>Τρισάγιον.</span> 
-// </p>
-// </td>
-// <td class='rightCell'>
-// <p class='designation'><span class='kvp' data-key='titles_en_US_dedes|ti.Trisagion'>Trisagion Prayers.</span> </p>
-// </td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.HolyGod.text'>Ἅγιος ὁ Θεός, ἅγιος Ἰσχυρός, ἅγιος Ἀθάνατος, ἐλέησον ἡμᾶς.</span> 
-// <span class='red'><span class='kvp' data-key='rubrical_gr_GR_cog|ru.Thrice'>(3)</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.HolyGod.text'>Holy God, Holy Mighty, Holy Immortal, have mercy on us.</span> <span class='red'><span class='kvp' data-key='rubrical_en_US_goa|ru.Thrice'>(3)</span> </span> </p></td>
-// </tr>`;
-//     const matinsOrdinary_part2 =
-//       `<tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.GloryToTheFather.text'>Δόξα Πατρὶ καὶ Υἱῷ καὶ ἁγίῳ Πνεύματι.</span> 
-// <span class='kvp' data-key='prayers_gr_US_goa|pr.BothNowAndEver.text'>Καὶ νῦν καὶ ἀεὶ καὶ εἰς τοὺς αἰῶνας τῶν αἰώνων. Ἀμήν.</span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.GloryToTheFather.text'>Glory to the Father and the Son and the Holy Spirit.</span> <span class='kvp' data-key='prayers_en_US_goa|pr.BothNowAndEver.text'>Both now and ever and to the ages of ages. Amen.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.AllHolyTrinity.text'>Παναγία Τριάς, ἐλέησον ἡμᾶς. Κύριε, ἱλάσθητι ταῖς ἁμαρτίαις ἡμῶν. Δέσποτα, συγχώρησον τὰς ἀνομίας ἡμῖν. Ἅγιε, ἐπίσκεψαι καὶ ἴασαι τὰς ἀσθενείας ἡμῶν, ἕνεκεν τοῦ ὀνόματός σου.</span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.AllHolyTrinity.text'>All-holy Trinity, have mercy on us. Lord, forgive our sins. Master, pardon our transgressions. Holy One, visit and heal our infirmities for Your name’s sake.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.res06.text'>Κύριε, ἐλέησον. Κύριε, ἐλέησον. Κύριε, ἐλέησον.</span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.res06.text'>Lord, have mercy. Lord, have mercy. Lord, have mercy.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.GloryToTheFather.text'>Δόξα Πατρὶ καὶ Υἱῷ καὶ ἁγίῳ Πνεύματι.</span> 
-// <span class='kvp' data-key='prayers_gr_US_goa|pr.BothNowAndEver.text'>Καὶ νῦν καὶ ἀεὶ καὶ εἰς τοὺς αἰῶνας τῶν αἰώνων. Ἀμήν.</span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.GloryToTheFather.text'>Glory to the Father and the Son and the Holy Spirit.</span> <span class='kvp' data-key='prayers_en_US_goa|pr.BothNowAndEver.text'>Both now and ever and to the ages of ages. Amen.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.OurFather.text'>Πάτερ ἡμῶν ὁ ἐν τοῖς οὐρανοῖς, ἁγιασθήτω τὸ ὄνομά σου. Ἐλθέτω ἡ βασιλεία σου. Γενηθήτω τὸ θέλημά σου, ὡς ἐν οὐρανῷ καὶ ἐπὶ τῆς γῆς. Τὸν ἄρτον ἡμῶν τὸν ἐπιούσιον δὸς ἡμῖν σήμερον. Καὶ ἄφες ἡμῖν τὰ ὀφειλήματα ἡμῶν, ὡς καὶ ἡμεῖς ἀφίεμεν τοῖς ὀφειλέταις ἡμῶν. Καὶ μὴ εἰσενέγκῃς ἡμᾶς εἰς πειρασμόν, ἀλλὰ ῥῦσαι ἡμᾶς ἀπὸ τοῦ πονηροῦ.</span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.OurFather.text'>Our Father, who art in heaven, hallowed be Thy name. Thy kingdom come, Thy will be done, on earth as it is in heaven. Give us this day our daily bread; and forgive us our trespasses, as we forgive those who trespass against us. And lead us not into temptation, but deliver us from evil.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
-// </p></td>
-// <td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialog'><span class='kvp' data-key='prayers_gr_US_goa|pr.exc20.text'>Ὅτι σοῦ ἐστιν ἡ βασιλεία καὶ ἡ δύναμις καὶ ἡ δόξα τοῦ Πατρὸς καὶ τοῦ Υἱοῦ καὶ τοῦ ἁγίου Πνεύματος, νῦν καὶ ἀεὶ καὶ εἰς τοὺς αἰῶνας τῶν αἰώνων.</span> 
-// </p></td>
-// <td class='rightCell'><p class='dialog'><span class='kvp' data-key='prayers_en_US_goa|pr.exc20.text'>For Thine is the kingdom and the power and the glory, of the Father and the Son and the Holy Spirit, now and ever and to ages of ages.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialogwithactor'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Reader'>ΑΝΑΓΝΩΣΤΗΣ:</span> 
-// </span> 
-// <span class='kvp' data-key='prayers_gr_US_goa|pr.res04.text'>Ἀμήν.</span> 
-// </p></td>
-// <td class='rightCell'><p class='dialogwithactor'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Reader'>READER:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res04.text'>Amen.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='me.m09.d14_gr_GR_cog|meVE.Apolytikion1.text'>Σῶσον, Κύριε, τὸν λαόν σου καὶ εὐλόγησον τὴν κληρονομίαν σου, νίκας τοῖς βασιλεῦσι κατὰ βαρβάρων δωρούμενος, καὶ τὸ σὸν φυλάττων διὰ τοῦ Σταυροῦ σου πολίτευμα.</span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='me.m09.d14_en_US_goa|meVE.Apolytikion1.text'>Save, O Lord, Your people and bless Your inheritance, granting victory to the faithful over the enemy, and by Your Cross protecting Your commonwealth.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='verse'><span class='kvp' data-key='prayers_gr_US_goa|pr.GloryToTheFather.text'>Δόξα Πατρὶ καὶ Υἱῷ καὶ ἁγίῳ Πνεύματι.</span> 
-// </p></td>
-// <td class='rightCell'><p class='verse'><span class='kvp' data-key='prayers_en_US_goa|pr.GloryToTheFather.text'>Glory to the Father and the Son and the Holy Spirit.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='he.a.m4_gr_GR_cog|heAU.OYpsotheisEnToStavro.text'>Ὁ ὑψωθεὶς ἐν τῷ Σταυρῷ ἑκουσίως, τῇ ἐπωνύμῳ σου καινῇ πολιτείᾳ τοὺς οἰκτιρμούς σου δώρησαι, Χριστὲ ὁ Θεός· εὔφρανον ἐν τῇ δυνάμει σου τοὺς πιστοὺς βασιλεῖς ἡμῶν, νίκας χορηγῶν αὐτοῖς κατὰ τῶν πολεμίων· τὴν συμμαχίαν ἔχοιεν τὴν σήν, ὅπλον εἰρήνης, ἀήττητον τρόπαιον.</span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='he.a.m4_en_US_dedes|heAU.OYpsotheisEnToStavro.text'>You who were lifted on the cross voluntarily, * O Christ our God, bestow Your tender compassions * upon Your new community to which You gave Your name. * Cause our faithful emperors to be glad in Your power, * granting them the victories against their adversaries. * And for an ally, Lord, may they have You, * peace as their armor, the trophy invincible.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='verse'><span class='kvp' data-key='prayers_gr_US_goa|pr.BothNowAndEver.text'>Καὶ νῦν καὶ ἀεὶ καὶ εἰς τοὺς αἰῶνας τῶν αἰώνων. Ἀμήν.</span> 
-// </p></td>
-// <td class='rightCell'><p class='verse'><span class='kvp' data-key='prayers_en_US_goa|pr.BothNowAndEver.text'>Both now and ever and to the ages of ages. Amen.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='ho.ho03_gr_GR_cog|hoMA.Troparion3.text'>Προστασία φοβερὰ καὶ ἀκαταίσχυντε, μὴ παρίδῃς, Ἀγαθή, τὰς ἱκεσίας ἡμῶν, πανύμνητε Θεοτόκε· στήριξον Ὀρθοδόξων πολιτείαν, σῷζε οὓς ἐκέλευσας βασιλεύειν, καὶ χορήγει αὐτοῖς οὐρανόθεν τὴν νίκην· διότι ἔτεκες τὸν Θεόν, μόνη εὐλογημένη.</span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='ho.ho03_en_US_holycross|hoMA.Troparion3.text'>O awesome and unshamable Protection, O good and praiseworthy Theotokos, do not despise our petitions; make firm the community of the Orthodox; save those whom you have called to rule; grant them victory from heaven, for you gave birth to God and are truly blessed.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
-// </p></td>
-// <td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialog'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet17.text'>Ἐλέησον ἡμᾶς, ὁ Θεός, κατὰ τὸ μέγα ἔλεός σου, δεόμεθά σου, ἐπάκουσον καὶ ἐλέησον.</span> 
-// </p></td>
-// <td class='rightCell'><p class='dialog'><span class='kvp' data-key='prayers_en_US_goa|pr.pet17.text'>Have mercy on us, O God, according to Your great mercy, we pray You, hear us and have mercy.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Choir'>ΧΟΡΟΣ</span> 
-// </p></td>
-// <td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Choir'>CHOIR</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialog'><span class='kvp' data-key='prayers_gr_US_goa|pr.res01.text'>Κύριε, ἐλέησον.</span> 
-// <span class='red'><span class='kvp' data-key='rubrical_gr_GR_cog|ru.Thrice'>(3)</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='dialog'><span class='kvp' data-key='prayers_en_US_goa|pr.res01.text'>Lord, have mercy.</span> <span class='red'><span class='kvp' data-key='rubrical_en_US_goa|ru.Thrice'>(3)</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
-// </p></td>
-// <td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialog'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet18.text'>Ἔτι δεόμεθα ὑπὲρ τῶν εὐσεβῶν καὶ ὀρθοδόξων χριστιανῶν.</span> 
-// </p></td>
-// <td class='rightCell'><p class='dialog'><span class='kvp' data-key='prayers_en_US_goa|pr.pet18.text'>Again we pray for pious and Orthodox Christians.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Choir'>ΧΟΡΟΣ</span> 
-// </p></td>
-// <td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Choir'>CHOIR</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialog'><span class='kvp' data-key='prayers_gr_US_goa|pr.res01.text'>Κύριε, ἐλέησον.</span> 
-// <span class='red'><span class='kvp' data-key='rubrical_gr_GR_cog|ru.Thrice'>(3)</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='dialog'><span class='kvp' data-key='prayers_en_US_goa|pr.res01.text'>Lord, have mercy.</span> <span class='red'><span class='kvp' data-key='rubrical_en_US_goa|ru.Thrice'>(3)</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
-// </p></td>
-// <td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialog'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet19Sa.text'>Ἔτι δεόμεθα ὑπὲρ</span> 
-// <span class='kvp' data-key='client_gr_US_goa|cl.bishop1.name.petitionP'>(δεῖνος).</span>
-// </p></td>
-// <td class='rightCell'><p class='dialog'><span class='kvp' data-key='prayers_en_US_goa|pr.pet19Sa.text'>Again we pray for</span> <span class='kvp' data-key='client_en_US_goa|cl.bishop1.name.petitionP'>(name).</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Choir'>ΧΟΡΟΣ</span> 
-// </p></td>
-// <td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Choir'>CHOIR</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialog'><span class='kvp' data-key='prayers_gr_US_goa|pr.res01.text'>Κύριε, ἐλέησον.</span> 
-// <span class='red'><span class='kvp' data-key='rubrical_gr_GR_cog|ru.Thrice'>(3)</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='dialog'><span class='kvp' data-key='prayers_en_US_goa|pr.res01.text'>Lord, have mercy.</span> <span class='red'><span class='kvp' data-key='rubrical_en_US_goa|ru.Thrice'>(3)</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
-// </p></td>
-// <td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialog'><span class='kvp' data-key='prayers_gr_US_goa|pr.exc11.text'>Ὅτι ἐλεήμων καὶ φιλάνθρωπος Θεὸς ὑπάρχεις, καὶ σοὶ τὴν δόξαν ἀναπέμπομεν, τῷ Πατρὶ καὶ τῷ Υἱῷ καὶ τῷ ἁγίῳ Πνεύματι, νῦν καὶ ἀεὶ καὶ εἰς τοὺς αἰῶνας τῶν αἰώνων.</span> 
-// </p></td>
-// <td class='rightCell'><p class='dialog'><span class='kvp' data-key='prayers_en_US_goa|pr.exc11.text'>For You are merciful and benevolent God, and to You we offer up glory, to the Father and the Son and the Holy Spirit, now and ever and to the ages of ages.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Choir'>ΧΟΡΟΣ</span> 
-// </p></td>
-// <td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Choir'>CHOIR</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialog'><span class='kvp' data-key='prayers_gr_US_goa|pr.res04.text'>Ἀμήν.</span> 
-// <span class='kvp' data-key='prayers_gr_US_goa|pr.InTheNameOfLordBless_father.text'>Ἐν ὀνόματι Κυρίου εὐλόγησον, πάτερ.</span> 
-// </p></td>
-// <td class='rightCell'><p class='dialog'><span class='kvp' data-key='prayers_en_US_goa|pr.res04.text'>Amen.</span> <span class='kvp' data-key='prayers_en_US_goa|pr.InTheNameOfLordBless_father.text'>In the name of the Lord, Father, bless!</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
-// </p></td>
-// <td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialog'><span class='kvp' data-key='prayers_gr_US_goa|pr.enarxis03.text'>Δόξα τῇ ἁγίᾳ καὶ ὁμοουσίῳ καὶ ζωοποιῷ καὶ ἀδιαιρέτῳ Τριάδι πάντοτε, νῦν καὶ ἀεὶ καὶ εἰς τοὺς αἰῶνας τῶν αἰώνων.</span> 
-// </p></td>
-// <td class='rightCell'><p class='dialog'><span class='kvp' data-key='prayers_en_US_goa|pr.enarxis03.text'>Glory to the holy and consubstantial and life-creating and undivided Trinity always, now and ever and to the ages of ages.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialogwithactor'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
-// </span> 
-// <span class='kvp' data-key='prayers_gr_US_goa|pr.res04.text'>Ἀμήν.</span> 
-// </p></td>
-// <td class='rightCell'><p class='dialogwithactor'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Choir'>CHOIR:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res04.text'>Amen.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='bkmrk01'><span class='kvp' data-key='miscellanea_gr_GR_cog|misc.bookmark'>bookmark</span> 
-// </p></td>
-// <td class='rightCell'><p class='bkmrk01'><span class='kvp' data-key='miscellanea_en_US_dedes|misc.bookmark'>bookmark</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='rubric'><span class='kvp' data-key='hi.hi04_gr_US_goa|hiMA.R101'>Εἶτα ὁ Προεστὼς ἢ ὁ Ἀναγνώστης ἀναγινώσκει εὐκρινῶς τὸν Ἑξάψαλμον, ἀκροωμένων πάντων ἐν σιωπῇ καὶ κατανύξει.</span> 
-// </p></td>
-// <td class='rightCell'><p class='rubric'><span class='kvp' data-key='hi.hi04_en_US_dedes|hiMA.R101'>Then the appointed Reader reverently reads the Six Psalms. The congregation should remain standing during this reading.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='rubric'><span class='kvp' data-key='rubrical_gr_GR_cog|ru.standing.prefix'>Ὁ λαὸς ἵσταται</span> 
-// <span class='kvp' data-key='rubrical_gr_GR_cog|ru.standing.matins.sixpsalms'>διὰ τὴν ἀνάγνωσιν τοῦ Ἑξαψάλμου.</span> 
-// </p></td>
-// <td class='rightCell'><p class='rubric'><span class='kvp' data-key='rubrical_en_US_dedes|ru.standing.prefix'>Stand</span> <span class='kvp' data-key='rubrical_en_US_dedes|ru.standing.matins.sixpsalms'>for the reading of the Six Psalms.</span> </p></td>
-// </tr>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Reader'>ΑΝΑΓΝΩΣΤΗΣ</span> 
-// </p></td>
-// <td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Reader'>READER</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'>
-// <p class='designation'><span class='kvp' data-key='ho.ho03_gr_GR_cog|SixPsalms.title'>Ὁ Ἐξάψαλμος.</span> 
-// </p>
-// </td>
-// <td class='rightCell'>
-// <p class='designation'><span class='kvp' data-key='ho.ho03_en_US_goa|SixPsalms.title'>The Six Psalms</span> </p>
-// </td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='le.go.os_gr_GR_cog|leosMA.SixPsalmsIntro1.text'>Δόξα ἐν ὑψίστοις Θεῷ καὶ ἐπὶ γῆς εἰρήνη, ἐν ἀνθρώποις εὐδοκία.</span> 
-// <span class='italicsred'><span class='kvp' data-key='rubrical_gr_GR_cog|ru.Thrice'>(3)</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='le.go.os_en_US_rsv|leosMA.SixPsalmsIntro1.text'>Glory to God in the highest, and on earth peace, good will among men.</span> <span class='italicsred'><span class='kvp' data-key='rubrical_en_US_goa|ru.Thrice'>(3)</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_gr_GR_cog|psMA.sixpsalms.intro.v2.text'>Κύριε, τὰ χείλη μου ἀνοίξεις, καὶ τὸ στόμα μου ἀναγγελεῖ τὴν αἴνεσίν σου.</span> 
-// <span class='italicsred'><span class='kvp' data-key='rubrical_gr_GR_cog|ru.Twice'>(δίς)</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_en_US_saas|psMA.sixpsalms.intro.v2.text'>O Lord, You shall open my lips, and my mouth will declare Your praise.</span> <span class='italicsred'><span class='kvp' data-key='rubrical_en_US_dedes|ru.Twice'>(2)</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'>
-// <p class='designation'><span class='kvp' data-key='ps_gr_GR_cog|psa3.title'>Ψαλμὸς Γʹ (3).</span> 
-// </p>
-// </td>
-// <td class='rightCell'>
-// <p class='designation'><span class='kvp' data-key='ps_en_US_saas|psa3.title'>Psalm 3.</span> </p>
-// </td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='ps_gr_GR_cog|psa3.text'>Κύριε, τί ἐπληθύνθησαν οἱ θλίβοντές με; Πολλοὶ ἐπανίστανται ἐπʼ ἐμέ. Πολλοὶ λέγουσι τῇ ψυχῇ μου· Οὐκ ἔστι σωτηρία αὐτῷ ἐν τῷ Θεῷ αὐτοῦ. Σὺ δέ, Κύριε, ἀντιλήπτωρ μου εἶ, δόξα μου καὶ ὑψῶν τὴν κεφαλήν μου. Φωνῇ μου πρὸς Κύριον ἐκέκραξα, καὶ ἐπήκουσέ μου ἐξ ὄρους ἁγίου αὐτοῦ. Ἐγὼ δὲ ἐκοιμήθην καὶ ὕπνωσα· ἐξηγέρθην, ὅτι Κύριος ἀντιλήψεταί μου. Οὐ φοβηθήσομαι ἀπὸ μυριάδων λαοῦ τῶν κύκλῳ συνεπιτιθεμένων μοι. Ἀνάστα, Κύριε, σῶσόν με ὁ Θεός μου, ὅτι σὺ ἐπάταξας πάντας τοὺς ἐχθραίνοντάς μοι ματαίως, ὀδόντας ἁμαρτωλῶν συνέτριψας. Τοῦ Κυρίου ἡ σωτηρία, καὶ ἐπὶ τὸν λαόν σου ἡ εὐλογία σου.</span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='ps_en_US_saas|psa3.text'>O Lord, why do those who afflict me multiply? Many are those who rise up against me. Many are those who say to my soul, “There is no salvation for him in his God.” But You, O Lord, are my protector, my glory and the One who lifts up my head. I cried to the Lord with my voice, and He heard me from His holy hill. I lay down and slept; I awoke, for the Lord will help me. I will not be afraid of ten thousands of people who set themselves against me all around. Arise, O Lord, and save me, O my God, for You struck all those who were foolishly at enmity with me; You broke the teeth of sinners. Salvation is of the Lord, and Your blessing is upon Your people.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_gr_GR_cog|psMA.sixpsalms.ps3.end.v1.text'>Ἐγὼ ἐκοιμήθην καὶ ὕπνωσα· ἐξηγέρθην, ὅτι Κύριος ἀντιλήψεταί μου.</span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_en_US_saas|psMA.sixpsalms.ps3.end.v1.text'>I lay down and slept; I awoke, for the Lord will help me.</span> <span class="versiondesignation">[SAAS<span class='key' data-key='properties_en_US_saas|version.designation' hidden='hidden'></span>]</span>
-// </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'>
-// <p class='designation'><span class='kvp' data-key='ps_gr_GR_cog|psa37.title'>Ψαλμὸς ΛΖʹ (37).</span> 
-// </p>
-// </td>
-// <td class='rightCell'>
-// <p class='designation'><span class='kvp' data-key='ps_en_US_saas|psa37.title'>Psalm 37 (38).</span> </p>
-// </td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='ps_gr_GR_cog|psa37.text'>Κύριε, μὴ τῷ θυμῷ σου ἐλέγξῃς με, μηδὲ τῇ ὀργῇ σου παιδεύσῃς με. Ὅτι τὰ βέλη σου ἐνεπάγησάν μοι, καὶ ἐπεστήριξας ἐπʼ ἐμὲ τὴν χεῖρά σου. Οὐκ ἔστιν ἴασις ἐν τῇ σαρκί μου ἀπὸ προσώπου τῆς ὀργῆς σου, οὐκ ἔστιν εἰρήνη ἐν τοῖς ὀστέοις μου ἀπὸ προσώπου τῶν ἁμαρτιῶν μου. Ὅτι αἱ ἀνομίαι μου ὑπερῇραν τὴν κεφαλήν μου, ὡσεὶ φορτίον βαρὺ ἐβαρύνθησαν ἐπʼ ἐμέ. Προσώζεσαν καὶ ἐσάπησαν οἱ μώλωπές μου ἀπὸ προσώπου τῆς ἀφροσύνης μου. Ἐταλαιπώρησα καὶ κατεκάμφθην ἕως τέλους, ὅλην τὴν ἡμέραν σκυθρωπάζων ἐπορευόμην. Ὅτι αἱ ψόαι μου ἐπλήσθησαν ἐμπαιγμάτων, καὶ οὐκ ἔστιν ἴασις ἐν τῇ σαρκί μου. Ἐκακώθην καὶ ἐταπεινώθην ἕως σφόδρα, ὠρυόμην ἀπὸ στεναγμοῦ τῆς καρδίας μου. Κύριε, ἐναντίον σου πᾶσα ἡ ἐπιθυμία μου, καὶ ὁ στεναγμός μου ἀπὸ σοῦ οὐκ ἀπεκρύβη. Ἡ καρδία μου ἐταράχθη, ἐγκατέλιπέ με ἡ ἰσχύς μου, καὶ τὸ φῶς τῶν ὀφθαλμῶν μου καὶ αὐτὸ οὐκ ἔστι μετʼ ἐμοῦ. Οἱ φίλοι μου καὶ οἱ πλησίον μου ἐξεναντίας μου ἤγγισαν καὶ ἔστησαν, καὶ οἱ ἔγγιστά μου ἀπὸ μακρόθεν ἔστησαν. Καὶ ἐξεβιάζοντο οἱ ζητοῦντες τὴν ψυχήν μου, καὶ οἱ ζητοῦντες τὰ κακά μοι ἐλάλησαν ματαιότητας, καὶ δολιότητας ὅλην τὴν ἡμέραν ἐμελέτησαν. Ἐγὼ δὲ ὡσεὶ κωφὸς οὐκ ἤκουον καὶ ὡσεὶ ἄλαλος οὐκ ἀνοίγων τὸ στόμα αὐτοῦ. Καὶ ἐγενόμην ὡσεὶ ἄνθρωπος οὐκ ἀκούων καὶ οὐκ ἔχων ἐν τῷ στόματι αὐτοῦ ἐλεγμούς. Ὅτι ἐπὶ σοί, Κύριε, ἤλπισα· σὺ εἰσακούσῃ, Κύριε ὁ Θεός μου. Ὅτι εἶπον· Μήποτε ἐπιχαρῶσί μοι οἱ ἐχθροί μου· καὶ ἐν τῷ σαλευθῆναι πόδας μου ἐπʼ ἐμὲ ἐμεγαλοῤῥημόνησαν. Ὅτι ἐγὼ εἰς μάστιγας ἕτοιμος, καὶ ἡ ἀλγηδών μου ἐνώπιόν μού ἐστι διὰ παντός. Ὅτι τὴν ἀνομίαν μου ἐγὼ ἀναγγελῶ καὶ μεριμνήσω ὑπὲρ τῆς ἁμαρτίας μου. Οἱ δὲ ἐχθροί μου ζῶσι καὶ κεκραταίωνται ὑπὲρ ἐμέ, καὶ ἐπληθύνθησαν οἱ μισοῦντές με ἀδίκως. Οἱ ἀνταποδιδόντες μοι κακὰ ἀντὶ ἀγαθῶν ἐνδιέβαλλόν με, ἐπεὶ κατεδίωκον ἀγαθωσύνην. Μὴ ἐγκαταλίπῃς με, Κύριε ὁ Θεός μου, μὴ ἀποστῇς ἀπʼ ἐμοῦ. Πρόσχες εἰς τὴν βοήθειάν μου, Κύριε τῆς σωτηρίας μου.</span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='ps_en_US_saas|psa37.text'>O Lord, do not rebuke me in Your wrath, nor chasten me in Your anger. For Your arrows are fixed in me, and Your hand rests on me; there is no healing in my flesh because of Your wrath; there is no peace in my bones because of my sins. For my transgressions rise up over my head; like a heavy burden they are heavy on me. My wounds grow foul and fester because of my folly. I suffer misery, and I am utterly bowed down; I go all the day long with a sad face. For my loins are filled with mockeries, and there is no healing in my flesh. I am afflicted and greatly humbled; I roar because of the groaning of my heart. O Lord, all my desire is before You, and my groaning is not hidden from You. My heart is troubled; my strength fails me, and the light of my eyes, even this is not with me. My friends and neighbors draw near and stand against me, and my near of kin stand far off; and those who seek my soul use violence, and those who seek evil for me speak folly; and they meditate on deceit all the day long. But I like a deaf man do not hear, and I am like a mute who does not open his mouth. I am like a man who does not hear, and who has no reproofs in his mouth. For in You, O Lord, I hope; You will hear, O Lord my God. For I said, “Let not my enemies rejoice over me, for when my foot was shaken, they boasted against me.” For I am ready for wounds, and my pain is continually with me. For I will declare my transgression, and I will be anxious about my sin. But my enemies live, and are become stronger than I; and those who hate me unjustly are multiplied; those who repaid me evil for good slandered me, because I pursue righteousness; and they threw away my love as though it were a stinking corpse. Do not forsake me, O Lord; O my God, do not depart from me; give heed to help me, O Lord of my salvation.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_gr_GR_cog|psMA.sixpsalms.ps37.end.v1.text'>Μὴ ἐγκαταλίπῃς με, Κύριε· ὁ Θεός μου, μὴ ἀποστῇς ἀπʼ ἐμοῦ· πρόσχες εἰς τὴν βοήθειάν μου, Κύριε τῆς σωτηρίας μου.</span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_en_US_saas|psMA.sixpsalms.ps37.end.v1.text'>Do not forsake me, O Lord; O my God, do not depart from me. Give heed to help me, O Lord of my salvation.</span> <span class="versiondesignation">[SAAS<span class='key' data-key='properties_en_US_saas|version.designation' hidden='hidden'></span>]</span>
-// </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'>
-// <p class='designation'><span class='kvp' data-key='ps_gr_GR_cog|psa62.title'>Ψαλμὸς ΞΒʹ (62).</span> 
-// </p>
-// </td>
-// <td class='rightCell'>
-// <p class='designation'><span class='kvp' data-key='ps_en_US_saas|psa62.title'>Psalm 62 (63).</span> </p>
-// </td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='ps_gr_GR_cog|psa62.text'>Ὁ Θεὸς ὁ Θεός μου, πρὸς σὲ ὀρθρίζω. Ἐδίψησέ σε ἡ ψυχή μου, ποσαπλῶς σοι ἡ σάρξ μου, ἐν γῇ ἐρήμῳ καὶ ἀβάτῳ καὶ ἀνύδρῳ. Οὕτως ἐν τῷ ἁγίῳ ὤφθην σοι τοῦ ἰδεῖν τὴν δύναμίν σου καὶ τὴν δόξαν σου. Ὅτι κρεῖσσον τὸ ἔλεός σου ὑπὲρ ζωάς· τὰ χείλη μου ἐπαινέσουσί σε. Οὕτως εὐλογήσω σε ἐν τῇ ζωῇ μου, καὶ ἐν τῷ ὀνόματί σου ἀρῶ τὰς χεῖράς μου. Ὡς ἐκ στέατος καὶ πιότητος ἐμπλησθείη ἡ ψυχή μου, καὶ χείλη ἀγαλλιάσεως αἰνέσει τὸ στόμα μου. Εἰ ἐμνημόνευόν σου ἐπὶ τῆς στρωμνῆς μου, ἐν τοῖς ὄρθροις ἐμελέτων εἰς σέ· ὅτι ἐγενήθης βοηθός μου, καὶ ἐν τῇ σκέπῃ τῶν πτερύγων σου ἀγαλλιάσομαι. Ἐκολλήθη ἡ ψυχή μου ὀπίσω σου, ἐμοῦ δὲ ἀντελάβετο ἡ δεξιά σου. Αὐτοὶ δὲ εἰς μάτην ἐζήτησαν τὴν ψυχήν μου, εἰσελεύσονται εἰς τὰ κατώτατα τῆς γῆς· παραδοθήσονται εἰς χεῖρας ῥομφαίας, μερίδες ἀλωπέκων ἔσονται. Ὁ δὲ βασιλεὺς εὐφρανθήσεται ἐπὶ τῷ Θεῷ, ἐπαινεθήσεται πᾶς ὁ ὀμνύων ἐν αὐτῷ, ὅτι ἐνεφράγη στόμα λαλούντων ἄδικα.</span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='ps_en_US_saas|psa62.text'>O God, my God, I rise early to be with You; my soul thirsts for You. How often my flesh thirsts for You in a desolate, impassable, and waterless land. So in the holy place I appear before You, to see Your power and Your glory. Because Your mercy is better than life, my lips shall praise You. Thus I will bless You in my life; I will lift up my hands in Your name. May my soul be filled, as if with marrow and fatness, and my mouth shall sing praise to You with lips filled with rejoicing. If I remembered You on my bed, I meditated on You at daybreak; for You are my helper, and in the shelter of Your wings I will greatly rejoice. My soul follows close behind You; Your right hand takes hold of me. But they seek for my soul in vain; they shall go into the lowest parts of the earth. They shall be given over to the edge of the sword; they shall be a portion for foxes. But the king shall be glad in God; all who swear by Him shall be praised, for the mouth that speaks unrighteous things is stopped.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_gr_GR_cog|psMA.sixpsalms.ps62.end.v1.text'>Ἐν τοῖς ὄρθροις ἐμελέτων εἰς σέ· ὅτι ἐγενήθης βοηθός μου, καὶ ἐν τῇ σκέπῃ τῶν πτερύγων σου ἀγαλλιάσομαι.</span> 
-// <span class='kvp' data-key='liturgical.verses_gr_GR_cog|psMA.sixpsalms.ps62.end.v2.text'>Ἐκολλήθη ἡ ψυχή μου ὀπίσω σου, ἐμοῦ δὲ ἀντελάβετο ἡ δεξιά σου.</span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_en_US_saas|psMA.sixpsalms.ps62.end.v1.text'>I meditated on You at daybreak. For You are my helper, and in the shelter of Your wings I will greatly rejoice.</span> <span class='kvp' data-key='liturgical.verses_en_US_saas|psMA.sixpsalms.ps62.end.v2.text'>My soul follows close behind You; Your right hand takes hold of me.</span> <span class="versiondesignation">[SAAS<span class='key' data-key='properties_en_US_saas|version.designation' hidden='hidden'></span>]</span>
-// </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.GloryToTheFather.text'>Δόξα Πατρὶ καὶ Υἱῷ καὶ ἁγίῳ Πνεύματι.</span> 
-// <span class='kvp' data-key='prayers_gr_US_goa|pr.BothNowAndEver.text'>Καὶ νῦν καὶ ἀεὶ καὶ εἰς τοὺς αἰῶνας τῶν αἰώνων. Ἀμήν.</span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.GloryToTheFather.text'>Glory to the Father and the Son and the Holy Spirit.</span> <span class='kvp' data-key='prayers_en_US_goa|pr.BothNowAndEver.text'>Both now and ever and to the ages of ages. Amen.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.Alleluia3Glory.text'>Ἀλληλούϊα. Ἀλληλούϊα. Ἀλληλούϊα. Δόξα σοι, ὁ Θεός.</span> 
-// <span class='italicsred'><span class='kvp' data-key='rubrical_gr_GR_cog|ru.Thrice'>(3)</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.Alleluia3Glory.text'>Alleluia. Alleluia. Alleluia. Glory to You, O God.</span> <span class='italicsred'><span class='kvp' data-key='rubrical_en_US_goa|ru.Thrice'>(3)</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.res01.text'>Κύριε, ἐλέησον.</span> 
-// <span class='italicsred'><span class='kvp' data-key='rubrical_gr_GR_cog|ru.Thrice'>(3)</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.res01.text'>Lord, have mercy.</span> <span class='italicsred'><span class='kvp' data-key='rubrical_en_US_goa|ru.Thrice'>(3)</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.GloryToTheFather.text'>Δόξα Πατρὶ καὶ Υἱῷ καὶ ἁγίῳ Πνεύματι.</span> 
-// <span class='kvp' data-key='prayers_gr_US_goa|pr.BothNowAndEver.text'>Καὶ νῦν καὶ ἀεὶ καὶ εἰς τοὺς αἰῶνας τῶν αἰώνων. Ἀμήν.</span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.GloryToTheFather.text'>Glory to the Father and the Son and the Holy Spirit.</span> <span class='kvp' data-key='prayers_en_US_goa|pr.BothNowAndEver.text'>Both now and ever and to the ages of ages. Amen.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'>
-// <p class='designation'><span class='kvp' data-key='ps_gr_GR_cog|psa87.title'>Ψαλμὸς ΠΖʹ (87)</span> 
-// </p>
-// </td>
-// <td class='rightCell'>
-// <p class='designation'><span class='kvp' data-key='ps_en_US_saas|psa87.title'>Psalm 87 (88).</span> </p>
-// </td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='ps_gr_GR_cog|psa87.text'>Κύριε ὁ Θεὸς τῆς σωτηρίας μου, ἡμέρας ἐκέκραξα καὶ ἐν νυκτὶ ἐναντίον σου. Εἰσελθέτω ἐνώπιόν σου ἡ προσευχή μου, κλῖνον τὸ οὖς σου εἰς τὴν δέησίν μου. Ὅτι ἐπλήσθη κακῶν ἡ ψυχή μου, καὶ ἡ ζωή μου τῷ ᾅδῃ ἤγγισε. Προσελογίσθην μετὰ τῶν καταβαινόντων εἰς λάκκον, ἐγενήθην ὡσεὶ ἄνθρωπος ἀβοήθητος, ἐν νεκροῖς ἐλεύθερος, ὡσεὶ τραυματίαι καθεύδοντες ἐν τάφῳ, ὧν οὐκ ἐμνήσθης ἔτι, καὶ αὐτοὶ ἐκ τῆς χειρός σου ἀπώσθησαν. Ἔθεντό με ἐν λάκκῳ κατωτάτῳ, ἐν σκοτεινοῖς καὶ ἐν σκιᾷ θανάτου. Ἐπʼ ἐμὲ ἐπεστηρίχθη ὁ θυμός σου, καὶ πάντας τοὺς μετεωρισμούς σου ἐπήγαγες ἐπʼ ἐμέ. Ἐμάκρυνας τοὺς γνωστούς μου ἀπʼ ἐμοῦ, ἔθεντό με βδέλυγμα ἑαυτοῖς, παρεδόθην καὶ οὐκ ἐξεπορευόμην. Οἱ ὀφθαλμοί μου ἠσθένησαν ἀπὸ πτωχείας· ἐκέκραξα πρὸς σέ, Κύριε, ὅλην τὴν ἡμέραν, διεπέτασα πρὸς σὲ τὰς χεῖράς μου. Μὴ τοῖς νεκροῖς ποιήσεις θαυμάσια; ἢ ἰατροὶ ἀναστήσουσι καὶ ἐξομολογήσονταί σοι; Μὴ διηγήσεταί τις ἐν τῷ τάφῳ τὸ ἔλεός σου καὶ τὴν ἀλήθειάν σου ἐν τῇ ἀπωλείᾳ; Μὴ γνωσθήσεται ἐν τῷ σκότει τὰ θαυμάσιά σου καὶ ἡ δικαιοσύνη σου ἐν γῇ ἐπιλελησμένῃ; Κἀγὼ πρὸς σέ, Κύριε, ἐκέκραξα, καὶ τὸ πρωῒ ἡ προσευχή μου προφθάσει σε. Ἵνα τί, Κύριε, ἀπωθεῖς τὴν ψυχήν μου, ἀποστρέφεις τὸ πρόσωπόν σου ἀπʼ ἐμοῦ; Πτωχός εἰμι ἐγὼ καὶ ἐν κόποις ἐκ νεότητός μου, ὑψωθεὶς δὲ ἐταπεινώθην καὶ ἐξηπορήθην. Ἐπʼ ἐμὲ διῆλθον αἱ ὀργαί σου, οἱ φοβερισμοί σου ἐξετάραξάν με, ἐκύκλωσάν με ὡσεὶ ὕδωρ ὅλην τὴν ἡμέραν, περιέσχον με ἅμα. Ἐμάκρυνας ἀπʼ ἐμοῦ φίλον καὶ πλησίον, καὶ τοὺς γνωστούς μου ἀπὸ ταλαιπωρίας.</span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='ps_en_US_saas|psa87.text'>O Lord God of my salvation, I cry day and night before You. Let my prayer come before You; incline Your ear to my supplication, O Lord. For my soul is filled with sorrows, and my soul draws near to Hades; I am counted among those who go down into the pit; I am like a helpless man, free among the dead, like slain men thrown down and sleeping in a grave, whom You remember no more, but they are removed from Your hand. They laid me in the lowest pit, in dark places and in the shadow of death. Your wrath rested upon me, and You brought all Your billows over me. You removed my acquaintances far from me; they made me an abomination among themselves; I was betrayed, and did not go forth. My eyes weakened from poverty; O Lord, I cry to You the whole day long; I spread out my hands to You. Will You work wonders for the dead? Or will physicians raise them up, and acknowledge You? Shall anyone in the grave describe Your mercy and Your truth in destruction? Shall Your wonders be known in darkness, and Your righteousness in a forgotten land? But I cry to You, O Lord, and in the morning my prayer shall come near to You. Why, O Lord, do You reject my soul, and turn away Your face from me? I am poor and in troubles from my youth; but having been exalted, I was humbled and brought into despair. Your fierce anger passed over me, and Your terrors greatly troubled me; they compassed me like water all the day long; they surrounded me at once. You removed far from me neighbor and friend, and my acquaintances because of my misery.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_gr_GR_cog|psMA.sixpsalms.ps87.end.v1.text'>Κύριε ὁ Θεὸς τῆς σωτηρίας μου, ἡμέρας ἐκέκραξα καὶ ἐν νυκτὶ ἐναντίον σου. Εἰσελθέτω ἐνώπιόν σου ἡ προσευχή μου, κλῖνον τὸ οὖς σου εἰς τὴν δέησίν μου.</span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_en_US_saas|psMA.sixpsalms.ps87.end.v1.text'>O Lord God of my salvation, I cry day and night before You. Let my prayer come before You; incline Your ear to my supplication, O Lord.</span> <span class="versiondesignation">[SAAS<span class='key' data-key='properties_en_US_saas|version.designation' hidden='hidden'></span>]</span>
-// </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'>
-// <p class='designation'><span class='kvp' data-key='ps_gr_GR_cog|psa102.title'>Ψαλμὸς ΡΒʹ (102).</span> 
-// </p>
-// </td>
-// <td class='rightCell'>
-// <p class='designation'><span class='kvp' data-key='ps_en_US_saas|psa102.title'>Psalm 102 (103).</span> </p>
-// </td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='ps_gr_GR_cog|psa102.text'>Εὐλόγει, ἡ ψυχή μου, τὸν Κύριον, καί, πάντα τὰ ἐντός μου, τὸ ὄνομα τὸ ἅγιον αὐτοῦ. Εὐλόγει, ἡ ψυχή μου, τὸν Κύριον, καὶ μὴ ἐπιλανθάνου πάσας τὰς ἀνταποδόσεις αὐτοῦ. Τὸν εὐιλατεύοντα πάσας τὰς ἀνομίας σου, τὸν ἰώμενον πάσας τὰς νόσους σου. Τὸν λυτρούμενον ἐκ φθορᾶς τὴν ζωήν σου, τὸν στεφανοῦντά σε ἐν ἐλέει καὶ οἰκτιρμοῖς. Τὸν ἐμπιπλῶντα ἐν ἀγαθοῖς τὴν ἐπιθυμίαν σου, ἀνακαινισθήσεται ὡς ἀετοῦ ἡ νεότης σου. Ποιῶν ἐλεημοσύνας ὁ Κύριος καὶ κρῖμα πᾶσι τοῖς ἀδικουμένοις. Ἐγνώρισε τὰς ὁδοὺς αὐτοῦ τῷ Μωϋσῇ, τοῖς υἱοῖς Ἰσραὴλ τὰ θελήματα αὐτοῦ. Οἰκτίρμων καὶ ἐλεήμων ὁ Κύριος, μακρόθυμος καὶ πολυέλεος· οὐκ εἰς τέλος ὀργισθήσεται, οὐδὲ εἰς τὸν αἰῶνα μηνιεῖ. Οὐ κατὰ τὰς ἀνομίας ἡμῶν ἐποίησεν ἡμῖν, οὐδὲ κατὰ τὰς ἁμαρτίας ἡμῶν ἀνταπέδωκεν ἡμῖν, ὅτι κατὰ τὸ ὕψος τοῦ οὐρανοῦ ἀπὸ τῆς γῆς ἐκραταίωσε Κύριος τὸ ἔλεος αὐτοῦ ἐπὶ τοὺς φοβουμένους αὐτόν. Καθʼ ὅσον ἀπέχουσιν ἀνατολαὶ ἀπὸ δυσμῶν, ἐμάκρυνεν ἀφʼ ἡμῶν τὰς ἀνομίας ἡμῶν. Καθὼς οἰκτείρει πατὴρ υἱούς, ᾠκτείρησε Κύριος τοὺς φοβουμένους αὐτόν, ὅτι αὐτὸς ἔγνω τὸ πλάσμα ἡμῶν, ἐμνήσθη ὅτι χοῦς ἐσμεν. Ἄνθρωπος, ὡσεὶ χόρτος αἱ ἡμέραι αὐτοῦ· ὡσεὶ ἄνθος τοῦ ἀγροῦ, οὕτως ἐξανθήσει. Ὅτι πνεῦμα διῆλθεν ἐν αὐτῷ, καὶ οὐχ ὑπάρξει, καὶ οὐκ ἐπιγνώσεται ἔτι τὸν τόπον αὐτοῦ. Τὸ δὲ ἔλεος τοῦ Κυρίου ἀπὸ τοῦ αἰῶνος καὶ ἕως τοῦ αἰῶνος ἐπὶ τοὺς φοβουμένους αὐτόν, καὶ ἡ δικαιοσύνη αὐτοῦ ἐπὶ υἱοῖς υἱῶν, τοῖς φυλάσσουσι τὴν διαθήκην αὐτοῦ καὶ μεμνημένοις τῶν ἐντολῶν αὐτοῦ τοῦ ποιῆσαι αὐτάς. Κύριος ἐν τῷ οὐρανῷ ἡτοίμασε τὸν θρόνον αὐτοῦ, καὶ ἡ βασιλεία αὐτοῦ πάντων δεσπόζει. Εὐλογεῖτε τὸν Κύριον, πάντες οἱ Ἄγγελοι αὐτοῦ, δυνατοὶ ἰσχύϊ, ποιοῦντες τὸν λόγον αὐτοῦ, τοῦ ἀκοῦσαι τῆς φωνῆς τῶν λόγων αὐτοῦ. Εὐλογεῖτε τὸν Κύριον, πᾶσαι αἱ Δυνάμεις αὐτοῦ, λειτουργοὶ αὐτοῦ, ποιοῦντες τὸ θέλημα αὐτοῦ. Εὐλογεῖτε τὸν Κύριον, πάντα τὰ ἔργα αὐτοῦ, ἐν παντὶ τόπῳ τῆς δεσποτείας αὐτοῦ· εὐλόγει, ἡ ψυχή μου, τὸν Κύριον.</span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='ps_en_US_saas|psa102.text'>Bless the Lord, O my soul, and everything within me, bless His holy name. Bless the Lord, O my soul, and forget not all His rewards: who is merciful to all your transgressions, who heals all your diseases, who redeems your life from corruption, who crowns you with mercy and compassion, who satisfies your desire with good things; and your youth is renewed like the eagle’s. The Lord shows mercies and judgment to all who are wronged. He made known His ways to Moses, the things He willed to the sons of Israel. The Lord is compassionate and merciful, slow to anger, and abounding in mercy. He will not become angry to the end, nor will He be wrathful forever; He did not deal with us according to our sins, nor reward us according to our transgressions; for according to the height of heaven from earth, so the Lord reigns in mercy over those who fear Him; as far as the east is from the west, so He removes our transgressions from us. As a father has compassion on his children, so the Lord has compassion on those who fear Him, for He knows how He formed us; He remembers we are dust. As for man, his days are like grass, as a flower of the field, so he flourishes; for the wind passes through it, and it shall not remain; and it shall no longer know its place. But the mercy of the Lord is from age to age upon those who fear Him, and His righteousness upon children’s children, to such as keep His covenant and remember His commandments, to do them. The Lord prepared His throne in heaven, and His Kingdom rules over all. Bless the Lord, all you His angels, mighty in strength, who do His word, so as to hear the voice of His words. Bless the Lord, all you His hosts, His ministers who do His will; bless the Lord, all His works, in all places of His dominion; bless the Lord, O my soul.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_gr_GR_cog|psMA.sixpsalms.ps102.end.v1.text'>Ἐν παντὶ τόπῳ τῆς δεσποτείας αὐτοῦ· εὐλόγει, ἡ ψυχή μου, τὸν Κύριον.</span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_en_US_saas|psMA.sixpsalms.ps102.end.v1.text'>In all places of His dominion; Bless the Lord, O my soul.</span> <span class="versiondesignation">[SAAS<span class='key' data-key='properties_en_US_saas|version.designation' hidden='hidden'></span>]</span>
-// </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'>
-// <p class='designation'><span class='kvp' data-key='ps_gr_GR_cog|psa142.title'>Ψαλμὸς ΡΜΒʹ (142).</span> 
-// </p>
-// </td>
-// <td class='rightCell'>
-// <p class='designation'><span class='kvp' data-key='ps_en_US_saas|psa142.title'>Psalm 142 (143).</span> </p>
-// </td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='ps_gr_GR_cog|psa142.text'>Κύριε, εἰσάκουσον τῆς προσευχῆς μου, ἐνώτισαι τὴν δέησίν μου ἐν τῇ ἀληθείᾳ σου, εἰσάκουσόν μου ἐν τῇ δικαιοσύνῃ σου· καὶ μὴ εἰσέλθῃς εἰς κρίσιν μετὰ τοῦ δούλου σου, ὅτι οὐ δικαιωθήσεται ἐνώπιόν σου πᾶς ζῶν. Ὅτι κατεδίωξεν ὁ ἐχθρὸς τὴν ψυχήν μου, ἐταπείνωσεν εἰς γῆν τὴν ζωήν μου, ἐκάθισέ με ἐν σκοτεινοῖς ὡς νεκροὺς αἰῶνος· καὶ ἠκηδίασεν ἐπ᾽ ἐμὲ τὸ πνεῦμά μου, ἐν ἐμοὶ ἐταράχθη ἡ καρδία μου. Ἐμνήσθην ἡμερῶν ἀρχαίων, ἐμελέτησα ἐν πᾶσι τοῖς ἔργοις σου, ἐν ποιήμασι τῶν χειρῶν σου ἐμελέτων. Διεπέτασα πρὸς σὲ τὰς χεῖράς μου, ἡ ψυχή μου ὡς γῆ ἄνυδρός σοι. Ταχὺ εἰσάκουσόν μου, Κύριε, ἐξέλιπε τὸ πνεῦμά μου· μὴ ἀποστρέψῃς τὸ πρόσωπόν σου ἀπ᾽ ἐμοῦ, καὶ ὁμοιωθήσομαι τοῖς καταβαίνουσιν εἰς λάκκον. Ἀκουστὸν ποίησόν μοι τὸ πρωῒ τὸ ἔλεός σου, ὅτι ἐπὶ σοὶ ἤλπισα· γνώρισόν μοι, Κύριε, ὁδόν, ἐν ᾗ πορεύσομαι, ὅτι πρὸς σὲ ἦρα τὴν ψυχήν μου· ἐξελοῦ με ἐκ τῶν ἐχθρῶν μου, Κύριε· πρὸς σὲ κατέφυγον. Δίδαξόν με τοῦ ποιεῖν τὸ θέλημά σου, ὅτι σὺ εἶ ὁ Θεός μου· τὸ πνεῦμά σου τὸ ἀγαθὸν ὁδηγήσει με ἐν γῇ εὐθείᾳ. Ἕνεκεν τοῦ ὀνόματός σου, Κύριε, ζήσεις με· ἐν τῇ δικαιοσύνῃ σου ἐξάξεις ἐκ θλίψεως τὴν ψυχήν μου· καὶ ἐν τῷ ἐλέει σου ἐξολοθρεύσεις τοὺς ἐχθρούς μου· καὶ ἀπολεῖς πάντας τοὺς θλίβοντας τὴν ψυχήν μου, ὅτι ἐγὼ δοῦλός σού εἰμι.</span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='ps_en_US_saas|psa142.text'>O Lord, hear my prayer; give ear to my supplication in Your truth; answer me in Your righteousness; do not enter into judgment with Your servant, for no one living shall become righteous in Your sight. For the enemy persecuted my soul; he humbled my life to the ground; he caused me to dwell in dark places as one long dead, and my spirit was in anguish within me; my heart was troubled within me. I remembered the days of old, and I meditated on all Your works; I meditated on the works of Your hands. I spread out my hands to You; my soul thirsts for You like a waterless land. Hear me speedily, O Lord; my spirit faints within me; turn not Your face from me, lest I become like those who go down into the pit. Cause me to hear Your mercy in the morning, for I hope in You; make me know, O Lord, the way wherein I should walk, for I lift up my soul to You. Deliver me from my enemies, O Lord, for to You I flee for refuge. Teach me to do Your will, for You are my God; Your good Spirit shall guide me in the land of uprightness. For Your name’s sake, O Lord, give me life; in Your righteousness You shall bring my soul out of affliction. In Your mercy You shall destroy my enemies; You shall utterly destroy all who afflict my soul, for I am Your servant.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_gr_GR_cog|psMA.sixpsalms.ps142.end.v1.text'>Εἰσάκουσόν μου, Κύριε, ἐν τῇ δικαιοσύνῃ σου· καὶ μὴ εἰσέλθῃς εἰς κρίσιν μετὰ τοῦ δούλου σου.</span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_en_US_saas|psMA.sixpsalms.ps142.end.v1.text'>Answer me in Your righteousness, O Lord. Do not enter into judgment with Your servant.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_gr_GR_cog|psMA.sixpsalms.ps142.end.v1.text'>Εἰσάκουσόν μου, Κύριε, ἐν τῇ δικαιοσύνῃ σου· καὶ μὴ εἰσέλθῃς εἰς κρίσιν μετὰ τοῦ δούλου σου.</span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_en_US_saas|psMA.sixpsalms.ps142.end.v1.text'>Answer me in Your righteousness, O Lord. Do not enter into judgment with Your servant.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_gr_GR_cog|psMA.sixpsalms.ps142.end.v2.text'>Τὸ πνεῦμά σου τὸ ἀγαθὸν ὁδηγήσει με ἐν γῇ εὐθείᾳ.</span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='liturgical.verses_en_US_saas|psMA.sixpsalms.ps142.end.v2.text'>Your good Spirit shall guide me in the land of uprightness.</span> <span class="versiondesignation">[SAAS<span class='key' data-key='properties_en_US_saas|version.designation' hidden='hidden'></span>]</span>
-// </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.GloryToTheFather.text'>Δόξα Πατρὶ καὶ Υἱῷ καὶ ἁγίῳ Πνεύματι.</span> 
-// <span class='kvp' data-key='prayers_gr_US_goa|pr.BothNowAndEver.text'>Καὶ νῦν καὶ ἀεὶ καὶ εἰς τοὺς αἰῶνας τῶν αἰώνων. Ἀμήν.</span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.GloryToTheFather.text'>Glory to the Father and the Son and the Holy Spirit.</span> <span class='kvp' data-key='prayers_en_US_goa|pr.BothNowAndEver.text'>Both now and ever and to the ages of ages. Amen.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.Alleluia3Glory.text'>Ἀλληλούϊα. Ἀλληλούϊα. Ἀλληλούϊα. Δόξα σοι, ὁ Θεός.</span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.Alleluia3Glory.text'>Alleluia. Alleluia. Alleluia. Glory to You, O God.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.Alleluia3Glory.text'>Ἀλληλούϊα. Ἀλληλούϊα. Ἀλληλούϊα. Δόξα σοι, ὁ Θεός.</span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.Alleluia3Glory.text'>Alleluia. Alleluia. Alleluia. Glory to You, O God.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='rubric'><span class='kvp' data-key='rubrical_gr_GR_cog|ru.Intoned'>(χῦμα)</span> 
-// </p></td>
-// <td class='rightCell'><p class='rubric'><span class='kvp' data-key='rubrical_en_US_dedes|ru.Intoned'>(intoned)</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='reading'><span class='kvp' data-key='prayers_gr_US_goa|pr.Alleluia3Glory.text'>Ἀλληλούϊα. Ἀλληλούϊα. Ἀλληλούϊα. Δόξα σοι, ὁ Θεός.</span> 
-// <span class='kvp' data-key='prayers_gr_US_goa|pr.OurHopeLord.text'>Ἡ ἐλπὶς ἡμῶν, Κύριε, δόξα σοι.</span> 
-// </p></td>
-// <td class='rightCell'><p class='reading'><span class='kvp' data-key='prayers_en_US_goa|pr.Alleluia3Glory.text'>Alleluia. Alleluia. Alleluia. Glory to You, O God.</span> <span class='kvp' data-key='prayers_en_US_goa|pr.OurHopeLord.text'>Our hope, O Lord, glory to You.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
-// </p></td>
-// <td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </p></td>
-// </tr>
-// <td class='leftCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet01.text'>Ἐν εἰρήνῃ τοῦ Κυρίου δεηθῶμεν.</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_en_US_goa|pr.pet01.text'>In peace let us pray to the Lord.</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
-// </span> 
-// <span class='kvp' data-key='prayers_gr_US_goa|pr.res01.text'>Κύριε, ἐλέησον.</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Choir'>CHOIR:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res01.text'>Lord, have mercy.</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet02.text'>Ὑπὲρ τῆς ἄνωθεν εἰρήνης καὶ τῆς σωτηρίας τῶν ψυχῶν ἡμῶν τοῦ Κυρίου δεηθῶμεν.</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_en_US_goa|pr.pet02.text'>For the peace from above and for the salvation of our souls, let us pray to the Lord.</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
-// </span> 
-// <span class='kvp' data-key='prayers_gr_US_goa|pr.res01.text'>Κύριε, ἐλέησον.</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Choir'>CHOIR:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res01.text'>Lord, have mercy.</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet03.text'>Ὑπὲρ τῆς εἰρήνης τοῦ σύμπαντος κόσμου, εὐσταθείας τῶν ἁγίων τοῦ Θεοῦ Ἐκκλησιῶν καὶ τῆς τῶν πάντων ἑνώσεως τοῦ Κυρίου δεηθῶμεν.</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_en_US_goa|pr.pet03.text'>For the peace of the whole world, for the stability of the holy churches of God, and for the unity of all, let us pray to the Lord.</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
-// </span> 
-// <span class='kvp' data-key='prayers_gr_US_goa|pr.res01.text'>Κύριε, ἐλέησον.</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Choir'>CHOIR:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res01.text'>Lord, have mercy.</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet04.text'>Ὑπὲρ τοῦ ἁγίου οἴκου τούτου καὶ τῶν μετὰ πίστεως, εὐλαβείας καὶ φόβου Θεοῦ εἰσιόντων ἐν αὐτῷ, τοῦ Κυρίου δεηθῶμεν.</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_en_US_goa|pr.pet04.text'>For this holy house and for those who enter it with faith, reverence, and the fear of God, let us pray to the Lord.</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
-// </span> 
-// <span class='kvp' data-key='prayers_gr_US_goa|pr.res01.text'>Κύριε, ἐλέησον.</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Choir'>CHOIR:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res01.text'>Lord, have mercy.</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet05.text'>Ὑπὲρ τῶν εὐσεβῶν καὶ ὀρθοδόξων χριστιανῶν τοῦ Κυρίου δεηθῶμεν.</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_en_US_goa|pr.pet05.text'>For pious and Orthodox Christians, let us pray to the Lord.</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
-// </span> 
-// <span class='kvp' data-key='prayers_gr_US_goa|pr.res01.text'>Κύριε, ἐλέησον.</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Choir'>CHOIR:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res01.text'>Lord, have mercy.</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet06a.text'>Ὑπὲρ</span> 
-// <span class='kvp' data-key='client_gr_US_goa|cl.bishop1.name.petitionC'>τοῦ Ἀρχιεπισκόπου ἡμῶν (δεῖνος),</span>
-// <span class='kvp' data-key='prayers_gr_US_goa|pr.pet06b.text'>τοῦ τιμίου πρεσβυτερίου, τῆς ἐν Χριστῷ διακονίας, παντὸς τοῦ κλήρου καὶ τοῦ λαοῦ τοῦ Κυρίου δεηθῶμεν.</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_en_US_goa|pr.pet06a.text'>For </span> <span class='kvp' data-key='client_en_US_goa|cl.bishop1.name.petitionC'>our Archbishop (name),</span> <span class='kvp' data-key='prayers_en_US_goa|pr.pet06b.text'>for the honorable presbyterate, for the diaconate in Christ, and for all the clergy and the people, let us pray to the Lord.</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
-// </span> 
-// <span class='kvp' data-key='prayers_gr_US_goa|pr.res01.text'>Κύριε, ἐλέησον.</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Choir'>CHOIR:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res01.text'>Lord, have mercy.</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet07L.text'>Ὑπὲρ τοῦ εὐσεβοῦς ἡμῶν γένους, τοῦ Προέδρου, πάσης ἀρχῆς καὶ ἐξουσίας ἐν τῷ κράτει ἡμῶν, καὶ τοῦ κατὰ ξηράν, θάλασσαν, καὶ ἀέρα φιλοχρίστου ἡμῶν στρατοῦ, τοῦ Κυρίου δεηθῶμεν.</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_en_US_goa|pr.pet07L.text'>For our country, the president, all those in public service, and for our armed forces everywhere, let us pray to the Lord.</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
-// </span> 
-// <span class='kvp' data-key='prayers_gr_US_goa|pr.res01.text'>Κύριε, ἐλέησον.</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Choir'>CHOIR:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res01.text'>Lord, have mercy.</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet08.text'>Ὑπὲρ τῆς Ἁγίας τοῦ Χριστοῦ Μεγάλης Ἐκκλησίας, τῆς Ἱερᾶς ἡμῶν Ἀρχιεπισκοπῆς, [τῆς Ἱερᾶς Μητροπόλεως ταύτης,] τῆς πόλεως καὶ κοινότητος ταύτης, πάσης πόλεως, χώρας καὶ τῶν πίστει οἰκούντων ἐν αὐταῖς, τοῦ Κυρίου δεηθῶμεν.</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_en_US_goa|pr.pet08.text'>For the Holy and Great Church of Christ, for our Sacred Archdiocese, [for this Sacred Metropolis,] for this city and parish, for every city and land, and for the faithful who live in them, let us pray to the Lord.</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
-// </span> 
-// <span class='kvp' data-key='prayers_gr_US_goa|pr.res01.text'>Κύριε, ἐλέησον.</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Choir'>CHOIR:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res01.text'>Lord, have mercy.</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet09.text'>Ὑπὲρ εὐκρασίας ἀέρων, εὐφορίας τῶν καρπῶν τῆς γῆς καὶ καιρῶν εἰρηνικῶν τοῦ Κυρίου δεηθῶμεν.</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_en_US_goa|pr.pet09.text'>For favorable weather, for an abundance of the fruits of the earth, and for peaceful times, let us pray to the Lord.</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
-// </span> 
-// <span class='kvp' data-key='prayers_gr_US_goa|pr.res01.text'>Κύριε, ἐλέησον.</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Choir'>CHOIR:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res01.text'>Lord, have mercy.</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet10.text'>Ὑπὲρ πλεόντων, ὁδοιπορούντων, νοσούντων, καμνόντων, αἰχμαλώτων καὶ τῆς σωτηρίας αὐτῶν τοῦ Κυρίου δεηθῶμεν.</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_en_US_goa|pr.pet10.text'>For those who travel by land, sea, and air, for the sick, the suffering, the captives and for their salvation, let us pray to the Lord.</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
-// </span> 
-// <span class='kvp' data-key='prayers_gr_US_goa|pr.res01.text'>Κύριε, ἐλέησον.</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Choir'>CHOIR:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res01.text'>Lord, have mercy.</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet11.text'>Ὑπὲρ τοῦ ῥυσθῆναι ἡμᾶς ἀπὸ πάσης θλίψεως, ὀργῆς, κινδύνου καὶ ἀνάγκης, τοῦ Κυρίου δεηθῶμεν.</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_en_US_goa|pr.pet11.text'>For our deliverance from all affliction, wrath, danger, and distress, let us pray to the Lord.</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
-// </span> 
-// <span class='kvp' data-key='prayers_gr_US_goa|pr.res01.text'>Κύριε, ἐλέησον.</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Choir'>CHOIR:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res01.text'>Lord, have mercy.</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet12.text'>Ἀντιλαβοῦ, σῶσον, ἐλέησον καὶ διαφύλαξον ἡμᾶς, ὁ Θεός, τῇ σῇ χάριτι.</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_en_US_goa|pr.pet12.text'>Help us, save us, have mercy on us, and protect us, O God, by Your grace.</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
-// </span> 
-// <span class='kvp' data-key='prayers_gr_US_goa|pr.res01.text'>Κύριε, ἐλέησον.</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Choir'>CHOIR:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res01.text'>Lord, have mercy.</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='actor'><span class='apriest'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_gr_US_goa|pr.pet13.text'>Τῆς παναγίας, ἀχράντου, ὑπερευλογημένης, ἐνδόξου, δεσποίνης ἡμῶν Θεοτόκου καὶ ἀειπαρθένου Μαρίας μετὰ πάντων τῶν ἁγίων μνημονεύσαντες, ἑαυτοὺς καὶ ἀλλήλους καὶ πᾶσαν τὴν ζωὴν ἡμῶν Χριστῷ τῷ Θεῷ παραθώμεθα.</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='dialog'><span class='dpriest'><span class='kvp' data-key='prayers_en_US_goa|pr.pet13.text'>Remembering our all-holy, immaculate, most blessed, and glorious Lady, the Theotokos and ever-virgin Mary, with all the saints, let us commend ourselves and one another and our whole life to Christ our God.</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
-// </span> 
-// <span class='kvp' data-key='prayers_gr_US_goa|pr.res03.text'>Σοί, Κύριε.</span> 
-// </span> 
-// </p></td>
-// <td class='rightCell'><p class='dialogwithactor'><span class='dwachoir'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Choir'>CHOIR:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res03.text'>To You, O Lord.</span> </span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='actor'><span class='kvp' data-key='actors_gr_GR_cog|ac.Priest'>ΙΕΡΕΥΣ</span> 
-// </p></td>
-// <td class='rightCell'><p class='actor'><span class='kvp' data-key='actors_en_US_goa|ac.Priest'>PRIEST</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialog'><span class='kvp' data-key='prayers_gr_US_goa|pr.exc01.text'>Ὅτι πρέπει σοι πᾶσα δόξα, τιμὴ καὶ προσκύνησις, τῷ Πατρὶ καὶ τῷ Υἱῷ καὶ τῷ ἁγίῳ Πνεύματι, νῦν καὶ ἀεὶ καὶ εἰς τοὺς αἰῶνας τῶν αἰώνων.</span> 
-// </p></td>
-// <td class='rightCell'><p class='dialog'><span class='kvp' data-key='prayers_en_US_goa|pr.exc01.text'>For to You belong all glory, honor, and worship, to the Father and the Son and the Holy Spirit, now and ever and to the ages of ages.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'><p class='dialogwithactor'><span class='actorwithdialog'><span class='kvp' data-key='actors_gr_GR_cog|ac.IL.Choir'>ΧΟΡΟΣ:</span> 
-// </span> 
-// <span class='kvp' data-key='prayers_gr_US_goa|pr.res04.text'>Ἀμήν.</span> 
-// </p></td>
-// <td class='rightCell'><p class='dialogwithactor'><span class='actorwithdialog'><span class='kvp' data-key='actors_en_US_goa|ac.IL.Choir'>CHOIR:</span> </span> <span class='kvp' data-key='prayers_en_US_goa|pr.res04.text'>Amen.</span> </p></td>
-// </tr>
-// <tr>
-// <td class='leftCell'>
-// <p class='break'>&#xA0;&#xA0;&#xA0;</p>
-// </td>5
-// <td class='rightCell'>
-// <p class='break'>&#xA0;&#xA0;&#xA0;</p>
-// </td>
-// </tr>`;
-//     const currentPath = document.location.origin + document.location.pathname;
+    // Destructure the groups directly into variables
+    const { year, month, day } = result.groups;
 
-//     const regex = /(?<year>\d{4})\/(?<month>\d{2})\/(?<day>\d{2})/;
-//     const result = regex.exec(currentPath);
+    //today is based on the date in the path
+    const today = new Date(`${month}/${day}/${year}`); //parameter a string date to test other dates eg: "12/24/2025"
 
-//     // Destructure the groups directly into variables
-//     const { year, month, day } = result.groups;
+    const thisYear = today.getFullYear();
+    const baseDates = ["02-25-2024", "02-09-2025", "02-01-2026", "02-21-2027", "02-06-2028", "01-28-2029", "02-17-2030"];
+    const baseDate = mostRecentPastDate(baseDates);
+    console.log(`alwb base date: ${baseDate}`);
+    const daysSinceBaseDate = daysBetweenDates(baseDate, today) + 1;
+    console.log(`alwb days since base date: ${daysSinceBaseDate}`);
+    let replacementHTML = "";
 
-//     //today is based on the date in the path
-//     const today = new Date(`${month}/${day}/${year}`); //parameter a string date to test other dates eg: "12/24/2025"
+    if (daysSinceBaseDate >= 71 && daysSinceBaseDate <= 77) {
+      //no ordinary
+    } else if (daysSinceBaseDate >= 78 && daysSinceBaseDate <= 108) {
+      replacementHTML = matinsOrdinaryPaschal + matinsOrdinary_part2;
+    } else if (daysSinceBaseDate == 109) {
+      //no ordinary
+    } else if (daysSinceBaseDate >= 110 && daysSinceBaseDate <= 119) {
+      replacementHTML = matinsOrdinaryAscension + matinsOrdinary_part2;
+    } else {
+      replacementHTML = matinsOrdinaryNormal + matinsOrdinary_part2;
+    }
 
-//     const thisYear = today.getFullYear();
-//     const baseDates = ["02-25-2024", "02-09-2025", "02-01-2026", "02-21-2027", "02-06-2028", "01-28-2029", "02-17-2030"];
-//     const baseDate = mostRecentPastDate(baseDates);
-//     console.log(`alwb base date: ${baseDate}`);
-//     const daysSinceBaseDate = daysBetweenDates(baseDate, today) + 1;
-//     console.log(`alwb days since base date: ${daysSinceBaseDate}`);
-//     let replacementHTML = "";
+    // Create a single jQuery selector targeting either of the two bookmark IDs
+    const bookmarkSelector = '#bkmrk00, #bkmrk00R';
 
-//     if (daysSinceBaseDate >= 71 && daysSinceBaseDate <= 77) {
-//       //no ordinary
-//     } else if (daysSinceBaseDate >= 78 && daysSinceBaseDate <= 108) {
-//       replacementHTML = matinsOrdinaryPaschal + matinsOrdinary_part2;
-//     } else if (daysSinceBaseDate == 109) {
-//       //no ordinary
-//     } else if (daysSinceBaseDate >= 110 && daysSinceBaseDate <= 119) {
-//       replacementHTML = matinsOrdinaryAscension + matinsOrdinary_part2;
-//     } else {
-//       replacementHTML = matinsOrdinaryNormal + matinsOrdinary_part2;
-//     }
+    // 1. Locate the first matching bookmark element.
+    const targetBookmark = $(bookmarkSelector).first();
 
-//     // Create a single jQuery selector targeting either of the two bookmark IDs
-//     const bookmarkSelector = '#bkmrk00, #bkmrk00R';
+    // 2. Check if a target element was found.
+    if (targetBookmark.length > 0) {
+      // 3. Traverse up from the bookmark to the closest containing table row (<tr>).
+      const targetRow = targetBookmark.closest('tr');
 
-//     // 1. Locate the first matching bookmark element.
-//     const targetBookmark = $(bookmarkSelector).first();
+      // 4. Check if a containing row was found.
+      if (targetRow.length > 0) {
+        // 5. Replace the entire target row with the new HTML.
+        //    (The replacementHTML variable must be defined elsewhere in your code)
+        targetRow.replaceWith(replacementHTML);
 
-//     // 2. Check if a target element was found.
-//     if (targetBookmark.length > 0) {
-//       // 3. Traverse up from the bookmark to the closest containing table row (<tr>).
-//       const targetRow = targetBookmark.closest('tr');
+        hideGreekInEnglishOnlyService();
+        hideEnglishInGreekOnlyService();
 
-//       // 4. Check if a containing row was found.
-//       if (targetRow.length > 0) {
-//         // 5. Replace the entire target row with the new HTML.
-//         //    (The replacementHTML variable must be defined elsewhere in your code)
-//         targetRow.replaceWith(replacementHTML);
+        console.log(`Row containing bookmark (${targetBookmark.attr('id')}) has been replaced.`);
+      } else {
+        console.error(`Bookmark element found, but no containing <tr> was found. Replacement failed.`);
+      }
+    } else {
+      console.error(`Neither bookmark ID ("bkmrk00" or "bkmrk00R") was found. Replacement failed.`);
+    }
 
-         hideGreekInEnglishOnlyService();
-         hideEnglishInGreekOnlyService();
+    console.log('Content replacement script executed.');
 
-//         console.log(`Row containing bookmark (${targetBookmark.attr('id')}) has been replaced.`);
-//       } else {
-//         console.error(`Bookmark element found, but no containing <tr> was found. Replacement failed.`);
-//       }
-//     } else {
-//       console.error(`Neither bookmark ID ("bkmrk00" or "bkmrk00R") was found. Replacement failed.`);
-//     }
-
-//     console.log('Content replacement script executed.');
-
-//   }//end if
-// }//end insertMatinsOrdinary
+  }//end if
+}//end insertMatinsOrdinary
 
 function insertMatinsTOB() {
 
@@ -2834,6 +2833,7 @@ function hideGreekInEnglishOnlyService() {
     console.warn("❌ Bookmark 'bkmrk02' WAS found. No 'leftCell' elements will be hidden.");
   }
 }
+
 
 function hideEnglishInGreekOnlyService() {
   // This function is called in insertMatinsOrdinary
@@ -3973,6 +3973,7 @@ $(function () {
 });
 // ------------------------------------------------------------------
 
+
 async function performUnifiedExport(format) {
   // Target the document of the current page directly
   const currentDoc = document;
@@ -4220,7 +4221,6 @@ function generatePDFFile(element, filename, isSingleColumn, displayTitle = "Divi
   printWin.document.close();
 }
 
-
 // Helper for cross-browser safe scrolling
 function safeScrollIntoView(element, alignToTop) {
   if (!element) return;
@@ -4245,7 +4245,7 @@ function convertServicesIndexToCalendar() {
   if (!document.getElementById('calendar-grid-styles')) {
     var style = document.createElement('style');
     style.id = 'calendar-grid-styles';
-    style.textContent =
+    style.textContent = 
       "html, body, .index-content {\n" +
       "    width: 100% !important;\n" +
       "    margin: 0 !important;\n" +
@@ -4553,18 +4553,18 @@ if (document.readyState === 'interactive' || document.readyState === 'complete')
  * Helper function to perform Word document generation and export from an HTML service page.
  */
 async function performWordExport(url, serviceName, lang) {
-  const cssPath = "https://dcs.goarch.org/goa/dcs/css/dcs_word_styles.css";
-  try {
-    const resp = await fetch(url);
-    const html = await resp.text();
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, 'text/html');
+    const cssPath = "https://dcs.goarch.org/goa/dcs/css/dcs_word_styles.css";
+    try {
+        const resp = await fetch(url);
+        const html = await resp.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
 
-    const target = doc.getElementById('biTable') || doc.querySelector('table');
-    if (!target) return;
+        const target = doc.getElementById('biTable') || doc.querySelector('table');
+        if (!target) return;
 
-    // STEP 1: HARD REMOVALS
-    target.querySelectorAll(`
+        // STEP 1: HARD REMOVALS
+        target.querySelectorAll(`
             [class^="source"], [class*=" source"], 
             .key, [hidden], .media-group, .media-links, 
             .jqm-dropdown, .noprint, i, script, style,
@@ -4574,78 +4574,78 @@ async function performWordExport(url, serviceName, lang) {
             [class^="erc"], [class*=" erc"]
         `).forEach(el => el.remove());
 
-    // STEP 2: CLASS SCRUBBER
-    const classesToScrub = [
-      'kvp', 'achoir', 'aclergy', 'adeacon', 'ahierarch', 'apeople',
-      'apriest', 'areader', 'dchoir', 'dclergy', 'ddeacon',
-      'dhierarch', 'dpeople', 'dpriest', 'dreader', 'dwachoir',
-      'dwaclergy', 'dwadeacon', 'dwahierarch', 'dwapeople',
-      'dwapriest', 'dwareader',
-      'achclhi', 'aclhi', 'adebl', 'adepr', 'aprhi',
-      'dclhi', 'ddepr', 'ddebl', 'dprhi',
-      'dwadebl', 'dwadepr', 'dwaprhi'
-    ];
+        // STEP 2: CLASS SCRUBBER
+        const classesToScrub = [
+            'kvp', 'achoir', 'aclergy', 'adeacon', 'ahierarch', 'apeople',
+            'apriest', 'areader', 'dchoir', 'dclergy', 'ddeacon',
+            'dhierarch', 'dpeople', 'dpriest', 'dreader', 'dwachoir',
+            'dwaclergy', 'dwadeacon', 'dwahierarch', 'dwapeople',
+            'dwapriest', 'dwareader',
+            'achclhi', 'aclhi', 'adebl', 'adepr', 'aprhi',
+            'dclhi', 'ddepr', 'ddebl', 'dprhi',
+            'dwadebl', 'dwadepr', 'dwaprhi'
+        ];
 
-    classesToScrub.forEach(className => {
-      target.querySelectorAll('.' + className).forEach(el => {
-        el.classList.remove(className);
-        if (el.hasAttribute('data-key')) el.removeAttribute('data-key');
-        if (el.classList.length === 0) el.removeAttribute('class');
-      });
-    });
+        classesToScrub.forEach(className => {
+            target.querySelectorAll('.' + className).forEach(el => {
+                el.classList.remove(className);
+                if (el.hasAttribute('data-key')) el.removeAttribute('data-key');
+                if (el.classList.length === 0) el.removeAttribute('class');
+            });
+        });
 
-    // STEP 3: BOOKMARK SCRUBBER
-    target.querySelectorAll('p[class^="bkmrk"]').forEach(p => {
-      if (p.textContent.toLowerCase().includes('bookmark')) {
-        const row = p.closest('tr');
-        if (row) row.remove();
-      }
-    });
+        // STEP 3: BOOKMARK SCRUBBER
+        target.querySelectorAll('p[class^="bkmrk"]').forEach(p => {
+            if (p.textContent.toLowerCase().includes('bookmark')) {
+                const row = p.closest('tr');
+                if (row) row.remove();
+            }
+        });
 
-    // STEP 4: DROP-CAP RESET
-    target.querySelectorAll('[class*="dropcap"], [class*="first-letter"]').forEach(el => {
-      el.style.float = "none";
-      el.style.display = "inline";
-    });
+        // STEP 4: DROP-CAP RESET
+        target.querySelectorAll('[class*="dropcap"], [class*="first-letter"]').forEach(el => {
+            el.style.float = "none";
+            el.style.display = "inline";
+        });
 
-    // STEP 5: THE VACUUM
-    target.querySelectorAll('tr').forEach(row => {
-      const hasText = row.textContent.replace(/\u00a0/g, ' ').trim().length > 0;
-      const hasImg = row.querySelector('img') !== null;
-      if (!hasText && !hasImg) {
-        row.remove();
-      }
-    });
+        // STEP 5: THE VACUUM
+        target.querySelectorAll('tr').forEach(row => {
+            const hasText = row.textContent.replace(/\u00a0/g, ' ').trim().length > 0;
+            const hasImg = row.querySelector('img') !== null;
+            if (!hasText && !hasImg) {
+                row.remove();
+            }
+        });
 
-    // STEP 6: FINAL TABLE ATTRIBUTES
-    target.removeAttribute('width');
-    target.removeAttribute('cellspacing');
-    target.removeAttribute('cellpadding');
-    target.style.width = "100%";
-    target.style.tableLayout = "auto";
+        // STEP 6: FINAL TABLE ATTRIBUTES
+        target.removeAttribute('width');
+        target.removeAttribute('cellspacing');
+        target.removeAttribute('cellpadding');
+        target.style.width = "100%";
+        target.style.tableLayout = "auto";
 
-    const rows = target.querySelectorAll('tr');
-    let isBilingual = false;
+        const rows = target.querySelectorAll('tr');
+        let isBilingual = false;
 
-    for (let i = 0; i < Math.min(rows.length, 5); i++) {
-      if (rows[i].querySelectorAll('td').length > 1) {
-        isBilingual = true;
-        break;
-      }
-    }
+        for (let i = 0; i < Math.min(rows.length, 5); i++) {
+            if (rows[i].querySelectorAll('td').length > 1) {
+                isBilingual = true;
+                break;
+            }
+        }
 
-    const wordColumnCount = isBilingual ? 1 : 2;
-    console.log("Bilingual Detected: " + isBilingual + " | Setting Word Columns to: " + wordColumnCount);
+        const wordColumnCount = isBilingual ? 1 : 2;
+        console.log("Bilingual Detected: " + isBilingual + " | Setting Word Columns to: " + wordColumnCount);
 
-    let cssText = "";
-    try {
-      const cssResp = await fetch(cssPath + "?v=" + new Date().getTime());
-      cssText = await cssResp.text();
-    } catch (e) {
-      console.error("CSS Fetch failed, using fallback empty styles", e);
-    }
+        let cssText = "";
+        try {
+            const cssResp = await fetch(cssPath + "?v=" + new Date().getTime());
+            cssText = await cssResp.text();
+        } catch (e) {
+            console.error("CSS Fetch failed, using fallback empty styles", e);
+        }
 
-    const fileContent = `
+        const fileContent = `
             <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
             <head>
                 <meta charset='utf-8'>
@@ -4669,14 +4669,14 @@ async function performWordExport(url, serviceName, lang) {
             </body>
             </html>`;
 
-    const blob = new Blob(['\ufeff' + fileContent], { type: 'application/msword' });
-    const downloadLink = document.createElement('a');
-    downloadLink.href = URL.createObjectURL(blob);
-    downloadLink.download = serviceName.replace(/[\/\\?%*:|"<>]/g, '-') + '.doc';
-    downloadLink.click();
-  } catch (e) {
-    console.error("DCS Export Error:", e);
-  }
+        const blob = new Blob(['\ufeff' + fileContent], { type: 'application/msword' });
+        const downloadLink = document.createElement('a');
+        downloadLink.href = URL.createObjectURL(blob);
+        downloadLink.download = serviceName.replace(/[\/\\?%*:|"<>]/g, '-') + '.doc';
+        downloadLink.click();
+    } catch (e) {
+        console.error("DCS Export Error:", e);
+    }
 }
 
 /**
@@ -4684,18 +4684,18 @@ async function performWordExport(url, serviceName, lang) {
  * Executes if the page matches the pattern: .../dcs/indexes/YYYYMMDD.html
  */
 function transformIndexLayout() {
-  // Verify the URL pattern ends with 'dcs/indexes/YYYYMMDD.html' or contains '/indexes/'
-  const pathRegex = /\/dcs\/indexes\/\d{8}\.html$/i;
-  if (!pathRegex.test(window.location.pathname) && !window.location.pathname.includes('/indexes/')) {
-    return;
-  }
+    // Verify the URL pattern ends with 'dcs/indexes/YYYYMMDD.html' or contains '/indexes/'
+    const pathRegex = /\/dcs\/indexes\/\d{8}\.html$/i;
+    if (!pathRegex.test(window.location.pathname) && !window.location.pathname.includes('/indexes/')) {
+        return;
+    }
 
-  const table = document.querySelector('.index-content table');
-  if (!table) return;
+    const table = document.querySelector('.index-content table');
+    if (!table) return;
 
-  // 1. Inject styling for card layout, rows, language buttons, and flag colors
-  const styleEl = document.createElement('style');
-  styleEl.textContent = `
+    // 1. Inject styling for card layout, rows, language buttons, and flag colors
+    const styleEl = document.createElement('style');
+    styleEl.textContent = `
         .service-group-container {
             display: flex;
             flex-direction: column;
@@ -4765,342 +4765,151 @@ function transformIndexLayout() {
             color: #B22234;
         }
     `;
-  document.head.appendChild(styleEl);
+    document.head.appendChild(styleEl);
 
-  // Helper to generate flag-colored inner HTML for buttons
-  function formatLangHTML(rawLangText) {
-    const upperLang = rawLangText.toUpperCase();
-    if (upperLang === 'GR') {
-      return '<span class="text-gr">Greek</span>';
-    } else if (upperLang === 'EN') {
-      return '<span class="text-en">English</span>';
-    } else if (upperLang === 'GR-EN') {
-      return '<span class="text-gr">GR</span>–<span class="text-en">EN</span>';
-    }
-    return rawLangText;
-  }
-
-  // Extract page header date string if available
-  const fullDateHeader = document.querySelector('.index-title-date')?.innerText || "";
-  const dateMatch = fullDateHeader.match(/Services for\s+(.*)/i);
-  const dateStr = dateMatch ? dateMatch[1].trim() : "";
-
-  // 2. Parse table rows and categorize options into Web View, Print-PDF, and Build-Export
-  const services = [];
-  let currentService = null;
-
-  const rows = table.querySelectorAll('tr');
-  rows.forEach(row => {
-    if (row.classList.contains('index-service-day-tr')) {
-      const titleSpan = row.querySelector('.index-service-day');
-      if (titleSpan) {
-        currentService = {
-          title: titleSpan.textContent.trim(),
-          categories: {
-            'Web View': [],
-            'Print-PDF': [],
-            'Build-Export': []
-          }
-        };
-        services.push(currentService);
-      }
-    } else if (row.classList.contains('index-service-language-tr') && currentService) {
-      const langSpan = row.querySelector('.index-language');
-      const linkAnchor = row.querySelector('a.index-file-link');
-
-      if (langSpan && linkAnchor) {
-        const rawLangText = langSpan.textContent.trim();
+    // Helper to generate flag-colored inner HTML for buttons
+    function formatLangHTML(rawLangText) {
         const upperLang = rawLangText.toUpperCase();
-        const href = linkAnchor.getAttribute('href') || '';
-        const linkText = linkAnchor.textContent.trim().toLowerCase();
-
-        const isPdf = href.toLowerCase().endsWith('.pdf') || linkText.includes('pdf') || linkText.includes('print');
-        const category = isPdf ? 'Print-PDF' : 'Web View';
-
-        // Clone original anchor and format as a button
-        const btnAnchor = linkAnchor.cloneNode(true);
-        btnAnchor.className = 'lang-btn';
-        btnAnchor.innerHTML = formatLangHTML(rawLangText);
-        btnAnchor.dataset.langCode = upperLang;
-
-        currentService.categories[category].push(btnAnchor);
-
-        // For web view HTML links (excluding Matins-Customizable /ma2/ links), generate Build-Export button
-        if (!isPdf && !href.includes('/ma2/')) {
-          const exportBtn = document.createElement('button');
-          exportBtn.type = 'button';
-          exportBtn.className = 'lang-btn';
-          exportBtn.innerHTML = formatLangHTML(rawLangText);
-          exportBtn.dataset.langCode = upperLang;
-
-          exportBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-
-            const screenW = window.screen.availWidth;
-            const screenH = window.screen.availHeight;
-
-            // Dimensions: 80% Height, 500px Width
-            const winH = Math.floor(screenH * 0.8);
-            const winW = 500;
-
-            const topPos = Math.floor((screenH - winH) / 2);
-            // Position it at the left side of the "centered pair" 
-            const leftPos = Math.floor((screenW - (winW * 2)) / 2);
-
-            let serviceType = 'liturgy';
-            if (href.includes('/li/')) {
-              serviceType = 'liturgy';
-            } else if (href.includes('/ma/')) {
-              serviceType = 'matins';
-            } else if (href.includes('/ve/')) {
-              serviceType = 'vespers';
-            }
-
-            let langType = 'gr-en';
-            if (href.includes('/gr-en/')) {
-              langType = 'gr-en';
-            } else if (href.includes('/en/')) {
-              langType = 'en';
-            } else if (href.includes('/gr/')) {
-              langType = 'gr';
-            }
-
-            // 1. Build parameters safely
-            const params = new URLSearchParams({
-              fromDCS: true,
-              dateFromDCS: dateStr,
-              langFromDCS: langType
-            });
-
-
-            const fromDCSLaunch = true;
-
-            const features = `height=${winH},width=${winW},top=${topPos},left=${leftPos},resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no`;
-
-            // Opens the specific Panel (Liturgy, Matins, etc.)
-            window.open(`https://dcs.goarch.org/sbDev/sb-${serviceType}.html?${fromDCSLaunch ? params.toString() : ''}`, 'CustomizerPanel', features);
-
-          });
-
-          currentService.categories['Build-Export'].push(exportBtn);
+        if (upperLang === 'GR') {
+            return '<span class="text-gr">Greek</span>';
+        } else if (upperLang === 'EN') {
+            return '<span class="text-en">English</span>';
+        } else if (upperLang === 'GR-EN') {
+            return '<span class="text-gr">GR</span>–<span class="text-en">EN</span>';
         }
-      }
+        return rawLangText;
     }
-  });
 
-  // Priority sequence for language button ordering
-  const langOrder = ['GR', 'GR-EN', 'EN'];
+    // Extract page header date string if available
+    const fullDateHeader = document.querySelector('.index-title-date')?.innerText || "";
+    const dateMatch = fullDateHeader.match(/Services for\s+(.*)/i);
+    const dateStr = dateMatch ? dateMatch[1].trim() : "";
 
-  // 3. Construct new DOM layout
-  const container = document.createElement('div');
-  container.className = 'service-group-container';
+    // 2. Parse table rows and categorize options into Web View, Print-PDF, and Word Export
+    const services = [];
+    let currentService = null;
 
-  services.forEach(service => {
-    const card = document.createElement('div');
-    card.className = 'service-card';
+    const rows = table.querySelectorAll('tr');
+    rows.forEach(row => {
+        if (row.classList.contains('index-service-day-tr')) {
+            const titleSpan = row.querySelector('.index-service-day');
+            if (titleSpan) {
+                currentService = {
+                    title: titleSpan.textContent.trim(),
+                    categories: {
+                        'Web View': [],
+                        'Print-PDF': [],
+                        'Word Export': []
+                    }
+                };
+                services.push(currentService);
+            }
+        } else if (row.classList.contains('index-service-language-tr') && currentService) {
+            const langSpan = row.querySelector('.index-language');
+            const linkAnchor = row.querySelector('a.index-file-link');
 
-    const cardTitle = document.createElement('div');
-    cardTitle.className = 'service-card-title index-service-day';
-    cardTitle.textContent = service.title;
-    card.appendChild(cardTitle);
+            if (langSpan && linkAnchor) {
+                const rawLangText = langSpan.textContent.trim();
+                const upperLang = rawLangText.toUpperCase();
+                const href = linkAnchor.getAttribute('href') || '';
+                const linkText = linkAnchor.textContent.trim().toLowerCase();
 
-    ['Web View', 'Print-PDF', 'Build-Export'].forEach(category => {
-      const buttons = service.categories[category];
-      if (buttons && buttons.length > 0) {
+                const isPdf = href.toLowerCase().endsWith('.pdf') || linkText.includes('pdf') || linkText.includes('print');
+                const category = isPdf ? 'Print-PDF' : 'Web View';
 
-        // Sort buttons strictly according to GR -> GR-EN -> EN sequence
-        buttons.sort((a, b) => {
-          const codeA = a.dataset.langCode;
-          const codeB = b.dataset.langCode;
+                // Clone original anchor and format as a button
+                const btnAnchor = linkAnchor.cloneNode(true);
+                btnAnchor.className = 'lang-btn';
+                btnAnchor.innerHTML = formatLangHTML(rawLangText);
+                btnAnchor.dataset.langCode = upperLang;
 
-          let idxA = langOrder.indexOf(codeA);
-          let idxB = langOrder.indexOf(codeB);
+                currentService.categories[category].push(btnAnchor);
 
-          if (idxA === -1) idxA = 99;
-          if (idxB === -1) idxB = 99;
+              // For web view HTML links (excluding Matins-Customizable /ma2/ links), generate Word Export button
+              if (!isPdf && !href.includes('/ma2/')) {
+                    const exportBtn = document.createElement('button');
+                    exportBtn.type = 'button';
+                    exportBtn.className = 'lang-btn';
+                    exportBtn.innerHTML = formatLangHTML(rawLangText);
+                    exportBtn.dataset.langCode = upperLang;
 
-          return idxA - idxB;
-        });
+                    exportBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const fileName = `${dateStr} ${currentService.title} ${rawLangText}`.trim();
+                        performWordExport(linkAnchor.href, fileName, rawLangText);
+                    });
 
-        const typeRow = document.createElement('div');
-        typeRow.className = 'service-type-row';
-
-        const label = document.createElement('span');
-        label.className = 'service-type-label';
-        label.textContent = category + ':';
-        typeRow.appendChild(label);
-
-        const btnGroup = document.createElement('div');
-        btnGroup.className = 'service-btn-group';
-
-        buttons.forEach(btn => btnGroup.appendChild(btn));
-        typeRow.appendChild(btnGroup);
-
-        card.appendChild(typeRow);
-      }
+                    currentService.categories['Word Export'].push(exportBtn);
+                }
+            }
+        }
     });
 
-    container.appendChild(card);
-  });
+    // Priority sequence for language button ordering
+    const langOrder = ['GR', 'GR-EN', 'EN'];
 
-  // 4. Replace original legacy table
-  if (table.parentNode) {
-    table.parentNode.replaceChild(container, table);
-  }
+    // 3. Construct new DOM layout
+    const container = document.createElement('div');
+    container.className = 'service-group-container';
+
+    services.forEach(service => {
+        const card = document.createElement('div');
+        card.className = 'service-card';
+
+        const cardTitle = document.createElement('div');
+        cardTitle.className = 'service-card-title index-service-day';
+        cardTitle.textContent = service.title;
+        card.appendChild(cardTitle);
+
+        ['Web View', 'Print-PDF', 'Word Export'].forEach(category => {
+            const buttons = service.categories[category];
+            if (buttons && buttons.length > 0) {
+
+                // Sort buttons strictly according to GR -> GR-EN -> EN sequence
+                buttons.sort((a, b) => {
+                    const codeA = a.dataset.langCode;
+                    const codeB = b.dataset.langCode;
+
+                    let idxA = langOrder.indexOf(codeA);
+                    let idxB = langOrder.indexOf(codeB);
+
+                    if (idxA === -1) idxA = 99;
+                    if (idxB === -1) idxB = 99;
+
+                    return idxA - idxB;
+                });
+
+                const typeRow = document.createElement('div');
+                typeRow.className = 'service-type-row';
+
+                const label = document.createElement('span');
+                label.className = 'service-type-label';
+                label.textContent = category + ':';
+                typeRow.appendChild(label);
+
+                const btnGroup = document.createElement('div');
+                btnGroup.className = 'service-btn-group';
+
+                buttons.forEach(btn => btnGroup.appendChild(btn));
+                typeRow.appendChild(btnGroup);
+
+                card.appendChild(typeRow);
+            }
+        });
+
+        container.appendChild(card);
+    });
+
+    // 4. Replace original legacy table
+    if (table.parentNode) {
+        table.parentNode.replaceChild(container, table);
+    }
 }
 
 // Auto-run on DOMContentLoaded or immediate execution
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', transformIndexLayout);
+    document.addEventListener('DOMContentLoaded', transformIndexLayout);
 } else {
-  transformIndexLayout();
+    transformIndexLayout();
 }
 
-//********************** NEW MATINS ORDINARY */
-
-
-
-
-
-
-async function fetchMatinsHTML() {
-  let fetchedHTMLContentMat = null;
-  try {
-    const response = await fetch(`https://dcs.goarch.org/goa/dcs/h/b/sb/mat/gr-en/index.html`);
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    // Extract raw markup as plain string text
-    fetchedHTMLContentMat = await response.text();
-
-  } catch (error) {
-    console.error(`Could not fetch "mat":`, error);
-
-    const errorFallbackHTML = `<p style="color:red; font-weight:bold;">Error loading target template asset (mat).</p>`;
-
-    fetchedHTMLContentMat = errorFallbackHTML;
-
-  }
-  console.log("Fetch complete!");
-  executeContentSwap(swapMapping['matins_ordinary_section1_paschal_yes'], fetchedHTMLContentMat);
-  executeContentSwap(swapMapping['matins_ordinary_section1_ascension_yes'], fetchedHTMLContentMat);
-  executeContentSwap(swapMapping['matins_ordinary_section1_normal_yes'], fetchedHTMLContentMat);
-  executeContentSwap(swapMapping['matins_ordinary_section2_prayers_yes'], fetchedHTMLContentMat);
-  executeContentSwap(swapMapping['matins_ordinary_section3_psalms_litany_yes'], fetchedHTMLContentMat);
-  hideGreekInEnglishOnlyService();
-  hideEnglishInGreekOnlyService();
-
-}
-
-function executeContentSwap(key, fetchedHTMLContentMat) {
-
-  // Parse the global HTML string directly from memory
-  const parser = new DOMParser();
-  let sourceDocNode = parser.parseFromString(fetchedHTMLContentMat, 'text/html');
-
-  const targetDocNode = window.document;
-
-  // 1. Locate Source Boundaries natively
-  const srcStartEl = sourceDocNode.querySelector(`.${key.sourceBegin}`);
-  const srcEndEl = sourceDocNode.querySelector(`.${key.sourceEnd}`);
-  const srcStart = srcStartEl ? srcStartEl.closest('tr') : null;
-  const srcEnd = srcEndEl ? srcEndEl.closest('tr') : null;
-
-  // 2. Locate Target Boundaries natively
-  const targetStartEl = targetDocNode.querySelector(`.${key.targetBegin}`);
-  const targetEndEl = targetDocNode.querySelector(`.${key.targetEnd}`);
-  const targetStart = targetStartEl ? targetStartEl.closest('tr') : null;
-  const targetEnd = targetEndEl ? targetEndEl.closest('tr') : null;
-
-  if (!srcStart || !srcEnd || !targetStart || !targetEnd) {
-    console.error("One or more boundaries not found. Swap aborted." + key.targetBegin);
-    console.log(`srcStart: ${srcStart ? "Found" : "Missing"}`);
-    console.log(`srcEnd: ${srcEnd ? "Found" : "Missing"}`);
-    console.log(`targetStart: ${targetStart ? "Found" : "Missing"}`);
-    console.log(`targetEnd: ${targetEnd ? "Found" : "Missing"}`);
-    return;
-  }
-
-  // 3. Capture the "Middle" Content
-  const contentFromSource = getNextUntilSiblings(srcStart, srcEnd);
-  const contentFromTarget = getNextUntilSiblings(targetStart, targetEnd);
-
-  // 4. Perform the Swap in Target Document
-  removeNextUntilSiblings(targetStart, targetEnd);
-  insertAfter(targetStart, contentFromSource);
-
-  // 5. Perform the Swap in Source Document
-  removeNextUntilSiblings(srcStart, srcEnd);
-  insertAfter(srcStart, contentFromTarget);
-}
-
-/* --- VANILLA HOOK UTILITIES --- */
-
-function getNextUntilSiblings(startNode, endNode) {
-  const siblings = [];
-  let next = startNode.nextElementSibling;
-  while (next && next !== endNode) {
-    siblings.push(next.cloneNode(true));
-    next = next.nextElementSibling;
-  }
-  return siblings;
-}
-
-function removeNextUntilSiblings(startNode, endNode) {
-  let next = startNode.nextElementSibling;
-  while (next && next !== endNode) {
-    const nodeToRemove = next;
-    next = next.nextElementSibling;
-    nodeToRemove.remove();
-  }
-}
-
-function insertAfter(referenceNode, newNodesArray) {
-  for (let i = newNodesArray.length - 1; i >= 0; i--) {
-    referenceNode.insertAdjacentElement('afterend', newNodesArray[i]);
-  }
-}
-
-const swapMapping = {
-  'matins_ordinary_section1_paschal_yes': {
-    targetBegin: 'brc_ma_matins_ordinary_section1_paschal',
-    targetEnd: 'erc_ma_matins_ordinary_section1_paschal',
-    sourceDoc: 'mat',
-    sourceBegin: 'brc_ma_matins_ordinary_section1_paschal',
-    sourceEnd: 'erc_ma_matins_ordinary_section1_paschal'
-  },
-
-  'matins_ordinary_section1_ascension_yes': {
-    targetBegin: 'brc_ma_matins_ordinary_section1_ascension',
-    targetEnd: 'erc_ma_matins_ordinary_section1_ascension',
-    sourceDoc: 'mat',
-    sourceBegin: 'brc_ma_matins_ordinary_section1_ascension',
-    sourceEnd: 'erc_ma_matins_ordinary_section1_ascension'
-  },
-
-  'matins_ordinary_section1_normal_yes': {
-    targetBegin: 'brc_ma_matins_ordinary_section1_normal',
-    targetEnd: 'erc_ma_matins_ordinary_section1_normal',
-    sourceDoc: 'mat',
-    sourceBegin: 'brc_ma_matins_ordinary_section1_normal',
-    sourceEnd: 'erc_ma_matins_ordinary_section1_normal'
-  },
-
-  'matins_ordinary_section2_prayers_yes': {
-    targetBegin: 'brc_ma_matins_ordinary_section2_prayers',
-    targetEnd: 'erc_ma_matins_ordinary_section2_prayers',
-    sourceDoc: 'mat',
-    sourceBegin: 'brc_ma_matins_ordinary_section2_prayers',
-    sourceEnd: 'erc_ma_matins_ordinary_section2_prayers'
-  },
-
-  'matins_ordinary_section3_psalms_litany_yes': {
-    targetBegin: 'brc_ma_matins_ordinary_section3_psalms_litany',
-    targetEnd: 'erc_ma_matins_ordinary_section3_psalms_litany',
-    sourceDoc: 'mat',
-    sourceBegin: 'brc_ma_matins_ordinary_section3_psalms_litany',
-    sourceEnd: 'erc_ma_matins_ordinary_section3_psalms_litany'
-  }
-}
