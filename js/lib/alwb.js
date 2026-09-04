@@ -697,7 +697,18 @@ $(document).ready(function () {
       "<p>PDF EXPORT AND PRINT</p><p class='dialog'>To print the customized service as it appears in " +
       "your browser in the left frame, after you apply your options, use the print button at the top of the customized service. The iPad app does not yet support printing of the customized text.</p></div>");
 
+    // 1. Append the Apply button
     $(".pref-opts").append('<div class="pref-closer">Apply</div>');
+
+    // 2. Append the Matins Ordinary checkbox immediately after Apply
+    var isMatinsChecked = localStorage.getItem("pref_matinsOrdinary") === "true";
+    var matinsCheckedAttr = isMatinsChecked ? " checked" : "";
+
+    $(".pref-opts").append(
+      spacer_text +
+      "<div class='pref-left'><label for='cb-matinsOrdinary'>Matins Ordinary</label></div>" +
+      "<div class='pref-right'><input id='cb-matinsOrdinary' type='checkbox'" + matinsCheckedAttr + "></div>"
+    );
 
     var prev_ode = null; var cur_ode = null;
     opt_list.forEach(function (item) {
@@ -845,10 +856,24 @@ $(document).ready(function () {
       ev.preventDefault();
       $(".pref-panel").show();
     });
-    $('.pref-closer').click(function () {
+
+    $('.pref-closer').click(async function () {
+      const includeOrdinary = $("#cb-matinsOrdinary").is(":checked");
+
+      // Store preference state
+      localStorage.setItem("pref_matinsOrdinary", includeOrdinary);
+
+      if (includeOrdinary) {
+        // If not already fetched/swapped, run your fetch & swap block
+        await loadAndSwapMatinsOrdinary();
+      } else {
+        // Purge rows between markers cleanly
+        removeMatinsOrdinarySections();
+      }
+
       $(".pref-panel").hide();
     });
-
+    
     // Bind click functions for dismissal options
     $('#cb_matins_end_no_dismissal').click(function () {
       if (this.checked) {
@@ -3032,9 +3057,32 @@ async function performUnifiedExport(format) {
 
 function generatePDFFile(element, filename, isSingleColumn, displayTitle = "Divine Services") {
   const clone = element.cloneNode(true);
+
+  // 1. Detect if Greek or English is hidden on the live page
+  const hideGreek = document.querySelector('.leftCell[style*="display: none"], td.leftCell.nodisplay, .hide-greek') !== null ||
+    document.body.classList.contains('english-only');
+
+  const hideEnglish = document.querySelector('.rightCell[style*="display: none"], td.rightCell.nodisplay, .hide-english') !== null ||
+    document.body.classList.contains('greek-only');
+
+  // 2. Remove the hidden language table cells directly from the clone
+  if (hideGreek) {
+    clone.querySelectorAll('td.leftCell, .leftCell').forEach(el => el.remove());
+  }
+  if (hideEnglish) {
+    clone.querySelectorAll('td.rightCell, .rightCell').forEach(el => el.remove());
+  }
+
+  // 3. Remove standard hidden elements
   const hiddenSelectors = '.nodisplay, .noprintactor, .noprintrub, .noprintprayer, [style*="display: none"], .sbparishname';
   clone.querySelectorAll(hiddenSelectors).forEach(el => el.remove());
 
+  // 4. Clean up any table rows that are now empty
+  clone.querySelectorAll('tr').forEach(tr => {
+    if (!tr.textContent.trim()) tr.remove();
+  });
+
+  // 5. Strip trailing empty paragraph or div nodes
   const children = clone.querySelectorAll('p, div, br');
   for (let i = children.length - 1; i >= 0; i--) {
     const node = children[i];
@@ -3045,6 +3093,7 @@ function generatePDFFile(element, filename, isSingleColumn, displayTitle = "Divi
     }
   }
 
+  // 6. Open the print window and write the document
   const printWin = window.open('', '_blank', 'width=900,height=800');
   const rootURL = `https://dcs.goarch.org/goa/dcs/`;
 
@@ -3171,7 +3220,7 @@ function generatePDFFile(element, filename, isSingleColumn, displayTitle = "Divi
             </div>
         </body>
         </html>
-    `);
+  `);
 
   printWin.document.close();
 }
@@ -3920,7 +3969,7 @@ async function fetchMatinsHTML() {
   executeContentSwap(swapMapping['matins_ordinary_section3_psalms_litany_yes'], fetchedHTMLContentMat);
   hideGreekInEnglishOnlyService();
   hideEnglishInGreekOnlyService();
-
+  convertClassToId();
 }
 
 function executeContentSwap(key, fetchedHTMLContentMat) {
@@ -4033,3 +4082,76 @@ const swapMapping = {
     sourceEnd: 'erc_ma_matins_ordinary_section3_psalms_litany'
   }
 }
+
+
+/**
+ * Fetches the base Matins asset and executes all insertion swaps.
+ */
+async function loadAndSwapMatinsOrdinary() {
+  let fetchedHTMLContentMat = null;
+
+  try {
+    const response = await fetch(`https://dcs.goarch.org/goa/dcs/h/b/sb/mat/gr-en/index.html`);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    fetchedHTMLContentMat = await response.text();
+  } catch (error) {
+    console.error(`Could not fetch "mat":`, error);
+    fetchedHTMLContentMat = `<p style="color:red; font-weight:bold;">Error loading target template asset (mat).</p>`;
+  }
+
+  console.log("Fetch complete!");
+
+  // Execute insertion swaps using mapping keys
+  executeContentSwap(swapMapping['matins_ordinary_section1_paschal_yes'], fetchedHTMLContentMat);
+  executeContentSwap(swapMapping['matins_ordinary_section1_ascension_yes'], fetchedHTMLContentMat);
+  executeContentSwap(swapMapping['matins_ordinary_section1_normal_yes'], fetchedHTMLContentMat);
+  executeContentSwap(swapMapping['matins_ordinary_section2_prayers_yes'], fetchedHTMLContentMat);
+  executeContentSwap(swapMapping['matins_ordinary_section3_psalms_litany_yes'], fetchedHTMLContentMat);
+
+  if (typeof hideGreekInEnglishOnlyService === "function") hideGreekInEnglishOnlyService();
+  if (typeof hideEnglishInGreekOnlyService === "function") hideEnglishInGreekOnlyService();
+//  hideGreekInEnglishOnlyService();
+//  hideEnglishInGreekOnlyService();
+  convertClassToId();
+}
+
+/**
+ * Clears rows sitting between target boundary markers without requiring a dummy source doc.
+ */
+function clearContentBetweenBoundaries(key) {
+  const targetDocNode = window.document;
+
+  const targetStartEl = targetDocNode.querySelector(`.${key.targetBegin}`);
+  const targetEndEl = targetDocNode.querySelector(`.${key.targetEnd}`);
+
+  const targetStart = targetStartEl ? targetStartEl.closest('tr') : null;
+  const targetEnd = targetEndEl ? targetEndEl.closest('tr') : null;
+
+  if (!targetStart || !targetEnd) {
+    console.error("Target boundaries missing for clearing: " + key.targetBegin);
+    return;
+  }
+
+  removeNextUntilSiblings(targetStart, targetEnd);
+}
+
+/**
+ * Clears all injected Matins Ordinary sections from the DOM.
+ */
+function removeMatinsOrdinarySections() {
+  clearContentBetweenBoundaries(swapMapping['matins_ordinary_section1_paschal_yes']);
+  clearContentBetweenBoundaries(swapMapping['matins_ordinary_section1_ascension_yes']);
+  clearContentBetweenBoundaries(swapMapping['matins_ordinary_section1_normal_yes']);
+  clearContentBetweenBoundaries(swapMapping['matins_ordinary_section2_prayers_yes']);
+  clearContentBetweenBoundaries(swapMapping['matins_ordinary_section3_psalms_litany_yes']);
+
+  console.log("Matins Ordinary content cleared.");
+}
+
+
+
+

@@ -1945,7 +1945,6 @@ table.custom-index-table {
 
 .pref-instructions {
     padding: 10px;
-    font-size: 12pt;
 }
 
 .pref-closer {
@@ -2007,72 +2006,6 @@ table.custom-index-table {
 
 .save-button>.btn {
     float: right;
-}
-
-@media print {
-    @page {
-        margin: .5in .75in .5in .75in;
-    }
-
-    .agesMenu {
-        display: none;
-    }
-
-    p {
-        font-family: palatino;
-    }
-
-    .actor,
-    .designation,
-    .red,
-    .mode,
-    .melody,
-    .chapverse {
-        color: #ff0000 !important;
-        font-family: liberation !important;
-    }
-
-    .boldred {
-        color: #ff0000 !important;
-        /* check */
-    }
-
-    .mixed {
-        font-family: liberation !important;
-    }
-
-    .source {
-        color: gray !important;
-        /* check */
-    }
-
-    .media-group,
-    .media-group-empty {
-        display: none !important;
-        /* check */
-    }
-
-    .versiondesignation {
-        color: red !important;
-        /* check */
-    }
-
-    tr .designation,
-    tr .actor,
-    tr .mixed,
-    tr .melody {
-        page-break-after: avoid !important;
-    }
-
-    .glyphicon,
-    .fa-byznote {
-        display: none;
-    }
-
-    .print-btn {
-        display: none;
-    }
-
 }
 
 

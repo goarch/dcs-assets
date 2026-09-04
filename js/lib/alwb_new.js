@@ -697,7 +697,18 @@ $(document).ready(function () {
       "<p>PDF EXPORT AND PRINT</p><p class='dialog'>To print the customized service as it appears in " +
       "your browser in the left frame, after you apply your options, use the print button at the top of the customized service. The iPad app does not yet support printing of the customized text.</p></div>");
 
+    // 1. Append the Apply button
     $(".pref-opts").append('<div class="pref-closer">Apply</div>');
+
+    // 2. Append the Matins Ordinary checkbox immediately after Apply
+    var isMatinsChecked = localStorage.getItem("pref_matinsOrdinary") === "true";
+    var matinsCheckedAttr = isMatinsChecked ? " checked" : "";
+
+    $(".pref-opts").append(
+      spacer_text +
+      "<div class='pref-left'><label for='cb-matinsOrdinary'>Matins Ordinary</label></div>" +
+      "<div class='pref-right'><input id='cb-matinsOrdinary' type='checkbox'" + matinsCheckedAttr + "></div>"
+    );
 
     var prev_ode = null; var cur_ode = null;
     opt_list.forEach(function (item) {
@@ -845,7 +856,21 @@ $(document).ready(function () {
       ev.preventDefault();
       $(".pref-panel").show();
     });
-    $('.pref-closer').click(function () {
+
+    $('.pref-closer').click(async function () {
+      const includeOrdinary = $("#cb-matinsOrdinary").is(":checked");
+
+      // Store preference state
+      localStorage.setItem("pref_matinsOrdinary", includeOrdinary);
+
+      if (includeOrdinary) {
+        // If not already fetched/swapped, run your fetch & swap block
+        await loadAndSwapMatinsOrdinary();
+      } else {
+        // Purge rows between markers cleanly
+        removeMatinsOrdinarySections();
+      }
+
       $(".pref-panel").hide();
     });
 
@@ -955,7 +980,6 @@ $(document).ready(function () {
     });
     return ode_katavasia_shown;
   }
-
 
   // $('a.mediaMode').attr('data-toggle','tooltip');
   // $('a.mediaMode').attr('data-placement','bottom');
@@ -4956,14 +4980,31 @@ if (document.readyState === 'loading') {
   transformIndexLayout();
 }
 
-//********************** NEW MATINS ORDINARY */
-
-
-
-
-
+/* ********************* NEW MATINS ORDINARY */
 
 async function fetchMatinsHTML() {
+
+  const currentUrl = window.location.href.toLowerCase();
+  const referrerUrl = (document.referrer || "").toLowerCase();
+
+  // Exclude sb-matins.html and sb-hmatins.html explicitly
+  const isExcludedFile =
+    currentUrl.includes('sb-matins.html') ||
+    currentUrl.includes('sb-hmatins.html') ||
+    referrerUrl.includes('sb-matins.html') ||
+    referrerUrl.includes('sb-hmatins.html');
+
+  // Must contain /ma/ or /ma[digit except 2 or 8] in the path
+  const maPattern = /\/ma([01345679]|\/)/i;
+  const hasAllowedPattern = maPattern.test(currentUrl) || maPattern.test(referrerUrl);
+
+  if (isExcludedFile || !hasAllowedPattern) {
+    console.log("insertMatinsOrdinary() blocked via URL pattern check.");
+    return; // Exit early
+  }
+
+  /* ********************************* */
+
   let fetchedHTMLContentMat = null;
   try {
     const response = await fetch(`https://dcs.goarch.org/goa/dcs/h/b/sb/mat/gr-en/index.html`);
@@ -4991,7 +5032,7 @@ async function fetchMatinsHTML() {
   executeContentSwap(swapMapping['matins_ordinary_section3_psalms_litany_yes'], fetchedHTMLContentMat);
   hideGreekInEnglishOnlyService();
   hideEnglishInGreekOnlyService();
-
+  convertClassToId();
 }
 
 function executeContentSwap(key, fetchedHTMLContentMat) {
@@ -5104,3 +5145,76 @@ const swapMapping = {
     sourceEnd: 'erc_ma_matins_ordinary_section3_psalms_litany'
   }
 }
+
+
+/**
+ * Fetches the base Matins asset and executes all insertion swaps.
+ */
+async function loadAndSwapMatinsOrdinary() {
+  let fetchedHTMLContentMat = null;
+
+  try {
+    const response = await fetch(`https://dcs.goarch.org/goa/dcs/h/b/sb/mat/gr-en/index.html`);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    fetchedHTMLContentMat = await response.text();
+  } catch (error) {
+    console.error(`Could not fetch "mat":`, error);
+    fetchedHTMLContentMat = `<p style="color:red; font-weight:bold;">Error loading target template asset (mat).</p>`;
+  }
+
+  console.log("Fetch complete!");
+
+  // Execute insertion swaps using mapping keys
+  executeContentSwap(swapMapping['matins_ordinary_section1_paschal_yes'], fetchedHTMLContentMat);
+  executeContentSwap(swapMapping['matins_ordinary_section1_ascension_yes'], fetchedHTMLContentMat);
+  executeContentSwap(swapMapping['matins_ordinary_section1_normal_yes'], fetchedHTMLContentMat);
+  executeContentSwap(swapMapping['matins_ordinary_section2_prayers_yes'], fetchedHTMLContentMat);
+  executeContentSwap(swapMapping['matins_ordinary_section3_psalms_litany_yes'], fetchedHTMLContentMat);
+
+  if (typeof hideGreekInEnglishOnlyService === "function") hideGreekInEnglishOnlyService();
+  if (typeof hideEnglishInGreekOnlyService === "function") hideEnglishInGreekOnlyService();
+  //  hideGreekInEnglishOnlyService();
+  //  hideEnglishInGreekOnlyService();
+  convertClassToId();
+}
+
+/**
+ * Clears rows sitting between target boundary markers without requiring a dummy source doc.
+ */
+function clearContentBetweenBoundaries(key) {
+  const targetDocNode = window.document;
+
+  const targetStartEl = targetDocNode.querySelector(`.${key.targetBegin}`);
+  const targetEndEl = targetDocNode.querySelector(`.${key.targetEnd}`);
+
+  const targetStart = targetStartEl ? targetStartEl.closest('tr') : null;
+  const targetEnd = targetEndEl ? targetEndEl.closest('tr') : null;
+
+  if (!targetStart || !targetEnd) {
+    console.error("Target boundaries missing for clearing: " + key.targetBegin);
+    return;
+  }
+
+  removeNextUntilSiblings(targetStart, targetEnd);
+}
+
+/**
+ * Clears all injected Matins Ordinary sections from the DOM.
+ */
+function removeMatinsOrdinarySections() {
+  clearContentBetweenBoundaries(swapMapping['matins_ordinary_section1_paschal_yes']);
+  clearContentBetweenBoundaries(swapMapping['matins_ordinary_section1_ascension_yes']);
+  clearContentBetweenBoundaries(swapMapping['matins_ordinary_section1_normal_yes']);
+  clearContentBetweenBoundaries(swapMapping['matins_ordinary_section2_prayers_yes']);
+  clearContentBetweenBoundaries(swapMapping['matins_ordinary_section3_psalms_litany_yes']);
+
+  console.log("Matins Ordinary content cleared.");
+}
+
+
+
+
