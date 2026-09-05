@@ -4152,6 +4152,302 @@ function removeMatinsOrdinarySections() {
   console.log("Matins Ordinary content cleared.");
 }
 
+//Inject Find function
+
+document.getElementById('FrameText').addEventListener('load', function () {
+  const frameDoc = this.contentWindow.document;
+  const frameWin = frameDoc.defaultView;
+  const agesMenu = frameDoc.querySelector('.agesMenu');
+
+  if (!agesMenu || frameDoc.getElementById('vsSearchContainer')) return;
+
+  // 1. Ensure the parent .agesMenu container uses flex layout to enable auto margins
+  Object.assign(agesMenu.style, {
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%'
+  });
+
+  // Remove clockbox if present
+  const clockbox = agesMenu.querySelector('#clockbox');
+  if (clockbox) {
+    clockbox.remove();
+  }
+
+  // 2. Inject CSS for Visual Studio styling and custom match highlights
+  const styleEl = frameDoc.createElement('style');
+  styleEl.textContent = `
+    .vs-find-container {
+      display: inline-flex;
+      align-items: center;
+      background: #f5f5f5;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+      padding: 1px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      vertical-align: middle;
+      margin-left: auto; /* Pushes the container to the far right */
+      margin-right: 5px;
+    }
+    .vs-find-input-wrapper {
+      display: inline-flex;
+      align-items: center;
+      background: #ffffff;
+      border: 1px solid #c8c8c8;
+      border-radius: 2px;
+      padding: 0 2px;
+    }
+    .vs-find-input-wrapper:focus-within {
+      border-color: #007acc;
+    }
+    .vs-find-input {
+      border: none;
+      outline: none;
+      font-size: 12px;
+      height: 20px;
+      padding: 0 4px;
+      width: 75px; /* Shortened from 140px */
+      background: transparent;
+    }
+    .vs-option-btn, .vs-nav-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 2px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: bold;
+      height: 20px;
+      min-width: 22px;
+      padding: 0 4px;
+      color: #333;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+    }
+    .vs-option-btn:hover, .vs-nav-btn:hover {
+      background-color: #e1e1e1;
+    }
+    .vs-option-btn.active {
+      background-color: #c9e2f7;
+      border-color: #007acc;
+      color: #007acc;
+    }
+    .vs-status-text {
+      font-size: 11px;
+      margin-left: 6px;
+      color: #666;
+      white-space: nowrap;
+    }
+    
+    /* Highlight Styling */
+    mark.vs-search-highlight {
+      background-color: #ffe66d !important;
+      color: #000000 !important;
+      border-radius: 2px;
+      padding: 0;
+    }
+    mark.vs-search-highlight.current-match {
+      background-color: #ff9f1c !important;
+      color: #ffffff !important;
+      outline: 1px solid #d47a00;
+    }
+  `;
+  frameDoc.head.appendChild(styleEl);
+
+  // 3. Build Search UI Container
+  const searchContainer = frameDoc.createElement('span');
+  searchContainer.id = 'vsSearchContainer';
+  searchContainer.className = 'vs-find-container';
+
+  searchContainer.innerHTML = `
+    <div class="vs-find-input-wrapper">
+      <input type="text" id="vsSearchInput" class="vs-find-input" placeholder="Find" />
+      <button type="button" id="vsMatchCase" class="vs-option-btn" title="Match Case">Aa</button>
+      <button type="button" id="vsWholeWord" class="vs-option-btn" title="Match Whole Word">[a]</button>
+    </div>
+    <button type="button" id="vsPrevBtn" class="vs-nav-btn" title="Find Previous (Shift+Enter)">
+      <i class="fa fa-arrow-up"></i>
+    </button>
+    <button type="button" id="vsNextBtn" class="vs-nav-btn" title="Find Next (Enter)">
+      <i class="fa fa-arrow-down"></i>
+    </button>
+    <span id="vsSearchStatus" class="vs-status-text"></span>
+  `;
+
+  // Append to the end of agesMenu (far right)
+  agesMenu.appendChild(searchContainer);
+
+  // 4. State Tracking Variables
+  let matches = [];
+  let currentIndex = -1;
+
+  const searchInput = frameDoc.getElementById('vsSearchInput');
+  const matchCaseBtn = frameDoc.getElementById('vsMatchCase');
+  const wholeWordBtn = frameDoc.getElementById('vsWholeWord');
+  const prevBtn = frameDoc.getElementById('vsPrevBtn');
+  const nextBtn = frameDoc.getElementById('vsNextBtn');
+  const searchStatus = frameDoc.getElementById('vsSearchStatus');
+
+  // 5. Clear all injected <mark> tags and restore original DOM text
+  function clearHighlights() {
+    const highlights = frameDoc.querySelectorAll('mark.vs-search-highlight');
+    highlights.forEach(mark => {
+      const parent = mark.parentNode;
+      parent.replaceChild(frameDoc.createTextNode(mark.textContent), mark);
+      parent.normalize();
+    });
+    matches = [];
+    currentIndex = -1;
+    searchStatus.textContent = '';
+  }
+
+  // 6. Highlight all matches across the document
+
+  // Helper function to strip polytonic accents and diacritics
+  function stripAccents(str) {
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  }
+
+  function highlightAllMatches() {
+    clearHighlights();
+
+    const rawTerm = searchInput.value;
+    if (!rawTerm.trim()) return;
+
+    const caseSensitive = matchCaseBtn.classList.contains('active');
+    const wholeWord = wholeWordBtn.classList.contains('active');
+
+    // Strip accents from search term
+    const cleanTerm = stripAccents(rawTerm);
+
+    // Build regex pattern from stripped term
+    let flags = caseSensitive ? 'g' : 'gi';
+    let pattern = cleanTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    if (wholeWord) {
+      pattern = `\\b${pattern}\\b`;
+    }
+
+    let regex;
+    try {
+      regex = new RegExp(pattern, flags);
+    } catch (e) {
+      return;
+    }
+
+    // Collect text nodes in frame body
+    const walker = frameDoc.createTreeWalker(
+      frameDoc.body,
+      NodeFilter.SHOW_TEXT,
+      {
+        acceptNode: function (node) {
+          if (!node.textContent.trim()) return NodeFilter.FILTER_SKIP;
+          const parentName = node.parentNode.nodeName.toLowerCase();
+          if (parentName === 'script' || parentName === 'style' || node.parentNode.closest('#vsSearchContainer')) {
+            return NodeFilter.FILTER_REJECT;
+          }
+          return NodeFilter.FILTER_ACCEPT;
+        }
+      }
+    );
+
+    const textNodes = [];
+    while (walker.nextNode()) {
+      textNodes.push(walker.currentNode);
+    }
+
+    textNodes.forEach(node => {
+      const originalText = node.textContent;
+      // Normalize and strip accents from page text for matching
+      const strippedText = stripAccents(originalText);
+
+      let match;
+      regex.lastIndex = 0;
+
+      // Match against normalized text to find character offsets
+      if ((match = regex.exec(strippedText)) !== null) {
+        const fragment = frameDoc.createDocumentFragment();
+        let lastIdx = 0;
+
+        do {
+          const matchStart = match.index;
+          const matchEnd = matchStart + match[0].length;
+
+          // Map normalized indices back to original string to preserve accents in DOM
+          if (matchStart > lastIdx) {
+            fragment.appendChild(frameDoc.createTextNode(originalText.substring(lastIdx, matchStart)));
+          }
+
+          const mark = frameDoc.createElement('mark');
+          mark.className = 'vs-search-highlight';
+          mark.textContent = originalText.substring(matchStart, matchEnd);
+          fragment.appendChild(mark);
+
+          matches.push(mark);
+          lastIdx = matchEnd;
+        } while ((match = regex.exec(strippedText)) !== null);
+
+        if (lastIdx < originalText.length) {
+          fragment.appendChild(frameDoc.createTextNode(originalText.substring(lastIdx)));
+        }
+
+        node.parentNode.replaceChild(fragment, node);
+      }
+    });
+
+    if (matches.length > 0) {
+      currentIndex = 0;
+      updateActiveMatch();
+    } else {
+      searchStatus.textContent = 'No matches';
+    }
+  }
 
 
+  // 7. Navigate active match
+  function updateActiveMatch() {
+    if (matches.length === 0) return;
 
+    matches.forEach(m => m.classList.remove('current-match'));
+
+    const currentMark = matches[currentIndex];
+    currentMark.classList.add('current-match');
+    currentMark.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    searchStatus.textContent = `${currentIndex + 1} of ${matches.length}`;
+  }
+
+  function navigate(direction) {
+    if (matches.length === 0) return;
+
+    if (direction === 'next') {
+      currentIndex = (currentIndex + 1) % matches.length;
+    } else if (direction === 'prev') {
+      currentIndex = (currentIndex - 1 + matches.length) % matches.length;
+    }
+    updateActiveMatch();
+  }
+
+  // Event Listeners
+  searchInput.addEventListener('input', highlightAllMatches);
+
+  matchCaseBtn.addEventListener('click', () => {
+    matchCaseBtn.classList.toggle('active');
+    highlightAllMatches();
+  });
+
+  wholeWordBtn.addEventListener('click', () => {
+    wholeWordBtn.classList.toggle('active');
+    highlightAllMatches();
+  });
+
+  nextBtn.addEventListener('click', () => navigate('next'));
+  prevBtn.addEventListener('click', () => navigate('prev'));
+
+  searchInput.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      navigate(e.shiftKey ? 'prev' : 'next');
+    }
+  });
+});

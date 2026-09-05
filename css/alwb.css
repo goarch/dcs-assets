@@ -226,11 +226,6 @@ body {
     width: 100%;
 }
 
-
-
-
-
-
 /* Properties for the Menu Bar */
 div.agesMenu {
     border-style: none;
@@ -246,6 +241,13 @@ div.agesMenu {
     left: 0;
     opacity: 1;
     z-index: 10000;
+
+    /* Flexbox layout to enable responsive wrapping */
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    row-gap: 4px;
+    padding: 2px 4px;
 }
 
 .agesMenu a .fa {
@@ -261,6 +263,14 @@ i.ages-menu-link {
     padding: 0.25em;
     color: white;
 }
+
+/* Visual Studio Find Container Positioning */
+.vs-find-container {
+    margin-left: auto;
+    /* Pushes search bar to the far right */
+}
+
+
 
 /* alwb.css */
 
@@ -1171,7 +1181,6 @@ p.source1 {
     font-weight: normal;
     font-style: normal;
     font-size: 70%;
-    ;
     color: gray;
     text-align: left;
     height: 0;
@@ -2009,6 +2018,7 @@ table.custom-index-table {
 }
 
 
+
 /* ============================================================
    SECTION: SERVICE CUSTOMIZER (THE OUTER WINDOW)
    ============================================================ */
@@ -2219,3 +2229,218 @@ span.sbhvetrisagion {
     display: none;
 }
 
+
+
+
+.cover_logo_line_above {
+    font-family: Liberation Serif Bold;
+    font-size: 11.2pt;
+    font-weight: normal;
+    margin-top: -9in;
+    margin-bottom: .1in;
+    text-align: center;
+}
+
+.cover_logo1 {
+    font-family: Liberation Serif;
+    color: #cc0000;
+    font-size: 25pt;
+    font-weight: normal;
+    margin-top: 0in;
+    margin-bottom: 0in;
+    text-align: center;
+}
+
+.cover_logo2 {
+    font-family: Liberation Serif Bold;
+    font-size: 11.2pt;
+    font-weight: normal;
+    margin-top: -3pt;
+    text-align: center;
+}
+
+.cover_logo_line_below {
+    font-family: Liberation Serif Bold;
+    font-size: 11.2pt;
+    font-weight: normal;
+    margin-top: -4pt;
+    text-align: center;
+}
+
+.cover0 {
+    color: #cc0000;
+    font-family: Liberation Serif Bold;
+    font-size: 20pt;
+    font-weight: bold;
+    margin-top: 0in;
+    margin-bottom: 1in;
+    margin-left: 1in;
+    text-align: left;
+}
+
+.cover1 {
+    font-size: 30pt;
+    font-family: Liberation Serif;
+    font-weight: normal;
+    margin-top: -8.25in;
+    text-align: center;
+}
+
+.cover2 {
+    font-size: 24pt;
+    font-family: Liberation Serif;
+    font-weight: normal;
+    margin-top: 0in;
+    text-align: center;
+}
+
+.cover3 {
+    color: #cc0000;
+    font-family: Liberation Serif Bold;
+    font-size: 16pt;
+    font-weight: bold;
+    margin-bottom: 0in;
+    text-align: center;
+}
+
+.cover31 {
+    font-family: Liberation Serif Bold;
+    font-size: 16pt;
+    font-weight: bold;
+    margin-bottom: .85in;
+    text-align: center;
+}
+
+.cover4 {
+    color: #cc0000;
+    font-family: Liberation Serif Bold;
+    font-size: 16pt;
+    font-weight: bold;
+    text-align: center;
+}
+
+.cover5 {
+    font-family: Liberation Serif Bold;
+    font-size: 16pt;
+    font-weight: bold;
+    margin-top: .3in;
+    text-align: center;
+}
+
+.cover6 {
+    font-family: Liberation Serif Bold;
+    font-size: 16pt;
+    font-weight: bold;
+    padding-top: .3in;
+    text-align: center;
+}
+
+.cover7 {
+    color: #cc0000;
+    font-family: Liberation Serif Bold;
+    font-size: 10pt;
+    font-weight: bold;
+    margin-bottom: .3in;
+    text-align: center;
+}
+
+.cover81 {
+    color: #cc0000;
+    font-family: Liberation Serif Bold;
+    font-size: 14pt;
+    font-style: normal;
+    font-weight: bold;
+    margin-top: -1.75in;
+    text-align: center;
+}
+
+.cover82 {
+    color: #cc0000;
+    font-family: Liberation Serif Bold;
+    font-size: 14pt;
+    font-style: normal;
+    font-weight: bold;
+    margin-top: 0in;
+    text-align: center;
+}
+
+.cover9 {
+    font-family: Liberation Serif Bold;
+    font-size: 10pt;
+    font-weight: bold;
+    margin-top: 8.75in;
+    text-align: center;
+}
+
+.cover10 {
+    font-family: Liberation Serif Bold;
+    font-size: 9pt;
+    font-weight: bold;
+    margin-top: 0in;
+    text-align: center;
+}
+
+.cover11 {
+    font-family: Liberation Serif;
+    font-size: 9pt;
+    font-weight: normal;
+    margin-top: 0in;
+    text-align: center;
+}
+
+.cover12 {
+    color: #cc0000;
+    font-family: Liberation Serif;
+    font-size: 12pt;
+    font-weight: normal;
+    margin-top: .5in;
+    margin-left: 1.5in;
+    margin-right: 1.5in;
+    margin-bottom: .5in;
+    text-align: center;
+}
+
+.cover90 {
+    font-family: Liberation Serif;
+    color: #ffffff;
+    font-size: 10pt;
+    font-weight: normal;
+    margin-top: 8.75in;
+    text-align: center;
+}
+
+.cover110 {
+    font-family: Liberation Serif;
+    color: #ffffff;
+    font-size: 9pt;
+    font-weight: normal;
+    text-align: center;
+}
+
+.credits1 {
+    font-family: Liberation Serif Bold;
+    font-size: 12pt;
+    font-weight: bold;
+    padding-bottom: 1em;
+    padding-top: 1em;
+    text-align: left;
+}
+
+.credits2 {
+    font-family: Liberation Serif;
+    font-size: 12pt;
+    text-align: left;
+}
+
+.credits3 {
+    font-family: Liberation Serif;
+    font-size: 9pt;
+    padding-bottom: 1em;
+    text-align: left;
+}
+
+.credits4 {
+    font-family: Liberation Serif;
+    font-size: 9pt;
+    text-align: left;
+}
