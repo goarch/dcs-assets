@@ -563,9 +563,13 @@ p.bkmrkR {
     font-size: .1%;
     line-height: .1%;
     opacity: 0;
-}
 
-p.bkmrk00 {
+}p.bkmrkRR {
+    font-size: .1%;
+    line-height: .1%;
+    opacity: 0;
+
+}p.bkmrk00 {
     font-size: .1%;
     line-height: .1%;
     opacity: 0;
