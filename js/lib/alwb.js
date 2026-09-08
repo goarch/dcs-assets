@@ -464,7 +464,7 @@ $(document).ready(function () {
   // Change Dropdown Menu items
   $('div#jqm-dropdown-pages > ul > li:eq(2)').html('<a href="https://dcs.goarch.org/goa/dcs/parish.html" target="_blank"><i class="fa fa-list-alt">&nbsp;Today\'s Services</i></a>');
   $('div#jqm-dropdown-pages > ul > li:eq(1)').html('<a href="booksindex.html"><i class="fa fa-arrows">&nbsp;Music, Sacraments, Other</i></a>');
-  $('div#jqm-dropdown-pages > ul > li:eq(0)').html('<a href="servicesindex.html"><i class="fa fa-calendar">&nbsp;Services Calendar</i></a>'); 
+  $('div#jqm-dropdown-pages > ul > li:eq(0)').html('<a href="servicesindex.html"><i class="fa fa-calendar">&nbsp;Services Calendar</i></a>');
 
   if (getLanguages()) {
     setLangVars();
@@ -777,7 +777,7 @@ $(document).ready(function () {
 
     // Add print and services preference links
     if (!isMobile.iPad())
-    //  $(".content").prepend('<p class="print-btn"><a href="#" class="print-service"><i class="fa fa-print" title="Print this frame"></i></a></p>');
+      //  $(".content").prepend('<p class="print-btn"><a href="#" class="print-service"><i class="fa fa-print" title="Print this frame"></i></a></p>');
       $(".content").prepend('<p class="print-btn"><a style="cursor: pointer;" onclick="performUnifiedExport(\'pdf\'); return false;"><i class="fa fa-print" title="Print this frame"></i></a></p>');
 
     $(".content").prepend('<p class="print-btn"><a href="#" class="prefMode"><i class="fa fa-list-ul prefMode" title="Open service preferences"></i></a></p>');
@@ -873,7 +873,7 @@ $(document).ready(function () {
 
       $(".pref-panel").hide();
     });
-    
+
     // Bind click functions for dismissal options
     $('#cb_matins_end_no_dismissal').click(function () {
       if (this.checked) {
@@ -2197,11 +2197,12 @@ $(document).ready(function () {
 
   const requiredReferrer = 'https://dcs.goarch.org/goa/dcs/parish.html';
   const currentReferrer = document.referrer;
+  const isServicesIndex = window.location.pathname.endsWith('servicesindex.html');
 
-  if (currentReferrer === requiredReferrer) {
+  if (currentReferrer === requiredReferrer && !isServicesIndex) {
     console.log("Parish referrer matched. Initializing features.");
 
-    // 1. Set default state to show both columns (tap-to-swap disabled by default)
+    // 1. Set default state to show both columns
     showParishBothColumns();
 
     // 2. Run initial hiding and modification functions
@@ -3249,7 +3250,7 @@ function convertServicesIndexToCalendar() {
   if (!document.getElementById('calendar-grid-styles')) {
     var style = document.createElement('style');
     style.id = 'calendar-grid-styles';
-    style.textContent = 
+    style.textContent =
       "html, body, .index-content {\n" +
       "    width: 100% !important;\n" +
       "    margin: 0 !important;\n" +
@@ -3557,18 +3558,18 @@ if (document.readyState === 'interactive' || document.readyState === 'complete')
  * Helper function to perform Word document generation and export from an HTML service page.
  */
 async function performWordExport(url, serviceName, lang) {
-    const cssPath = "https://dcs.goarch.org/goa/dcs/css/dcs_word_styles.css";
-    try {
-        const resp = await fetch(url);
-        const html = await resp.text();
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
+  const cssPath = "https://dcs.goarch.org/goa/dcs/css/dcs_word_styles.css";
+  try {
+    const resp = await fetch(url);
+    const html = await resp.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
 
-        const target = doc.getElementById('biTable') || doc.querySelector('table');
-        if (!target) return;
+    const target = doc.getElementById('biTable') || doc.querySelector('table');
+    if (!target) return;
 
-        // STEP 1: HARD REMOVALS
-        target.querySelectorAll(`
+    // STEP 1: HARD REMOVALS
+    target.querySelectorAll(`
             [class^="source"], [class*=" source"], 
             .key, [hidden], .media-group, .media-links, 
             .jqm-dropdown, .noprint, i, script, style,
@@ -3578,78 +3579,78 @@ async function performWordExport(url, serviceName, lang) {
             [class^="erc"], [class*=" erc"]
         `).forEach(el => el.remove());
 
-        // STEP 2: CLASS SCRUBBER
-        const classesToScrub = [
-            'kvp', 'achoir', 'aclergy', 'adeacon', 'ahierarch', 'apeople',
-            'apriest', 'areader', 'dchoir', 'dclergy', 'ddeacon',
-            'dhierarch', 'dpeople', 'dpriest', 'dreader', 'dwachoir',
-            'dwaclergy', 'dwadeacon', 'dwahierarch', 'dwapeople',
-            'dwapriest', 'dwareader',
-            'achclhi', 'aclhi', 'adebl', 'adepr', 'aprhi',
-            'dclhi', 'ddepr', 'ddebl', 'dprhi',
-            'dwadebl', 'dwadepr', 'dwaprhi'
-        ];
+    // STEP 2: CLASS SCRUBBER
+    const classesToScrub = [
+      'kvp', 'achoir', 'aclergy', 'adeacon', 'ahierarch', 'apeople',
+      'apriest', 'areader', 'dchoir', 'dclergy', 'ddeacon',
+      'dhierarch', 'dpeople', 'dpriest', 'dreader', 'dwachoir',
+      'dwaclergy', 'dwadeacon', 'dwahierarch', 'dwapeople',
+      'dwapriest', 'dwareader',
+      'achclhi', 'aclhi', 'adebl', 'adepr', 'aprhi',
+      'dclhi', 'ddepr', 'ddebl', 'dprhi',
+      'dwadebl', 'dwadepr', 'dwaprhi'
+    ];
 
-        classesToScrub.forEach(className => {
-            target.querySelectorAll('.' + className).forEach(el => {
-                el.classList.remove(className);
-                if (el.hasAttribute('data-key')) el.removeAttribute('data-key');
-                if (el.classList.length === 0) el.removeAttribute('class');
-            });
-        });
+    classesToScrub.forEach(className => {
+      target.querySelectorAll('.' + className).forEach(el => {
+        el.classList.remove(className);
+        if (el.hasAttribute('data-key')) el.removeAttribute('data-key');
+        if (el.classList.length === 0) el.removeAttribute('class');
+      });
+    });
 
-        // STEP 3: BOOKMARK SCRUBBER
-        target.querySelectorAll('p[class^="bkmrk"]').forEach(p => {
-            if (p.textContent.toLowerCase().includes('bookmark')) {
-                const row = p.closest('tr');
-                if (row) row.remove();
-            }
-        });
+    // STEP 3: BOOKMARK SCRUBBER
+    target.querySelectorAll('p[class^="bkmrk"]').forEach(p => {
+      if (p.textContent.toLowerCase().includes('bookmark')) {
+        const row = p.closest('tr');
+        if (row) row.remove();
+      }
+    });
 
-        // STEP 4: DROP-CAP RESET
-        target.querySelectorAll('[class*="dropcap"], [class*="first-letter"]').forEach(el => {
-            el.style.float = "none";
-            el.style.display = "inline";
-        });
+    // STEP 4: DROP-CAP RESET
+    target.querySelectorAll('[class*="dropcap"], [class*="first-letter"]').forEach(el => {
+      el.style.float = "none";
+      el.style.display = "inline";
+    });
 
-        // STEP 5: THE VACUUM
-        target.querySelectorAll('tr').forEach(row => {
-            const hasText = row.textContent.replace(/\u00a0/g, ' ').trim().length > 0;
-            const hasImg = row.querySelector('img') !== null;
-            if (!hasText && !hasImg) {
-                row.remove();
-            }
-        });
+    // STEP 5: THE VACUUM
+    target.querySelectorAll('tr').forEach(row => {
+      const hasText = row.textContent.replace(/\u00a0/g, ' ').trim().length > 0;
+      const hasImg = row.querySelector('img') !== null;
+      if (!hasText && !hasImg) {
+        row.remove();
+      }
+    });
 
-        // STEP 6: FINAL TABLE ATTRIBUTES
-        target.removeAttribute('width');
-        target.removeAttribute('cellspacing');
-        target.removeAttribute('cellpadding');
-        target.style.width = "100%";
-        target.style.tableLayout = "auto";
+    // STEP 6: FINAL TABLE ATTRIBUTES
+    target.removeAttribute('width');
+    target.removeAttribute('cellspacing');
+    target.removeAttribute('cellpadding');
+    target.style.width = "100%";
+    target.style.tableLayout = "auto";
 
-        const rows = target.querySelectorAll('tr');
-        let isBilingual = false;
+    const rows = target.querySelectorAll('tr');
+    let isBilingual = false;
 
-        for (let i = 0; i < Math.min(rows.length, 5); i++) {
-            if (rows[i].querySelectorAll('td').length > 1) {
-                isBilingual = true;
-                break;
-            }
-        }
+    for (let i = 0; i < Math.min(rows.length, 5); i++) {
+      if (rows[i].querySelectorAll('td').length > 1) {
+        isBilingual = true;
+        break;
+      }
+    }
 
-        const wordColumnCount = isBilingual ? 1 : 2;
-        console.log("Bilingual Detected: " + isBilingual + " | Setting Word Columns to: " + wordColumnCount);
+    const wordColumnCount = isBilingual ? 1 : 2;
+    console.log("Bilingual Detected: " + isBilingual + " | Setting Word Columns to: " + wordColumnCount);
 
-        let cssText = "";
-        try {
-            const cssResp = await fetch(cssPath + "?v=" + new Date().getTime());
-            cssText = await cssResp.text();
-        } catch (e) {
-            console.error("CSS Fetch failed, using fallback empty styles", e);
-        }
+    let cssText = "";
+    try {
+      const cssResp = await fetch(cssPath + "?v=" + new Date().getTime());
+      cssText = await cssResp.text();
+    } catch (e) {
+      console.error("CSS Fetch failed, using fallback empty styles", e);
+    }
 
-        const fileContent = `
+    const fileContent = `
             <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
             <head>
                 <meta charset='utf-8'>
@@ -3673,14 +3674,14 @@ async function performWordExport(url, serviceName, lang) {
             </body>
             </html>`;
 
-        const blob = new Blob(['\ufeff' + fileContent], { type: 'application/msword' });
-        const downloadLink = document.createElement('a');
-        downloadLink.href = URL.createObjectURL(blob);
-        downloadLink.download = serviceName.replace(/[\/\\?%*:|"<>]/g, '-') + '.doc';
-        downloadLink.click();
-    } catch (e) {
-        console.error("DCS Export Error:", e);
-    }
+    const blob = new Blob(['\ufeff' + fileContent], { type: 'application/msword' });
+    const downloadLink = document.createElement('a');
+    downloadLink.href = URL.createObjectURL(blob);
+    downloadLink.download = serviceName.replace(/[\/\\?%*:|"<>]/g, '-') + '.doc';
+    downloadLink.click();
+  } catch (e) {
+    console.error("DCS Export Error:", e);
+  }
 }
 
 /**
@@ -3688,18 +3689,18 @@ async function performWordExport(url, serviceName, lang) {
  * Executes if the page matches the pattern: .../dcs/indexes/YYYYMMDD.html
  */
 function transformIndexLayout() {
-    // Verify the URL pattern ends with 'dcs/indexes/YYYYMMDD.html' or contains '/indexes/'
-    const pathRegex = /\/dcs\/indexes\/\d{8}\.html$/i;
-    if (!pathRegex.test(window.location.pathname) && !window.location.pathname.includes('/indexes/')) {
-        return;
-    }
+  // Verify the URL pattern ends with 'dcs/indexes/YYYYMMDD.html' or contains '/indexes/'
+  const pathRegex = /\/dcs\/indexes\/\d{8}\.html$/i;
+  if (!pathRegex.test(window.location.pathname) && !window.location.pathname.includes('/indexes/')) {
+    return;
+  }
 
-    const table = document.querySelector('.index-content table');
-    if (!table) return;
+  const table = document.querySelector('.index-content table');
+  if (!table) return;
 
-    // 1. Inject styling for card layout, rows, language buttons, and flag colors
-    const styleEl = document.createElement('style');
-    styleEl.textContent = `
+  // 1. Inject styling for card layout, rows, language buttons, and flag colors
+  const styleEl = document.createElement('style');
+  styleEl.textContent = `
         .service-group-container {
             display: flex;
             flex-direction: column;
@@ -3769,152 +3770,152 @@ function transformIndexLayout() {
             color: #B22234;
         }
     `;
-    document.head.appendChild(styleEl);
+  document.head.appendChild(styleEl);
 
-    // Helper to generate flag-colored inner HTML for buttons
-    function formatLangHTML(rawLangText) {
-        const upperLang = rawLangText.toUpperCase();
-        if (upperLang === 'GR') {
-            return '<span class="text-gr">Greek</span>';
-        } else if (upperLang === 'EN') {
-            return '<span class="text-en">English</span>';
-        } else if (upperLang === 'GR-EN') {
-            return '<span class="text-gr">GR</span>–<span class="text-en">EN</span>';
-        }
-        return rawLangText;
+  // Helper to generate flag-colored inner HTML for buttons
+  function formatLangHTML(rawLangText) {
+    const upperLang = rawLangText.toUpperCase();
+    if (upperLang === 'GR') {
+      return '<span class="text-gr">Greek</span>';
+    } else if (upperLang === 'EN') {
+      return '<span class="text-en">English</span>';
+    } else if (upperLang === 'GR-EN') {
+      return '<span class="text-gr">GR</span>–<span class="text-en">EN</span>';
     }
+    return rawLangText;
+  }
 
-    // Extract page header date string if available
-    const fullDateHeader = document.querySelector('.index-title-date')?.innerText || "";
-    const dateMatch = fullDateHeader.match(/Services for\s+(.*)/i);
-    const dateStr = dateMatch ? dateMatch[1].trim() : "";
+  // Extract page header date string if available
+  const fullDateHeader = document.querySelector('.index-title-date')?.innerText || "";
+  const dateMatch = fullDateHeader.match(/Services for\s+(.*)/i);
+  const dateStr = dateMatch ? dateMatch[1].trim() : "";
 
-    // 2. Parse table rows and categorize options into Web View, Print-PDF, and Word Export
-    const services = [];
-    let currentService = null;
+  // 2. Parse table rows and categorize options into Web View, Print-PDF, and Word Export
+  const services = [];
+  let currentService = null;
 
-    const rows = table.querySelectorAll('tr');
-    rows.forEach(row => {
-        if (row.classList.contains('index-service-day-tr')) {
-            const titleSpan = row.querySelector('.index-service-day');
-            if (titleSpan) {
-                currentService = {
-                    title: titleSpan.textContent.trim(),
-                    categories: {
-                        'Web View': [],
-                        'Print-PDF': [],
-                        'Word Export': []
-                    }
-                };
-                services.push(currentService);
-            }
-        } else if (row.classList.contains('index-service-language-tr') && currentService) {
-            const langSpan = row.querySelector('.index-language');
-            const linkAnchor = row.querySelector('a.index-file-link');
+  const rows = table.querySelectorAll('tr');
+  rows.forEach(row => {
+    if (row.classList.contains('index-service-day-tr')) {
+      const titleSpan = row.querySelector('.index-service-day');
+      if (titleSpan) {
+        currentService = {
+          title: titleSpan.textContent.trim(),
+          categories: {
+            'Web View': [],
+            'Print-PDF': [],
+            'Word Export': []
+          }
+        };
+        services.push(currentService);
+      }
+    } else if (row.classList.contains('index-service-language-tr') && currentService) {
+      const langSpan = row.querySelector('.index-language');
+      const linkAnchor = row.querySelector('a.index-file-link');
 
-            if (langSpan && linkAnchor) {
-                const rawLangText = langSpan.textContent.trim();
-                const upperLang = rawLangText.toUpperCase();
-                const href = linkAnchor.getAttribute('href') || '';
-                const linkText = linkAnchor.textContent.trim().toLowerCase();
+      if (langSpan && linkAnchor) {
+        const rawLangText = langSpan.textContent.trim();
+        const upperLang = rawLangText.toUpperCase();
+        const href = linkAnchor.getAttribute('href') || '';
+        const linkText = linkAnchor.textContent.trim().toLowerCase();
 
-                const isPdf = href.toLowerCase().endsWith('.pdf') || linkText.includes('pdf') || linkText.includes('print');
-                const category = isPdf ? 'Print-PDF' : 'Web View';
+        const isPdf = href.toLowerCase().endsWith('.pdf') || linkText.includes('pdf') || linkText.includes('print');
+        const category = isPdf ? 'Print-PDF' : 'Web View';
 
-                // Clone original anchor and format as a button
-                const btnAnchor = linkAnchor.cloneNode(true);
-                btnAnchor.className = 'lang-btn';
-                btnAnchor.innerHTML = formatLangHTML(rawLangText);
-                btnAnchor.dataset.langCode = upperLang;
+        // Clone original anchor and format as a button
+        const btnAnchor = linkAnchor.cloneNode(true);
+        btnAnchor.className = 'lang-btn';
+        btnAnchor.innerHTML = formatLangHTML(rawLangText);
+        btnAnchor.dataset.langCode = upperLang;
 
-                currentService.categories[category].push(btnAnchor);
+        currentService.categories[category].push(btnAnchor);
 
-              // For web view HTML links (excluding Matins-Customizable /ma2/ links), generate Word Export button
-              if (!isPdf && !href.includes('/ma2/')) {
-                    const exportBtn = document.createElement('button');
-                    exportBtn.type = 'button';
-                    exportBtn.className = 'lang-btn';
-                    exportBtn.innerHTML = formatLangHTML(rawLangText);
-                    exportBtn.dataset.langCode = upperLang;
+        // For web view HTML links (excluding Matins-Customizable /ma2/ links), generate Word Export button
+        if (!isPdf && !href.includes('/ma2/')) {
+          const exportBtn = document.createElement('button');
+          exportBtn.type = 'button';
+          exportBtn.className = 'lang-btn';
+          exportBtn.innerHTML = formatLangHTML(rawLangText);
+          exportBtn.dataset.langCode = upperLang;
 
-                    exportBtn.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        const fileName = `${dateStr} ${currentService.title} ${rawLangText}`.trim();
-                        performWordExport(linkAnchor.href, fileName, rawLangText);
-                    });
+          exportBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const fileName = `${dateStr} ${currentService.title} ${rawLangText}`.trim();
+            performWordExport(linkAnchor.href, fileName, rawLangText);
+          });
 
-                    currentService.categories['Word Export'].push(exportBtn);
-                }
-            }
+          currentService.categories['Word Export'].push(exportBtn);
         }
-    });
+      }
+    }
+  });
 
-    // Priority sequence for language button ordering
-    const langOrder = ['GR', 'GR-EN', 'EN'];
+  // Priority sequence for language button ordering
+  const langOrder = ['GR', 'GR-EN', 'EN'];
 
-    // 3. Construct new DOM layout
-    const container = document.createElement('div');
-    container.className = 'service-group-container';
+  // 3. Construct new DOM layout
+  const container = document.createElement('div');
+  container.className = 'service-group-container';
 
-    services.forEach(service => {
-        const card = document.createElement('div');
-        card.className = 'service-card';
+  services.forEach(service => {
+    const card = document.createElement('div');
+    card.className = 'service-card';
 
-        const cardTitle = document.createElement('div');
-        cardTitle.className = 'service-card-title index-service-day';
-        cardTitle.textContent = service.title;
-        card.appendChild(cardTitle);
+    const cardTitle = document.createElement('div');
+    cardTitle.className = 'service-card-title index-service-day';
+    cardTitle.textContent = service.title;
+    card.appendChild(cardTitle);
 
-        ['Web View', 'Print-PDF', 'Word Export'].forEach(category => {
-            const buttons = service.categories[category];
-            if (buttons && buttons.length > 0) {
+    ['Web View', 'Print-PDF', 'Word Export'].forEach(category => {
+      const buttons = service.categories[category];
+      if (buttons && buttons.length > 0) {
 
-                // Sort buttons strictly according to GR -> GR-EN -> EN sequence
-                buttons.sort((a, b) => {
-                    const codeA = a.dataset.langCode;
-                    const codeB = b.dataset.langCode;
+        // Sort buttons strictly according to GR -> GR-EN -> EN sequence
+        buttons.sort((a, b) => {
+          const codeA = a.dataset.langCode;
+          const codeB = b.dataset.langCode;
 
-                    let idxA = langOrder.indexOf(codeA);
-                    let idxB = langOrder.indexOf(codeB);
+          let idxA = langOrder.indexOf(codeA);
+          let idxB = langOrder.indexOf(codeB);
 
-                    if (idxA === -1) idxA = 99;
-                    if (idxB === -1) idxB = 99;
+          if (idxA === -1) idxA = 99;
+          if (idxB === -1) idxB = 99;
 
-                    return idxA - idxB;
-                });
-
-                const typeRow = document.createElement('div');
-                typeRow.className = 'service-type-row';
-
-                const label = document.createElement('span');
-                label.className = 'service-type-label';
-                label.textContent = category + ':';
-                typeRow.appendChild(label);
-
-                const btnGroup = document.createElement('div');
-                btnGroup.className = 'service-btn-group';
-
-                buttons.forEach(btn => btnGroup.appendChild(btn));
-                typeRow.appendChild(btnGroup);
-
-                card.appendChild(typeRow);
-            }
+          return idxA - idxB;
         });
 
-        container.appendChild(card);
+        const typeRow = document.createElement('div');
+        typeRow.className = 'service-type-row';
+
+        const label = document.createElement('span');
+        label.className = 'service-type-label';
+        label.textContent = category + ':';
+        typeRow.appendChild(label);
+
+        const btnGroup = document.createElement('div');
+        btnGroup.className = 'service-btn-group';
+
+        buttons.forEach(btn => btnGroup.appendChild(btn));
+        typeRow.appendChild(btnGroup);
+
+        card.appendChild(typeRow);
+      }
     });
 
-    // 4. Replace original legacy table
-    if (table.parentNode) {
-        table.parentNode.replaceChild(container, table);
-    }
+    container.appendChild(card);
+  });
+
+  // 4. Replace original legacy table
+  if (table.parentNode) {
+    table.parentNode.replaceChild(container, table);
+  }
 }
 
 // Auto-run on DOMContentLoaded or immediate execution
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', transformIndexLayout);
+  document.addEventListener('DOMContentLoaded', transformIndexLayout);
 } else {
-    transformIndexLayout();
+  transformIndexLayout();
 }
 
 /* ********************* NEW MATINS ORDINARY */
@@ -3939,7 +3940,7 @@ async function fetchMatinsHTML() {
     console.log("insertMatinsOrdinary() blocked via URL pattern check.");
     return; // Exit early
   }
-  
+
   /* ********************************* */
 
   let fetchedHTMLContentMat = null;
@@ -4114,8 +4115,8 @@ async function loadAndSwapMatinsOrdinary() {
 
   if (typeof hideGreekInEnglishOnlyService === "function") hideGreekInEnglishOnlyService();
   if (typeof hideEnglishInGreekOnlyService === "function") hideEnglishInGreekOnlyService();
-//  hideGreekInEnglishOnlyService();
-//  hideEnglishInGreekOnlyService();
+  //  hideGreekInEnglishOnlyService();
+  //  hideEnglishInGreekOnlyService();
   convertClassToId();
 }
 
@@ -4152,261 +4153,271 @@ function removeMatinsOrdinarySections() {
   console.log("Matins Ordinary content cleared.");
 }
 
-//Inject Find function
+// ==========================================
+// SEARCH ENGINE (Pure logic - no UI/DOM mounting dependencies)
+// ==========================================
+const SearchEngine = {
+  stripAccents(str) {
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  },
 
-(function initVsSearch() {
-  function setupSearchInDocument(doc, targetParent) {
-    if (!doc || doc.getElementById('vsSearchContainer')) return;
+  clearHighlights(targetDoc) {
+    const highlights = targetDoc.querySelectorAll('mark.vs-search-highlight');
+    highlights.forEach(mark => {
+      const parent = mark.parentNode;
+      parent.replaceChild(targetDoc.createTextNode(mark.textContent), mark);
+      parent.normalize();
+    });
+  },
 
-    // 1. Inject Styles into target document
-    const styleEl = doc.createElement('style');
-    styleEl.textContent = `
-      .vs-find-container {
-        display: inline-flex;
-        align-items: center;
-        background: #f5f5f5;
-        border: 1px solid #ccc;
-        border-radius: 2px;
-        padding: 2px 4px;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        vertical-align: middle;
-        margin-left: auto;
-        margin-right: 5px;
-        box-sizing: border-box;
-      }
-      .vs-find-container.standalone-bar {
-        position: sticky;
-        top: 0;
-        z-index: 9999;
-        width: 100%;
-        background: #f8f9fa;
-        border-bottom: 2px solid #a91827;
-        padding: 4px 10px;
-        margin: 0;
-      }
-      .vs-find-input-wrapper {
-        display: inline-flex;
-        align-items: center;
-        background: #ffffff;
-        border: 1px solid #c8c8c8;
-        border-radius: 2px;
-        padding: 0 2px;
-      }
-      .vs-find-input-wrapper:focus-within {
-        border-color: #007acc;
-      }
-      .vs-find-input {
-        border: none;
-        outline: none;
-        font-size: 12px;
-        height: 20px;
-        padding: 0 4px;
-        width: 75px;
-        background: transparent;
-      }
-      .vs-option-btn, .vs-nav-btn {
-        background: transparent;
-        border: 1px solid transparent;
-        border-radius: 2px;
-        cursor: pointer;
-        font-size: 11px;
-        font-weight: bold;
-        height: 20px;
-        min-width: 22px;
-        padding: 0 4px;
-        color: #333;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        user-select: none;
-      }
-      .vs-option-btn:hover, .vs-nav-btn:hover {
-        background-color: #e1e1e1;
-      }
-      .vs-option-btn.active {
-        background-color: #c9e2f7;
-        border-color: #007acc;
-        color: #007acc;
-      }
-      .vs-status-text {
-        font-size: 11px;
-        margin-left: 6px;
-        color: #666;
-        white-space: nowrap;
-      }
-      mark.vs-search-highlight {
-        background-color: #ffe66d !important;
-        color: #000000 !important;
-        border-radius: 2px;
-        padding: 0;
-      }
-      mark.vs-search-highlight.current-match {
-        background-color: #ff9f1c !important;
-        color: #ffffff !important;
-        outline: 1px solid #d47a00;
-      }
-    `;
-    doc.head.appendChild(styleEl);
+  execute(targetDoc, options) {
+    this.clearHighlights(targetDoc);
 
-    // 2. Build Container & UI
-    const isStandalone = !targetParent.classList.contains('agesMenu');
-    const searchContainer = doc.createElement(isStandalone ? 'div' : 'span');
-    searchContainer.id = 'vsSearchContainer';
-    searchContainer.className = isStandalone ? 'vs-find-container standalone-bar' : 'vs-find-container';
+    const { term, caseSensitive, wholeWord, containerId = 'vsSearchContainer' } = options;
+    if (!term || !term.trim()) return [];
 
-    searchContainer.innerHTML = `
-      <div class="vs-find-input-wrapper">
-        <input type="text" id="vsSearchInput" class="vs-find-input" placeholder="Find" />
-        <button type="button" id="vsMatchCase" class="vs-option-btn" title="Match Case">Aa</button>
-        <button type="button" id="vsWholeWord" class="vs-option-btn" title="Match Whole Word">[a]</button>
-      </div>
-      <button type="button" id="vsPrevBtn" class="vs-nav-btn" title="Find Previous (Shift+Enter)">
-        <i class="fa fa-arrow-up"></i>
-      </button>
-      <button type="button" id="vsNextBtn" class="vs-nav-btn" title="Find Next (Enter)">
-        <i class="fa fa-arrow-down"></i>
-      </button>
-      <span id="vsSearchStatus" class="vs-status-text"></span>
-    `;
+    const cleanTerm = this.stripAccents(term);
+    const flags = caseSensitive ? 'g' : 'gi';
+    let pattern = cleanTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    if (wholeWord) pattern = `\\b${pattern}\\b`;
 
-    if (isStandalone) {
-      targetParent.insertBefore(searchContainer, targetParent.firstChild);
-    } else {
-      Object.assign(targetParent.style, {
-        display: 'flex',
-        alignItems: 'center',
-        width: '100%'
-      });
-      const clockbox = targetParent.querySelector('#clockbox');
-      if (clockbox) clockbox.remove();
-      targetParent.appendChild(searchContainer);
+    let regex;
+    try {
+      regex = new RegExp(pattern, flags);
+    } catch (e) {
+      return [];
     }
 
-    // 3. State & Core Logic
+    const walker = targetDoc.createTreeWalker(
+      targetDoc.body,
+      NodeFilter.SHOW_TEXT,
+      {
+        acceptNode(node) {
+          if (!node.textContent.trim()) return NodeFilter.FILTER_SKIP;
+          const parentName = node.parentNode.nodeName.toLowerCase();
+          if (
+            parentName === 'script' ||
+            parentName === 'style' ||
+            node.parentNode.closest(`#${containerId}`)
+          ) {
+            return NodeFilter.FILTER_REJECT;
+          }
+          return NodeFilter.FILTER_ACCEPT;
+        }
+      }
+    );
+
+    const textNodes = [];
+    while (walker.nextNode()) {
+      textNodes.push(walker.currentNode);
+    }
+
+    const matches = [];
+
+    textNodes.forEach(node => {
+      const originalText = node.textContent;
+      const strippedText = this.stripAccents(originalText);
+
+      let match;
+      regex.lastIndex = 0;
+
+      if ((match = regex.exec(strippedText)) !== null) {
+        const fragment = targetDoc.createDocumentFragment();
+        let lastIdx = 0;
+
+        do {
+          const matchStart = match.index;
+          const matchEnd = matchStart + match[0].length;
+
+          if (matchStart > lastIdx) {
+            fragment.appendChild(targetDoc.createTextNode(originalText.substring(lastIdx, matchStart)));
+          }
+
+          const mark = targetDoc.createElement('mark');
+          mark.className = 'vs-search-highlight';
+          mark.textContent = originalText.substring(matchStart, matchEnd);
+          fragment.appendChild(mark);
+
+          matches.push(mark);
+          lastIdx = matchEnd;
+        } while ((match = regex.exec(strippedText)) !== null);
+
+        if (lastIdx < originalText.length) {
+          fragment.appendChild(targetDoc.createTextNode(originalText.substring(lastIdx)));
+        }
+
+        node.parentNode.replaceChild(fragment, node);
+      }
+    });
+
+    return matches;
+  }
+};
+
+// ==========================================
+// SEARCH UI (Pure UI renderer & event binder)
+// ==========================================
+const SearchUI = {
+  styles: `
+    .vs-find-container {
+      display: inline-flex;
+      align-items: center;
+      background: #f5f5f5;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+      padding: 1px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .vs-find-input-wrapper {
+      display: inline-flex;
+      align-items: center;
+      background: #ffffff;
+      border: 1px solid #c8c8c8;
+      border-radius: 2px;
+      padding: 0 2px;
+    }
+    .vs-find-input-wrapper:focus-within { border-color: #007acc; }
+    .vs-find-input {
+      border: none;
+      outline: none;
+      font-size: 12px;
+      height: 20px;
+      padding: 0 4px;
+      width: 75px;
+      background: transparent;
+    }
+    .vs-option-btn, .vs-nav-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 2px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: bold;
+      height: 20px;
+      min-width: 22px;
+      padding: 0 4px;
+      color: #333;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+    }
+    .vs-option-btn:hover, .vs-nav-btn:hover { background-color: #e1e1e1; }
+    .vs-option-btn.active {
+      background-color: #c9e2f7;
+      border-color: #007acc;
+      color: #007acc;
+    }
+    .vs-status-text {
+      font-size: 11px;
+      margin-left: 6px;
+      color: #666;
+      white-space: nowrap;
+    }
+    mark.vs-search-highlight {
+      background-color: #ffe66d !important;
+      color: #000000 !important;
+      border-radius: 2px;
+      padding: 0;
+    }
+    mark.vs-search-highlight.current-match {
+      background-color: #ff9f1c !important;
+      color: #ffffff !important;
+      outline: 1px solid #d47a00;
+    }
+  `,
+
+  injectStyles(doc) {
+    if (!doc || !doc.head || doc.getElementById('vsSearchStyles')) return;
+    const styleEl = doc.createElement('style');
+    styleEl.id = 'vsSearchStyles';
+    styleEl.textContent = this.styles;
+    doc.head.appendChild(styleEl);
+  },
+
+  mount({ uiDoc = document, searchDoc = document, mountPoint, instanceId = 'vsSearchContainer' }) {
+    if (!mountPoint) return null;
+    if (uiDoc.getElementById(instanceId)) return null;
+
+    this.injectStyles(uiDoc);
+    if (uiDoc !== searchDoc) {
+      this.injectStyles(searchDoc);
+    }
+
+    const searchContainer = uiDoc.createElement('span');
+    searchContainer.id = instanceId;
+    searchContainer.className = 'vs-find-container';
+    searchContainer.innerHTML = `
+      <div class="vs-find-input-wrapper">
+        <input type="text" class="vs-find-input" placeholder="Find" />
+        <button type="button" class="vs-option-btn vs-case-btn" title="Match Case">Aa</button>
+        <button type="button" class="vs-option-btn vs-word-btn" title="Match Whole Word">[a]</button>
+      </div>
+      <button type="button" class="vs-nav-btn vs-prev-btn" title="Find Previous (Shift+Enter)">
+        <i class="fa fa-arrow-up"></i>
+      </button>
+      <button type="button" class="vs-nav-btn vs-next-btn" title="Find Next (Enter)">
+        <i class="fa fa-arrow-down"></i>
+      </button>
+      <span class="vs-status-text"></span>
+    `;
+
+    mountPoint.appendChild(searchContainer);
+
+    const searchInput = searchContainer.querySelector('.vs-find-input');
+    const matchCaseBtn = searchContainer.querySelector('.vs-case-btn');
+    const wholeWordBtn = searchContainer.querySelector('.vs-word-btn');
+    const prevBtn = searchContainer.querySelector('.vs-prev-btn');
+    const nextBtn = searchContainer.querySelector('.vs-next-btn');
+    const searchStatus = searchContainer.querySelector('.vs-status-text');
+
     let matches = [];
     let currentIndex = -1;
 
-    const searchInput = doc.getElementById('vsSearchInput');
-    const matchCaseBtn = doc.getElementById('vsMatchCase');
-    const wholeWordBtn = doc.getElementById('vsWholeWord');
-    const prevBtn = doc.getElementById('vsPrevBtn');
-    const nextBtn = doc.getElementById('vsNextBtn');
-    const searchStatus = doc.getElementById('vsSearchStatus');
-
-    function clearHighlights() {
-      const highlights = doc.querySelectorAll('mark.vs-search-highlight');
-      highlights.forEach(mark => {
-        const parent = mark.parentNode;
-        parent.replaceChild(doc.createTextNode(mark.textContent), mark);
-        parent.normalize();
-      });
-      matches = [];
-      currentIndex = -1;
-      searchStatus.textContent = '';
+    function updateActiveMatch() {
+      if (!matches || matches.length === 0) return;
+      matches.forEach(m => m && m.classList && m.classList.remove('current-match'));
+      const currentMark = matches[currentIndex];
+      if (currentMark) {
+        currentMark.classList.add('current-match');
+        if (typeof currentMark.scrollIntoView === 'function') {
+          currentMark.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+      if (searchStatus) {
+        searchStatus.textContent = `${currentIndex + 1} of ${matches.length}`;
+      }
     }
 
-    function stripAccents(str) {
-      return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    }
+    function performSearch() {
+      if (!searchInput) return;
 
-    function highlightAllMatches() {
-      clearHighlights();
+      const options = {
+        term: searchInput.value,
+        caseSensitive: matchCaseBtn ? matchCaseBtn.classList.contains('active') : false,
+        wholeWord: wholeWordBtn ? wholeWordBtn.classList.contains('active') : false,
+        containerId: instanceId
+      };
 
-      const rawTerm = searchInput.value;
-      if (!rawTerm.trim()) return;
-
-      const caseSensitive = matchCaseBtn.classList.contains('active');
-      const wholeWord = wholeWordBtn.classList.contains('active');
-      const cleanTerm = stripAccents(rawTerm);
-
-      let flags = caseSensitive ? 'g' : 'gi';
-      let pattern = cleanTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      if (wholeWord) pattern = `\\b${pattern}\\b`;
-
-      let regex;
-      try {
-        regex = new RegExp(pattern, flags);
-      } catch (e) {
-        return;
+      if (typeof SearchEngine !== 'undefined' && SearchEngine.execute) {
+        matches = SearchEngine.execute(searchDoc, options) || [];
+      } else {
+        matches = [];
       }
-
-      const walker = doc.createTreeWalker(
-        doc.body,
-        NodeFilter.SHOW_TEXT,
-        {
-          acceptNode: function (node) {
-            if (!node.textContent.trim()) return NodeFilter.FILTER_SKIP;
-            const parentName = node.parentNode.nodeName.toLowerCase();
-            if (parentName === 'script' || parentName === 'style' || node.parentNode.closest('#vsSearchContainer')) {
-              return NodeFilter.FILTER_REJECT;
-            }
-            return NodeFilter.FILTER_ACCEPT;
-          }
-        }
-      );
-
-      const textNodes = [];
-      while (walker.nextNode()) {
-        textNodes.push(walker.currentNode);
-      }
-
-      textNodes.forEach(node => {
-        const originalText = node.textContent;
-        const strippedText = stripAccents(originalText);
-
-        let match;
-        regex.lastIndex = 0;
-
-        if ((match = regex.exec(strippedText)) !== null) {
-          const fragment = doc.createDocumentFragment();
-          let lastIdx = 0;
-
-          do {
-            const matchStart = match.index;
-            const matchEnd = matchStart + match[0].length;
-
-            if (matchStart > lastIdx) {
-              fragment.appendChild(doc.createTextNode(originalText.substring(lastIdx, matchStart)));
-            }
-
-            const mark = doc.createElement('mark');
-            mark.className = 'vs-search-highlight';
-            mark.textContent = originalText.substring(matchStart, matchEnd);
-            fragment.appendChild(mark);
-
-            matches.push(mark);
-            lastIdx = matchEnd;
-          } while ((match = regex.exec(strippedText)) !== null);
-
-          if (lastIdx < originalText.length) {
-            fragment.appendChild(doc.createTextNode(originalText.substring(lastIdx)));
-          }
-
-          node.parentNode.replaceChild(fragment, node);
-        }
-      });
 
       if (matches.length > 0) {
         currentIndex = 0;
         updateActiveMatch();
       } else {
-        searchStatus.textContent = 'No matches';
+        currentIndex = -1;
+        if (searchStatus) {
+          searchStatus.textContent = searchInput.value.trim() ? 'No matches' : '';
+        }
       }
     }
 
-    function updateActiveMatch() {
-      if (matches.length === 0) return;
-      matches.forEach(m => m.classList.remove('current-match'));
-
-      const currentMark = matches[currentIndex];
-      currentMark.classList.add('current-match');
-      currentMark.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-      searchStatus.textContent = `${currentIndex + 1} of ${matches.length}`;
-    }
-
     function navigate(direction) {
-      if (matches.length === 0) return;
+      if (!matches || matches.length === 0) return;
       if (direction === 'next') {
         currentIndex = (currentIndex + 1) % matches.length;
       } else if (direction === 'prev') {
@@ -4415,55 +4426,202 @@ function removeMatinsOrdinarySections() {
       updateActiveMatch();
     }
 
-    searchInput.addEventListener('input', highlightAllMatches);
-    matchCaseBtn.addEventListener('click', () => {
-      matchCaseBtn.classList.toggle('active');
-      highlightAllMatches();
-    });
-    wholeWordBtn.addEventListener('click', () => {
-      wholeWordBtn.classList.toggle('active');
-      highlightAllMatches();
-    });
-    nextBtn.addEventListener('click', () => navigate('next'));
-    prevBtn.addEventListener('click', () => navigate('prev'));
-    searchInput.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        navigate(e.shiftKey ? 'prev' : 'next');
-      }
-    });
-  }
-
-  // Execute across three possible contexts
-  function runExecution() {
-    const frameEl = document.getElementById('FrameText');
-
-    if (frameEl) {
-      // Instance 1: FrameText container existing on parent page
-      const attachFrameListener = () => {
-        try {
-          const frameDoc = frameEl.contentWindow.document;
-          const agesMenu = frameDoc.querySelector('.agesMenu');
-          setupSearchInDocument(frameDoc, agesMenu || frameDoc.body);
-        } catch (e) {
-          // Cross-origin restriction guard
+    if (searchInput) {
+      searchInput.addEventListener('input', performSearch);
+      searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          navigate(e.shiftKey ? 'prev' : 'next');
         }
-      };
+      });
+    }
 
-      frameEl.addEventListener('load', attachFrameListener);
-      if (frameEl.contentWindow && frameEl.contentWindow.document.readyState === 'complete') {
-        attachFrameListener();
+    if (matchCaseBtn) {
+      matchCaseBtn.addEventListener('click', () => {
+        matchCaseBtn.classList.toggle('active');
+        performSearch();
+      });
+    }
+
+    if (wholeWordBtn) {
+      wholeWordBtn.addEventListener('click', () => {
+        wholeWordBtn.classList.toggle('active');
+        performSearch();
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => navigate('next'));
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => navigate('prev'));
+    }
+
+    return {
+      destroy() {
+        if (typeof SearchEngine !== 'undefined' && SearchEngine.clearHighlights) {
+          SearchEngine.clearHighlights(searchDoc);
+        }
+        searchContainer.remove();
       }
-    } else {
-      // Instance 2 & 3: Direct document load (with .agesMenu or stripped via parish.html)
+    };
+  }
+};
+
+(function () {
+  let attempts = 0;
+  const maxAttempts = 200; // Poll for up to 10s on slow mobile cold loads
+
+  function initSearchRouter() {
+    // 1. Guard: Retry until SearchUI is loaded into window
+    if (typeof SearchUI === 'undefined') {
+      attempts++;
+      if (attempts < maxAttempts) {
+        setTimeout(initSearchRouter, 50);
+      } else {
+        console.error('[SearchUI] Abort: SearchUI library failed to load after cold load.');
+      }
+      return;
+    }
+
+    // 2. Guard: Skip servicesindex.html across all contexts
+    const isServicesIndex = window.location.pathname.split('/').pop().toLowerCase() === 'servicesindex.html';
+    if (isServicesIndex) {
+      console.log('[SearchUI] Abort: servicesindex.html detected.');
+      return;
+    }
+
+    // Determine Execution Context
+    const isInIframe = window.self !== window.top;
+    const iframeHostElement = document.getElementById('FrameText');
+
+    // Context C Check: Primary referrer check with URL parameter fallback
+    const ref = document.referrer ? document.referrer.toLowerCase() : '';
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // Checks referrer OR fallback parameter if mobile browser stripped referrer on cold load
+    const isReferrerParish = ref.includes('parish.html') || urlParams.has('parish') || urlParams.get('source') === 'parish';
+
+    if (isInIframe) {
+      // -------------------------------------------------------------
+      // CONTEXT A: Document inside an iframe
+      // -------------------------------------------------------------
+      console.log('[SearchUI] Context A: Inside iframe document.');
+      mountInAgesMenu(document, 'vsSearchIframeContainer');
+
+    } else if (isReferrerParish) {
+      // -------------------------------------------------------------
+      // CONTEXT C: Referred by parish.html (Device / Viewport Fixed)
+      // -------------------------------------------------------------
+      console.log('[SearchUI] Context C: Referred by parish.html. Mounting viewport fixed.');
+
+      // Clean up .agesMenu if present
       const agesMenu = document.querySelector('.agesMenu');
-      setupSearchInDocument(document, agesMenu || document.body);
+      if (agesMenu) {
+        agesMenu.remove();
+      }
+
+      const instanceId = 'vsSearchDeviceContainer';
+
+      // Ensure viewport/layout has settled on mobile before mounting
+      requestAnimationFrame(() => {
+        const existingContainer = document.getElementById(instanceId);
+        if (existingContainer) {
+          existingContainer.remove();
+        }
+
+        const instance = SearchUI.mount({
+          uiDoc: document,
+          searchDoc: document,
+          mountPoint: document.body,
+          instanceId: instanceId
+        });
+
+        // Apply fixed positioning optimized for touch viewports
+        const container = document.getElementById(instanceId);
+        if (container) {
+          Object.assign(container.style, {
+            position: 'fixed',
+            top: '12px',
+            right: '12px',
+            zIndex: '999999',
+            margin: '0',
+            padding: '0'
+          });
+        }
+
+        // Silent re-initialization on first mobile touch/focus if listeners are dropped
+        let isRebound = false;
+        const ensureActiveSearch = function () {
+          if (isRebound) return;
+          isRebound = true;
+
+          const activeContainer = document.getElementById(instanceId);
+          if (activeContainer && typeof SearchUI !== 'undefined') {
+            console.log('[SearchUI] Re-binding active listeners on first interaction...');
+            SearchUI.mount({
+              uiDoc: document,
+              searchDoc: document,
+              mountPoint: activeContainer,
+              instanceId: instanceId
+            });
+          }
+        };
+
+        document.addEventListener('touchstart', ensureActiveSearch, { passive: true, once: true });
+        document.addEventListener('focusin', function (e) {
+          if (e.target && e.target.closest('#' + instanceId)) {
+            ensureActiveSearch();
+          }
+        }, { once: true });
+
+        console.log('[SearchUI:Context C] Mount status:', instance ? 'Active' : 'Failed');
+      });
+
+    } else if (!iframeHostElement) {
+      // -------------------------------------------------------------
+      // CONTEXT B: Top-level standalone document (No iframe on host)
+      // -------------------------------------------------------------
+      console.log('[SearchUI] Context B: Standalone document.');
+      mountInAgesMenu(document, 'vsSearchStandaloneContainer');
+    }
+
+    // Shared Helper for Contexts A & B
+    function mountInAgesMenu(targetDoc, instanceId) {
+      if (targetDoc._searchUiMounted && targetDoc.getElementById(instanceId)) return;
+
+      const mountPoint = targetDoc.querySelector('.agesMenu');
+      if (!mountPoint) {
+        console.log('[SearchUI] Abort: .agesMenu element not found.');
+        return;
+      }
+
+      const clockbox = mountPoint.querySelector('#clockbox');
+      if (clockbox) {
+        clockbox.remove();
+      }
+
+      const instance = SearchUI.mount({
+        uiDoc: targetDoc,
+        searchDoc: targetDoc,
+        mountPoint: mountPoint,
+        instanceId: instanceId
+      });
+
+      if (instance) {
+        targetDoc._searchUiMounted = true;
+      }
     }
   }
 
+  // Execute on DOM interactive, full window load, and pageshow
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', runExecution);
+    document.addEventListener('DOMContentLoaded', initSearchRouter);
   } else {
-    runExecution();
+    initSearchRouter();
   }
+
+  window.addEventListener('load', initSearchRouter);
 })();
+
