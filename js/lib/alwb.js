@@ -981,7 +981,6 @@ $(document).ready(function () {
     return ode_katavasia_shown;
   }
 
-
   // $('a.mediaMode').attr('data-toggle','tooltip');
   // $('a.mediaMode').attr('data-placement','bottom');
   // $('a.mediaMode').attr('title','Show/Hide media links')
@@ -1289,7 +1288,7 @@ function insertLiturgyTOB() {
     //convertClassToId();
     return; //stop b/c li is finished processing
   }//end if
-}//end insertLiturgyTOB
+}
 
 function insertVesperalLiturgyTOB() {
 
@@ -1341,8 +1340,7 @@ function insertVesperalLiturgyTOB() {
     //convertClassToId();
     return; //stop b/c li is finished processing
   }//end if
-}//end insertVesperalLiturgyTOB
-
+}
 
 function insertMatinsTOB() {
 
@@ -1395,7 +1393,7 @@ function insertMatinsTOB() {
     addDivBeforeTable();
 
   }//end if
-}//end insertMatinsTOB
+}
 
 function convertClassToId() {
   //add R to bkmrk in rightCell
@@ -1790,7 +1788,6 @@ function scrollToBkmrk20() {
 }
 
 function hideGreekInEnglishOnlyService() {
-  // This function is called in insertMatinsOrdinary
   // Search the document for the element with the ID "bkmark02".
   const bookmarkElement = document.getElementById("bkmrk02");
 
@@ -1814,9 +1811,7 @@ function hideGreekInEnglishOnlyService() {
   }
 }
 
-
 function hideEnglishInGreekOnlyService() {
-  // This function is called in insertMatinsOrdinary
   // Search the document for the element with the ID "bkmark02R".
   const bookmarkElement = document.getElementById("bkmrk02R");
 
@@ -2954,7 +2949,6 @@ $(function () {
 });
 // ------------------------------------------------------------------
 
-
 async function performUnifiedExport(format) {
   // Target the document of the current page directly
   const currentDoc = document;
@@ -3804,7 +3798,7 @@ function transformIndexLayout() {
           categories: {
             'Web View': [],
             'Print-PDF': [],
-            'Word Export': []
+            'Word Export': [] //  'Build-Export': []
           }
         };
         services.push(currentService);
@@ -3846,6 +3840,72 @@ function transformIndexLayout() {
 
           currentService.categories['Word Export'].push(exportBtn);
         }
+
+        // Replace lines 3827 - 3842
+        // For web view HTML links (excluding Matins-Customizable /ma2/ links), generate Build-Export button
+        // if (!isPdf && !href.includes('/ma2/')) {
+        //   const exportBtn = document.createElement('button');
+        //   exportBtn.type = 'button';
+        //   exportBtn.className = 'lang-btn';
+        //   exportBtn.innerHTML = formatLangHTML(rawLangText);
+        //   exportBtn.dataset.langCode = upperLang;
+
+        //   exportBtn.addEventListener('click', (e) => {
+        //     e.preventDefault();
+
+        //     const screenW = window.screen.availWidth;
+        //     const screenH = window.screen.availHeight;
+
+        //     // Dimensions: 80% Height, 500px Width
+        //     const winH = Math.floor(screenH * 0.8);
+        //     const winW = 500;
+
+        //     const topPos = Math.floor((screenH - winH) / 2);
+        //     // Position it at the left side of the "centered pair" 
+        //     const leftPos = Math.floor((screenW - (winW * 2)) / 2);
+
+        //     const match = href.match(/\/\d{4}\/\d{2}\/\d{2}\/([^/]+)/);
+        //     const specificServiceCode = match ? match[1] : null;
+
+        //     let serviceType = 'liturgy';
+        //     if (specificServiceCode.includes('li')) {
+        //       serviceType = 'liturgy';
+        //     } else if (specificServiceCode.includes('ma')) {
+        //       serviceType = 'matins';
+        //     } else if (specificServiceCode.includes('ve')) {
+        //       serviceType = 'vespers';
+        //     }
+
+        //     let langType = 'gr-en';
+        //     if (href.includes('/gr-en/')) {
+        //       langType = 'gr-en';
+        //     } else if (href.includes('/en/')) {
+        //       langType = 'en';
+        //     } else if (href.includes('/gr/')) {
+        //       langType = 'gr';
+        //     }
+
+        //     // 1. Build parameters safely
+        //     const params = new URLSearchParams({
+        //       fromDCS: true,
+        //       dateFromDCS: dateStr,
+        //       langFromDCS: langType,
+        //       serviceCodeFromDCS: specificServiceCode
+        //     });
+
+
+        //     const fromDCSLaunch = true;
+
+        //     const features = `height=${winH},width=${winW},top=${topPos},left=${leftPos},resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no`;
+
+        //     // Opens the specific Panel (Liturgy, Matins, etc.)
+        //     window.open(`https://dcs.goarch.org/sbDev/sb-${serviceType}.html?${fromDCSLaunch ? params.toString() : ''}`, 'CustomizerPanel', features);
+
+        //   });
+
+        //   currentService.categories['Build-Export'].push(exportBtn);
+        // }
+
       }
     }
   });
@@ -3867,6 +3927,7 @@ function transformIndexLayout() {
     card.appendChild(cardTitle);
 
     ['Web View', 'Print-PDF', 'Word Export'].forEach(category => {
+ // ['Web View', 'Print-PDF', 'Build-Export'].forEach(category => {
       const buttons = service.categories[category];
       if (buttons && buttons.length > 0) {
 
