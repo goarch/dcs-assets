@@ -314,6 +314,7 @@ p.versecenter {
     text-align: center;
 }
 
+
 /* --- CHARACTER STYLES --- */
 
 span.actorwithdialog {
@@ -487,6 +488,306 @@ span.versiondesignation {
     color: #a91827;
 }
 
+/* --- SERVICE BUILDER COVER / CREDIT STYLES --- */
+
+p.sb_cover0 {
+    mso-style-name: "sb cover0";
+    color: #cc0000;
+    font-family: Liberation Serif Bold;
+    font-size: 20pt;
+    font-weight: bold;
+    margin-top: 0in;
+    margin-bottom: 1in;
+    margin-left: 1in;
+    text-align: left;
+}
+
+p.sb_cover1 {
+    mso-style-name: "sb cover1";
+    font-size: 30pt;
+    font-family: Liberation Serif;
+    font-weight: normal;
+    margin-top: 0in;
+    text-align: center;
+}
+
+p.sb_cover2 {
+    mso-style-name: "sb cover2";
+    font-size: 24pt;
+    font-family: Liberation Serif;
+    font-weight: normal;
+    margin-top: 0in;
+    text-align: center;
+}
+
+p.sb_cover3 {
+    mso-style-name: "sb cover3";
+    color: #cc0000;
+    font-family: Liberation Serif Bold;
+    font-size: 16pt;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: .25in;
+}
+
+p.sb_cover31 {
+    mso-style-name: "sb cover31";
+    font-family: Liberation Serif Bold;
+    font-size: 16pt;
+    font-weight: bold;
+    margin-bottom: .85in;
+    text-align: center;
+}
+
+p.sb_cover4 {
+    mso-style-name: "sb cover4";
+    color: #cc0000;
+    font-family: Liberation Serif Bold;
+    font-size: 16pt;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: .25in;
+}
+
+p.sb_cover5 {
+    mso-style-name: "sb cover5";
+    font-family: Liberation Serif Bold;
+    font-size: 16pt;
+    font-weight: bold;
+    text-align: center;
+}
+
+p.sb_cover6 {
+    mso-style-name: "sb cover6";
+    font-family: Liberation Serif Bold;
+    font-size: 16pt;
+    font-weight: bold;
+    padding-top: .3in;
+    text-align: center;
+}
+
+p.sb_cover7 {
+    mso-style-name: "sb cover7";
+    color: #cc0000;
+    font-family: Liberation Serif Bold;
+    font-size: 10pt;
+    font-weight: bold;
+    margin-bottom: .3in;
+    text-align: center;
+}
+
+p.sb_cover81 {
+    mso-style-name: "sb cover81";
+    color: #cc0000;
+    font-family: Liberation Serif Bold;
+    font-size: 14pt;
+    font-style: normal;
+    font-weight: bold;
+    text-align: center;
+}
+
+p.sb_cover82 {
+    mso-style-name: "sb cover82";
+    color: #cc0000;
+    font-family: Liberation Serif Bold;
+    font-size: 14pt;
+    font-style: normal;
+    font-weight: bold;
+    text-align: center;
+}
+
+p.sb_cover12 {
+    mso-style-name: "sb cover12";
+    color: #cc0000;
+    font-family: Liberation Serif;
+    font-size: 12pt;
+    font-weight: normal;
+    margin-top: .5in;
+    margin-left: 1.5in;
+    margin-right: 1.5in;
+    margin-bottom: .5in;
+    text-align: center;
+}
+
+p.sb_credits1 {
+    mso-style-name: "sb credits1";
+    font-family: Liberation Serif Bold;
+    font-size: 12pt;
+    font-weight: bold;
+    padding-bottom: 1em;
+    padding-top: 1em;
+    text-align: left;
+}
+
+p.sb_credits2 {
+    mso-style-name: "sb credits2";
+    font-family: Liberation Serif;
+    font-size: 12pt;
+    text-align: left;
+}
+
+p.sb_credits3 {
+    mso-style-name: "sb credits3";
+    font-family: Liberation Serif;
+    font-size: 9pt;
+    padding-bottom: 1em;
+    text-align: left;
+}
+
+p.sb_credits4 {
+    mso-style-name: "sb credits4";
+    font-family: Liberation Serif;
+    font-size: 9pt;
+    text-align: left;
+}
+
+p.sb_credits5 {
+    mso-style-name: "sb credits5";
+    font-family: 'Arimo', sans-serif;
+    text-align: left;
+    font-size: 12pt;
+    font-weight: bold;
+    color: #a91827;
+    margin-top: 3pt;
+}
+
+p.sb_credits6 {
+    mso-style-name: "sb credits6";
+    color: black;
+    font-size: 12pt;
+    text-align: left;
+    font-family: 'Arimo', sans-serif;
+    margin-bottom: 6pt;
+}
+
+p.sb_cover_logo_line_above {
+    mso-style-name: "sb cover logo line above";
+    font-family: Liberation Serif Bold;
+    font-size: 11.2pt;
+    font-weight: normal;
+    margin-top: -9in;
+    margin-bottom: .1in;
+    text-align: center;
+}
+
+p.sb_cover_logo1 {
+    mso-style-name: "sb cover logo1";
+    font-family: Liberation Serif;
+    color: #cc0000;
+    font-size: 25pt;
+    font-weight: normal;
+    margin-top: 0in;
+    margin-bottom: 0in;
+    text-align: center;
+}
+
+p.sb_cover_logo2 {
+    mso-style-name: "sb cover logo2";
+    font-family: Liberation Serif Bold;
+    font-size: 11.2pt;
+    font-weight: normal;
+    margin-top: -3pt;
+    text-align: center;
+}
+
+p.sb_cover_logo_line_below {
+    mso-style-name: "sb cover logo line below";
+    font-family: Liberation Serif Bold;
+    font-size: 11.2pt;
+    font-weight: normal;
+    margin-top: -4pt;
+    text-align: center;
+}
+
+td.singleCell {
+    display: table-cell !important;
+    text-align: center;
+    padding: 15px 0;
+}
+
+p.sb_logo {
+    mso-style-name: "sb logo";
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+img.sb_logo_img {
+    mso-style-name: "sb logo img";
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    /* Alignment fallback for Word */
+    max-width: 100%;
+    height: auto;
+}
+
+
+
+/* ==========================================================================
+   COVER & CREDITS: BILINGUAL VS. SINGLE-LANGUAGE CELL BEHAVIOR
+   ========================================================================== */
+
+   /* Ensure the logo table row and cell display as table elements */
+   #biTable tr:has(p.sb_logo) {
+       display: table-row !important;
+   }
+
+   #biTable tr:has(p.sb_logo) td {
+       display: table-cell !important;
+       text-align: center;
+       padding: 15px 0;
+   }
+
+   /* Paragraph reset and image centering */
+   p.sb_logo {
+       margin: 0;
+       padding: 0;
+       text-align: center;
+   }
+
+/* 1. BILINGUAL MODE: When td.rightCell exists in cover/credits rows, hide td.leftCell */
+#biTable tr:has(p[class*="sb_cover"]):has(td.rightCell) td.leftCell,
+#biTable tr:has(p[class*="sb_credits"]):has(td.rightCell) td.leftCell,
+#biTable tr:has(p.brc_pdf_cover):has(td.rightCell) td.leftCell,
+#biTable tr:has(p.erc_pdf_cover):has(td.rightCell) td.leftCell,
+#biTable tr:has(p.brc_pdf_credits):has(td.rightCell) td.leftCell,
+#biTable tr:has(p.erc_pdf_credits):has(td.rightCell) td.leftCell {
+    display: none !important;
+    mso-hide: all !important;
+    width: 0in !important;
+    mso-width-alt: 0pt !important;
+}
+
+/* 2. BILINGUAL MODE: When td.rightCell is present (and leftCell is hidden), make rightCell span 100% width */
+#biTable tr:has(p[class*="sb_cover"]) td.rightCell,
+#biTable tr:has(p[class*="sb_credits"]) td.rightCell,
+#biTable tr:has(p.brc_pdf_cover) td.rightCell,
+#biTable tr:has(p.erc_pdf_cover) td.rightCell,
+#biTable tr:has(p.brc_pdf_credits) td.rightCell,
+#biTable tr:has(p.erc_pdf_credits) td.rightCell {
+    width: 200% !important;
+    max-width: 200% !important;
+    display: block !important;
+    box-sizing: border-box !important;
+}
+
+/* 3. SINGLE-LANGUAGE GREEK MODE: When no td.rightCell exists, expand td.leftCell to 100% width */
+#biTable tr:has(p[class*="sb_cover"]):not(:has(td.rightCell)) td.leftCell,
+#biTable tr:has(p[class*="sb_credits"]):not(:has(td.rightCell)) td.leftCell,
+#biTable tr:has(p.brc_pdf_cover):not(:has(td.rightCell)) td.leftCell,
+#biTable tr:has(p.erc_pdf_cover):not(:has(td.rightCell)) td.leftCell,
+#biTable tr:has(p.brc_pdf_credits):not(:has(td.rightCell)) td.leftCell,
+#biTable tr:has(p.erc_pdf_credits):not(:has(td.rightCell)) td.leftCell {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: block !important;
+    box-sizing: border-box !important;
+}
+
+
+
 
 /* --- STRUCTURAL --- */
 
@@ -528,4 +829,46 @@ span.versiondesignation {
     body {
         font-size: 11pt;
     }
+
+        /* --- COVER PAGE & PAGE NUMBERING RULES --- */
+    
+        /* Define cover page box (No headers, footers, or page numbers) */
+        @page cover-page {
+            size: 8.5in 11in;
+            margin: 1.1in 0.75in 1.0in 0.75in;
+    
+            @top-center {
+                content: none !important;
+                border-bottom: none !important;
+            }
+    
+            @bottom-left {
+                content: none !important;
+                border-top: none !important;
+            }
+    
+            @bottom-right {
+                content: none !important;
+                border-top: none !important;
+            }
+        }
+    
+        /* Assign named cover-page context to cover & credits markers */
+        p.sb_cover_start,
+        p.sb_credits_start {
+            page: cover-page;
+        }
+    
+        /* Force page break after cover & credits */
+        p.sb_cover_end,
+        p.sb_credits_end {
+            page: cover-page;
+            break-after: page;
+            page-break-after: always;
+        }
+    
+        /* Reset page numbers so page 3 displays as Page 1 */
+        p.sb_credits_end+* {
+            counter-reset: page 1;
+        }
 }

@@ -4686,3 +4686,128 @@ const SearchUI = {
   window.addEventListener('load', initSearchRouter);
 })();
 
+
+
+
+
+function splitTable() {
+  console.log('[splitTable] Function started.');
+
+  const originalTable = document.getElementById('biTable');
+  if (!originalTable) {
+    console.warn('[splitTable] Aborted: Could not find table with id="biTable".');
+    return;
+  }
+  console.log('[splitTable] Found #biTable:', originalTable);
+
+  const originalTbody = originalTable.tBodies[0] || originalTable.querySelector('tbody');
+  if (!originalTbody) {
+    console.warn('[splitTable] Aborted: Could not find <tbody> inside #biTable.');
+    return;
+  }
+
+  // Early return if .sb_pdf_cover_begin is not present
+  if (!originalTbody.querySelector('.sb_pdf_cover_begin')) {
+    console.warn('[splitTable] Aborted: Could not find element with class "sb_pdf_cover_begin" inside #biTable.');
+    return;
+  }
+
+  const container = originalTable.parentNode;
+  console.log('[splitTable] Parent container identified:', container);
+
+  const coverTable = document.createElement('table');
+  coverTable.id = 'coverTable';
+  const coverTbody = document.createElement('tbody');
+  coverTable.appendChild(coverTbody);
+
+  const creditsTable = document.createElement('table');
+  creditsTable.id = 'creditsTable';
+  const creditsTbody = document.createElement('tbody');
+  creditsTable.appendChild(creditsTbody);
+
+  let currentSection = 'cover';
+  const rows = Array.from(originalTbody.children);
+  console.log(`[splitTable] Total initial rows found in #biTable: ${rows.length}`);
+
+  let coverRowCount = 0;
+  let creditsRowCount = 0;
+  let serviceRowCount = 0;
+
+  rows.forEach((row, index) => {
+    if (row.querySelector('.sb_pdf_credits_begin')) {
+      console.log(`[splitTable] Row ${index}: Found .sb_pdf_credits_begin marker. Switching section to "credits".`);
+      currentSection = 'credits';
+    }
+
+    if (currentSection === 'cover') {
+      coverTbody.appendChild(row);
+      coverRowCount++;
+      if (row.querySelector('.sb_pdf_cover_end')) {
+        console.log(`[splitTable] Row ${index}: Found .sb_pdf_cover_end marker. Switching section to "service".`);
+        currentSection = 'service';
+      }
+    } else if (currentSection === 'credits') {
+      creditsTbody.appendChild(row);
+      creditsRowCount++;
+      if (row.querySelector('.sb_pdf_credits_end')) {
+        console.log(`[splitTable] Row ${index}: Found .sb_pdf_credits_end marker. Switching section to "service".`);
+        currentSection = 'service';
+      }
+    } else if (currentSection === 'service') {
+      originalTbody.appendChild(row);
+      serviceRowCount++;
+    }
+  });
+
+  console.log(`[splitTable] Sorting complete. Cover rows: ${coverRowCount}, Credits rows: ${creditsRowCount}, Service rows remaining: ${serviceRowCount}`);
+
+  container.insertBefore(coverTable, originalTable);
+  container.insertBefore(creditsTable, originalTable);
+  console.log('[splitTable] Inserted #coverTable and #creditsTable into DOM before #biTable.');
+
+  // Check if English content exists on the cover
+  const hasRightCellCoverBegin = coverTable.querySelector('td.rightCell .sb_pdf_cover_begin') !== null;
+  console.log(`[splitTable] Right cell check for .sb_pdf_cover_begin: ${hasRightCellCoverBegin}`);
+
+  // If .sb_pdf_cover_begin is NOT in td.rightCell, it is Greek-only.
+  const isGreekOnly = !hasRightCellCoverBegin;
+
+  // Determine cell stripping direction:
+  // - If Greek-only: Strip rightCell (keep Greek leftCell)
+  // - If Bilingual or English-only: Strip leftCell (keep English rightCell)
+  const stripRightCells = isGreekOnly;
+  const stripLeftCells = !isGreekOnly;
+
+  let removedCellsCount = 0;
+
+  [coverTable, creditsTable].forEach(table => {
+    if (!table) return;
+
+    table.querySelectorAll('tr').forEach(tr => {
+      const leftCell = tr.querySelector('td.leftCell');
+      const rightCell = tr.querySelector('td.rightCell');
+
+      if (stripLeftCells && leftCell) {
+        leftCell.remove();
+        if (rightCell) rightCell.setAttribute('colspan', '2');
+        removedCellsCount++;
+      } else if (stripRightCells && rightCell) {
+        rightCell.remove();
+        if (leftCell) leftCell.setAttribute('colspan', '2');
+        removedCellsCount++;
+      }
+    });
+  });
+
+  console.log(`[splitTable] Mode: ${isGreekOnly ? 'Greek-only' : 'Bilingual/English-only'}. Removed ${removedCellsCount} ${stripLeftCells ? 'leftCell (Greek)' : 'rightCell (English)'} element(s) across coverTable and creditsTable.`);
+
+  console.log('[splitTable] Function completed successfully.');
+}
+
+// Add/replace this at the bottom of alwb.js
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', splitTable);
+} else {
+  // DOM is already ready
+  splitTable();
+}
