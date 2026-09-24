@@ -2219,58 +2219,49 @@ $(document).ready(function () {
 
 /**
  * @function initCollapsibleRows
- * @description Initializes the behavior for a collapsible table structure.
- * It handles showing/hiding blocks of table rows based on clicks
- * on rows containing specific collapse markers (.bmc_collapse and .emc_collapse).
- * The logic implements an accordion-like functionality for table content.
- * @version 1.0.0
+ * @description Initializes the behavior for a collapsible table structure using event delegation.
+ * @version 1.1.0
  */
 function initCollapsibleRows() {
-  // --- Initial State Setup ---
-  // Hide all rows between a 'bmc_collapse' row and the next 'emc_collapse' row (the content).
-  $("tr:has(.bmc_collapse)").nextUntil("tr:has(.emc_collapse)").hide();
-  // Hide all 'emc_collapse' rows (the collapse markers/footers).
-  $("tr:has(.emc_collapse)").hide();
+  console.log("initiated collapsible rows");
 
-  // --- Big/Main Collapse (BMC) Click Handler ---
-  // When a row with a '.bmc_collapse' marker is clicked:
-  $("tr:has(.bmc_collapse)").click(function () {
-    // 1. Show all subsequent content rows up until the next 'emc_collapse' row.
-    $(this).nextUntil('tr:has(.emc_collapse)').show();
-    // 2. Apply a background color to the shown content rows for visual emphasis.
-    $(this).nextUntil('tr:has(.emc_collapse)').css("background-color", "#FDF6E7");
-    // 3. Hide the clicked 'bmc_collapse' row itself.
+  // --- Initial State Setup for Existing Rows ---
+  hideCollapsibleSections();
+
+  // --- Delegated Click Handler for Main Collapse Row ---
+  $(document).on("click", "tr:has(.bmc_collapse)", function () {
+    var $nextContent = $(this).nextUntil("tr:has(.emc_collapse)");
+    $nextContent.show().css("background-color", "#FDF6E7");
     $(this).hide();
-    // 4. Show the corresponding 'emc_collapse' row (the collapse marker/footer).
-    $(this).nextAll('tr:has(.emc_collapse):first').show();
+    $(this).nextAll("tr:has(.emc_collapse):first").show();
   });
 
-  // --- End/Exit Collapse (EMC) Click Handler ---
-  // When a row with an '.emc_collapse' marker is clicked:
-  $("tr:has(.emc_collapse)").click(function () {
-    // 1. Hide all preceding content rows down to the previous 'bmc_collapse' row.
-    $(this).prevUntil('tr:has(.bmc_collapse)').hide();
-    // 2. Hide the clicked 'emc_collapse' row itself.
+  // --- Delegated Click Handler for End Collapse Row ---
+  $(document).on("click", "tr:has(.emc_collapse)", function () {
+    var $prevBmc = $(this).prevAll("tr:has(.bmc_collapse):first");
+    $(this).prevUntil("tr:has(.bmc_collapse)").hide();
     $(this).hide();
-    // 3. Show the corresponding 'bmc_collapse' row (the main opener).
-    $(this).prevAll('tr:has(.bmc_collapse):first').show();
+    $prevBmc.show();
 
-    // 4. Scroll the viewport to the newly shown 'bmc_collapse' row.
-    var show_pos = $(this).prevAll('tr:has(.bmc_collapse):first').position();
-    window.scrollTo(0, show_pos.top - 50);
+    if ($prevBmc.length) {
+      var show_pos = $prevBmc.position();
+      window.scrollTo(0, show_pos.top - 50);
+    }
   });
 }
 
 // --- Execution ---
-// Execute the function once the entire document is ready
-// as long as document is not /li1/ i.e. customizable liturgy
 $(document).ready(function () {
-  if (window.location.href.includes('/li1/')) {
-    $('.bmc_collapse, .emc_collapse').css('display', 'none');
-  } else {
-    initCollapsibleRows();
-  }
+  initCollapsibleRows();
 });
+
+/**
+ * Call this function whenever new rows are injected dynamically to set up initial visibility.
+ */
+function hideCollapsibleSections() {
+  $("tr:has(.bmc_collapse)").nextUntil("tr:has(.emc_collapse)").hide();
+  $("tr:has(.emc_collapse)").hide();
+}
 
 
 // AUDIO PLAYER - Unified Player Logic (DIV-based)
@@ -4125,6 +4116,7 @@ async function fetchMatinsHTML() {
   hideGreekInEnglishOnlyService();
   hideEnglishInGreekOnlyService();
   convertClassToId();
+  hideCollapsibleSections();
 }
 
 function executeContentSwap(key, fetchedHTMLContentMat) {
