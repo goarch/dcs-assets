@@ -2950,54 +2950,68 @@ $(function () {
 // ------------------------------------------------------------------
 
 async function performUnifiedExport(format) {
-  // Target the document of the current page directly
   const currentDoc = document;
-  const liveTable = currentDoc.getElementById('biTable') || currentDoc.querySelector('table');
-  if (!liveTable) return;
 
-  const firstRow = liveTable.querySelector('tr');
+  // Locate all three tables
+  const coverTable = currentDoc.getElementById('coverTable');
+  const creditsTable = currentDoc.getElementById('creditsTable');
+  const biTable = currentDoc.getElementById('biTable') || currentDoc.querySelector('table');
+
+  if (!biTable && !coverTable && !creditsTable) return;
+
+  const firstRow = biTable ? biTable.querySelector('tr') : null;
   const isSingleColumn = firstRow ? (Array.from(firstRow.cells).length === 1) : false;
 
   let exportContainer = currentDoc.createElement('div');
   exportContainer.className = 'dcs-export-wrapper';
 
-  if (isSingleColumn) {
-    const cells = liveTable.querySelectorAll('td');
-    cells.forEach(cell => {
-      const row = cell.closest('tr');
-      const style = window.getComputedStyle(row);
-      if (style.display === 'none' || style.visibility === 'hidden') return;
+  // Helper to clone and sanitize any table
+  function processTable(tableEl) {
+    if (!tableEl) return null;
 
-      const block = currentDoc.createElement('div');
-      block.className = cell.className + ' dcs-block-unit';
-      block.innerHTML = cell.innerHTML;
-
-      cleanElement(block, isSingleColumn);
-
-      const text = block.textContent.replace(/[\s\u00a0\t\n\r]/g, '');
-      if (text.length > 0 || block.querySelector('img')) {
-        exportContainer.appendChild(block);
-      }
-    });
-  } else {
-    const tableClone = liveTable.cloneNode(true);
-    const rows = tableClone.querySelectorAll('tr');
-    rows.forEach(row => {
-      const liveEl = currentDoc.getElementById(row.id);
-      if (liveEl) {
-        const style = window.getComputedStyle(liveEl);
-        if (style.display === 'none' || style.visibility === 'hidden' || liveEl.offsetParent === null) {
-          row.remove();
-          return;
+    if (isSingleColumn) {
+      const wrapper = currentDoc.createElement('div');
+      wrapper.className = 'table-single-col-wrapper';
+      const cells = tableEl.querySelectorAll('td');
+      cells.forEach(cell => {
+        const row = cell.closest('tr');
+        if (row) {
+          const style = window.getComputedStyle(row);
+          if (style.display === 'none' || style.visibility === 'hidden') return;
         }
-      }
-      row.querySelectorAll('td').forEach(td => cleanElement(td, isSingleColumn));
-      const text = row.textContent.replace(/[\s\u00a0\t\n\r]/g, '');
-      if (text.length === 0 && !row.querySelector('img')) {
-        row.remove();
-      }
-    });
-    exportContainer.appendChild(tableClone);
+
+        const block = currentDoc.createElement('div');
+        block.className = cell.className + ' dcs-block-unit';
+        block.innerHTML = cell.innerHTML;
+
+        cleanElement(block, isSingleColumn);
+
+        const text = block.textContent.replace(/[\s\u00a0\t\n\r]/g, '');
+        if (text.length > 0 || block.querySelector('img')) {
+          wrapper.appendChild(block);
+        }
+      });
+      return wrapper;
+    } else {
+      const tableClone = tableEl.cloneNode(true);
+      const rows = tableClone.querySelectorAll('tr');
+      rows.forEach(row => {
+        const liveEl = currentDoc.getElementById(row.id);
+        if (liveEl) {
+          const style = window.getComputedStyle(liveEl);
+          if (style.display === 'none' || style.visibility === 'hidden' || liveEl.offsetParent === null) {
+            row.remove();
+            return;
+          }
+        }
+        row.querySelectorAll('td').forEach(td => cleanElement(td, isSingleColumn));
+        const text = row.textContent.replace(/[\s\u00a0\t\n\r]/g, '');
+        if (text.length === 0 && !row.querySelector('img')) {
+          row.remove();
+        }
+      });
+      return tableClone;
+    }
   }
 
   function cleanElement(el, singleColMode) {
@@ -3036,6 +3050,37 @@ async function performUnifiedExport(format) {
     });
   }
 
+  // Append processed sections in sequence
+  if (coverTable) {
+    const coverSection = currentDoc.createElement('div');
+    coverSection.className = 'export-section-cover';
+    const processedCover = processTable(coverTable);
+    if (processedCover) {
+      coverSection.appendChild(processedCover);
+      exportContainer.appendChild(coverSection);
+    }
+  }
+
+  if (creditsTable) {
+    const creditsSection = currentDoc.createElement('div');
+    creditsSection.className = 'export-section-credits';
+    const processedCredits = processTable(creditsTable);
+    if (processedCredits) {
+      creditsSection.appendChild(processedCredits);
+      exportContainer.appendChild(creditsSection);
+    }
+  }
+
+  if (biTable) {
+    const biSection = currentDoc.createElement('div');
+    biSection.className = 'export-section-service';
+    const processedBi = processTable(biTable);
+    if (processedBi) {
+      biSection.appendChild(processedBi);
+      exportContainer.appendChild(biSection);
+    }
+  }
+
   const fileName = currentDoc.title || "Service_Export";
 
   let displayTitle = "Divine Services";
@@ -3060,7 +3105,7 @@ function generatePDFFile(element, filename, isSingleColumn, displayTitle = "Divi
   const hideEnglish = document.querySelector('.rightCell[style*="display: none"], td.rightCell.nodisplay, .hide-english') !== null ||
     document.body.classList.contains('greek-only');
 
-  // 2. Remove the hidden language table cells directly from the clone
+  // 2. Remove hidden language cells
   if (hideGreek) {
     clone.querySelectorAll('td.leftCell, .leftCell').forEach(el => el.remove());
   }
@@ -3072,12 +3117,12 @@ function generatePDFFile(element, filename, isSingleColumn, displayTitle = "Divi
   const hiddenSelectors = '.nodisplay, .noprintactor, .noprintrub, .noprintprayer, [style*="display: none"], .sbparishname';
   clone.querySelectorAll(hiddenSelectors).forEach(el => el.remove());
 
-  // 4. Clean up any table rows that are now empty
+  // 4. Clean up empty rows
   clone.querySelectorAll('tr').forEach(tr => {
     if (!tr.textContent.trim()) tr.remove();
   });
 
-  // 5. Strip trailing empty paragraph or div nodes
+  // 5. Strip trailing empty nodes
   const children = clone.querySelectorAll('p, div, br');
   for (let i = children.length - 1; i >= 0; i--) {
     const node = children[i];
@@ -3088,7 +3133,7 @@ function generatePDFFile(element, filename, isSingleColumn, displayTitle = "Divi
     }
   }
 
-  // 6. Open the print window and write the document
+  // 6. Open print window
   const printWin = window.open('', '_blank', 'width=900,height=800');
   const rootURL = `https://dcs.goarch.org/goa/dcs/`;
 
@@ -3100,13 +3145,35 @@ function generatePDFFile(element, filename, isSingleColumn, displayTitle = "Divi
             <title>${filename}</title>
             <link rel="stylesheet" href="css/dcs_word_styles.css">
             <style>
+                /* Named Page Rules to isolate Header/Footer to Service section */
                 @page {
                     size: 8.5in 11in;
                     margin-top: 1.1in; 
                     margin-right: 0.75in;
                     margin-bottom: 1.0in;
                     margin-left: 0.75in;
+                }
 
+                /* Cover Page: No header or footer */
+                @page coverPage {
+                    margin-top: 1.0in;
+                    margin-bottom: 1.0in;
+                    @top-center { content: none; border: none; }
+                    @bottom-left { content: none; border: none; }
+                    @bottom-right { content: none; border: none; }
+                }
+
+                /* Credits Page: No header or footer */
+                @page creditsPage {
+                    margin-top: 1.0in;
+                    margin-bottom: 1.0in;
+                    @top-center { content: none; border: none; }
+                    @bottom-left { content: none; border: none; }
+                    @bottom-right { content: none; border: none; }
+                }
+
+                /* Service Page Header/Footer */
+                @page servicePage {
                     @top-center {
                         content: "${displayTitle}";
                         font-family: "Times New Roman", serif;
@@ -3120,7 +3187,7 @@ function generatePDFFile(element, filename, isSingleColumn, displayTitle = "Divi
                     }
                 }
 
-                @page :right {
+                @page servicePage:right {
                     @bottom-left {
                         content: "Powered by Digital Chant Stand: A National Ministry of the Greek Orthodox Archdiocese of America";
                         font-family: serif; font-size: 8pt; font-style: italic; color: #a91827;
@@ -3138,7 +3205,7 @@ function generatePDFFile(element, filename, isSingleColumn, displayTitle = "Divi
                     }
                 }
 
-                @page :left {
+                @page servicePage:left {
                     @bottom-left {
                         content: counter(page);
                         font-family: serif; font-size: 9pt; color: #a91827;
@@ -3163,6 +3230,25 @@ function generatePDFFile(element, filename, isSingleColumn, displayTitle = "Divi
                     margin: 0; padding: 0;
                 }
 
+                /* Assign sections to named pages and enforce hard page breaks */
+                .export-section-cover {
+                    page: coverPage;
+                    page-break-after: always;
+                    break-after: page;
+                }
+
+                .export-section-credits {
+                    page: creditsPage;
+                    page-break-after: always;
+                    break-after: page;
+                }
+
+                .export-section-service {
+                    page: servicePage;
+                    /* Reset page counter so biTable starts at page 1 */
+                    counter-reset: page 1; 
+                }
+
                 .dcs-export-container {
                     display: block !important;
                     width: 100% !important;
@@ -3173,7 +3259,8 @@ function generatePDFFile(element, filename, isSingleColumn, displayTitle = "Divi
                     widows: 2 !important;
                 }
 
-                .newspaper-flow {
+                /* Column flow applied exclusively to biTable service section */
+                .export-section-service .newspaper-flow {
                     column-count: ${isSingleColumn ? '2' : '1'} !important;
                     column-gap: 30pt;
                     column-fill: auto !important;
@@ -3210,8 +3297,13 @@ function generatePDFFile(element, filename, isSingleColumn, displayTitle = "Divi
             <\/script>
         </head>
         <body>
-            <div class="${isSingleColumn ? 'newspaper-flow' : ''} dcs-export-container">
-                ${clone.innerHTML}
+            <div class="dcs-export-container">
+                ${Array.from(clone.children).map(child => {
+    if (child.classList.contains('export-section-service')) {
+      return `<div class="export-section-service ${isSingleColumn ? 'newspaper-flow' : ''}">${child.innerHTML}</div>`;
+    }
+    return child.outerHTML;
+  }).join('')}
             </div>
         </body>
         </html>
@@ -3219,6 +3311,7 @@ function generatePDFFile(element, filename, isSingleColumn, displayTitle = "Divi
 
   printWin.document.close();
 }
+
 
 // Helper for cross-browser safe scrolling
 function safeScrollIntoView(element, alignToTop) {
@@ -4687,9 +4780,6 @@ const SearchUI = {
 })();
 
 
-
-
-
 function splitTable() {
   console.log('[splitTable] Function started.');
 
@@ -4705,6 +4795,7 @@ function splitTable() {
     console.warn('[splitTable] Aborted: Could not find <tbody> inside #biTable.');
     return;
   }
+
 
   // Early return if .sb_pdf_cover_begin is not present
   if (!originalTbody.querySelector('.sb_pdf_cover_begin')) {
