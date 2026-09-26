@@ -724,78 +724,15 @@ img.sb_logo_img {
 }
 
 
-
-/* ==========================================================================
-   COVER & CREDITS: BILINGUAL VS. SINGLE-LANGUAGE CELL BEHAVIOR
-   ========================================================================== */
-
-   /* Ensure the logo table row and cell display as table elements */
-   #biTable tr:has(p.sb_logo) {
-       display: table-row !important;
-   }
-
-   #biTable tr:has(p.sb_logo) td {
-       display: table-cell !important;
-       text-align: center;
-       padding: 15px 0;
-   }
-
-   /* Paragraph reset and image centering */
-   p.sb_logo {
-       margin: 0;
-       padding: 0;
-       text-align: center;
-   }
-
-/* 1. BILINGUAL MODE: When td.rightCell exists in cover/credits rows, hide td.leftCell */
-#biTable tr:has(p[class*="sb_cover"]):has(td.rightCell) td.leftCell,
-#biTable tr:has(p[class*="sb_credits"]):has(td.rightCell) td.leftCell,
-#biTable tr:has(p.brc_pdf_cover):has(td.rightCell) td.leftCell,
-#biTable tr:has(p.erc_pdf_cover):has(td.rightCell) td.leftCell,
-#biTable tr:has(p.brc_pdf_credits):has(td.rightCell) td.leftCell,
-#biTable tr:has(p.erc_pdf_credits):has(td.rightCell) td.leftCell {
-    display: none !important;
-    mso-hide: all !important;
-    width: 0in !important;
-    mso-width-alt: 0pt !important;
-}
-
-/* 2. BILINGUAL MODE: When td.rightCell is present (and leftCell is hidden), make rightCell span 100% width */
-#biTable tr:has(p[class*="sb_cover"]) td.rightCell,
-#biTable tr:has(p[class*="sb_credits"]) td.rightCell,
-#biTable tr:has(p.brc_pdf_cover) td.rightCell,
-#biTable tr:has(p.erc_pdf_cover) td.rightCell,
-#biTable tr:has(p.brc_pdf_credits) td.rightCell,
-#biTable tr:has(p.erc_pdf_credits) td.rightCell {
-    width: 200% !important;
-    max-width: 200% !important;
-    display: block !important;
-    box-sizing: border-box !important;
-}
-
-/* 3. SINGLE-LANGUAGE GREEK MODE: When no td.rightCell exists, expand td.leftCell to 100% width */
-#biTable tr:has(p[class*="sb_cover"]):not(:has(td.rightCell)) td.leftCell,
-#biTable tr:has(p[class*="sb_credits"]):not(:has(td.rightCell)) td.leftCell,
-#biTable tr:has(p.brc_pdf_cover):not(:has(td.rightCell)) td.leftCell,
-#biTable tr:has(p.erc_pdf_cover):not(:has(td.rightCell)) td.leftCell,
-#biTable tr:has(p.brc_pdf_credits):not(:has(td.rightCell)) td.leftCell,
-#biTable tr:has(p.erc_pdf_credits):not(:has(td.rightCell)) td.leftCell {
-    width: 100% !important;
-    max-width: 100% !important;
-    display: block !important;
-    box-sizing: border-box !important;
-}
-
-
-
-
 /* --- STRUCTURAL --- */
 
 .nodisplay,
 .noprintactor,
 .noprintrub,
 .noprintprayer,
-.sbparishhname {
+.sbparishhname,
+p[class^='bmc_'],
+p[class^='emc_'] {
     display: none;
     mso-hide: all;
     /* Optional: ensures Word doesn't reserve vertical space for the hidden item */
