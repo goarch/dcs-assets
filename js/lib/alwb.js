@@ -1056,6 +1056,7 @@ $(document).ready(function () {
   fetchMatinsHTML();
   insertMatinsTOB();
   convertClassToId();
+  hideCollapsibleSections();
 });
 
 
@@ -3908,6 +3909,7 @@ function transformIndexLayout() {
 
         currentService.categories[category].push(btnAnchor);
 
+        // Replace lines 3931 - 3993
         // For web view HTML links (excluding Matins-Customizable /ma2/ links), generate Word Export button
         if (!isPdf && !href.includes('/ma2/')) {
           const exportBtn = document.createElement('button');
@@ -3925,7 +3927,7 @@ function transformIndexLayout() {
           currentService.categories['Word Export'].push(exportBtn);
         }
 
-        // Replace lines 3827 - 3842
+        // Replace lines 3913 - 3928
         // For web view HTML links (excluding Matins-Customizable /ma2/ links), generate Build-Export button
         // if (!isPdf && !href.includes('/ma2/')) {
         //   const exportBtn = document.createElement('button');
