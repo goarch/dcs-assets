@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="el-en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Service Builder – Hierarchical Liturgy Panel</title>
+    <!--
+        Service Builder panel for the Hierarchical Divine Liturgy, offered on
+        li / li4 / li6 service pages through the "Hierarchical" switch button of
+        the Liturgy panels (see BUILD_PANELS in js/lib/alwb.js).
+        Adapted from sb-hliturgy.html in the Service Builder app: the service
+        window is the page that contains this frame, so the date and language come
+        from that page and their controls are hidden. When the panel opens, the
+        service is converted to the hierarchical form (convertToHierarchicalService
+        in js/sb/service-builder-hliturgy.js).
+    -->
+    <link rel="stylesheet" href="css/service-builder.css">
+</head>
+
+<body>
+    <main class="panel-grid">
+
+        <!-- Set automatically from the service page (see js/sb/sb-embed.js) -->
+        <div class="sb-section" style="display: none;">
+            <label class="input-label">Select Service Date</label>
+            <div class="datepicker-row">
+                <input type="date" id="service-date-picker">
+            </div>
+        </div>
+
+        <div class="sb-section" style="display: none;">
+            <label class="input-label">Select Language</label>
+            <div class="launch-btn-group" style="display: flex; gap: 5px; margin-top: 10px; width: 100%;">
+                <label class="sb-radio-label" style="flex: 1;">
+                    <input type="radio" id="launchServiceGrEn" name="serviceLanguage" value="gr-en" checked>
+                    <span>Bilingual</span>
+                </label>
+                <label class="sb-radio-label" style="flex: 1;">
+                    <input type="radio" id="launchServiceEn" name="serviceLanguage" value="en">
+                    <span>English</span>
+                </label>
+                <label class="sb-radio-label" style="flex: 1;">
+                    <input type="radio" id="launchServiceGr" name="serviceLanguage" value="gr">
+                    <span>Greek</span>
+                </label>
+            </div>
+        </div>
+
+        <div id="custom-controls-container" class="sb-section">
+            <div id="section-jurisdiction" class="sb-control-group" style="display: none;">
+                <label class="input-label">Jurisdiction</label>
+                <select id="jurisdiction-select" class="sb-input-select">
+                    <option value="goa">GOA</option>
+                </select>
+            </div>
+
+            <div id="section-eparchy" class="sb-control-group">
+                <label class="input-label" id="eparchy-label">Metropolis</label>
+                <select id="eparchy-select" class="sb-input-select" style="margin-bottom: 8px;">
+                </select>
+            </div>
+
+            <div id="section-parish" class="sb-control-group">
+                <label class="input-label" id="parish-label">Parish</label>
+                <select id="parish-select" class="sb-input-select">
+                    <option value="" disabled selected>-- Select parish name --</option>
+                </select>
+            </div>
+
+            <!-- Hierarch Selection Section -->
+            <div id="section-hierarch-selection" class="sb-control-group"
+                title="Change celebrant Hierarch if necessary.">
+                <label class="input-label">Celebrant Hierarch</label>
+                <select id="celebrant-select" class="sb-input-select">
+                    <!-- Options populated via JS -->
+                </select>
+            </div>
+
+            <!-- Clergy Options Section -->
+            <div id="section-celebrant-selection" class="sb-control-group">
+                <label class="input-label">Celebrants</label>
+                <div class="toggle-group" style="display: flex; gap: 8px;">
+                    <div class="li-options-col" style="flex: 1;" title="Inserts Deacon's parts.">
+                        <input type="checkbox" id="li_opt_deacon" checked>
+                        <label for="li_opt_deacon" class="li-option-label">Deacon</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filled in by common-utilities.js (liturgyOptionsHTML) -->
+        <div class="sb-section" id="liturgyOptions">
+        </div>
+
+        <div class="sb-section">
+            <details>
+                <summary>Ordinations</summary>
+                <div id="section-ordination" class="sb-section">
+                    <div class="ordination-grid">
+                        <div class="ordination-col">
+                            <div class="ord-checkbox-row">
+                                <input type="checkbox" id="ord-deacon-check" class="ord-checkbox-input">
+                                <label for="ord-deacon-check" class="ord-checkbox-label">Deacon</label>
+                            </div>
+
+                            <div id="deacon-name-fields" class="name-field-group" style="display: none;">
+                                <input type="text" id="deacon-name-gr-acc" class="sb-input-text"
+                                    placeholder="Name (GR acc. case)">
+                                <input type="text" id="deacon-name-gr-gen" class="sb-input-text"
+                                    placeholder="Name (GR gen. case)">
+                                <input type="text" id="deacon-name-en" class="sb-input-text"
+                                    placeholder="Name in English">
+                            </div>
+                        </div>
+
+                        <div class="ordination-col">
+                            <div class="ord-checkbox-row">
+                                <input type="checkbox" id="ord-priest-check" class="ord-checkbox-input">
+                                <label for="ord-priest-check" class="ord-checkbox-label">Priest</label>
+                            </div>
+
+                            <div id="priest-name-fields" class="name-field-group" style="display: none;">
+                                <input type="text" id="priest-name-gr-acc" class="sb-input-text"
+                                    placeholder="Name (GR acc. case)">
+                                <input type="text" id="priest-name-gr-gen" class="sb-input-text"
+                                    placeholder="Name (GR gen. case)">
+                                <input type="text" id="priest-name-en" class="sb-input-text"
+                                    placeholder="Name in English">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </details>
+        </div>
+
+        <div id="section-export-tools" class="sb-section"
+            style="border-top: 2px solid #a91827; margin-top: 20px; padding-top: 15px; position: relative;">
+            <label class="input-label">Apply and Export</label>
+
+            <div class="action-bar" style="display: flex; gap: 10px; align-items: stretch;">
+                <button id="btn-view-preview" type="button" class="sb-btn-action" disabled>
+                    Loading…
+                </button>
+
+                <div id="toast-container" class="toast-container"></div>
+            </div>
+
+            <div class="toggle-group">
+                <button id="btn-export-word" type="button" class="sb-btn-toggle" onclick="exportToWord()"
+                    style="background-color: #2b579a; color: white;">
+                    Download as Word (.doc)
+                </button>
+                <button id="btn-export-pdf" type="button" class="sb-btn-toggle" onclick="exportToPDF()"
+                    style="background-color: #b30000; color: white;">
+                    Preview & print as PDF (.pdf)
+                </button>
+            </div>
+            <div style="font-size: 0.85em; color: #555; margin: 8px 0 0 0;">
+                <b>Word download:</b> for editing your own version of the service.
+                <ol style="margin: 4px 0 0 0; padding-left: 20px;">
+                    <li>Save the file (it is a <b>.doc</b> file). Choose a name and folder, or let it go to your
+                        Downloads folder.</li>
+                    <li>Open it in Word. If Word shows a yellow bar, click <b>Enable Editing</b>.</li>
+                    <li>After editing, use <b>File &gt; Save As</b> and choose <b>Word Document (.docx)</b>.</li>
+                </ol>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Describes this panel to js/sb/sb-embed.js -->
+    <script>
+        var SB_PANEL = {
+            id: 'hli',
+            switchLabel: 'Type of Liturgy',
+            sources: ['lit', 'ord'],
+            // Convert the published Liturgy to the Hierarchical Liturgy when the panel opens
+            onOpen: function () { convertToHierarchicalService(); },
+            // The hierarchical options need a Metropolis and Celebrant Hierarch
+            canApply: function () {
+                return !!document.getElementById('eparchy-select').value &&
+                    !!document.getElementById('celebrant-select').value;
+            },
+            needsMessage: 'Choose a Metropolis first'
+        };
+    </script>
+
+    <!-- Must run before the Service Builder scripts: sets the date/language and SB_JSON_PATH -->
+    <script src="js/sb/sb-embed.js"></script>
+
+    <script src="js/sb/sb-swap-mapping.js"></script>
+    <script src="js/sb/sb-diocese-data.js"></script>
+    <script src="js/sb/sb-ordination-data.js"></script>
+    <script src="js/sb/sb-mapping-defs.js"></script>
+    <script src="js/sb/sb-actors-defs.js"></script>
+    <script src="js/sb/sb-parish-data.js"></script>
+    <script src="js/sb/sb-bishop-data.js"></script>
+    <script src="js/sb/common-utilities.js"></script>
+    <script src="js/sb/service-builder-hliturgy.js"></script>
+</body>
+
+</html>

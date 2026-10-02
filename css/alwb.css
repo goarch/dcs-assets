@@ -229,7 +229,7 @@ body {
 /* Properties for the Menu Bar */
 div.agesMenu {
     border-style: none;
-    font-size: 120%;
+    font-size: 200%;
     width: 100%;
     min-width: 100%;
     max-width: 100%;
@@ -260,13 +260,145 @@ div.agesMenu {
    depending on various factors.
 */
 i.ages-menu-link {
-    padding: 0.25em;
+    padding: 0.25em 0.12em; /* tighter left/right spacing in the menu bar (was 0.25em all round) */
     color: white;
 }
 
+/* Night Mode (alwb.js adds .night-mode to <html>; Day Mode removes it, so the
+   page returns exactly to its own colors). The menu bar, its dropdown and the
+   Service Builder panel keep their normal colors. */
+html.night-mode,
+html.night-mode body,
+html.night-mode body *:not(.agesMenu):not(.agesMenu *):not(#sb-build-panel):not(#sb-build-panel *):not(.jqm-dropdown):not(.jqm-dropdown *) {
+    background-color: #000000 !important;
+}
+html.night-mode p {
+    color: #FBF0D9 !important;
+}
+/* Text styled to be black by day would vanish on black */
+html.night-mode .black {
+    color: #FBF0D9 !important;
+}
+/* Links within the service text (e.g. melody names) */
+html.night-mode p a:not(.jqm-dropdown a) {
+    color: #80b8ff !important;
+}
+/* Night Mode: text that is red or blue by day is shown in a lighter red or blue,
+   readable on black. Generated from the red/blue text color rules in this file
+   (except the media dropdown items, which stay on a light background);
+   if a new red or blue style is added, add its selector here too. */
+html.night-mode p.actor,
+html.night-mode p.actorinaudible,
+html.night-mode p.lobTitle,
+html.night-mode p.chant::first-letter,
+html.night-mode p.chapverse,
+html.night-mode p.designation,
+html.night-mode p.greekmelody,
+html.night-mode p.heirmos::first-letter,
+html.night-mode p.hymn::first-letter,
+html.night-mode p.hymnlinefirst::first-letter,
+html.night-mode p.iambiccanon1::first-letter,
+html.night-mode p.iambiccanon234::first-letter,
+html.night-mode p.iambiccanon5::first-letter,
+html.night-mode p.melody,
+html.night-mode p.missaltitle,
+html.night-mode p.mode,
+html.night-mode p.name,
+html.night-mode p.noprintdesig,
+html.night-mode p.rubric,
+html.night-mode p.servicesources,
+html.night-mode p.smallcenter,
+html.night-mode p.smallcenterboldred,
+html.night-mode p.smalldesig,
+html.night-mode p.synaxarioncommemoration::first-letter,
+html.night-mode p.synaxarionversetitle,
+html.night-mode p.synaxarionnarrationtitle,
+html.night-mode p.synaxarionnote,
+html.night-mode p.titlezero,
+html.night-mode span.anum,
+html.night-mode span.bigred,
+html.night-mode span.bolditalicsred,
+html.night-mode span.boldred,
+html.night-mode span.chapverse,
+html.night-mode span.designation,
+html.night-mode span.actorwithdialog,
+html.night-mode span.goared,
+html.night-mode span.italicsred,
+html.night-mode span.melody,
+html.night-mode span.mode,
+html.night-mode span.red,
+html.night-mode span.reference,
+html.night-mode span.rubric,
+html.night-mode span.rubricnopdf,
+html.night-mode span.smallred,
+html.night-mode span.smallreditalic,
+html.night-mode span.smallredbold,
+html.night-mode span.smallreditalicbold,
+html.night-mode span.troparionfirstletter,
+html.night-mode span.troparionlinefirstletter,
+html.night-mode .index-title,
+html.night-mode .index-title-date,
+html.night-mode .index-month,
+html.night-mode .index-service-day,
+html.night-mode .index-commemoration,
+html.night-mode .pref-closer,
+html.night-mode .sc-btn-reset,
+html.night-mode .cover_logo1,
+html.night-mode .cover0,
+html.night-mode .cover3,
+html.night-mode .cover4,
+html.night-mode .cover7,
+html.night-mode .cover81,
+html.night-mode .cover82,
+html.night-mode .cover12,
+html.night-mode .sb_cover0,
+html.night-mode .sb_cover3,
+html.night-mode .sb_cover4,
+html.night-mode .sb_cover7,
+html.night-mode .sb_cover81,
+html.night-mode .sb_cover82,
+html.night-mode .sb_cover12,
+html.night-mode .sb_credits5,
+html.night-mode .sb_cover_logo1 {
+    color: #ff7b7b !important;
+}
+html.night-mode a:hover,
+html.night-mode p.bmc_collapse,
+html.night-mode p.emc_collapse,
+html.night-mode span.blue,
+html.night-mode span.versiondesignation,
+html.night-mode p.prayersbeforecommunionlink,
+html.night-mode .pbc-toggle-btn {
+    color: #80b8ff !important;
+}
+/* Phones and tablets (alwb.js adds .ages-menu-phone to the menu bar):
+   menu icons large enough to tap; !important also covers the sizes alwb.js
+   writes on the icons and icons added later (e.g. the up arrow) */
+.agesMenu.ages-menu-phone i.fa.ages-menu-link {
+    font-size: 20pt !important;
+}
+
+/* Narrow screens: the find box gets its own full-width row below the buttons */
+@media (max-width: 700px) {
+    .agesMenu.ages-menu-phone .vs-find-container {
+        flex-basis: 100%;
+        margin: 2px 0 4px 0;
+        height: auto;
+        box-sizing: border-box;
+    }
+    .agesMenu.ages-menu-phone .vs-find-input-wrapper {
+        flex: 1;
+    }
+    .agesMenu.ages-menu-phone .vs-find-input {
+        flex: 1;
+        min-width: 0;
+        font-size: 16px; /* 16px or more: iPhones don't zoom in when the box is tapped */
+    }
+}
 /* Visual Studio Find Container Positioning */
 .vs-find-container {
     margin-left: auto;
+    height: 200%;
     /* Pushes search bar to the far right */
 }
 
@@ -531,7 +663,7 @@ p.alttext {
 #LoB {
     width: 50%;
     margin: 0 auto;
-    padding-top: 10px;
+    padding-top: 20px;
     padding-bottom: 30px;
     font-size: 12pt;
     font-weight: bold;
@@ -553,147 +685,8 @@ p.bookmarklink {
     text-align: center;
 }
 
-p.bkmrk {
-    font-size: .1%;
-    line-height: .1%;
-    opacity: 0;
-}
-
-p.bkmrkR {
-    font-size: .1%;
-    line-height: .1%;
-    opacity: 0;
-
-}
-
-p.bkmrkRR {
-    font-size: .1%;
-    line-height: .1%;
-    opacity: 0;
-
-}
-
-p.bkmrk00 {
-    font-size: .1%;
-    line-height: .1%;
-    opacity: 0;
-}
-
-p.bkmrk01 {
-    font-size: .1%;
-    line-height: .1%;
-    opacity: 0;
-}
-
-p.bkmrk02 {
-    font-size: .1%;
-    line-height: .1%;
-    opacity: 0;
-}
-
-p.bkmrk03 {
-    font-size: .1%;
-    line-height: .1%;
-    opacity: 0;
-}
-
-p.bkmrk04 {
-    font-size: .1%;
-    line-height: .1%;
-    opacity: 0;
-}
-
-p.bkmrk05 {
-    font-size: .1%;
-    line-height: .1%;
-    opacity: 0;
-}
-
-p.bkmrk06 {
-    font-size: .1%;
-    line-height: .1%;
-    opacity: 0;
-}
-
-p.bkmrk07 {
-    font-size: .1%;
-    line-height: .1%;
-    opacity: 0;
-}
-
-p.bkmrk08 {
-    font-size: .1%;
-    line-height: .1%;
-    opacity: 0;
-}
-
-p.bkmrk09 {
-    font-size: .1%;
-    line-height: .1%;
-    opacity: 0;
-}
-
-p.bkmrk10 {
-    font-size: .1%;
-    line-height: .1%;
-    opacity: 0;
-}
-
-p.bkmrk11 {
-    font-size: .1%;
-    line-height: .1%;
-    opacity: 0;
-}
-
-p.bkmrk12 {
-    font-size: .1%;
-    line-height: .1%;
-    opacity: 0;
-}
-
-p.bkmrk13 {
-    font-size: .1%;
-    line-height: .1%;
-    opacity: 0;
-}
-
-p.bkmrk14 {
-    font-size: .1%;
-    line-height: .1%;
-    opacity: 0;
-}
-
-p.bkmrk15 {
-    font-size: .1%;
-    line-height: .1%;
-    opacity: 0;
-}
-
-p.bkmrk16 {
-    font-size: .1%;
-    line-height: .1%;
-    opacity: 0;
-}
-
-p.bkmrk17 {
-    font-size: .1%;
-    line-height: .1%;
-    opacity: 0;
-}
-
-p.bkmrk18 {
-    font-size: .1%;
-    line-height: .1%;
-    opacity: 0;
-}
-
-p.bkmrk19 {
-    font-size: .1%;
-    line-height: .1%;
-    opacity: 0;
-}
-
-p.bkmrk20 {
+p[class^="bkmrk"],
+p[class*=" bkmrk"] {
     font-size: .1%;
     line-height: .1%;
     opacity: 0;
@@ -1987,6 +1980,7 @@ table.custom-index-table {
 .print-btn {
     float: right;
     margin: 5px 5px 0 0;
+    padding-top: 20px;
 }
 
 .pref-left {
@@ -2218,26 +2212,6 @@ span.sblieisodikonrefrain {
 }
 
 span.sbmadismissal {
-    display: none;
-}
-
-span.sbhmakatavasias {
-    display: none;
-}
-
-span.sbhmaexaposteilaria {
-    display: none;
-}
-
-span.sbhmalaudsmode {
-    display: none;
-}
-
-span.sbhvemode {
-    display: none;
-}
-
-span.sbhvetrisagion {
     display: none;
 }
 

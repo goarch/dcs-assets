@@ -1,0 +1,58 @@
+[
+    {
+        "ID":101,
+        "rank":"8",
+        "label":"St. Argyrios Epanomites",
+        "name_greek": "τοῦ ἁγίου ἐνδόξου Νεομάρτυρος Ἀργυρίου τοῦ Ἐπανομίτου,",
+        "name_english": "the holy and glorious Neo-martyr Argyrios Epanomites,"
+    },
+    {
+        "ID":102,
+        "rank": "6",
+        "label": "St. Barbara",
+        "name_greek": "τῆς ἁγίας ἐνδόξου Μεγαλομάρτυρος Βαρβάρας,",
+        "name_english": "the holy and glorious Great Martyr Barbara,"
+    },
+    {
+        "ID":103,
+        "rank": "3",
+        "label": "St. Haralambos",
+        "name_greek": "τοῦ ἁγίου ἐνδόξου Ἱερομάρτυρος Χαραλάμπους τοῦ Θαυματουργοῦ,",
+        "name_english": "the holy and glorious hieromartyr Haralambos the Wonderworker,"
+    },
+    {
+        "ID":104,
+        "rank": "5",
+        "label": "St. Marina",
+        "name_greek": "τῆς ἁγίας Μεγαλομάρτυρος Μαρίνης,",
+        "name_english": "the holy Great-martyr Marina,"
+    },
+    {
+        "ID":105,
+        "rank": "2",
+        "label": "St. Panteleimon",
+        "name_greek": "τοῦ ἁγίου ἐνδόξου Μεγαλομάρτυρος καὶ Ἰαματικοῦ Παντελεήμονος,",
+        "name_english": "the holy and glorious Great Martyr and Physician Panteleimon,"
+    },
+    {
+        "ID":106,
+        "rank": "4",
+        "label": "Holy Fathers of St. Savas",
+        "name_greek": "τῶν ἁγίων Ἀββάδων τῶν ἐν τῇ Μονῇ τοῦ ἁγίου Σάββα ἀναιρεθέντων,",
+        "name_english": "the holy Fathers who were slaughtered in the Monastery of St. Savas,"
+    },
+    {
+        "ID":107,
+        "rank": "7",
+        "label": "Five Martyrs of Samothraki",
+        "name_greek": "τῶν ἁγίων πέντε ἐνδόξων Νεομαρτύρων τῆς Σαμοθράκης, Μανουὴλ, Θεοδώρου, Μιχαήλ, Γεωργίου καὶ Γεωργίου,",
+        "name_english": "the holy and glorious Five Neo-martyrs of Samothraki, Manuel, Theodore, Michael, George, and George,"
+    },
+    {
+        "ID": 108,
+        "rank": "1",
+        "label": "St. George",
+        "name_greek": "τοῦ ἁγίου ἐνδόξου Μεγαλομάρτυρος Γεωργίου,",
+        "name_english": "the holy and glorious Great Martyr George,"
+    }
+]
