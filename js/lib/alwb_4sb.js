@@ -12,11 +12,6 @@ var lang1;
 var lang2;
 var lang1IsGreek = false;
 var lang2IsGreek = false;
-var dayBackgroundColor;
-var dayFontColor;
-var dayMenuIconColor;
-var dayMenuBarColor;
-var redElements;
 
 
 var isMobile = {
@@ -76,6 +71,121 @@ function resumeSwap(myRow) {
   $("tr:has(.media-group)").attr("onclick", "swapLang(this)");
 }
 
+/**
+ * The Greek (td.leftCell) or English (td.rightCell) cells of the service.
+ * Selected by class, not by counting cells (td:even / td:odd), and leaving
+ * out the one-language cover and credits tables made by splitTable(): counting
+ * across those tables hid about half of their lines in one-column view.
+ */
+function serviceLanguageCells(side) {
+  return $(side === 'left' ? 'td.leftCell' : 'td.rightCell').not('#coverTable td, #creditsTable td');
+}
+
+// Current language view: 'both' (B), 'gr' (G) or 'en' (E). Also used by the PDF/Word export.
+var languageView = 'both';
+
+/**
+ * Re-applies the G / E view after rows have been swapped into the service
+ * (Service Builder panel, Matins Ordinary): swapped-in rows arrive with both
+ * languages showing. Nothing to do in the B view.
+ */
+function reapplyLanguageView() {
+  if (languageView === 'gr') hideAllRight();
+  else if (languageView === 'en') hideAllLeft();
+}
+
+/**
+ * Cover and credits (made by splitTable) show one language across the full
+ * width: Greek in the G view, English in the B and E views. Rows that have
+ * only one language (Greek-only services) are left as they are.
+ */
+function showCoverAndCreditsLanguage(view) {
+  $('#coverTable tr, #creditsTable tr').each(function () {
+    var leftCell = $(this).children('td.leftCell');
+    var rightCell = $(this).children('td.rightCell');
+    if (!leftCell.length || !rightCell.length) return;
+    leftCell.css('display', view === 'gr' ? '' : 'none');
+    rightCell.css('display', view === 'gr' ? 'none' : '');
+  });
+}
+
+/**
+ * G / B / E buttons in the agesMenu (see setupLanguageViewButtons):
+ * highlights the button for the current view ('gr', 'both' or 'en').
+ */
+function markLanguageView(view) {
+  $('.agesMenu a.ages-view-btn').removeClass('active');
+  $('.agesMenu a.ages-view-btn[data-view="' + view + '"]').addClass('active');
+}
+
+/**
+ * Turns the three column icons in the agesMenu (generated with each service
+ * file) into G / B / E buttons that are always visible:
+ *   G = Greek only (hideAllRight), B = bilingual (showAll), E = English only (hideAllLeft).
+ * The button for the current view is highlighted. On a one-language page the
+ * buttons are hidden, since there is nothing to switch.
+ */
+function setupLanguageViewButtons() {
+  var buttons = [
+    { find: 'hideAllRight', view: 'gr', letter: 'G', title: 'Greek only', action: hideAllRight },
+    { find: 'showAll', view: 'both', letter: 'B', title: 'Bilingual (Greek and English)', action: showAll },
+    { find: 'hideAllLeft', view: 'en', letter: 'E', title: 'English only', action: hideAllLeft }
+  ];
+
+  var languages = String($('title').data('language') || '');
+  var isBilingualPage = languages.split('-').length === 2;
+
+  if (!document.getElementById('ages-view-btn-styles')) {
+    var style = document.createElement('style');
+    style.id = 'ages-view-btn-styles';
+    // The letter keeps the menu icons' classes (fa, ages-menu-link), so it is
+    // sized with them. Colors match the service index page: Greek blue
+    // #0D5EAF, English red #B22234, Bilingual half blue / half red.
+    // The current view is fully colored with a white frame; the others are dimmed.
+    // !important keeps the colors after Day/Night mode, which sets an inline
+    // background on everything in the menu.
+    style.textContent =
+      '.agesMenu a.ages-view-btn { text-decoration: none; }' +
+      '.agesMenu i.fa.lang-view-letter {' +
+      '  font-family: Arial, Helvetica, sans-serif; font-weight: bold; font-style: normal;' +
+      '  width: 1.1em; line-height: 1; text-align: center; padding: 0.05em 0;' +
+      '  margin: 0 0.12em; border: 0.1em solid transparent; border-radius: 0.15em;' +
+      '  color: #ffffff !important; opacity: 0.55; transition: opacity 0.15s;' +
+      '}' +
+      '.agesMenu a.ages-view-btn[data-view="gr"] i.lang-view-letter { background: #0D5EAF !important; }' +
+      '.agesMenu a.ages-view-btn[data-view="en"] i.lang-view-letter { background: #B22234 !important; }' +
+      '.agesMenu a.ages-view-btn[data-view="both"] i.lang-view-letter {' +
+      '  background: linear-gradient(90deg, #0D5EAF 50%, #B22234 50%) !important;' +
+      '}' +
+      '.agesMenu a.ages-view-btn:hover i.lang-view-letter { opacity: 0.85; }' +
+      '.agesMenu a.ages-view-btn.active i.lang-view-letter { opacity: 1; border-color: #ffffff; }';
+    document.head.appendChild(style);
+  }
+
+  buttons.forEach(function (button) {
+    var link = $('.agesMenu > a[href*="' + button.find + '"]').get(0);
+    if (!link || link.classList.contains('ages-view-btn')) return;
+
+    // Keep the existing icon's size (set by the menu sizing code) for the letter
+    var oldIcon = link.querySelector('i');
+    var fontSize = oldIcon ? oldIcon.style.fontSize : '';
+
+    link.href = '#';
+    link.className = 'ages-view-btn';
+    link.setAttribute('data-view', button.view);
+    link.title = button.title;
+    link.innerHTML = '<i class="fa ages-menu-link lang-view-letter">' + button.letter + '</i>';
+    link.firstChild.style.fontSize = fontSize;
+    link.addEventListener('click', function (event) {
+      event.preventDefault();
+      button.action();
+    });
+    if (!isBilingualPage) link.style.display = 'none';
+  });
+
+  markLanguageView(languageView);
+}
+
 function hideAllLeft() {
   $("td").css("display", "");
   $("div.media-group-empty").css("display", "");
@@ -83,14 +193,13 @@ function hideAllLeft() {
   $("tr:has(p.alttext,p.chant,p.heirmos,p.hymn,p.hymnlinefirst,p.hymnlinemiddle,p.hymnlinelast,p.prayer,p.prayerzero,p.verse,p.versecenter,p.inaudible,p.dialog,p.dialogzero,p.reading,p.readingzero,p.readingcenter,p.readingcenterzero,p.rubric,.media-group,.dialogafteractor,p.iambiccanon1,p.iambiccanon234,p.iambiccanon5)").attr("onclick", "swapLang(this)");
   $(".media-icon,i,li").attr("onmousedown", "stopSwap(this)");
   $(".media-icon,i,li").attr("onmouseout", "resumeSwap(this)");
-  $("td:even").css("background-color", "#FFF7E6");
-  $("td:even").css("display", "none");
+  serviceLanguageCells('left').css("background-color", "#FFF7E6");
+  serviceLanguageCells('left').css("display", "none");
   $("td").css("border", "0");
 
-  // Added
-  $('.fa-columns.ages-col-picker').show();
-  $('.fa-caret-square-o-right.ages-col-picker').hide();
-  $('.fa-caret-square-o-left.ages-col-picker').show();
+  languageView = 'en';
+  showCoverAndCreditsLanguage(languageView);
+  markLanguageView(languageView);
 
   displayingBilingual = false;
 }
@@ -102,14 +211,13 @@ function hideAllRight() {
   $("tr:has(p.alttext,p.chant,p.heirmos,p.hymn,p.hymnlinefirst,p.hymnlinemiddle,p.hymnlinelast,p.prayer,p.prayerzero,p.verse,p.versecenter,p.inaudible,p.dialog,p.dialogzero,p.reading,p.readingzero,p.readingcenter,p.readingcenterzero,p.rubric,.media-group,.dialogafteractor,p.iambiccanon1,p.iambiccanon234,p.iambiccanon5)").attr("onclick", "swapLang(this)");
   $(".media-icon,i,li").attr("onmousedown", "stopSwap(this)");
   $(".media-icon,i,li").attr("onmouseout", "resumeSwap(this)");
-  $("td:even").css("background-color", "#FFF7E6");
-  $("td:odd").css("display", "none");
+  serviceLanguageCells('left').css("background-color", "#FFF7E6");
+  serviceLanguageCells('right').css("display", "none");
   $("td").css("border", "0");
 
-  // Added
-  $('.fa-columns.ages-col-picker').show();
-  $('.fa-caret-square-o-left.ages-col-picker').hide();
-  $('.fa-caret-square-o-right.ages-col-picker').show();
+  languageView = 'gr';
+  showCoverAndCreditsLanguage(languageView);
+  markLanguageView(languageView);
 
   displayingBilingual = false;
 }
@@ -155,12 +263,11 @@ function showAll() {
   $(".media-icon,i,li").removeAttr("onmouseout", "resumeSwap(this)");
   $("td").css("display", "");
   $("td").css("border", "");
-  $("td:even").css("background-color", "#FBF0D9");
+  serviceLanguageCells('left').css("background-color", "#FBF0D9");
 
-  // Added
-  $('.fa-columns.ages-col-picker').hide();
-  $('.fa-caret-square-o-left.ages-col-picker').show();
-  $('.fa-caret-square-o-right.ages-col-picker').show();
+  languageView = 'both';
+  showCoverAndCreditsLanguage(languageView);
+  markLanguageView(languageView);
 
   displayingBilingual = true;
 }
@@ -449,11 +556,6 @@ $(window).on('resize orientationChanged', function () {
 $(document).ready(function () {
   $('.collapse').collapse();
   adjustedFontSize = $("body").css('font-size');
-  dayBackgroundColor = $("body").css('background-color');
-  dayFontColor = $("body").css('color');
-  dayMenuIconColor = $("i.ages-menu-link").css('color');
-  dayMenuBarColor = $("div.agesMenu").css('background-color');
-  redElements = $('*').filter(function () { return ($(this).css('color') == "rgb(255, 0, 0)"); });
 
   /* Remove Content from Dropdown Menu */
   $('div#jqm-dropdown-pages > ul > li:eq(10)').remove(); // help
@@ -475,7 +577,9 @@ $(document).ready(function () {
   }
   if (isMobile.any()) {
     $(".clockbox").remove();
-    $(".agesMenu a .fa").css('font-size', '12pt');
+    // Phones/tablets: menu icons large enough to tap; on narrow screens the
+    // find box gets its own row (see .ages-menu-phone in css/alwb.css)
+    $(".agesMenu").addClass('ages-menu-phone');
   }
 
   getClock();
@@ -496,12 +600,12 @@ $(document).ready(function () {
 
   $('.dayMode').toggle(); // Added
 
+  // Day / Night Mode: Night adds .night-mode to <html> and css/alwb.css applies the
+  // night colors; Day removes it, so every element returns to its own colors.
+  // (Writing colors onto every element, as before, left all text black and the
+  // Greek column unshaded after returning to Day Mode.)
   $(".dayMode").click(function () {
-    $("html, body, body *").css('background-color', dayBackgroundColor);
-    $("p").css('color', dayFontColor);
-    $(redElements).css('color', 'red');
-    $("i.ages-menu-link *").css('color', dayMenuIconColor);
-    $("div.agesMenu, div.agesMenu *").css('background-color', dayMenuBarColor);
+    document.documentElement.classList.remove('night-mode');
 
     $('.dayMode').toggle(); // Added
     $('.nightMode').toggle(); // Added
@@ -510,11 +614,7 @@ $(document).ready(function () {
   });
 
   $(".nightMode").click(function () {
-    $("html, body, body *").css('background-color', 'black');
-    $("p").css('color', '#FBF0D9');
-    $(redElements).css('color', 'red');
-    $("i.ages-menu-link *").css('color', dayMenuIconColor);
-    $("div.agesMenu, div.agesMenu *").css('background-color', dayMenuBarColor);
+    document.documentElement.classList.add('night-mode');
 
     $('.dayMode').toggle(); // Added
     $('.nightMode').toggle(); // Added
@@ -523,14 +623,7 @@ $(document).ready(function () {
   });
 
 
-  if ($('title').data('language')) {
-    var lang_array = $('title').data('language').split('-');
-    if (lang_array.length == 2) {
-      if (displayingBilingual) {
-        $('.fa-columns.ages-col-picker').hide();
-      }
-    }
-  }
+  setupLanguageViewButtons();
 
   $.fn.visible = function () {
     return this.css('visibility', 'visible');
@@ -868,7 +961,7 @@ $(document).ready(function () {
         await loadAndSwapMatinsOrdinary();
       } else {
         // Purge rows between markers cleanly
-        removeMatinsOrdinarySections();
+        await removeMatinsOrdinarySections();
       }
 
       $(".pref-panel").hide();
@@ -1053,10 +1146,365 @@ $(document).ready(function () {
   insertVespersTOB();
   insertLiturgyTOB();
   insertVesperalLiturgyTOB();
-  fetchMatinsHTML();
+  matinsOrdinaryReady = fetchMatinsHTML();
   insertMatinsTOB();
   convertClassToId();
+  hideCollapsibleSections();
 });
+
+/**
+ * Moves the font size, Day/Night and Version/Source buttons from the agesMenu
+ * bar into a third section of the "Go to..." dropdown, below Contact.
+ * The existing <a>/<i> elements are moved (not rebuilt), so the click handlers
+ * bound in the main $(document).ready block keep working.
+ * Registered after that block so topMode/prefMode are already placed next to
+ * .versionMode before it is moved.
+ */
+function moveDisplayModesToDropdown() {
+  var menuList = document.querySelector('#jqm-dropdown-pages > ul.jqm-dropdown-menu');
+  if (!menuList || menuList.querySelector('.display-modes-item')) return;
+
+  var increaseLink = document.querySelector('.agesMenu > a.increaseFont');
+  var decreaseLink = document.querySelector('.agesMenu > a.decreaseFont');
+  var dayLink = document.querySelector('.agesMenu > a.dayMode');
+  var nightLink = document.querySelector('.agesMenu > a.nightMode');
+  var versionLink = document.querySelector('.agesMenu > a.versionMode');
+  if (!increaseLink && !decreaseLink && !dayLink && !nightLink && !versionLink) return;
+
+  // Match the icon size of the existing dropdown items
+  var refIcon = menuList.querySelector('li > a > i.fa');
+  var refFontSize = refIcon ? refIcon.style.fontSize : '';
+
+  // Turn a toolbar icon link into a dropdown item: add a text label and
+  // drop the toolbar icon styling
+  function labelLink(link, label) {
+    var icon = link.querySelector('i');
+    if (icon) {
+      icon.classList.remove('ages-menu-link');
+      icon.style.fontSize = refFontSize;
+      icon.appendChild(document.createTextNode(' ' + label));
+    }
+    link.title = label;
+  }
+
+  // Font size: one item per button, so each can be clicked repeatedly
+  var fontItems = [];
+  [[increaseLink, 'Larger Text'], [decreaseLink, 'Smaller Text']].forEach(function (pair) {
+    if (!pair[0]) return;
+    var item = document.createElement('li');
+    item.className = 'display-modes-item';
+    labelLink(pair[0], pair[1]);
+    item.appendChild(pair[0]);
+    fontItems.push(item);
+  });
+
+  // Day and Night share one item: only one of the two links is visible at a time
+  var modeItem = document.createElement('li');
+  modeItem.className = 'display-modes-item';
+  if (dayLink) {
+    labelLink(dayLink, 'Day Mode');
+    modeItem.appendChild(dayLink);
+  }
+  if (nightLink) {
+    labelLink(nightLink, 'Night Mode');
+    modeItem.appendChild(nightLink);
+  }
+
+  var versionItem = document.createElement('li');
+  versionItem.className = 'display-modes-item';
+  if (versionLink) {
+    labelLink(versionLink, 'Show/Hide Versions & Sources');
+    versionItem.appendChild(versionLink);
+  }
+
+  var divider = document.createElement('li');
+  divider.className = 'jqm-dropdown-divider';
+
+  // Insert after Contact, or at the end of the menu if Contact is missing
+  var contactLink = menuList.querySelector('a[href$="contact.html"]');
+  var anchorItem = contactLink ? contactLink.closest('li') : null;
+  var insertBefore = anchorItem ? anchorItem.nextSibling : null;
+  [divider].concat(fontItems, [modeItem, versionItem]).forEach(function (item) {
+    if (item.children.length > 0 || item === divider) {
+      menuList.insertBefore(item, insertBefore);
+    }
+  });
+
+  // The mode handlers return false (stopping the click from reaching the
+  // dropdown's own close logic), so close the dropdown explicitly.
+  // Font size items are left out on purpose: the dropdown stays open so the
+  // text can be resized several steps in a row.
+  $(modeItem).add(versionItem).find('.dayMode, .nightMode, .versionMode').on('click', function () {
+    $(document).jqmdropdown('hide');
+  });
+
+  // The menu bar is now narrower/shorter; re-align the content below it
+  if (typeof offsetContent === 'function') offsetContent();
+}
+
+$(document).ready(moveDisplayModesToDropdown);
+
+/**
+ * buildMode: Service Builder button for daily service pages.
+ * Works like the ma2 Preferences (prefMode) button: it opens a full-page
+ * overlay holding the Service Builder panel for the page's kind of service.
+ * "Apply Changes" in the panel updates the service and stays open (for export);
+ * "Return to service" applies any pending changes and closes the overlay.
+ *
+ * Each panel is its own small page (e.g. sb-panel-liturgy.html) shown in a
+ * frame, so the Service Builder scripts and service-builder.css run separately
+ * from alwb.js (e.g. service-builder.css would restyle the whole page).
+ * The panel changes this page through js/sb/sb-embed.js.
+ *
+ * Switched off until the build panels are ready; set to true to show the button.
+ */
+var ENABLE_BUILD_MODE_BUTTON = true;
+
+/**
+ * The Service Builder panel pages. 'page' is relative to /dcs/ (the pages'
+ * <base href>). 'label' is the panel's switch button (e.g. Standard |
+ * Hierarchical | Consecration); switching reloads the service as published
+ * with that panel open.
+ */
+var BUILD_PANEL_PAGES = {
+  li: { page: 'sb-panel-liturgy.html', title: 'Divine Liturgy', label: 'Standard' },
+  hli: { page: 'sb-panel-hliturgy.html', title: 'Hierarchical Divine Liturgy', label: 'Hierarchical' },
+  cli: { page: 'sb-panel-consecrationliturgy.html', title: 'Consecration Liturgy', label: 'Consecration' },
+  ma: { page: 'sb-panel-matins.html', title: 'Matins', label: 'Standard' },
+  hma: { page: 'sb-panel-hmatins.html', title: 'Hierarchical Matins', label: 'Hierarchical' },
+  ve: { page: 'sb-panel-vespers.html', title: 'Vespers', label: 'Standard' },
+  hve: { page: 'sb-panel-hvespers.html', title: 'Hierarchical Vespers', label: 'Hierarchical' },
+  other: { page: 'sb-panel-other.html', title: 'Other Services', label: 'Standard' }
+};
+
+/**
+ * One entry per service code, i.e. the folder name in the service path
+ * (/h/s/YYYY/MM/DD/<code>/...): the panels it may use, the first being the one
+ * the menu button opens. Only the codes listed get a panel: e.g. the Liturgy
+ * panels are for li, li4 and li6, not li2 or li3.
+ * Services without an entry get no buildMode button.
+ */
+var BUILD_PANELS = {
+  li: ['li', 'hli', 'cli'],
+  li4: ['li', 'hli', 'cli'],
+  li6: ['li', 'hli', 'cli'],
+  // ma2 has its own customization (Preferences) and is not listed
+  ma: ['ma', 'hma'],
+  ma3: ['ma', 'hma'],
+  ma4: ['ma', 'hma'],
+  ma5: ['ma', 'hma'],
+  ma6: ['ma', 'hma'],
+  ve: ['ve', 'hve'],
+  ve2: ['ve', 'hve'],
+  ve4: ['ve', 'hve'],
+  ve5: ['ve', 'hve'],
+  ve6: ['ve', 'hve']
+};
+
+/**
+ * Families of service codes that share a panel, checked when the code has no
+ * entry in BUILD_PANELS: mo, mo1, mo2, ... and co, co1, co2, ... use the
+ * "Other" panel (Metropolis and Parish, export).
+ */
+var BUILD_PANEL_PATTERNS = [
+  { test: /^mo\d*$/, panels: ['other'] },
+  { test: /^co\d*$/, panels: ['other'] }
+];
+
+function getBuildPanelIds(serviceCode) {
+  if (BUILD_PANELS[serviceCode]) return BUILD_PANELS[serviceCode];
+  for (var i = 0; i < BUILD_PANEL_PATTERNS.length; i++) {
+    if (BUILD_PANEL_PATTERNS[i].test.test(serviceCode)) return BUILD_PANEL_PATTERNS[i].panels;
+  }
+  return null;
+}
+
+// The panels offered on this page (set by insertBuildModeButton)
+var buildPanelIds = [];
+
+// Called by the panel (sb-embed.js) to show its switch buttons
+function getBuildPanelChoices() {
+  return buildPanelIds.map(function (id) {
+    var page = BUILD_PANEL_PAGES[id];
+    return { id: id, title: page.title, label: page.label || page.title };
+  });
+}
+
+/**
+ * "Switch to ..." in a panel: reloads the service as published (the two panels
+ * change the same sections differently, so they must not be mixed) and opens
+ * the other panel, keeping the G / B / E view. The choice travels in the
+ * address (?sbpanel=hli&sbview=en) and is removed again after the reload.
+ */
+function switchBuildPanel(panelId) {
+  var url = new URL(window.location.href);
+  url.searchParams.set('sbpanel', panelId);
+  if (languageView !== 'both') url.searchParams.set('sbview', languageView);
+  else url.searchParams.delete('sbview');
+  window.location.replace(url.toString());
+}
+
+// Created on first open and kept afterwards, so the panel keeps its selections
+function openBuildPanel(config) {
+  var panel = document.getElementById('sb-build-panel');
+  if (!panel) {
+    // Full-page overlay, like the ma2 .pref-panel, in the Service Builder's own colors
+    panel = document.createElement('div');
+    panel.id = 'sb-build-panel';
+    panel.style.cssText = 'display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;' +
+      'z-index: 2000; background-color: #f4f7f6; flex-direction: column;';
+
+    var header = document.createElement('div');
+    header.style.cssText = 'display: flex; align-items: center; justify-content: space-between;' +
+      'padding: 10px 20px; background: #fff; border-bottom: 2px solid #a91827; font-family: sans-serif;';
+
+    var heading = document.createElement('span');
+    heading.textContent = 'Service Builder: ' + config.title;
+    heading.style.cssText = 'color: #a91827; font-size: 14pt; font-weight: bold;';
+    header.appendChild(heading);
+
+    var closeLink = document.createElement('a');
+    closeLink.id = 'sb-build-panel-return';
+    closeLink.href = '#';
+    closeLink.textContent = 'Return to service';
+    closeLink.style.cssText = 'color: #a91827; text-decoration: underline; padding: 10px 0 10px 15px;';
+    closeLink.addEventListener('click', function (event) {
+      event.preventDefault();
+      returnToService();
+    });
+    header.appendChild(closeLink);
+    panel.appendChild(header);
+
+    var frame = document.createElement('iframe');
+    frame.src = config.page;
+    frame.title = 'Service Builder: ' + config.title;
+    frame.style.cssText = 'flex: 1; width: 100%; border: 0; display: block;';
+    panel.appendChild(frame);
+
+    document.body.appendChild(panel);
+  }
+  // Start below the menu bar so it stays usable (its list button closes the panel)
+  var menuBar = document.querySelector('.agesMenu');
+  var menuHeight = menuBar ? menuBar.getBoundingClientRect().bottom : 0;
+  panel.style.top = menuHeight + 'px';
+  panel.style.height = 'calc(100% - ' + menuHeight + 'px)';
+  panel.style.display = 'flex';
+}
+
+function closeBuildPanel() {
+  var panel = document.getElementById('sb-build-panel');
+  if (panel) panel.style.display = 'none';
+}
+
+// "Return to service" (and the menu's list button): applies any changes chosen
+// in the panel but not yet applied, then closes the panel
+async function returnToService() {
+  var frame = document.querySelector('#sb-build-panel iframe');
+  var panelWindow = frame ? frame.contentWindow : null;
+  if (panelWindow && typeof panelWindow.sbApplyPendingChanges === 'function') {
+    try {
+      await panelWindow.sbApplyPendingChanges();
+    } catch (error) {
+      console.error('[buildMode] Could not apply the panel changes:', error);
+    }
+  }
+  closeBuildPanel();
+}
+
+// Called by the panel (sb-embed.js) whenever its choices change or are applied
+function setBuildPanelPending(pending) {
+  var returnLink = document.getElementById('sb-build-panel-return');
+  if (returnLink) returnLink.textContent = pending ? 'Apply changes and return to service' : 'Return to service';
+}
+
+// Service code from a daily service path, e.g. /h/s/2026/09/30/li3/gr-en/index.html -> 'li3'
+function getServiceCode() {
+  var match = window.location.pathname.match(/\/h\/s\/\d{4}\/\d{2}\/\d{2}\/([a-z]+\d*)\//i);
+  return match ? match[1].toLowerCase() : null;
+}
+
+function insertBuildModeButton() {
+  if (!ENABLE_BUILD_MODE_BUTTON) return;
+
+  var serviceCode = getServiceCode();
+  if (!serviceCode) return; // not a daily service page
+
+  var menuBar = document.querySelector('.agesMenu');
+  // ma2 pages already have their own Preferences button in this spot
+  if (!menuBar || menuBar.querySelector('.buildMode, .prefMode')) return;
+
+  var panelIds = getBuildPanelIds(serviceCode);
+  if (!panelIds) return; // no panel for this service
+  buildPanelIds = panelIds;
+
+  // After a "Switch to ..." reload: open that panel, in the view the user had
+  var params = new URLSearchParams(window.location.search);
+  var requestedPanel = params.get('sbpanel');
+  var requestedView = params.get('sbview');
+  var panelId = panelIds.indexOf(requestedPanel) !== -1 ? requestedPanel : panelIds[0];
+  var config = BUILD_PANEL_PAGES[panelId];
+  if (!config) return;
+
+  if (!document.getElementById('build-mode-btn-styles')) {
+    var style = document.createElement('style');
+    style.id = 'build-mode-btn-styles';
+    // The label sits inside an <i class="fa ages-menu-link"> so it follows the
+    // menu icons' sizing (alwb.js sets their font size); it is drawn at about
+    // half that size. !important keeps the colors after Day/Night mode, which
+    // sets an inline background on everything in the menu.
+    style.textContent =
+      '.agesMenu a.buildMode { text-decoration: none; }' +
+      '.agesMenu i.fa.build-mode-icon { font-family: Arial, Helvetica, sans-serif; font-style: normal; }' +
+      '.agesMenu span.build-mode-label {' +
+      '  display: inline-block; font-size: max(0.55em, 13px); font-weight: bold; line-height: 1; letter-spacing: 0.02em;' +
+      '  padding: 0.45em 0.6em; border: 0.12em solid #ffffff; border-radius: 0.3em;' +
+      '  color: #ffffff !important; background: #a91827 !important; vertical-align: middle;' +
+      '}' +
+      '.agesMenu a.buildMode:hover span.build-mode-label { background: #c42a3a !important; }';
+    document.head.appendChild(style);
+  }
+
+  var link = document.createElement('a');
+  link.href = '#';
+  link.className = 'buildMode';
+  link.title = 'Service Builder: customize this service';
+  link.innerHTML = '<i class="fa ages-menu-link build-mode-icon"><span class="build-mode-label">Build</span></i>';
+  link.addEventListener('click', function (event) {
+    event.preventDefault();
+    var panel = document.getElementById('sb-build-panel');
+    if (panel && panel.style.display !== 'none') {
+      returnToService();
+    } else {
+      openBuildPanel(config);
+    }
+  });
+
+  // Same size as the menu's first icon (the ☰ menu button), like the G / B / E
+  // buttons: on phones alwb.js shrinks the menu icons, but not the up arrow
+  var firstIcon = menuBar.querySelector('a > i.fa');
+  if (firstIcon && firstIcon.style.fontSize) link.firstChild.style.fontSize = firstIcon.style.fontSize;
+
+  // Just to the left of the Scroll to Top (up arrow) button
+  var topLink = menuBar.querySelector('a.topMode');
+  menuBar.insertBefore(link, topLink);
+
+  if (requestedPanel) {
+    // Clean address, so a later reload or a shared link shows the plain service
+    params.delete('sbpanel');
+    params.delete('sbview');
+    var query = params.toString();
+    window.history.replaceState(null, '', window.location.pathname + (query ? '?' + query : '') + window.location.hash);
+
+    // After the other start-up code (e.g. splitTable) has run
+    setTimeout(function () {
+      if (requestedView === 'gr') hideAllRight();
+      else if (requestedView === 'en') hideAllLeft();
+      if (requestedPanel === panelId) openBuildPanel(config);
+    }, 0);
+  }
+}
+
+$(document).ready(insertBuildModeButton);
 
 
 function insertVespersTOB() {
@@ -2197,7 +2645,7 @@ $(document).ready(function () {
   if (currentReferrer === requiredReferrer && !isServicesIndex) {
     console.log("Parish referrer matched. Initializing features.");
 
-    // 1. Set default state to show both columns (tap-to-swap disabled by default)
+    // 1. Set default state to show both columns
     showParishBothColumns();
 
     // 2. Run initial hiding and modification functions
@@ -2219,58 +2667,49 @@ $(document).ready(function () {
 
 /**
  * @function initCollapsibleRows
- * @description Initializes the behavior for a collapsible table structure.
- * It handles showing/hiding blocks of table rows based on clicks
- * on rows containing specific collapse markers (.bmc_collapse and .emc_collapse).
- * The logic implements an accordion-like functionality for table content.
- * @version 1.0.0
+ * @description Initializes the behavior for a collapsible table structure using event delegation.
+ * @version 1.1.0
  */
 function initCollapsibleRows() {
-  // --- Initial State Setup ---
-  // Hide all rows between a 'bmc_collapse' row and the next 'emc_collapse' row (the content).
-  $("tr:has(.bmc_collapse)").nextUntil("tr:has(.emc_collapse)").hide();
-  // Hide all 'emc_collapse' rows (the collapse markers/footers).
-  $("tr:has(.emc_collapse)").hide();
+  console.log("initiated collapsible rows");
 
-  // --- Big/Main Collapse (BMC) Click Handler ---
-  // When a row with a '.bmc_collapse' marker is clicked:
-  $("tr:has(.bmc_collapse)").click(function () {
-    // 1. Show all subsequent content rows up until the next 'emc_collapse' row.
-    $(this).nextUntil('tr:has(.emc_collapse)').show();
-    // 2. Apply a background color to the shown content rows for visual emphasis.
-    $(this).nextUntil('tr:has(.emc_collapse)').css("background-color", "#FDF6E7");
-    // 3. Hide the clicked 'bmc_collapse' row itself.
+  // --- Initial State Setup for Existing Rows ---
+  hideCollapsibleSections();
+
+  // --- Delegated Click Handler for Main Collapse Row ---
+  $(document).on("click", "tr:has(.bmc_collapse)", function () {
+    var $nextContent = $(this).nextUntil("tr:has(.emc_collapse)");
+    $nextContent.show().css("background-color", "#FDF6E7");
     $(this).hide();
-    // 4. Show the corresponding 'emc_collapse' row (the collapse marker/footer).
-    $(this).nextAll('tr:has(.emc_collapse):first').show();
+    $(this).nextAll("tr:has(.emc_collapse):first").show();
   });
 
-  // --- End/Exit Collapse (EMC) Click Handler ---
-  // When a row with an '.emc_collapse' marker is clicked:
-  $("tr:has(.emc_collapse)").click(function () {
-    // 1. Hide all preceding content rows down to the previous 'bmc_collapse' row.
-    $(this).prevUntil('tr:has(.bmc_collapse)').hide();
-    // 2. Hide the clicked 'emc_collapse' row itself.
+  // --- Delegated Click Handler for End Collapse Row ---
+  $(document).on("click", "tr:has(.emc_collapse)", function () {
+    var $prevBmc = $(this).prevAll("tr:has(.bmc_collapse):first");
+    $(this).prevUntil("tr:has(.bmc_collapse)").hide();
     $(this).hide();
-    // 3. Show the corresponding 'bmc_collapse' row (the main opener).
-    $(this).prevAll('tr:has(.bmc_collapse):first').show();
+    $prevBmc.show();
 
-    // 4. Scroll the viewport to the newly shown 'bmc_collapse' row.
-    var show_pos = $(this).prevAll('tr:has(.bmc_collapse):first').position();
-    window.scrollTo(0, show_pos.top - 50);
+    if ($prevBmc.length) {
+      var show_pos = $prevBmc.position();
+      window.scrollTo(0, show_pos.top - 50);
+    }
   });
 }
 
 // --- Execution ---
-// Execute the function once the entire document is ready
-// as long as document is not /li1/ i.e. customizable liturgy
 $(document).ready(function () {
-  if (window.location.href.includes('/li1/')) {
-    $('.bmc_collapse, .emc_collapse').css('display', 'none');
-  } else {
-    initCollapsibleRows();
-  }
+  initCollapsibleRows();
 });
+
+/**
+ * Call this function whenever new rows are injected dynamically to set up initial visibility.
+ */
+function hideCollapsibleSections() {
+  $("tr:has(.bmc_collapse)").nextUntil("tr:has(.emc_collapse)").hide();
+  $("tr:has(.emc_collapse)").hide();
+}
 
 
 // AUDIO PLAYER - Unified Player Logic (DIV-based)
@@ -2950,54 +3389,77 @@ $(function () {
 // ------------------------------------------------------------------
 
 async function performUnifiedExport(format) {
-  // Target the document of the current page directly
   const currentDoc = document;
-  const liveTable = currentDoc.getElementById('biTable') || currentDoc.querySelector('table');
-  if (!liveTable) return;
 
-  const firstRow = liveTable.querySelector('tr');
-  const isSingleColumn = firstRow ? (Array.from(firstRow.cells).length === 1) : false;
+  // Locate all three tables
+  const coverTable = currentDoc.getElementById('coverTable');
+  const creditsTable = currentDoc.getElementById('creditsTable');
+  const biTable = currentDoc.getElementById('biTable') || currentDoc.querySelector('table');
+
+  if (!biTable && !coverTable && !creditsTable) return;
+
+  // One language shown (G or E view, or a one-language service): the service
+  // is exported as a single flow of text in two newspaper columns.
+  // Both languages (B view): exported as the side-by-side table.
+  const firstRow = biTable ? biTable.querySelector('tr') : null;
+  const isOneLanguageService = firstRow ? (Array.from(firstRow.cells).length === 1) : false;
+  const isSingleColumn = isOneLanguageService || languageView !== 'both';
 
   let exportContainer = currentDoc.createElement('div');
   exportContainer.className = 'dcs-export-wrapper';
 
-  if (isSingleColumn) {
-    const cells = liveTable.querySelectorAll('td');
-    cells.forEach(cell => {
-      const row = cell.closest('tr');
-      const style = window.getComputedStyle(row);
-      if (style.display === 'none' || style.visibility === 'hidden') return;
+  // Helper to clone and sanitize any table.
+  // asTextFlow: turn the visible cells into a flow of blocks (for newspaper
+  // columns); otherwise keep the table (cover and credits always fill the width).
+  function processTable(tableEl, asTextFlow) {
+    if (!tableEl) return null;
 
-      const block = currentDoc.createElement('div');
-      block.className = cell.className + ' dcs-block-unit';
-      block.innerHTML = cell.innerHTML;
-
-      cleanElement(block, isSingleColumn);
-
-      const text = block.textContent.replace(/[\s\u00a0\t\n\r]/g, '');
-      if (text.length > 0 || block.querySelector('img')) {
-        exportContainer.appendChild(block);
-      }
-    });
-  } else {
-    const tableClone = liveTable.cloneNode(true);
-    const rows = tableClone.querySelectorAll('tr');
-    rows.forEach(row => {
-      const liveEl = currentDoc.getElementById(row.id);
-      if (liveEl) {
-        const style = window.getComputedStyle(liveEl);
-        if (style.display === 'none' || style.visibility === 'hidden' || liveEl.offsetParent === null) {
-          row.remove();
-          return;
+    if (asTextFlow) {
+      const wrapper = currentDoc.createElement('div');
+      wrapper.className = 'table-single-col-wrapper';
+      const cells = tableEl.querySelectorAll('td');
+      cells.forEach(cell => {
+        const row = cell.closest('tr');
+        if (row) {
+          const style = window.getComputedStyle(row);
+          if (style.display === 'none' || style.visibility === 'hidden') return;
         }
-      }
-      row.querySelectorAll('td').forEach(td => cleanElement(td, isSingleColumn));
-      const text = row.textContent.replace(/[\s\u00a0\t\n\r]/g, '');
-      if (text.length === 0 && !row.querySelector('img')) {
-        row.remove();
-      }
-    });
-    exportContainer.appendChild(tableClone);
+        // Skip the language that is hidden in the G / E view
+        const cellStyle = window.getComputedStyle(cell);
+        if (cellStyle.display === 'none' || cellStyle.visibility === 'hidden') return;
+
+        const block = currentDoc.createElement('div');
+        block.className = cell.className + ' dcs-block-unit';
+        block.innerHTML = cell.innerHTML;
+
+        cleanElement(block, isSingleColumn);
+
+        const text = block.textContent.replace(/[\s\u00a0\t\n\r]/g, '');
+        if (text.length > 0 || block.querySelector('img')) {
+          wrapper.appendChild(block);
+        }
+      });
+      return wrapper;
+    } else {
+      const tableClone = tableEl.cloneNode(true);
+      const rows = tableClone.querySelectorAll('tr');
+      rows.forEach(row => {
+        const liveEl = currentDoc.getElementById(row.id);
+        if (liveEl) {
+          const style = window.getComputedStyle(liveEl);
+          if (style.display === 'none' || style.visibility === 'hidden' || liveEl.offsetParent === null) {
+            row.remove();
+            return;
+          }
+        }
+        row.querySelectorAll('td').forEach(td => cleanElement(td, asTextFlow));
+        const text = row.textContent.replace(/[\s\u00a0\t\n\r]/g, '');
+        if (text.length === 0 && !row.querySelector('img')) {
+          row.remove();
+        }
+      });
+      return tableClone;
+    }
   }
 
   function cleanElement(el, singleColMode) {
@@ -3036,6 +3498,37 @@ async function performUnifiedExport(format) {
     });
   }
 
+  // Append processed sections in sequence
+  if (coverTable) {
+    const coverSection = currentDoc.createElement('div');
+    coverSection.className = 'export-section-cover';
+    const processedCover = processTable(coverTable, false);
+    if (processedCover) {
+      coverSection.appendChild(processedCover);
+      exportContainer.appendChild(coverSection);
+    }
+  }
+
+  if (creditsTable) {
+    const creditsSection = currentDoc.createElement('div');
+    creditsSection.className = 'export-section-credits';
+    const processedCredits = processTable(creditsTable, false);
+    if (processedCredits) {
+      creditsSection.appendChild(processedCredits);
+      exportContainer.appendChild(creditsSection);
+    }
+  }
+
+  if (biTable) {
+    const biSection = currentDoc.createElement('div');
+    biSection.className = 'export-section-service';
+    const processedBi = processTable(biTable, isSingleColumn);
+    if (processedBi) {
+      biSection.appendChild(processedBi);
+      exportContainer.appendChild(biSection);
+    }
+  }
+
   const fileName = currentDoc.title || "Service_Export";
 
   let displayTitle = "Divine Services";
@@ -3053,14 +3546,13 @@ async function performUnifiedExport(format) {
 function generatePDFFile(element, filename, isSingleColumn, displayTitle = "Divine Services") {
   const clone = element.cloneNode(true);
 
-  // 1. Detect if Greek or English is hidden on the live page
-  const hideGreek = document.querySelector('.leftCell[style*="display: none"], td.leftCell.nodisplay, .hide-greek') !== null ||
-    document.body.classList.contains('english-only');
+  // 1. Which language the current view (G / B / E buttons) hides.
+  // (Not detected from hidden cells: the cover and credits always hide one
+  // language, which made every export look one-language.)
+  const hideGreek = languageView === 'en' || document.body.classList.contains('english-only');
+  const hideEnglish = languageView === 'gr' || document.body.classList.contains('greek-only');
 
-  const hideEnglish = document.querySelector('.rightCell[style*="display: none"], td.rightCell.nodisplay, .hide-english') !== null ||
-    document.body.classList.contains('greek-only');
-
-  // 2. Remove the hidden language table cells directly from the clone
+  // 2. Remove hidden language cells
   if (hideGreek) {
     clone.querySelectorAll('td.leftCell, .leftCell').forEach(el => el.remove());
   }
@@ -3072,12 +3564,12 @@ function generatePDFFile(element, filename, isSingleColumn, displayTitle = "Divi
   const hiddenSelectors = '.nodisplay, .noprintactor, .noprintrub, .noprintprayer, [style*="display: none"], .sbparishname';
   clone.querySelectorAll(hiddenSelectors).forEach(el => el.remove());
 
-  // 4. Clean up any table rows that are now empty
+  // 4. Clean up empty rows
   clone.querySelectorAll('tr').forEach(tr => {
     if (!tr.textContent.trim()) tr.remove();
   });
 
-  // 5. Strip trailing empty paragraph or div nodes
+  // 5. Strip trailing empty nodes
   const children = clone.querySelectorAll('p, div, br');
   for (let i = children.length - 1; i >= 0; i--) {
     const node = children[i];
@@ -3088,7 +3580,7 @@ function generatePDFFile(element, filename, isSingleColumn, displayTitle = "Divi
     }
   }
 
-  // 6. Open the print window and write the document
+  // 6. Open print window
   const printWin = window.open('', '_blank', 'width=900,height=800');
   const rootURL = `https://dcs.goarch.org/goa/dcs/`;
 
@@ -3100,13 +3592,40 @@ function generatePDFFile(element, filename, isSingleColumn, displayTitle = "Divi
             <title>${filename}</title>
             <link rel="stylesheet" href="css/dcs_word_styles.css">
             <style>
+                /* Named Page Rules to isolate Header/Footer to Service section */
                 @page {
                     size: 8.5in 11in;
                     margin-top: 1.1in; 
                     margin-right: 0.75in;
                     margin-bottom: 1.0in;
                     margin-left: 0.75in;
+                }
 
+                /* Cover Page: No header or footer */
+                /* Cover and credits pages are not counted (counter-increment: page 0),
+                   so the service starts at page 1. (counter-reset on an element,
+                   as the service section had, is ignored by browsers.) */
+                @page coverPage {
+                    counter-increment: page 0;
+                    margin-top: 1.0in;
+                    margin-bottom: 1.0in;
+                    @top-center { content: none; border: none; }
+                    @bottom-left { content: none; border: none; }
+                    @bottom-right { content: none; border: none; }
+                }
+
+                /* Credits Page: No header or footer */
+                @page creditsPage {
+                    counter-increment: page 0;
+                    margin-top: 1.0in;
+                    margin-bottom: 1.0in;
+                    @top-center { content: none; border: none; }
+                    @bottom-left { content: none; border: none; }
+                    @bottom-right { content: none; border: none; }
+                }
+
+                /* Service Page Header/Footer */
+                @page servicePage {
                     @top-center {
                         content: "${displayTitle}";
                         font-family: "Times New Roman", serif;
@@ -3120,7 +3639,7 @@ function generatePDFFile(element, filename, isSingleColumn, displayTitle = "Divi
                     }
                 }
 
-                @page :right {
+                @page servicePage:right {
                     @bottom-left {
                         content: "Powered by Digital Chant Stand: A National Ministry of the Greek Orthodox Archdiocese of America";
                         font-family: serif; font-size: 8pt; font-style: italic; color: #a91827;
@@ -3138,7 +3657,7 @@ function generatePDFFile(element, filename, isSingleColumn, displayTitle = "Divi
                     }
                 }
 
-                @page :left {
+                @page servicePage:left {
                     @bottom-left {
                         content: counter(page);
                         font-family: serif; font-size: 9pt; color: #a91827;
@@ -3163,6 +3682,23 @@ function generatePDFFile(element, filename, isSingleColumn, displayTitle = "Divi
                     margin: 0; padding: 0;
                 }
 
+                /* Assign sections to named pages and enforce hard page breaks */
+                .export-section-cover {
+                    page: coverPage;
+                    page-break-after: always;
+                    break-after: page;
+                }
+
+                .export-section-credits {
+                    page: creditsPage;
+                    page-break-after: always;
+                    break-after: page;
+                }
+
+                .export-section-service {
+                    page: servicePage;
+                }
+
                 .dcs-export-container {
                     display: block !important;
                     width: 100% !important;
@@ -3173,7 +3709,8 @@ function generatePDFFile(element, filename, isSingleColumn, displayTitle = "Divi
                     widows: 2 !important;
                 }
 
-                .newspaper-flow {
+                /* Column flow applied exclusively to biTable service section */
+                .export-section-service.newspaper-flow {
                     column-count: ${isSingleColumn ? '2' : '1'} !important;
                     column-gap: 30pt;
                     column-fill: auto !important;
@@ -3210,8 +3747,13 @@ function generatePDFFile(element, filename, isSingleColumn, displayTitle = "Divi
             <\/script>
         </head>
         <body>
-            <div class="${isSingleColumn ? 'newspaper-flow' : ''} dcs-export-container">
-                ${clone.innerHTML}
+            <div class="dcs-export-container">
+                ${Array.from(clone.children).map(child => {
+    if (child.classList.contains('export-section-service')) {
+      return `<div class="export-section-service ${isSingleColumn ? 'newspaper-flow' : ''}">${child.innerHTML}</div>`;
+    }
+    return child.outerHTML;
+  }).join('')}
             </div>
         </body>
         </html>
@@ -3219,6 +3761,160 @@ function generatePDFFile(element, filename, isSingleColumn, displayTitle = "Divi
 
   printWin.document.close();
 }
+
+/**
+ * Generates a Word File with Adaptive Headers and Liturgical Styles
+ * Handles Newspaper 2-Column layout for English & 1-Column layout for Bilingual tables.
+ * Version: 2026-08-07_Column_Aligned
+ * (Moved here from js/sb/common-utilities.js so the DCS site has one copy;
+ * called by performUnifiedExport('word'), also from Service Builder panels.)
+ */
+async function generateWordFile(element, filename, isSingleColumn = null, displayTitle = "Divine Services") {
+  const clone = element.cloneNode(true);
+
+  // STEP 1: HARD REMOVALS & CLEANUP
+  const hiddenSelectors = `
+        .nodisplay, .noprintactor, .noprintrub, .noprintprayer, .sbparishname,
+        [style*="display: none"], [class^="source"], [class*=" source"],
+        .key, [hidden], .media-group, .media-links, .jqm-dropdown, .noprint,
+        i, script, style, [class^="bmc"], [class*=" bmc"], [class^="emc"],
+        [class*=" emc"], [class^="brc"], [class*=" brc"], [class^="erc"], [class*=" erc"]
+    `;
+  clone.querySelectorAll(hiddenSelectors).forEach(el => el.remove());
+
+  // Remove the language the G / E view hides (as generatePDFFile does), even if
+  // some of its cells were showing on the page
+  if (languageView === 'en') clone.querySelectorAll('.leftCell').forEach(el => el.remove());
+  if (languageView === 'gr') clone.querySelectorAll('.rightCell').forEach(el => el.remove());
+
+  // Remove the page's own background colors (the yellow of the Greek column set
+  // by the G / B / E buttons, Night Mode's black), which are written on the
+  // elements themselves. Backgrounds from the Word stylesheet
+  // (e.g. p.alttext) are kept.
+  [clone].concat(Array.from(clone.querySelectorAll('[style]'))).forEach(el => {
+    if (!el.style) return;
+    el.style.removeProperty('background-color');
+    el.style.removeProperty('background');
+    if (!el.getAttribute('style')) el.removeAttribute('style');
+  });
+  clone.querySelectorAll('[bgcolor]').forEach(el => el.removeAttribute('bgcolor'));
+
+  // STEP 2: CLASS SCRUBBER
+  const classesToScrub = [
+    'kvp', 'achoir', 'aclergy', 'adeacon', 'ahierarch', 'apeople',
+    'apriest', 'areader', 'dchoir', 'dclergy', 'ddeacon',
+    'dhierarch', 'dpeople', 'dpriest', 'dreader', 'dwachoir',
+    'dwaclergy', 'dwadeacon', 'dwahierarch', 'dwapeople',
+    'dwapriest', 'dwareader', 'achclhi', 'aclhi', 'adebl', 'adepr',
+    'aprhi', 'dclhi', 'ddepr', 'ddebl', 'dprhi', 'dwadebl', 'dwadepr', 'dwaprhi'
+  ];
+
+  classesToScrub.forEach(className => {
+    clone.querySelectorAll('.' + className).forEach(el => {
+      el.classList.remove(className);
+      if (el.hasAttribute('data-key')) el.removeAttribute('data-key');
+      if (el.classList.length === 0) el.removeAttribute('class');
+    });
+  });
+
+  // STEP 3: DROP-CAP RESET
+  clone.querySelectorAll('[class*="dropcap"], [class*="first-letter"]').forEach(el => {
+    el.style.float = "none";
+    el.style.display = "inline";
+  });
+
+  // STEP 4: PAGE COLUMNS
+  // The Word export is for people who want to edit the service and make their
+  // own version, so it is always one full-width column (easiest to edit);
+  // they can switch to two columns in Word themselves. The G / E views are
+  // still exported as one language, and B as the Greek/English table.
+  const wordColumnCount = 1;
+
+  // STEP 5: CSS STYLES
+  const basePath = typeof SITE_PATH !== 'undefined' ? SITE_PATH : 'https://dcs.goarch.org/goa/';
+  const cssPath = `${basePath}dcs/css/dcs_word_styles.css`;
+  let cssText = "";
+
+  try {
+    const response = await fetch(`${cssPath}?v=${Date.now()}`);
+    if (response.ok) {
+      cssText = await response.text();
+    }
+  } catch (e) {
+    console.warn("Using inline styles only due to CSS fetch error:", e);
+  }
+
+  // STEP 6: HTML TEMPLATE BUILDING
+  const htmlContent = `
+        <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+        <head>
+            <meta charset='utf-8'>
+            <style>
+                @page Section1 {
+                    size: 8.5in 11.0in;
+                    margin: .75in;
+                    mso-columns: ${wordColumnCount};
+                    mso-column-sep: .25in;
+                    mso-header-margin: 0.5in;
+                    mso-footer-margin: 0.5in;
+                }
+                div.Section1 {
+                    page: Section1;
+                }
+                body {
+                    font-family: "Times New Roman", serif;
+                }
+                p, td {
+                    mso-pagination: widow-orphan;
+                }
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    table-layout: auto;
+                }
+
+                ${cssText}
+
+                .actor, .red, .boldred, .rubric {
+                    color: #a91827 !important;
+                }
+
+                .service-header {
+                    text-align: center;
+                    font-size: 11pt;
+                    color: #a91827;
+                    border-bottom: 0.5pt solid #C0C0C0;
+                    margin-bottom: 15pt;
+                    padding-bottom: 5pt;
+                    font-weight: bold;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="Section1">
+                <p class="service-header">${displayTitle}</p>
+                ${clone.innerHTML}
+            </div>
+        </body>
+        </html>`;
+
+  // STEP 7: DOWNLOAD INITIATION & MEMORY CLEANUP
+  const blob = new Blob(['﻿' + htmlContent], { type: 'application/msword' });
+  const blobUrl = URL.createObjectURL(blob);
+
+  const link = document.createElement('a');
+  const safeFileName = filename.replace(/[/\\?%*:|"<>]/g, '-');
+
+  link.href = blobUrl;
+  link.download = `${safeFileName}.doc`;
+
+  document.body.appendChild(link);
+  link.click();
+
+  document.body.removeChild(link);
+  URL.revokeObjectURL(blobUrl);
+}
+
 
 // Helper for cross-browser safe scrolling
 function safeScrollIntoView(element, alignToTop) {
@@ -3679,20 +4375,18 @@ async function performWordExport(url, serviceName, lang) {
 }
 
 /**
- * Transforms legacy service index tables into structured service cards.
+ * Transforms legacy service index tables into single service links.
  * Executes if the page matches the pattern: .../dcs/indexes/YYYYMMDD.html
  */
 function transformIndexLayout() {
-  // Verify the URL pattern ends with 'dcs/indexes/YYYYMMDD.html' or contains '/indexes/'
+  // Only run on dated service index pages, e.g. /dcs/indexes/20260907.html
   const pathRegex = /\/dcs\/indexes\/\d{8}\.html$/i;
-  if (!pathRegex.test(window.location.pathname) && !window.location.pathname.includes('/indexes/')) {
-    return;
-  }
+  if (!pathRegex.test(window.location.pathname)) return;
 
   const table = document.querySelector('.index-content table');
   if (!table) return;
 
-  // 1. Inject styling for card layout, rows, language buttons, and flag colors
+  // 1. Inject styling for the service list
   const styleEl = document.createElement('style');
   styleEl.textContent = `
         .service-group-container {
@@ -3702,219 +4396,87 @@ function transformIndexLayout() {
             margin-top: 1rem;
         }
         .service-card {
-            display: flex;
-            flex-direction: column;
-            gap: 0.6rem;
             padding: 0.85rem 1rem;
             background-color: #f9f9f9;
             border-radius: 4px;
-            border-left: 4px solid #8b0000;
         }
         .service-card-title {
             font-weight: bold;
             font-size: 1rem;
             color: #a91827;
-            margin-bottom: 0.2rem;
         }
-        .service-type-row {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            padding-left: 1rem;
-        }
-        .service-type-label {
-            font-weight: bold;
-            min-width: 105px;
-            font-size: 1rem;
-            color: #333;
-        }
-        .service-btn-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-        .lang-btn {
+        /* Service link styled as a button, sized for easy clicking/tapping */
+        .service-card-title a {
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            padding: 0.35rem 0.75rem;
+            box-sizing: border-box;
+            min-height: 44px;
+            max-width: 100%;
+            padding: 0.5rem 1rem;
             background-color: #ffffff;
             border: 1px solid #ccc;
             border-radius: 4px;
-            color: #333;
+            color: inherit;
             text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 600;
             font-family: inherit;
-            line-height: inherit;
+            line-height: 1.3;
             cursor: pointer;
+            touch-action: manipulation;
             transition: all 0.15s ease-in-out;
         }
-        .lang-btn:hover {
+        .service-card-title a:hover {
             background-color: #f0f0f0;
             border-color: #a91827;
             text-decoration: none;
         }
-        /* Color declarations for flag text */
-        .text-gr {
-            color: #0D5EAF;
+        .service-card-title a:active {
+            background-color: #e6e6e6;
         }
-        .text-en {
-            color: #B22234;
+        .service-card-title a:focus-visible {
+            outline: 2px solid #a91827;
+            outline-offset: 2px;
         }
     `;
   document.head.appendChild(styleEl);
 
-  // Helper to generate flag-colored inner HTML for buttons
-  function formatLangHTML(rawLangText) {
-    const upperLang = rawLangText.toUpperCase();
-    if (upperLang === 'GR') {
-      return '<span class="text-gr">Greek</span>';
-    } else if (upperLang === 'EN') {
-      return '<span class="text-en">English</span>';
-    } else if (upperLang === 'GR-EN') {
-      return '<span class="text-gr">GR</span>–<span class="text-en">EN</span>';
-    }
-    return rawLangText;
-  }
-
-  // Extract page header date string if available
-  const fullDateHeader = document.querySelector('.index-title-date')?.innerText || "";
-  const dateMatch = fullDateHeader.match(/Services for\s+(.*)/i);
-  const dateStr = dateMatch ? dateMatch[1].trim() : "";
-
-  // 2. Parse table rows and categorize options into Web View, Print-PDF, and Build-Export
+  // 2. Parse table rows: each service name plus its one (HTML GR-EN) link
   const services = [];
   let currentService = null;
 
-  const rows = table.querySelectorAll('tr');
-  rows.forEach(row => {
+  table.querySelectorAll('tr').forEach(row => {
     if (row.classList.contains('index-service-day-tr')) {
       const titleSpan = row.querySelector('.index-service-day');
       if (titleSpan) {
         currentService = {
           title: titleSpan.textContent.trim(),
-          categories: {
-            'Web View': [],
-            'Print-PDF': [],
-            'Build-Export': []
-          }
+          link: row.querySelector('a[href]') // link on the service row itself, if any
         };
         services.push(currentService);
       }
-    } else if (row.classList.contains('index-service-language-tr') && currentService) {
-      const langSpan = row.querySelector('.index-language');
-      const linkAnchor = row.querySelector('a.index-file-link');
-
-      if (langSpan && linkAnchor) {
-        const rawLangText = langSpan.textContent.trim();
-        const upperLang = rawLangText.toUpperCase();
-        const href = linkAnchor.getAttribute('href') || '';
-        const linkText = linkAnchor.textContent.trim().toLowerCase();
-
-        const isPdf = href.toLowerCase().endsWith('.pdf') || linkText.includes('pdf') || linkText.includes('print');
-        const category = isPdf ? 'Print-PDF' : 'Web View';
-
-        // Clone original anchor and format as a button
-        const btnAnchor = linkAnchor.cloneNode(true);
-        btnAnchor.className = 'lang-btn';
-        btnAnchor.innerHTML = formatLangHTML(rawLangText);
-        btnAnchor.dataset.langCode = upperLang;
-
-        currentService.categories[category].push(btnAnchor);
-
-        // For web view HTML links (excluding Matins-Customizable /ma2/ links), generate Build-Export button
-        if (!isPdf && !href.includes('/ma2/')) {
-          const exportBtn = document.createElement('button');
-          exportBtn.type = 'button';
-          exportBtn.className = 'lang-btn';
-          exportBtn.innerHTML = formatLangHTML(rawLangText);
-          exportBtn.dataset.langCode = upperLang;
-
-          exportBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-
-            const screenW = window.screen.availWidth;
-            const screenH = window.screen.availHeight;
-
-            // Dimensions: 80% Height, 500px Width
-            const winH = Math.floor(screenH * 0.8);
-            const winW = 500;
-
-            const topPos = Math.floor((screenH - winH) / 2);
-            // Position it at the left side of the "centered pair" 
-            const leftPos = Math.floor((screenW - (winW * 2)) / 2);
-
-            const match = href.match(/\/\d{4}\/\d{2}\/\d{2}\/([^/]+)/);
-            const specificServiceCode = match ? match[1] : null;
-
-            let serviceType = 'liturgy';
-            if (specificServiceCode.includes('li')) {
-              serviceType = 'liturgy';
-              if(specificServiceCode.includes("2") || specificServiceCode.includes("3")){
-                serviceType = 'liturgy-variables';
-              }
-            } else if (specificServiceCode.includes('ma')) {
-              serviceType = 'matins';
-            } else if (specificServiceCode.includes('ve')) {
-              serviceType = 'vespers';
-            }
-
-            let langType = 'gr-en';
-            if (href.includes('/gr-en/')) {
-              langType = 'gr-en';
-            } else if (href.includes('/en/')) {
-              langType = 'en';
-            } else if (href.includes('/gr/')) {
-              langType = 'gr';
-            }
-
-            // 1. Build parameters safely
-            const params = new URLSearchParams({
-              fromDCS: true,
-              dateFromDCS: dateStr,
-              langFromDCS: langType,
-              serviceCodeFromDCS: specificServiceCode
-            });
-
-
-            const fromDCSLaunch = true;
-
-            const features = `height=${winH},width=${winW},top=${topPos},left=${leftPos},resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no`;
-
-            // Opens the specific Panel (Liturgy, Matins, etc.)
-            window.open(`https://dcs.goarch.org/sbDev/sb-${serviceType}.html?${fromDCSLaunch ? params.toString() : ''}`, 'CustomizerPanel', features);
-
-          });
-
-          currentService.categories['Build-Export'].push(exportBtn);
-        }
-      }
+    } else if (row.classList.contains('index-service-language-tr') && currentService && !currentService.link) {
+      currentService.link = row.querySelector('a.index-file-link');
     }
   });
 
+  // Only the bilingual (GR-EN) services are published (the G / B / E buttons
+  // replace the one-language versions), so every link opens the GR-EN file,
+  // whichever language the index page lists first
+  services.forEach(service => {
+    const href = service.link && service.link.getAttribute('href');
+    if (!href) return;
+    const bilingualHref = href.replace(/\/(gr-en|en|gr)\/index\.html/i, '/gr-en/index.html');
+    if (bilingualHref === href) return;
+    service.link.setAttribute('href', bilingualHref);
+    // Failsafe: if this service has no GR-EN file, keep the language listed
+    bilingualServiceExists(bilingualHref).then(exists => {
+      if (exists) return;
+      service.link.setAttribute('href', href);
+      if (service.button) service.button.setAttribute('href', href);
+    });
+  });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // Priority sequence for language button ordering
-  const langOrder = ['GR', 'GR-EN', 'EN'];
+  // Leave the original table in place if nothing was recognized
+  if (services.length === 0) return;
 
   // 3. Construct new DOM layout
   const container = document.createElement('div');
@@ -3926,46 +4488,18 @@ function transformIndexLayout() {
 
     const cardTitle = document.createElement('div');
     cardTitle.className = 'service-card-title index-service-day';
-    cardTitle.textContent = service.title;
+
+    if (service.link) {
+      const titleLink = service.link.cloneNode(false); // keeps href/target, drops inner content
+      titleLink.removeAttribute('class');
+      titleLink.textContent = service.title;
+      cardTitle.appendChild(titleLink);
+      service.button = titleLink;
+    } else {
+      cardTitle.textContent = service.title;
+    }
+
     card.appendChild(cardTitle);
-
-    ['Web View', 'Print-PDF', 'Build-Export'].forEach(category => {
-      const buttons = service.categories[category];
-      if (buttons && buttons.length > 0) {
-
-
-        // Sort buttons strictly according to GR -> GR-EN -> EN sequence
-        buttons.sort((a, b) => {
-          const codeA = a.dataset.langCode;
-          const codeB = b.dataset.langCode;
-
-          let idxA = langOrder.indexOf(codeA);
-          let idxB = langOrder.indexOf(codeB);
-
-          if (idxA === -1) idxA = 99;
-          if (idxB === -1) idxB = 99;
-
-          return idxA - idxB;
-        });
-
-        const typeRow = document.createElement('div');
-        typeRow.className = 'service-type-row';
-
-        const label = document.createElement('span');
-        label.className = 'service-type-label';
-        label.textContent = category + ':';
-        typeRow.appendChild(label);
-
-        const btnGroup = document.createElement('div');
-        btnGroup.className = 'service-btn-group';
-
-        buttons.forEach(btn => btnGroup.appendChild(btn));
-        typeRow.appendChild(btnGroup);
-
-        card.appendChild(typeRow);
-      }
-    });
-
     container.appendChild(card);
   });
 
@@ -3975,6 +4509,29 @@ function transformIndexLayout() {
   }
 }
 
+
+// True if the GR-EN file at this address (relative or absolute) is on the site
+function bilingualServiceExists(url) {
+  return fetch(url, { method: 'HEAD', cache: 'no-store' })
+    .then(response => response.ok)
+    .catch(() => false); // can't tell (e.g. offline): keep what was asked for
+}
+
+/**
+ * Only the bilingual (GR-EN) services are published. A service opened in its
+ * EN or GR folder (old bookmark, link from elsewhere) is reopened in GR-EN,
+ * if that file exists; otherwise it stays as it is.
+ */
+function openBilingualService() {
+  const match = window.location.pathname.match(/^(.*\/h\/s\/\d{4}\/\d{2}\/\d{2}\/[^\/]+\/)(en|gr)\/(index\.html)?$/i);
+  if (!match) return;
+  const bilingualUrl = match[1] + 'gr-en/index.html';
+  bilingualServiceExists(bilingualUrl).then(exists => {
+    if (exists) window.location.replace(bilingualUrl + window.location.search + window.location.hash);
+  });
+}
+openBilingualService();
+
 // Auto-run on DOMContentLoaded or immediate execution
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', transformIndexLayout);
@@ -3983,6 +4540,12 @@ if (document.readyState === 'loading') {
 }
 
 /* ********************* NEW MATINS ORDINARY */
+
+// Whether the Matins Ordinary was inserted into this page when it loaded, and a
+// promise for when that step has finished. The Service Builder Matins panels
+// (sb-embed.js) wait for it and start with their Ordinary options matching the page.
+var matinsOrdinaryInserted = false;
+var matinsOrdinaryReady = Promise.resolve();
 
 async function fetchMatinsHTML() {
 
@@ -4008,8 +4571,10 @@ async function fetchMatinsHTML() {
   /* ********************************* */
 
   let fetchedHTMLContentMat = null;
+  let fetchedOk = false;
   try {
-    const response = await fetch(`https://dcs.goarch.org/goa/dcs/h/b/sb/mat/gr-en/index.html`);
+    // Relative to the pages' <base href> (the dcs folder): the same site as this page
+    const response = await fetch(`h/b/sb/mat/gr-en/index.html`);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -4017,6 +4582,7 @@ async function fetchMatinsHTML() {
 
     // Extract raw markup as plain string text
     fetchedHTMLContentMat = await response.text();
+    fetchedOk = true;
 
   } catch (error) {
     console.error(`Could not fetch "mat":`, error);
@@ -4027,6 +4593,15 @@ async function fetchMatinsHTML() {
 
   }
   console.log("Fetch complete!");
+
+  let swapMapping;
+  try {
+    swapMapping = await loadSwapMapping();
+  } catch (error) {
+    console.error(error.message);
+    return;
+  }
+  matinsOrdinaryInserted = fetchedOk;
   executeContentSwap(swapMapping['matins_ordinary_section1_paschal_yes'], fetchedHTMLContentMat);
   executeContentSwap(swapMapping['matins_ordinary_section1_ascension_yes'], fetchedHTMLContentMat);
   executeContentSwap(swapMapping['matins_ordinary_section1_normal_yes'], fetchedHTMLContentMat);
@@ -4035,15 +4610,29 @@ async function fetchMatinsHTML() {
   hideGreekInEnglishOnlyService();
   hideEnglishInGreekOnlyService();
   convertClassToId();
+  hideCollapsibleSections();
+  reapplyLanguageView();
 }
 
-function executeContentSwap(key, fetchedHTMLContentMat) {
+/**
+ * Replaces the rows between a key's target boundaries with the rows between its
+ * source boundaries. The only copy of this function in the DCS site: Service
+ * Builder panels call it from their frame (see js/sb/sb-embed.js), passing
+ * the service page as targetDoc.
+ * sourceHTML: full HTML text of the source document (e.g. a fetched h/b/sb/... page)
+ * targetDoc:  document to change (defaults to this page)
+ */
+function executeContentSwap(key, sourceHTML, targetDoc) {
+  if (!key) {
+    console.error("executeContentSwap: unknown swap key. Swap aborted.");
+    return;
+  }
 
   // Parse the global HTML string directly from memory
   const parser = new DOMParser();
-  let sourceDocNode = parser.parseFromString(fetchedHTMLContentMat, 'text/html');
+  let sourceDocNode = parser.parseFromString(sourceHTML || '', 'text/html');
 
-  const targetDocNode = window.document;
+  const targetDocNode = targetDoc || window.document;
 
   // 1. Locate Source Boundaries natively
   const srcStartEl = sourceDocNode.querySelector(`.${key.sourceBegin}`);
@@ -4106,46 +4695,28 @@ function insertAfter(referenceNode, newNodesArray) {
   }
 }
 
-const swapMapping = {
-  'matins_ordinary_section1_paschal_yes': {
-    targetBegin: 'brc_ma_matins_ordinary_section1_paschal',
-    targetEnd: 'erc_ma_matins_ordinary_section1_paschal',
-    sourceDoc: 'mat',
-    sourceBegin: 'brc_ma_matins_ordinary_section1_paschal',
-    sourceEnd: 'erc_ma_matins_ordinary_section1_paschal'
-  },
-
-  'matins_ordinary_section1_ascension_yes': {
-    targetBegin: 'brc_ma_matins_ordinary_section1_ascension',
-    targetEnd: 'erc_ma_matins_ordinary_section1_ascension',
-    sourceDoc: 'mat',
-    sourceBegin: 'brc_ma_matins_ordinary_section1_ascension',
-    sourceEnd: 'erc_ma_matins_ordinary_section1_ascension'
-  },
-
-  'matins_ordinary_section1_normal_yes': {
-    targetBegin: 'brc_ma_matins_ordinary_section1_normal',
-    targetEnd: 'erc_ma_matins_ordinary_section1_normal',
-    sourceDoc: 'mat',
-    sourceBegin: 'brc_ma_matins_ordinary_section1_normal',
-    sourceEnd: 'erc_ma_matins_ordinary_section1_normal'
-  },
-
-  'matins_ordinary_section2_prayers_yes': {
-    targetBegin: 'brc_ma_matins_ordinary_section2_prayers',
-    targetEnd: 'erc_ma_matins_ordinary_section2_prayers',
-    sourceDoc: 'mat',
-    sourceBegin: 'brc_ma_matins_ordinary_section2_prayers',
-    sourceEnd: 'erc_ma_matins_ordinary_section2_prayers'
-  },
-
-  'matins_ordinary_section3_psalms_litany_yes': {
-    targetBegin: 'brc_ma_matins_ordinary_section3_psalms_litany',
-    targetEnd: 'erc_ma_matins_ordinary_section3_psalms_litany',
-    sourceDoc: 'mat',
-    sourceBegin: 'brc_ma_matins_ordinary_section3_psalms_litany',
-    sourceEnd: 'erc_ma_matins_ordinary_section3_psalms_litany'
+/**
+ * The swap map lives only in js/sb/sb-swap-mapping.js (the Service Builder's
+ * map, which also has the Matins Ordinary entries). This loads it into the
+ * page once, as a plain <script> (no RequireJS), when a swap is needed.
+ * Resolves with the map (window.swapMapping).
+ */
+var swapMappingLoaded = null;
+function loadSwapMapping() {
+  if (!swapMappingLoaded) {
+    swapMappingLoaded = new Promise(function (resolve, reject) {
+      if (window.swapMapping) return resolve(window.swapMapping);
+      var script = document.createElement('script');
+      script.src = 'js/sb/sb-swap-mapping.js'; // relative to the pages' <base href> (the dcs folder)
+      script.onload = function () { resolve(window.swapMapping); };
+      script.onerror = function () {
+        swapMappingLoaded = null;
+        reject(new Error('Could not load js/sb/sb-swap-mapping.js'));
+      };
+      document.head.appendChild(script);
+    });
   }
+  return swapMappingLoaded;
 }
 
 
@@ -4156,7 +4727,8 @@ async function loadAndSwapMatinsOrdinary() {
   let fetchedHTMLContentMat = null;
 
   try {
-    const response = await fetch(`https://dcs.goarch.org/goa/dcs/h/b/sb/mat/gr-en/index.html`);
+    // Relative to the pages' <base href> (the dcs folder): the same site as this page
+    const response = await fetch(`h/b/sb/mat/gr-en/index.html`);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -4170,6 +4742,14 @@ async function loadAndSwapMatinsOrdinary() {
 
   console.log("Fetch complete!");
 
+  let swapMapping;
+  try {
+    swapMapping = await loadSwapMapping();
+  } catch (error) {
+    console.error(error.message);
+    return;
+  }
+
   // Execute insertion swaps using mapping keys
   executeContentSwap(swapMapping['matins_ordinary_section1_paschal_yes'], fetchedHTMLContentMat);
   executeContentSwap(swapMapping['matins_ordinary_section1_ascension_yes'], fetchedHTMLContentMat);
@@ -4182,6 +4762,7 @@ async function loadAndSwapMatinsOrdinary() {
   //  hideGreekInEnglishOnlyService();
   //  hideEnglishInGreekOnlyService();
   convertClassToId();
+  reapplyLanguageView();
 }
 
 /**
@@ -4207,7 +4788,14 @@ function clearContentBetweenBoundaries(key) {
 /**
  * Clears all injected Matins Ordinary sections from the DOM.
  */
-function removeMatinsOrdinarySections() {
+async function removeMatinsOrdinarySections() {
+  let swapMapping;
+  try {
+    swapMapping = await loadSwapMapping();
+  } catch (error) {
+    console.error(error.message);
+    return;
+  }
   clearContentBetweenBoundaries(swapMapping['matins_ordinary_section1_paschal_yes']);
   clearContentBetweenBoundaries(swapMapping['matins_ordinary_section1_ascension_yes']);
   clearContentBetweenBoundaries(swapMapping['matins_ordinary_section1_normal_yes']);
@@ -4675,6 +5263,9 @@ const SearchUI = {
 
       if (instance) {
         targetDoc._searchUiMounted = true;
+        // The find box can make the menu bar taller (on phones it has its own
+        // row), so move the service text down to match
+        if (targetDoc === document && typeof offsetContent === 'function') offsetContent();
       }
     }
   }
@@ -4690,5 +5281,127 @@ const SearchUI = {
 })();
 
 
+function splitTable() {
+  console.log('[splitTable] Function started.');
+
+  const originalTable = document.getElementById('biTable');
+  if (!originalTable) {
+    console.warn('[splitTable] Aborted: Could not find table with id="biTable".');
+    return;
+  }
+  console.log('[splitTable] Found #biTable:', originalTable);
+
+  const originalTbody = originalTable.tBodies[0] || originalTable.querySelector('tbody');
+  if (!originalTbody) {
+    console.warn('[splitTable] Aborted: Could not find <tbody> inside #biTable.');
+    return;
+  }
 
 
+  // Early return if .sb_pdf_cover_begin is not present
+  if (!originalTbody.querySelector('.sb_pdf_cover_begin')) {
+    console.warn('[splitTable] Aborted: Could not find element with class "sb_pdf_cover_begin" inside #biTable.');
+    return;
+  }
+
+  const container = originalTable.parentNode;
+  console.log('[splitTable] Parent container identified:', container);
+
+  const coverTable = document.createElement('table');
+  coverTable.id = 'coverTable';
+  const coverTbody = document.createElement('tbody');
+  coverTable.appendChild(coverTbody);
+
+  const creditsTable = document.createElement('table');
+  creditsTable.id = 'creditsTable';
+  const creditsTbody = document.createElement('tbody');
+  creditsTable.appendChild(creditsTbody);
+
+  let currentSection = 'cover';
+  const rows = Array.from(originalTbody.children);
+  console.log(`[splitTable] Total initial rows found in #biTable: ${rows.length}`);
+
+  let coverRowCount = 0;
+  let creditsRowCount = 0;
+  let serviceRowCount = 0;
+
+  rows.forEach((row, index) => {
+    if (row.querySelector('.sb_pdf_credits_begin')) {
+      console.log(`[splitTable] Row ${index}: Found .sb_pdf_credits_begin marker. Switching section to "credits".`);
+      currentSection = 'credits';
+    }
+
+    if (currentSection === 'cover') {
+      coverTbody.appendChild(row);
+      coverRowCount++;
+      if (row.querySelector('.sb_pdf_cover_end')) {
+        console.log(`[splitTable] Row ${index}: Found .sb_pdf_cover_end marker. Switching section to "service".`);
+        currentSection = 'service';
+      }
+    } else if (currentSection === 'credits') {
+      creditsTbody.appendChild(row);
+      creditsRowCount++;
+      if (row.querySelector('.sb_pdf_credits_end')) {
+        console.log(`[splitTable] Row ${index}: Found .sb_pdf_credits_end marker. Switching section to "service".`);
+        currentSection = 'service';
+      }
+    } else if (currentSection === 'service') {
+      originalTbody.appendChild(row);
+      serviceRowCount++;
+    }
+  });
+
+  console.log(`[splitTable] Sorting complete. Cover rows: ${coverRowCount}, Credits rows: ${creditsRowCount}, Service rows remaining: ${serviceRowCount}`);
+
+  container.insertBefore(coverTable, originalTable);
+  container.insertBefore(creditsTable, originalTable);
+  console.log('[splitTable] Inserted #coverTable and #creditsTable into DOM before #biTable.');
+
+  // Check if English content exists on the cover
+  const hasRightCellCoverBegin = coverTable.querySelector('td.rightCell .sb_pdf_cover_begin') !== null;
+  console.log(`[splitTable] Right cell check for .sb_pdf_cover_begin: ${hasRightCellCoverBegin}`);
+
+  // If .sb_pdf_cover_begin is NOT in td.rightCell, it is Greek-only.
+  const isGreekOnly = !hasRightCellCoverBegin;
+
+  // Cover and credits show one language across the full page width:
+  // - Greek-only service: remove the (empty) English cells, keep Greek
+  // - Bilingual / English service: keep BOTH cells (each spanning the width),
+  //   showing English; the G button switches them to Greek
+  //   (see showCoverAndCreditsLanguage, called by hideAllRight/showAll/hideAllLeft)
+  let removedCellsCount = 0;
+
+  [coverTable, creditsTable].forEach(table => {
+    if (!table) return;
+
+    table.querySelectorAll('tr').forEach(tr => {
+      const leftCell = tr.querySelector('td.leftCell');
+      const rightCell = tr.querySelector('td.rightCell');
+
+      if (isGreekOnly) {
+        if (rightCell) {
+          rightCell.remove();
+          removedCellsCount++;
+        }
+        if (leftCell) leftCell.setAttribute('colspan', '2');
+      } else {
+        if (leftCell) leftCell.setAttribute('colspan', '2');
+        if (rightCell) rightCell.setAttribute('colspan', '2');
+      }
+    });
+  });
+
+  if (!isGreekOnly) showCoverAndCreditsLanguage(languageView);
+
+  console.log(`[splitTable] Mode: ${isGreekOnly ? 'Greek-only (removed ' + removedCellsCount + ' English cells)' : 'Bilingual/English: cover and credits keep both languages, showing ' + (languageView === 'gr' ? 'Greek' : 'English')}.`);
+
+  console.log('[splitTable] Function completed successfully.');
+}
+
+// Add/replace this at the bottom of alwb.js
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', splitTable);
+} else {
+  // DOM is already ready
+  splitTable();
+}
