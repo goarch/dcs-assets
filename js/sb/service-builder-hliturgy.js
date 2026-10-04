@@ -263,7 +263,7 @@ async function updateServiceWindow() {
 
         if (state.parishSelect == null) { alert("Please select a parish first."); return; }
         //if the parish's saint isn't the same as the saint of the day - INJECT APOLYTIKION
-        if (!(state.extractedParishNames.includes(state.parishSelect))) {
+        if (!(parishApolytikionInService(state.parishSelect, state.extractedParishNames))) {
             swapLocalApolytikionYes();
 
             // 2. Safely update Greek elements

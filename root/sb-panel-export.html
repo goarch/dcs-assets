@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="el-en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Service Builder – Export and Print</title>
+    <!--
+        Service Builder panel for services and files that need no customization
+        (e.g. h91; see BUILD_PANELS in js/lib/alwb.js): only exports the page as it
+        is shown, in its current G / B / E view. Unlike the other panels it loads
+        no Service Builder scripts or parish lists: its buttons call the export
+        code of the service page that contains this frame (js/lib/alwb.js).
+    -->
+    <link rel="stylesheet" href="css/service-builder.css">
+</head>
+
+<body>
+    <main class="panel-grid">
+
+        <div id="section-export-tools" class="sb-section">
+            <label class="input-label">Export and Print</label>
+
+            <div class="toggle-group">
+                <button id="btn-export-word" type="button" class="sb-btn-toggle"
+                    style="background-color: #2b579a; color: white;">
+                    Download as Word (.doc)
+                </button>
+                <button id="btn-export-pdf" type="button" class="sb-btn-toggle"
+                    style="background-color: #b30000; color: white;">
+                    Preview & print as PDF (.pdf)
+                </button>
+            </div>
+            <div style="font-size: 0.85em; color: #555; margin: 8px 0 0 0;">
+                <b>Word download:</b> for editing your own version of the service.
+                <ol style="margin: 4px 0 0 0; padding-left: 20px;">
+                    <li>Save the file (it is a <b>.doc</b> file). Choose a name and folder, or let it go to your
+                        Downloads folder.</li>
+                    <li>Open it in Word. If Word shows a yellow bar, click <b>Enable Editing</b>.</li>
+                    <li>After editing, use <b>File &gt; Save As</b> and choose <b>Word Document (.docx)</b>.</li>
+                </ol>
+            </div>
+            <div id="sb-export-status" style="display: none; margin-top: 12px; font-weight: bold; color: #b30000;">
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        (function () {
+            var host = (window.parent && window.parent !== window) ? window.parent : null;
+            var canExport = host && typeof host.performUnifiedExport === 'function';
+            var status = document.getElementById('sb-export-status');
+
+            function exportService(format) {
+                try {
+                    host.performUnifiedExport(format);
+                } catch (error) {
+                    console.error('[sb-panel-export] Export failed:', error);
+                    status.textContent = 'The export could not be made. Please reload the page and try again.';
+                    status.style.display = 'block';
+                }
+            }
+
+            var wordButton = document.getElementById('btn-export-word');
+            var pdfButton = document.getElementById('btn-export-pdf');
+            if (!canExport) {
+                wordButton.disabled = true;
+                pdfButton.disabled = true;
+                status.textContent = 'This panel only works when opened from a service page.';
+                status.style.display = 'block';
+                return;
+            }
+            wordButton.addEventListener('click', function () { exportService('word'); });
+            pdfButton.addEventListener('click', function () { exportService('pdf'); });
+        })();
+    </script>
+</body>
+
+</html>

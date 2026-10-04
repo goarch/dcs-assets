@@ -351,6 +351,37 @@ function populateCelebrantDropdown() {
 
 let fullParishList = []; // Your global array
 
+// Each parish's own texts (the "client_..." fields of its entry in the
+// Metropolis JSON files), by the parish's unique ID. The Parish list uses that
+// ID as each option's value, so the scripts read the chosen parish's texts as
+// parishData[parishSelect.value].keys. 'apolytikion' is the parish's
+// apolytikionID: the name of the parish's Apolytikion (shared by parishes that
+// sing the same one), matched against the meDA.note / peDA.note values.
+const parishData = {};
+
+function registerParishTexts(parish) {
+    const keys = {};
+    Object.keys(parish).forEach(field => {
+        if (field.indexOf('|') !== -1) keys[field] = parish[field];
+    });
+    parishData[parish.ID] = {
+        label: parish.label,
+        // parishID: the former name, read until every copy of the JSON files is updated
+        apolytikion: parish.apolytikionID || parish.parishID || '',
+        keys: keys
+    };
+}
+
+// True when the service already contains the parish's Apolytikion: the service's
+// hidden .sbparishname cells hold the day's meDA.note / peDA.note values, which name
+// the Apolytikia in that service (e.g. "holy_cross sophia"). Whole names only, so
+// "peter" does not match "peter_paul".
+function parishApolytikionInService(parishId, extractedParishNames) {
+    const parish = parishData[parishId];
+    if (!parish || !parish.apolytikion) return false;
+    return (extractedParishNames || '').split(/\s+/).indexOf(parish.apolytikion) !== -1;
+}
+
 const fileNames = [
     "goa_newjersey.json",
     "goa_pittsburgh.json",
@@ -371,6 +402,7 @@ async function loadAllJsonFiles() {
 
             // Push all items from the loaded array into fullParishList
             fullParishList.push(...data);
+            data.forEach(registerParishTexts);
         } catch (error) {
             console.error(`Failed to load ${fileName}:`, error);
         }
@@ -404,7 +436,7 @@ async function populateParishDropdown() {
             .filter(parish => parish.Eparchy === selectedEparchyValue)
             .forEach(parish => {
                 let opt = document.createElement('option');
-                opt.value = parish.parishID;
+                opt.value = parish.ID; // unique (several parishes share a patron saint)
                 opt.textContent = parish.label; // textContent is safer & faster for dropdown labels
 
                 parishSelect.appendChild(opt);
