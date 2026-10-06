@@ -140,7 +140,9 @@ function updateLityOptionsForDay() {
 // js/sb/sb-embed.js provides executeContentSwap(key), which calls the alwb.js one.
 
 function handleDeaconCheckbox() { //COMMON
-    const dataKeys = ['ac.sb.DePr', 'ac.sb.DeBl', 'ac.sb.DePe'];
+    // ac.sb.PrBl: "PRIEST" before a line the priest says right after the deacon's;
+    // without a deacon the priest says both, so the label is left out
+    const dataKeys = ['ac.sb.DePr', 'ac.sb.DeBl', 'ac.sb.DePe', 'ac.sb.PrBl'];
 
     if (state.liOptDeacon) {
         swapEnarxisDeacon();
@@ -156,7 +158,7 @@ function handleDeaconCheckbox() { //COMMON
 }
 
 function handleConsecrationDeaconCheckbox() { //COMMON
-    const dataKeys = ['ac.sb.DePr', 'ac.sb.DeBl', 'ac.sb.DePe'];
+    const dataKeys = ['ac.sb.DePr', 'ac.sb.DeBl', 'ac.sb.DePe', 'ac.sb.PrBl'];
 
     if (state.liOptDeacon) {
         dataKeys.forEach(key => switchActor(key, actorMapping[key].defen, actorMapping[key].defgr));
@@ -366,8 +368,7 @@ function registerParishTexts(parish) {
     });
     parishData[parish.ID] = {
         label: parish.label,
-        // parishID: the former name, read until every copy of the JSON files is updated
-        apolytikion: parish.apolytikionID || parish.parishID || '',
+        apolytikion: parish.apolytikionID || '',
         keys: keys
     };
 }
@@ -452,18 +453,26 @@ function switchActor(actorKey, altActorEn, altActorGr) { //COMMON
     const fullEnKey = `${enKeyBase}${actorKey}`;
     const fullGrKey = `${grKeyBase}${actorKey}`;
 
+    // An actor label has a row of its own: when it is emptied in both languages
+    // (e.g. ac.sb.PrBl without a deacon) the row is hidden instead of left blank
+    const rowDisplay = (altActorEn || altActorGr) ? 'table-row' : 'none';
+    const setRow = el => {
+        const parentRow = el.closest('tr');
+        if (parentRow) parentRow.style.display = rowDisplay;
+    };
+
     // Update English Elements
     const elementsEn = doc.querySelectorAll(`[data-key="${fullEnKey}"]`);
     elementsEn.forEach(el => {
         el.textContent = altActorEn;
-        showTrDirect(el);
+        setRow(el);
     });
 
     // Update Greek Elements
     const elementsGr = doc.querySelectorAll(`[data-key="${fullGrKey}"]`);
     elementsGr.forEach(el => {
         el.textContent = altActorGr;
-        showTrDirect(el); // FIX: Pointed to el context within elementsGr array loop
+        setRow(el);
     });
 }
 

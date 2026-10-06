@@ -54,6 +54,13 @@ var actorMapping = {
         altgr: 'ΙΕΡΕΥΣ'
     },
 
+    'ac.sb.PrBl': {
+        defen: 'PRIEST',
+        defgr: 'ΙΕΡΕΥΣ',
+        alten: '',
+        altgr: ''
+    },
+
     'ac.sb.PrCl': {
         defen: 'PRIEST',
         defgr: 'ΙΕΡΕΥΣ',
