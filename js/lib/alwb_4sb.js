@@ -1274,7 +1274,9 @@ var BUILD_PANEL_PAGES = {
   hma: { page: 'sb-panel-hmatins.html', title: 'Hierarchical Matins', label: 'Hierarchical' },
   ve: { page: 'sb-panel-vespers.html', title: 'Vespers', label: 'Standard' },
   hve: { page: 'sb-panel-hvespers.html', title: 'Hierarchical Vespers', label: 'Hierarchical' },
-  other: { page: 'sb-panel-other.html', title: 'Other Services', label: 'Standard' }
+  other: { page: 'sb-panel-other.html', title: 'Other Services', label: 'Standard' },
+  // No customization: export / print only
+  export: { page: 'sb-panel-export.html', title: 'Export and Print', label: 'Export' }
 };
 
 /**
@@ -1298,7 +1300,24 @@ var BUILD_PANELS = {
   ve2: ['ve', 'hve'],
   ve4: ['ve', 'hve'],
   ve5: ['ve', 'hve'],
-  ve6: ['ve', 'hve']
+  ve6: ['ve', 'hve'],
+  // Metropolis and Parish only (as for mo / co, see BUILD_PANEL_PATTERNS)
+  h1: ['other'],
+  h36: ['other'],
+  h6: ['other'],
+  h9: ['other'],
+  h92: ['other'],
+  li2: ['other'], // Liturgy Variables / Antiphons
+  li3: ['other'], // Liturgy Variables / Typika and Beatitudes
+  li5: ['other'],
+  li7: ['other'],
+  sv: ['other'],
+  sv3: ['other'],
+  ma8: ['other'], // Matins as served at Holy Cross seminary
+  // Services and files that need no customization (export / print only)
+  h91: ['export'],
+  pl2: ['export'],
+  li9: ['export']
 };
 
 /**
@@ -1423,6 +1442,81 @@ function getServiceCode() {
   return match ? match[1].toLowerCase() : null;
 }
 
+/**
+ * Rollout notice: a small box under the Build / Print button, pointing at it,
+ * explaining what it is for. Closed with its ×, or by using the button; once
+ * closed it stays closed in that browser (one notice for Build, one for Print).
+ * Set to false to stop showing it after the rollout.
+ */
+var ENABLE_BUILD_MODE_NOTICE = true;
+
+function showBuildModeNotice(button, kind, messageHTML) {
+  if (!ENABLE_BUILD_MODE_NOTICE) return;
+  var storageKey = 'dcsBuildModeNotice.' + kind;
+  try {
+    if (localStorage.getItem(storageKey) === 'closed') return;
+  } catch (error) { /* storage blocked: show it anyway */ }
+
+  var menuBar = document.querySelector('.agesMenu');
+  if (!menuBar || document.getElementById('build-mode-notice')) return;
+
+  if (!document.getElementById('build-mode-notice-styles')) {
+    var style = document.createElement('style');
+    style.id = 'build-mode-notice-styles';
+    // Inside .agesMenu, so Night Mode leaves its colors alone
+    style.textContent =
+      '#build-mode-notice { position: fixed; z-index: 2100; box-sizing: border-box; width: 300px; max-width: calc(100vw - 16px);' +
+      '  padding: 12px 34px 12px 14px; background: #ffffff !important; color: #333333 !important; border: 2px solid #a91827;' +
+      '  border-radius: 6px; box-shadow: 0 4px 14px rgba(0,0,0,0.25); font: 15px/1.4 Arial, Helvetica, sans-serif; text-align: left; }' +
+      '#build-mode-notice b { color: #a91827 !important; }' +
+      '#build-mode-notice .notice-arrow { position: absolute; top: -10px; width: 16px; height: 16px; margin-left: -8px;' +
+      '  background: #ffffff !important; border-left: 2px solid #a91827; border-top: 2px solid #a91827; transform: rotate(45deg); }' +
+      '#build-mode-notice .notice-close { position: absolute; top: 4px; right: 6px; width: 28px; height: 28px; padding: 0;' +
+      '  border: 0; background: transparent !important; color: #a91827 !important; font: bold 22px/28px Arial, sans-serif; cursor: pointer; }';
+    document.head.appendChild(style);
+  }
+
+  var notice = document.createElement('div');
+  notice.id = 'build-mode-notice';
+  notice.setAttribute('role', 'note');
+  notice.innerHTML = '<span class="notice-arrow"></span>' + messageHTML +
+    '<button type="button" class="notice-close" aria-label="Close this notice" title="Close">&times;</button>';
+  notice.dataset.storageKey = storageKey;
+  notice.querySelector('.notice-close').addEventListener('click', function () {
+    closeBuildModeNotice(true);
+  });
+  menuBar.appendChild(notice);
+
+  // Just below the button, the arrow pointing at its middle, the box kept on screen
+  function place() {
+    var rect = button.getBoundingClientRect();
+    var middle = rect.left + rect.width / 2;
+    var width = notice.offsetWidth;
+    var left = Math.max(8, Math.min(middle - width + 40, window.innerWidth - width - 8));
+    notice.style.top = (rect.bottom + 12) + 'px';
+    notice.style.left = left + 'px';
+    notice.querySelector('.notice-arrow').style.left = (middle - left) + 'px';
+  }
+  place();
+  // Again once the menu bar has finished changing (e.g. the find box mounts)
+  setTimeout(place, 500);
+  window.addEventListener('resize', place);
+  notice.placeNotice = place;
+}
+
+// remember: true when the visitor closed it (×) or used the button
+function closeBuildModeNotice(remember) {
+  var notice = document.getElementById('build-mode-notice');
+  if (!notice) return;
+  if (remember) {
+    try {
+      localStorage.setItem(notice.dataset.storageKey, 'closed');
+    } catch (error) { /* storage blocked: it shows again next time */ }
+  }
+  window.removeEventListener('resize', notice.placeNotice);
+  notice.parentNode.removeChild(notice);
+}
+
 function insertBuildModeButton() {
   if (!ENABLE_BUILD_MODE_BUTTON) return;
 
@@ -1445,6 +1539,16 @@ function insertBuildModeButton() {
   var config = BUILD_PANEL_PAGES[panelId];
   if (!config) return;
 
+  // Export-only pages (h91, pl2...): "Print". Others: "Build" with "Print" beneath
+  // (their panels export too). Phones show only "Build": exporting is unlikely
+  // there, so export-only pages get no button on phones.
+  var exportOnly = panelIds.length === 1 && panelIds[0] === 'export';
+  var isPhone = isMobile.any() && Math.min(screen.width, screen.height) < 600;
+  if (exportOnly && isPhone) return;
+  var labelHTML = exportOnly ? 'Print'
+    : isPhone ? 'Build'
+      : '<span class="build-mode-line1">Build</span><span class="build-mode-line2">Print</span>';
+
   if (!document.getElementById('build-mode-btn-styles')) {
     var style = document.createElement('style');
     style.id = 'build-mode-btn-styles';
@@ -1460,17 +1564,23 @@ function insertBuildModeButton() {
       '  padding: 0.45em 0.6em; border: 0.12em solid #ffffff; border-radius: 0.3em;' +
       '  color: #ffffff !important; background: #a91827 !important; vertical-align: middle;' +
       '}' +
-      '.agesMenu a.buildMode:hover span.build-mode-label { background: #c42a3a !important; }';
+      '.agesMenu a.buildMode:hover span.build-mode-label { background: #c42a3a !important; }' +
+      // Two lines (Build / Print) in the height of the one-line button
+      '.agesMenu span.build-mode-label.two-lines { font-size: max(0.4em, 10px); padding: 0.3em 0.6em; text-align: center; }' +
+      '.agesMenu span.build-mode-label.two-lines span { display: block; line-height: 1.15; }';
     document.head.appendChild(style);
   }
 
   var link = document.createElement('a');
   link.href = '#';
   link.className = 'buildMode';
-  link.title = 'Service Builder: customize this service';
-  link.innerHTML = '<i class="fa ages-menu-link build-mode-icon"><span class="build-mode-label">Build</span></i>';
+  link.title = exportOnly ? 'Print as PDF or download for Word'
+    : 'Customize this service, then print it or download it for Word';
+  link.innerHTML = '<i class="fa ages-menu-link build-mode-icon"><span class="build-mode-label' +
+    (labelHTML.indexOf('<span') === 0 ? ' two-lines' : '') + '">' + labelHTML + '</span></i>';
   link.addEventListener('click', function (event) {
     event.preventDefault();
+    closeBuildModeNotice(true);
     var panel = document.getElementById('sb-build-panel');
     if (panel && panel.style.display !== 'none') {
       returnToService();
@@ -1487,6 +1597,14 @@ function insertBuildModeButton() {
   // Just to the left of the Scroll to Top (up arrow) button
   var topLink = menuBar.querySelector('a.topMode');
   menuBar.insertBefore(link, topLink);
+
+  if (!requestedPanel) {
+    showBuildModeNotice(link, exportOnly ? 'print' : 'build', exportOnly
+      ? 'New: <b>Print</b> lets you print this page as a PDF or download it for Word.'
+      : isPhone
+        ? 'New: <b>Build</b> lets you customize this service for your parish.'
+        : 'New: <b>Build</b> lets you customize this service for your parish, then print it as a PDF or download it for Word.');
+  }
 
   if (requestedPanel) {
     // Clean address, so a later reload or a shared link shows the plain service
