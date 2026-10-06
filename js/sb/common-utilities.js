@@ -3,11 +3,16 @@ function setLiturgyOptionsByEparchy() {
 
     const selectedDiocese = dioceseData?.[state.eparchySelect];
 
-    // 2. If no valid diocese is found, hide all 3 or exit safely
+    // Pre-Communion Prayers: offered unless the chosen Metropolis turns it off
+    // (option_li_precommunion_prayers: false in sb-diocese-data.js; all true for now)
+    if (precommunionPrayers) {
+        precommunionPrayers.style.display = (selectedDiocese && selectedDiocese.option_li_precommunion_prayers === false) ? 'none' : '';
+    }
+
+    // 2. If no valid diocese is found, hide both or exit safely
     if (!selectedDiocese) {
         if (postGospel) postGospel.style.display = 'none';
         if (extenedCompLitany) extenedCompLitany.style.display = 'none';
-        if (precommunionPrayers) precommunionPrayers.style.display = 'none';
         return;
     }
 
@@ -18,10 +23,6 @@ function setLiturgyOptionsByEparchy() {
 
     if (extenedCompLitany) {
         extenedCompLitany.style.display = selectedDiocese.option_li_extended_completion_litany ? '' : 'none';
-    }
-
-    if (precommunionPrayers) {
-        precommunionPrayers.style.display = selectedDiocese.option_li_precommunion_prayers ? '' : 'none';
     }
 }
 
@@ -786,7 +787,9 @@ const liturgyOptionsHTML = `
                             <label for="li_opt_extendedlitany" class="li-option-label">Extended Completion
                                 Litany</label>
                         </div>
-                        <div id="precommunionPrayers" class="li-options-col" style="margin-bottom: 8px; display: none;"
+                        <!-- Offered unless the chosen Metropolis turns it off (setLiturgyOptionsByEparchy);
+                             ticked or not to match the service when the panel opens (sb-embed.js) -->
+                        <div id="precommunionPrayers" class="li-options-col" style="margin-bottom: 8px;"
                             title="Inserts the Prayers before Communion.">
                             <input type="checkbox" id="li_opt_precommunionprayers">
                             <label for="li_opt_precommunionprayers" class="li-option-label">Pre-Communion

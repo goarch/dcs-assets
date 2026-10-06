@@ -3,7 +3,7 @@ var dioceseData = {
         "label": "Archdiocesan District",
         "option_li_litanies_after_gospel": false,
         "option_li_extended_completion_litany": false,
-        "option_li_precommunion_prayers": false,
+        "option_li_precommunion_prayers": true,
         "rank": "archbishop",
         "fimis": swapFimiBishop000Bishop1,
         "keys": {
@@ -42,7 +42,7 @@ var dioceseData = {
         "label": "Metropolis of Atlanta",
         "option_li_litanies_after_gospel": false,
         "option_li_extended_completion_litany": false,
-        "option_li_precommunion_prayers": false,
+        "option_li_precommunion_prayers": true,
         "rank": "metropolitan",
         "fimis": swapFimiBishop0Bishop111,
         "keys": {
@@ -81,7 +81,7 @@ var dioceseData = {
         "label": "Metropolis of Boston",
         "option_li_litanies_after_gospel": false,
         "option_li_extended_completion_litany": false,
-        "option_li_precommunion_prayers": false,
+        "option_li_precommunion_prayers": true,
         "rank": "metropolitan",
         "fimis": swapFimiBishop0Bishop111,
         "keys": {
@@ -159,7 +159,7 @@ var dioceseData = {
         "label": "Metropolis of Denver",
         "option_li_litanies_after_gospel": false,
         "option_li_extended_completion_litany": false,
-        "option_li_precommunion_prayers": false,
+        "option_li_precommunion_prayers": true,
         "rank": "metropolitan",
         "fimis": swapFimiBishop0Bishop111,
         "keys": {
@@ -198,7 +198,7 @@ var dioceseData = {
         "label": "Metropolis of Detroit",
         "option_li_litanies_after_gospel": false,
         "option_li_extended_completion_litany": false,
-        "option_li_precommunion_prayers": false,
+        "option_li_precommunion_prayers": true,
         "rank": "metropolitan",
         "fimis": swapFimiBishop0Bishop111,
         "keys": {
@@ -237,7 +237,7 @@ var dioceseData = {
         "label": "Metropolis of New Jersey",
         "option_li_litanies_after_gospel": false,
         "option_li_extended_completion_litany": false,
-        "option_li_precommunion_prayers": false,
+        "option_li_precommunion_prayers": true,
         "rank": "metropolitan",
         "fimis": swapFimiBishop0Bishop111,
         "keys": {
@@ -276,7 +276,7 @@ var dioceseData = {
         "label": "Ecumenical Patriarchate",
         "option_li_litanies_after_gospel": false,
         "option_li_extended_completion_litany": false,
-        "option_li_precommunion_prayers": false,
+        "option_li_precommunion_prayers": true,
         "rank": "patriarch",
         "fimis": swapFimiBishop0Bishop111,
         "keys": {
@@ -315,7 +315,7 @@ var dioceseData = {
         "label": "Metropolis of Pittsburgh",
         "option_li_litanies_after_gospel": false,
         "option_li_extended_completion_litany": false,
-        "option_li_precommunion_prayers": false,
+        "option_li_precommunion_prayers": true,
         "rank": "metropolitan",
         "fimis": swapFimiBishop0Bishop111,
         "keys": {
@@ -354,7 +354,7 @@ var dioceseData = {
         "label": "Metropolis of San Francisco",
         "option_li_litanies_after_gospel": false,
         "option_li_extended_completion_litany": false,
-        "option_li_precommunion_prayers": false,
+        "option_li_precommunion_prayers": true,
         "rank": "metropolitan",
         "fimis": swapFimiBishop0Bishop111,
         "keys": {
@@ -393,7 +393,7 @@ var dioceseData = {
         "label": "Other",
         "option_li_litanies_after_gospel": false,
         "option_li_extended_completion_litany": false,
-        "option_li_precommunion_prayers": false,
+        "option_li_precommunion_prayers": true,
         "rank": "hierarch",
         "fimis": swapFimiBishop0Bishop111,
         "keys": {

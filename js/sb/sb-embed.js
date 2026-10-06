@@ -116,6 +116,24 @@ async function sbSyncMatinsOrdinaryOptions() {
   });
 }
 
+/**
+ * Pre-Communion Prayers: the option starts matching the page, so leaving it as
+ * it is changes nothing. Published Liturgy, Presanctified and Vesperal Liturgy
+ * pages include the prayers (ticked); the Hierarchical and Consecration
+ * conversions remove them when their panel opens (unticked).
+ */
+function sbSyncPrecommunionOption() {
+  var box = document.getElementById('li_opt_precommunionprayers');
+  if (!box || !sbHostWindow) return;
+  var doc = sbHostWindow.document;
+  var begin = doc.querySelector('.brc_li_precommunion_prayers');
+  var end = doc.querySelector('.erc_li_precommunion_prayers');
+  var beginRow = begin && begin.closest('tr');
+  var endRow = end && end.closest('tr');
+  if (!beginRow || !endRow) return;
+  box.checked = beginRow.nextElementSibling !== endRow;
+}
+
 // Shows a message at the top of the panel (problems in red)
 function sbShowStatus(message, isError) {
   var status = document.getElementById('sb-embed-status');
@@ -325,6 +343,9 @@ document.addEventListener('DOMContentLoaded', async function () {
   if (eparchySelectEl && eparchySelectEl.value) populateParishDropdown();
 
   sbShowStatus(problems.join(' '), problems.length > 0);
+
+  // After onOpen (e.g. the Hierarchical conversion), before the snapshot below
+  sbSyncPrecommunionOption();
 
   // Nothing has been changed yet: the service is as published
   sbAppliedChoices = sbPanelChoices();

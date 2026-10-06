@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="el-en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Service Builder – Presanctified Liturgy Panel</title>
+    <!--
+        Service Builder panel for the Presanctified Liturgy (pl1 service pages; see
+        BUILD_PANELS in js/lib/alwb.js). Opened in a frame by the buildMode button.
+        Website only (there is no standalone Service Builder page for it): the
+        service window is the page that contains this frame, so the date and
+        language come from that page and their controls are hidden.
+        Uses js/sb/service-builder-presanctified.js.
+    -->
+    <link rel="stylesheet" href="css/service-builder.css">
+</head>
+
+<body>
+    <main class="panel-grid">
+
+        <!-- Set automatically from the service page (see js/sb/sb-embed.js) -->
+        <div class="sb-section" style="display: none;">
+            <label class="input-label">Select Service Date</label>
+            <div class="datepicker-row">
+                <input type="date" id="service-date-picker">
+            </div>
+        </div>
+
+        <div class="sb-section" style="display: none;">
+            <label class="input-label">Select Language</label>
+            <div class="launch-btn-group" style="display: flex; gap: 5px; margin-top: 10px; width: 100%;">
+                <label class="sb-radio-label" style="flex: 1;">
+                    <input type="radio" id="launchServiceGrEn" name="serviceLanguage" value="gr-en" checked>
+                    <span>Bilingual</span>
+                </label>
+                <label class="sb-radio-label" style="flex: 1;">
+                    <input type="radio" id="launchServiceEn" name="serviceLanguage" value="en">
+                    <span>English</span>
+                </label>
+                <label class="sb-radio-label" style="flex: 1;">
+                    <input type="radio" id="launchServiceGr" name="serviceLanguage" value="gr">
+                    <span>Greek</span>
+                </label>
+            </div>
+        </div>
+
+        <div id="custom-controls-container" class="sb-section">
+            <div id="section-jurisdiction" class="sb-control-group" style="display: none;">
+                <label class="input-label">Jurisdiction</label>
+                <select id="jurisdiction-select" class="sb-input-select">
+                    <option value="goa">GOA</option>
+                </select>
+            </div>
+
+            <div id="section-eparchy" class="sb-control-group">
+                <label class="input-label" id="eparchy-label">Metropolis</label>
+                <select id="eparchy-select" class="sb-input-select" style="margin-bottom: 8px;">
+                </select>
+            </div>
+            <div id="section-parish" class="sb-control-group">
+                <label class="input-label" id="parish-label">Parish</label>
+                <select id="parish-select" class="sb-input-select">
+                    <option value="" disabled selected>-- Select parish name --</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Clergy Options Section -->
+        <div class="sb-section">
+            <div id="section-celebrant-selection" class="sb-control-group">
+                <label class="input-label">Celebrants</label>
+                <div class="toggle-group" style="display: flex; gap: 8px;">
+                    <div class="li-options-col" style="flex: 1;" title="Inserts Deacon's parts.">
+                        <input type="checkbox" id="li_opt_deacon" checked>
+                        <label for="li_opt_deacon" class="li-option-label">Deacon</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sb-section">
+            <details>
+                <summary>Presanctified Liturgy Content Options</summary>
+                <div id="section-pl-options" class="sb-control-group">
+                    <div class="toggle-group" style="display: block;">
+                        <!-- Hidden on days whose "Lord I have cried" has no stichologia (see the script) -->
+                        <div id="pl_stichologia_option" class="li-options-col" style="margin-bottom: 8px;"
+                            title="Inserts the Stichologia of &quot;Lord I have cried&quot;.">
+                            <input type="checkbox" id="ve_opt_stichologia" checked>
+                            <label for="ve_opt_stichologia" class="li-option-label">Stichologia of "Lord I have
+                                cried"</label>
+                        </div>
+                        <div class="li-options-col" style="margin-bottom: 8px;" title="Inserts Pre-Communion Prayers.">
+                            <input type="checkbox" id="li_opt_precommunionprayers">
+                            <label for="li_opt_precommunionprayers" class="li-option-label">Pre-Communion
+                                Prayers</label>
+                        </div>
+                    </div>
+                </div>
+            </details>
+        </div>
+
+        <div id="section-export-tools" class="sb-section"
+            style="border-top: 2px solid #a91827; margin-top: 20px; padding-top: 15px; position: relative;">
+            <label class="input-label">Apply and Export</label>
+
+            <div class="action-bar" style="display: flex; gap: 10px; align-items: stretch;">
+                <button id="btn-view-preview" type="button" class="sb-btn-action" disabled>
+                    Loading…
+                </button>
+
+                <div id="toast-container" class="toast-container"></div>
+            </div>
+
+            <div class="toggle-group">
+                <button id="btn-export-word" type="button" class="sb-btn-toggle" onclick="exportToWord()"
+                    style="background-color: #2b579a; color: white;">
+                    Download as Word (.doc)
+                </button>
+                <button id="btn-export-pdf" type="button" class="sb-btn-toggle" onclick="exportToPDF()"
+                    style="background-color: #b30000; color: white;">
+                    Preview & print as PDF (.pdf)
+                </button>
+            </div>
+            <div style="font-size: 0.85em; color: #555; margin: 8px 0 0 0;">
+                <b>Word download:</b> for editing your own version of the service.
+                <ol style="margin: 4px 0 0 0; padding-left: 20px;">
+                    <li>Save the file (it is a <b>.doc</b> file). Choose a name and folder, or let it go to your
+                        Downloads folder.</li>
+                    <li>Open it in Word. If Word shows a yellow bar, click <b>Enable Editing</b>.</li>
+                    <li>After editing, use <b>File &gt; Save As</b> and choose <b>Word Document (.docx)</b>.</li>
+                </ol>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Describes this panel to js/sb/sb-embed.js -->
+    <script>
+        var SB_PANEL = {
+            id: 'pl1',
+            switchLabel: 'Type of Liturgy',
+            // Liturgy source: opening (deacon) and Pre-Communion Prayers; Vespers source: stichologia
+            sources: ['lit', 'ves'],
+            // Hide the Stichologia option on days that have none
+            onOpen: function () { plShowStichologiaOptionForDay(); }
+        };
+    </script>
+
+    <!-- Must run before the Service Builder scripts: sets the date/language and SB_JSON_PATH -->
+    <script src="js/sb/sb-embed.js"></script>
+
+    <script src="js/sb/sb-swap-mapping.js"></script>
+    <script src="js/sb/sb-diocese-data.js"></script>
+    <script src="js/sb/sb-ordination-data.js"></script>
+    <script src="js/sb/sb-mapping-defs.js"></script>
+    <script src="js/sb/sb-actors-defs.js"></script>
+    <script src="js/sb/sb-bishop-data.js"></script>
+    <script src="js/sb/common-utilities.js"></script>
+    <script src="js/sb/service-builder-presanctified.js"></script>
+</body>
+
+</html>

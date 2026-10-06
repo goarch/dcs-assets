@@ -1146,6 +1146,7 @@ $(document).ready(function () {
   insertVespersTOB();
   insertLiturgyTOB();
   insertVesperalLiturgyTOB();
+  removeVesperalLiturgyMemorialService();
   matinsOrdinaryReady = fetchMatinsHTML();
   insertMatinsTOB();
   convertClassToId();
@@ -1274,6 +1275,8 @@ var BUILD_PANEL_PAGES = {
   hma: { page: 'sb-panel-hmatins.html', title: 'Hierarchical Matins', label: 'Hierarchical' },
   ve: { page: 'sb-panel-vespers.html', title: 'Vespers', label: 'Standard' },
   hve: { page: 'sb-panel-hvespers.html', title: 'Hierarchical Vespers', label: 'Hierarchical' },
+  pl1: { page: 'sb-panel-presanctified.html', title: 'Presanctified Liturgy', label: 'Standard' },
+  vl: { page: 'sb-panel-vesperalliturgy.html', title: 'Vesperal Liturgy', label: 'Standard' },
   other: { page: 'sb-panel-other.html', title: 'Other Services', label: 'Standard' },
   // No customization: export / print only
   export: { page: 'sb-panel-export.html', title: 'Export and Print', label: 'Export' }
@@ -1301,6 +1304,10 @@ var BUILD_PANELS = {
   ve4: ['ve', 'hve'],
   ve5: ['ve', 'hve'],
   ve6: ['ve', 'hve'],
+  // A Hierarchical Presanctified panel may be added later
+  pl1: ['pl1'],
+  vl: ['vl'],
+  vl2: ['vl'],
   // Metropolis and Parish only (as for mo / co, see BUILD_PANEL_PATTERNS)
   h1: ['other'],
   h36: ['other'],
@@ -1906,6 +1913,30 @@ function insertVesperalLiturgyTOB() {
     //convertClassToId();
     return; //stop b/c li is finished processing
   }//end if
+}
+
+/**
+ * Vesperal Liturgy (vl, vl2): no Memorial Service. The service includes it, so it
+ * is removed when the page loads with the Service Builder's memorial_service_off
+ * swap (js/sb/sb-swap-mapping.js, source: the Liturgy page h/b/sb/lit), as
+ * swapMemorialServiceOff() does in the panels. It is then neither shown nor
+ * exported, and the Build panel does not offer it.
+ */
+async function removeVesperalLiturgyMemorialService() {
+  var serviceCode = getServiceCode();
+  if (serviceCode !== 'vl' && serviceCode !== 'vl2') return;
+  if (!document.querySelector('.brc_li_memorial_service')) return;
+
+  try {
+    // Relative to the pages' <base href> (the dcs folder): the same site as this page
+    var response = await fetch('h/b/sb/lit/gr-en/index.html');
+    if (!response.ok) throw new Error('HTTP error! status: ' + response.status);
+    var fetchedHTMLContentLit = await response.text();
+    var swapMapping = await loadSwapMapping();
+    executeContentSwap(swapMapping['memorial_service_off'], fetchedHTMLContentLit);
+  } catch (error) {
+    console.error('Could not remove the Memorial Service:', error);
+  }
 }
 
 function insertMatinsTOB() {
