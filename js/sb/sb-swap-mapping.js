@@ -31,6 +31,54 @@ var swapMapping = {
         sourceEnd: 'erc_hi_commemoration_great_litany_and_bishop'
     },
 
+    'antiphon1': {
+        targetBegin: 'brc_li_antiphon1',
+        targetEnd: 'erc_li_antiphon1',
+        sourceDoc: 'li2',
+        sourceBegin: 'brc_li_antiphon1',
+        sourceEnd: 'erc_li_antiphon1'
+    },
+
+    'antiphon2': {
+        targetBegin: 'brc_li_antiphon2',
+        targetEnd: 'erc_li_antiphon2',
+        sourceDoc: 'li2',
+        sourceBegin: 'brc_li_antiphon2',
+        sourceEnd: 'erc_li_antiphon2'
+    },
+
+    'antiphon3': {
+        targetBegin: 'brc_li_antiphon3',
+        targetEnd: 'erc_li_antiphon3',
+        sourceDoc: 'li2',
+        sourceBegin: 'brc_li_antiphon3',
+        sourceEnd: 'erc_li_antiphon3'
+    },
+
+    'typika1': {
+        targetBegin: 'brc_li_antiphon1',
+        targetEnd: 'erc_li_antiphon1',
+        sourceDoc: 'lit',
+        sourceBegin: 'brc_li_typika1',
+        sourceEnd: 'erc_li_typika1'
+    },
+
+    'typika2': {
+        targetBegin: 'brc_li_antiphon2',
+        targetEnd: 'erc_li_antiphon2',
+        sourceDoc: 'lit',
+        sourceBegin: 'brc_li_typika2',
+        sourceEnd: 'erc_li_typika2'
+    },
+
+    'beatitudes': {
+        targetBegin: 'brc_li_antiphon3',
+        targetEnd: 'erc_li_antiphon3',
+        sourceDoc: 'li3',
+        sourceBegin: 'brc_li_beatitudes',
+        sourceEnd: 'erc_li_beatitudes'
+    },
+
     'small_entrance': {
         targetBegin: 'brc_li_small_entrance',
         targetEnd: 'erc_li_small_entrance',
@@ -1709,6 +1757,24 @@ function swapEnarxisDeacon() {
 }
 function swapEnarxisNoDeacon() {
     executeContentSwap(swapMapping['enarxis_no_deacon']);
+}
+function swapAntiphon1() {
+    executeContentSwap(swapMapping['antiphon1']);
+}
+function swapAntiphon2() {
+    executeContentSwap(swapMapping['antiphon2']);
+}
+function swapAntiphon3() {
+    executeContentSwap(swapMapping['antiphon3']);
+}
+function swapTypika1() {
+    executeContentSwap(swapMapping['typika1']);
+}
+function swapTypika2() {
+    executeContentSwap(swapMapping['typika2']);
+}
+function swapBeatitudes() {
+    executeContentSwap(swapMapping['beatitudes']);
 }
 function swapPostGospelLitaniesChrysOn() {
     executeContentSwap(swapMapping['post_gospel_litanies_chrys_on']);
