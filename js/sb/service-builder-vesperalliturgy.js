@@ -1,7 +1,14 @@
 /**
- * Service Builder: Vesperal Liturgy (sb-panel-vesperalliturgy.html, for vl and vl2).
+ * Service Builder: Vesperal Liturgy, for vl and vl2. One script for both panels:
+ *  - sb-panel-vesperalliturgy.html  (standard)
+ *  - sb-panel-hvesperalliturgy.html (Hierarchical: has the Celebrant Hierarch list)
  * Website only: the panel runs in the service page's buildMode frame (see
  * js/sb/sb-embed.js), which provides the service window, date and language.
+ *
+ * Hierarchical: convertToHierarchicalVesperalLiturgy() when the panel opens; the
+ * Celebrant Hierarch is handled by the shared hierarchical* functions in
+ * common-utilities.js; no Concelebration option (a hierarchical service always
+ * uses the concelebration forms, as in the Hierarchical Liturgy and Vespers panels).
  *
  * Vespers joined to a Divine Liturgy, so the choices come from both panels:
  *  - Metropolis and Parish: hierarch's names, parish dismissal and supplication
@@ -31,6 +38,7 @@ const state = {
     serviceDatePicker: "",
     jurisdictionSelect: "goa", // Matches the default <option value="goa"> in HTML
     eparchySelect: "",
+    celebrantSelect: "", // Hierarchical panel only
 
     extractedParishNames: "",
 
@@ -69,6 +77,10 @@ const veOptAnoixantaria = document.getElementById('ve_opt_anoixantaria');
 const veOptStichologia = document.getElementById('ve_opt_stichologia');
 const liOptPrecommunionprayers = document.getElementById('li_opt_precommunionprayers');
 
+// Hierarchical panel: has the Celebrant Hierarch list (and no Concelebration option)
+const celebrantSelect = document.getElementById('celebrant-select');
+const isHierarchical = !!celebrantSelect;
+
 
 // True if the service has a place (begin marker) for this part, e.g. 've_entrance'
 function vlHas(part) {
@@ -99,7 +111,8 @@ function applyChanges() {
     state.parishSelect = parishSelect.value;
 
     state.liOptDeacon = liOptDeacon.checked;
-    state.liOptConcelebration = liOptConcelebration.checked;
+    state.liOptConcelebration = liOptConcelebration ? liOptConcelebration.checked : false;
+    state.celebrantSelect = celebrantSelect ? celebrantSelect.value : "";
     state.veOptVesperalPrayers = veOptVesperalPrayers.checked;
     state.veOptAnoixantaria = veOptAnoixantaria.checked;
     state.veOptStichologia = veOptStichologia.checked;
@@ -149,8 +162,9 @@ function updateServiceWindow() {
             });
         };
 
-        // Metropolis: all of its data keys (hierarch's names and titles)
-        if (state.eparchySelect && dioceseData[state.eparchySelect]) {
+        // Metropolis: all of its data keys (hierarch's names and titles);
+        // Hierarchical: done for the Celebrant Hierarch below
+        if (!isHierarchical && state.eparchySelect && dioceseData[state.eparchySelect]) {
             Object.entries(dioceseData[state.eparchySelect].keys).forEach(([key, textValue]) => {
                 updateIfExists(key, textValue);
             });
@@ -170,7 +184,14 @@ function updateServiceWindow() {
             }
         }
 
-        handleConcelebrationCheckbox();
+        if (isHierarchical) {
+            // Commemorations, diptychs, fimi, names, actor labels (common-utilities.js)
+            hierarchicalCelebrantChange();
+            // Hierarchical: always the concelebration labels ("CLERGY")
+            switchActor('ac.sb.PrCl', actorMapping['ac.sb.PrCl'].alten, actorMapping['ac.sb.PrCl'].altgr);
+        } else {
+            handleConcelebrationCheckbox();
+        }
 
         // Deacon (common-utilities.js); the opening exchange is swapped only if the service has it
         if (vlHas('li_enarxis')) {
@@ -199,6 +220,33 @@ function handleConcelebrationCheckbox() {
 
 
 /**
+ * Hierarchical panel, when it opens: turns the published Vesperal Liturgy into
+ * the Hierarchical one, with the Hierarchical Vespers swaps (mode, entrance…)
+ * and the Hierarchical Liturgy swaps (commemorations, Kiss of Peace, Trisagion,
+ * Great Entrance, dismissal…). Each runs only where the service has a place for it.
+ */
+function convertToHierarchicalVesperalLiturgy() {
+    // Vespers part (as swapVespersHierarchical)
+    ['vespers_hierarchical_mode1', 'vespers_hierarchical_mode2', 'vespers_hierarchical_mode3',
+        'vespers_hierarchical_mode4', 'vespers_hierarchical_mode5', 'vespers_hierarchical_mode6',
+        'vespers_hierarchical_mode7', 'vespers_hierarchical_mode8', 'vespers_hierarchical_entrance',
+        'vespers_hierarchical_prokeimenon', 'vespers_concelebration_prokeimenon_choir',
+        'vespers_hierarchical_trisagion'].forEach(swapKeyIfInService);
+
+    // Liturgy part (as convertToHierarchicalService)
+    ['extended_comp_litany_off', 'precommunion_prayers_off', 'hierarchical_dismissal',
+        'hi_commemoration_great_litany', 'kiss_of_peace_clhi', 'hierarchical_post_cherubic_rubric',
+        'trisagion_holygod_hierarchical', 'trisagion_baptized_hierarchical', 'trisagion_cross_hierarchical',
+        'kontakion_concelebration_hierarchical_yes', 'apolytikion2_yes', 'hi_small_entrance',
+        'apolytikion1_hierarchical', 'great_entrance_hierarchical'].forEach(swapKeyIfInService);
+
+    state.serviceWin.document.querySelectorAll('.sblieisodikonrefrain').forEach(refrain => {
+        refrain.style.display = 'block';
+    });
+}
+
+
+/**
  * Used by common-utilities.js when the service window is not open; in the
  * website panel the service page is always open, so this only applies.
  */
@@ -218,9 +266,11 @@ parishSelect.addEventListener('change', () => {
 
 eparchySelect.addEventListener('change', () => {
     populateParishDropdown(); // common-utilities.js
+    if (isHierarchical) hierarchicalDefaultCelebrant(); // common-utilities.js
 });
 
 document.addEventListener('DOMContentLoaded', () => {
     populateEparchyDropdown(); // common-utilities.js
+    if (isHierarchical) populateCelebrantDropdown(); // common-utilities.js
     openServiceWinFromDCS();   // common-utilities.js
 });

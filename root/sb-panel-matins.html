@@ -146,7 +146,10 @@
             // Not every day has a Liturgy
             optionalSources: ['li'],
             // Start the Ordinary options matching the page (alwb.js inserts the Ordinary)
-            onOpen: function () { return sbSyncMatinsOrdinaryOptions(); }
+            onOpen: async function () {
+                await sbSyncMatinsOrdinaryOptions();
+                matinsAdjustOptionsForService(); // em: no End Litanies option
+            }
         };
     </script>
 

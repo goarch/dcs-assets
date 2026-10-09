@@ -4,16 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Service Builder – Hierarchical Matins Panel</title>
+    <title>Service Builder – Hierarchical Vesperal Liturgy Panel</title>
     <!--
-        Service Builder panel for Hierarchical Matins, offered on ma / ma3 / ma4 /
-        ma5 / ma6 service pages through the "Hierarchical" switch button of the
-        Matins panels (see BUILD_PANELS in js/lib/alwb.js).
-        Adapted from sb-hmatins.html in the Service Builder app: the service window
+        Service Builder panel for the Hierarchical Vesperal Liturgy (vl and vl2 service pages; see
+        BUILD_PANELS in js/lib/alwb.js): Vespers joined to a Divine Liturgy.
+        Opened in a frame by the buildMode button. Website only: the service window
         is the page that contains this frame, so the date and language come from
-        that page and their controls are hidden. When the panel opens, the Ordinary
-        options are set to match the page and the service is converted
-        (convertToHierarchicalMatins in js/sb/service-builder-hmatins.js).
+        that page and their controls are hidden.
+        Uses js/sb/service-builder-vesperalliturgy.js, like the standard Vesperal Liturgy panel:
+        this page differs only by the Celebrant Hierarch list (which makes the script
+        hierarchical) and by having no Concelebration option.
     -->
     <link rel="stylesheet" href="css/service-builder.css">
 </head>
@@ -57,9 +57,9 @@
 
             <div id="section-eparchy" class="sb-control-group">
                 <label class="input-label" id="eparchy-label">Metropolis</label>
-                <select id="eparchy-select" class="sb-input-select" style="margin-bottom: 8px;"></select>
+                <select id="eparchy-select" class="sb-input-select" style="margin-bottom: 8px;">
+                </select>
             </div>
-
             <div id="section-parish" class="sb-control-group">
                 <label class="input-label" id="parish-label">Parish</label>
                 <select id="parish-select" class="sb-input-select">
@@ -75,61 +75,49 @@
                     <!-- Options populated via JS -->
                 </select>
             </div>
+        </div>
 
-            <!-- Clergy Options Section -->
-            <div class="li-options-col" style="margin-bottom: 8px;" title="Inserts Deacon's parts.">
-                <input type="checkbox" id="li_opt_deacon" checked>
-                <label for="li_opt_deacon" class="li-option-label">Deacon</label>
+        <!-- Clergy Options Section -->
+        <div class="sb-section">
+            <div id="section-celebrant-selection" class="sb-control-group">
+                <label class="input-label">Celebrants</label>
+                <div class="toggle-group" style="display: flex; gap: 8px;">
+                    <div class="li-options-col" style="flex: 1;" title="Inserts Deacon's parts.">
+                        <input type="checkbox" id="li_opt_deacon" checked>
+                        <label for="li_opt_deacon" class="li-option-label">Deacon</label>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="sb-section">
             <details>
-                <summary>Matins Content Options</summary>
-                <div id="section-ma-options" class="sb-section" style="display: block;">
+                <summary>Vesperal Liturgy Options</summary>
+                <div id="section-vl-options" class="sb-control-group">
                     <div class="toggle-group" style="display: block;">
-                        <div class="li-options-col" style="margin-bottom: 8px;"
-                            title="Inserts Matins Ordinary at the beginning.">
-                            <input type="checkbox" id="ma_opt_matins_ordinary">
-                            <label for="ma_opt_matins_ordinary" class="li-option-label">Matins Ordinary</label>
+                        <!-- Each option is hidden on days whose service has no place for it (see the script) -->
+                        <div id="vl_vesperal_prayers_option" class="li-options-col" style="margin-bottom: 8px;"
+                            title="Inserts the Priest's vesperal prayers after Introductory Psalm.">
+                            <input type="checkbox" id="ve_opt_vesperal_prayers">
+                            <label for="ve_opt_vesperal_prayers" class="li-option-label">Vesperal (Lamp-lighting)
+                                Prayers</label>
                         </div>
-                        <div class="li-options-col" style="margin-bottom: 8px;"
-                            title="Includes Priest's 12 prayers in Ordinary.">
-                            <input type="checkbox" id="ma_opt_matins_prayers">
-                            <label for="ma_opt_matins_prayers" class="li-option-label">Twelve Matins Prayers</label>
+                        <div id="vl_anoixantaria_option" class="li-options-col" style="margin-bottom: 8px;"
+                            title="Inserts Anoixantaria.">
+                            <input type="checkbox" id="ve_opt_anoixantaria">
+                            <label for="ve_opt_anoixantaria" class="li-option-label">Anoixantaria</label>
                         </div>
-                        <div class="li-options-col" style="margin-bottom: 8px;" title="Inserts the Stichologia at Lauds.">
-                            <input type="checkbox" id="ma_opt_lauds_stichologia">
-                            <label for="ma_opt_lauds_stichologia" class="li-option-label">Lauds Stichologia</label>
+                        <div id="vl_stichologia_option" class="li-options-col" style="margin-bottom: 8px;"
+                            title="Inserts Vespers Stichologia.">
+                            <input type="checkbox" id="ve_opt_stichologia" checked>
+                            <label for="ve_opt_stichologia" class="li-option-label">Stichologia of "Lord I have
+                                cried"</label>
                         </div>
-                        <div class="li-options-col" style="margin-bottom: 8px;"
-                            title="Inserts the Litanies and Dismissal at the end.">
-                            <input type="checkbox" id="ma_opt_dismissal">
-                            <label for="ma_opt_dismissal" class="li-option-label">End Litanies and Dismissal</label>
-                        </div>
-                    </div>
-                </div>
-            </details>
-        </div>
-
-        <div class="sb-section">
-            <details>
-                <summary>Hierarchical Options</summary>
-                <div id="section-hma-options" class="sb-section">
-                    <div id="section-ordination" class="sb-section">
-                        <div class="ordination-col">
-                            <div class="ord-checkbox-row"
-                                title="Inserts Subdeacon Ordination prayers at the end of Matins.">
-                                <input type="checkbox" id="ord-subdeacon-check" class="ord-checkbox-input">
-                                <label for="ord-subdeacon-check" class="li-option-label">Subdeacon Ordination</label>
-                            </div>
-
-                            <div id="subdeacon-name-fields" class="name-field-group" style="display: none;">
-                                <input type="text" id="subdeacon-name-gr-acc" class="sb-input-text"
-                                    placeholder="Greek Accusative">
-                                <input type="text" id="subdeacon-name-en" class="sb-input-text"
-                                    placeholder="English Name">
-                            </div>
+                        <div id="vl_precommunion_option" class="li-options-col" style="margin-bottom: 8px;"
+                            title="Inserts Pre-Communion Prayers.">
+                            <input type="checkbox" id="li_opt_precommunionprayers">
+                            <label for="li_opt_precommunionprayers" class="li-option-label">Pre-Communion
+                                Prayers</label>
                         </div>
                     </div>
                 </div>
@@ -174,18 +162,13 @@
     <!-- Describes this panel to js/sb/sb-embed.js -->
     <script>
         var SB_PANEL = {
-            id: 'hma',
-            switchLabel: 'Type of Matins',
-            sources: ['lit', 'mat', 'ord'],
-            datedSources: ['li'],
-            // Not every day has a Liturgy
-            optionalSources: ['li'],
-            // Match the page's Matins Ordinary, then convert to Hierarchical Matins
-            onOpen: async function () {
-                await sbSyncMatinsOrdinaryOptions();
-                convertToHierarchicalMatins();
-                matinsAdjustOptionsForService(); // em: no End Litanies option
-            },
+            id: 'hvl',
+            switchLabel: 'Type of Liturgy',
+            // Liturgy source: opening (deacon), Trisagion, Pre-Communion Prayers;
+            // Vespers source: vesperal prayers, Anoixantaria, stichologia, entrance
+            sources: ['lit', 'ves'],
+            // Convert to the Hierarchical Vesperal Liturgy, then hide the options with no place
+            onOpen: function () { convertToHierarchicalVesperalLiturgy(); vlShowOptionsForDay(); },
             // The hierarchical options need a Metropolis and Celebrant Hierarch
             canApply: function () {
                 return !!document.getElementById('eparchy-select').value &&
@@ -205,7 +188,7 @@
     <script src="js/sb/sb-actors-defs.js"></script>
     <script src="js/sb/sb-bishop-data.js"></script>
     <script src="js/sb/common-utilities.js"></script>
-    <script src="js/sb/service-builder-hmatins.js"></script>
+    <script src="js/sb/service-builder-vesperalliturgy.js"></script>
 </body>
 
 </html>

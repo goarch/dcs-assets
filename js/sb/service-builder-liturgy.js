@@ -206,6 +206,9 @@ async function updateServiceWindow() {
             targetElement.textContent = "val"; //"val" would be a variable most likely
         });
 
+        // Antiphons 1-3 or Typika / Beatitudes (only on days with a li3 service)
+        handleAntiphonOptions(); // common-utilities.js
+
         if (state.liOptLitanies) {
             swapPostGospelLitaniesChrysOn();
             swapPostGospelLitaniesBasilOn();

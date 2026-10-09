@@ -313,7 +313,8 @@ function convertToHierarchicalMatins() {
     swapOde9HierarchicalYes();
     swapExaposteilarionHierarchicalYes();
 
-    swapLaudsHierarchicalKairosYes();
+    // No Kairos at em (Matins in the evening): no Liturgy follows
+    if (state.serviceCode !== 'em') swapLaudsHierarchicalKairosYes();
     swapLaudsHierarchicalMode();    // hierarchical Lauds modes 1-8 (sb-swap-mapping.js)
 }
 

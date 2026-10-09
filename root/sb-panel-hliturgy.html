@@ -175,8 +175,12 @@
             id: 'hli',
             switchLabel: 'Type of Liturgy',
             sources: ['lit', 'ord'],
+            // That day's Antiphons (li2) and Typika / Beatitudes (li3), for the Antiphon options
+            datedSources: ['li2', 'li3'],
+            // Not every day has a li3 service (then the Antiphon options are hidden)
+            optionalSources: ['li2', 'li3'],
             // Convert the published Liturgy to the Hierarchical Liturgy when the panel opens
-            onOpen: function () { convertToHierarchicalService(); },
+            onOpen: function () { convertToHierarchicalService(); showAntiphonOptionsForDay(); },
             // The hierarchical options need a Metropolis and Celebrant Hierarch
             canApply: function () {
                 return !!document.getElementById('eparchy-select').value &&

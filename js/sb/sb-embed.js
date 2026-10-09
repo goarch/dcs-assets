@@ -27,7 +27,8 @@
  */
 
 var SB_PANEL_SETTINGS = window.SB_PANEL || {};
-var SB_SOURCE_NAMES = { lit: 'Liturgy', ord: 'Ordination', cli: 'Consecration', mat: 'Matins', ves: 'Vespers', li: "day's Liturgy" };
+var SB_SOURCE_NAMES = { lit: 'Liturgy', ord: 'Ordination', cli: 'Consecration', mat: 'Matins', ves: 'Vespers', li: "day's Liturgy",
+  li2: "day's Antiphons (li2)", li3: "day's Typika and Beatitudes (li3)" };
 
 // Parish list folder in the DCS site (the standalone app uses './js/JSON/')
 var SB_JSON_PATH = 'js/sb/JSON/';
@@ -79,7 +80,9 @@ function executeContentSwap(key) {
     li: state.fetchedHTMLContentLi,
     mat: state.fetchedHTMLContentMat,
     ves: state.fetchedHTMLContentVes,
-    ve2: state.fetchedHTMLContentVe2
+    ve2: state.fetchedHTMLContentVe2,
+    li2: state.fetchedHTMLContentLi2,
+    li3: state.fetchedHTMLContentLi3
   }[key && key.sourceDoc];
   return state.serviceWin.executeContentSwap(key, sourceHTML, state.serviceWin.document);
 }

@@ -94,6 +94,10 @@ async function fetchDatedSourceHTML(type) {
             state.fetchedHTMLContentLi = htmlText;
         } else if (type === 've2') {
             state.fetchedHTMLContentVe2 = htmlText;
+        } else if (type === 'li2') {
+            state.fetchedHTMLContentLi2 = htmlText;
+        } else if (type === 'li3') {
+            state.fetchedHTMLContentLi3 = htmlText;
         }
 
     } catch (error) {
@@ -106,6 +110,10 @@ async function fetchDatedSourceHTML(type) {
             state.fetchedHTMLContentLi = errorFallbackHTML;
         } else if (type === 've2') {
             state.fetchedHTMLContentVe2 = errorFallbackHTML;
+        } else if (type === 'li2') {
+            state.fetchedHTMLContentLi2 = errorFallbackHTML;
+        } else if (type === 'li3') {
+            state.fetchedHTMLContentLi3 = errorFallbackHTML;
         }
     }
     console.log("Dated Fetch complete!");
@@ -776,6 +784,22 @@ const liturgyOptionsHTML = `
                 <summary>Liturgy Content Options</summary>
                 <div id="section-li-liturgy-options" class="sb-control-group">
                     <div class="toggle-group" style="display: block;">
+                        <!-- Antiphons: shown only when the day has a "li3" service (showAntiphonOptionsForDay) -->
+                        <!-- Each row: two equal halves (flex: 1 1 0), so the second choices line up -->
+                        <div id="antiphonOptions" style="display: none; margin-bottom: 8px;">
+                            <div class="li-options-col" style="margin-bottom: 8px;" title="Antiphon 1 or Psalm 102 (Typika).">
+                                <label class="li-option-label" style="flex: 1 1 0;"><input type="radio" name="li_opt_antiphon1" id="li_opt_antiphon1_antiphon" value="antiphon" checked> Antiphon 1</label>
+                                <label class="li-option-label" style="flex: 1 1 0;"><input type="radio" name="li_opt_antiphon1" id="li_opt_antiphon1_typika" value="typika"> Psalm 102</label>
+                            </div>
+                            <div class="li-options-col" style="margin-bottom: 8px;" title="Antiphon 2 or Psalm 145 (Typika).">
+                                <label class="li-option-label" style="flex: 1 1 0;"><input type="radio" name="li_opt_antiphon2" id="li_opt_antiphon2_antiphon" value="antiphon" checked> Antiphon 2</label>
+                                <label class="li-option-label" style="flex: 1 1 0;"><input type="radio" name="li_opt_antiphon2" id="li_opt_antiphon2_typika" value="typika"> Psalm 145</label>
+                            </div>
+                            <div class="li-options-col" style="margin-bottom: 8px;" title="Antiphon 3 or the Beatitudes.">
+                                <label class="li-option-label" style="flex: 1 1 0;"><input type="radio" name="li_opt_antiphon3" id="li_opt_antiphon3_antiphon" value="antiphon" checked> Antiphon 3</label>
+                                <label class="li-option-label" style="flex: 1 1 0;"><input type="radio" name="li_opt_antiphon3" id="li_opt_antiphon3_beatitudes" value="beatitudes"> Beatitudes</label>
+                            </div>
+                        </div>
                         <div id="postGospel" class="li-options-col" style="margin-bottom: 8px; display: none;"
                             title="Inserts the litanies after the Gospel.">
                             <input type="checkbox" id="li_opt_litanies">
@@ -839,6 +863,172 @@ const liturgyOptionsHTML = `
 const litOpts = document.getElementById('liturgyOptions')
 if (litOpts) {
     litOpts.innerHTML = liturgyOptionsHTML;
+}
+
+/**
+ * Antiphons 1-3 (Liturgy and Hierarchical Liturgy panels). Offered only when the
+ * day has a "li3" service (Typika and Beatitudes). Each can stay the Antiphon or be
+ * replaced: Antiphon 1 by Typika 1 and Antiphon 2 by Typika 2 (source 'lit'),
+ * Antiphon 3 by the Beatitudes (that day's li3). Going back to an Antiphon takes it
+ * from that day's li2. The panel needs datedSources ['li2', 'li3'].
+ */
+function dayHasTypikaService() {
+    const li3 = state.fetchedHTMLContentLi3 || '';
+    return li3 !== '' && li3.indexOf('Error loading target template asset') === -1;
+}
+
+// Called when the panel opens (SB_PANEL.onOpen)
+function showAntiphonOptionsForDay() {
+    const options = document.getElementById('antiphonOptions');
+    if (options) options.style.display = dayHasTypikaService() ? '' : 'none';
+}
+
+// What each Antiphon place shows now: the published service has the Antiphons
+const antiphonsShown = { 1: 'antiphon', 2: 'antiphon', 3: 'antiphon' };
+
+/**
+ * Matins panels (ma, hma), when they open: em (Matins in the evening, Holy Week)
+ * has its litanies built in, so there is no "End Litanies and Dismissal" option.
+ */
+function matinsAdjustOptionsForService() {
+    if (state.serviceCode !== 'em') return;
+    const endLitanies = document.getElementById('ma_opt_dismissal');
+    const option = endLitanies && endLitanies.closest('.li-options-col');
+    if (option) option.style.display = 'none';
+}
+
+/**
+ * Runs the swap-map entry 'key' only if the service has its target place
+ * (begin marker), so services without that part are left alone silently.
+ */
+function swapKeyIfInService(key) {
+    const entry = swapMapping[key];
+    const doc = state.serviceWin && state.serviceWin.document;
+    if (!entry || !doc || !doc.querySelector(`.${entry.targetBegin}`)) return;
+    executeContentSwap(entry);
+}
+
+/*
+ * Celebrant Hierarch (shared). Used by the Hierarchical Vesperal Liturgy panel;
+ * based on the Hierarchical Liturgy's functions, with every swap run only where
+ * the service has a place for it. The older hierarchical scripts (hliturgy,
+ * hvespers, hmatins, consecrationliturgy) still have their own copies
+ * (setDefaultCelebrant, handleCelebrantChange, applyGuestCelebrant,
+ * updateActorHierarch): candidates to switch to these later.
+ * Needs the panel's eparchySelect / celebrantSelect elements and state.celebrantSelect.
+ */
+
+// A new Metropolis: its own hierarch becomes the celebrant
+function hierarchicalDefaultCelebrant() {
+    if (eparchySelect && eparchySelect.value && celebrantSelect) {
+        celebrantSelect.value = eparchySelect.value;
+    }
+}
+
+// The Metropolis' names in all its data keys
+function hierarchicalApplyMetropolisKeys() {
+    if (!state.eparchySelect || !dioceseData[state.eparchySelect]) return;
+    Object.entries(dioceseData[state.eparchySelect].keys).forEach(([key, textValue]) => {
+        state.serviceWin.document.querySelectorAll(`[data-key='${CSS.escape(key)}']`).forEach(el => {
+            el.textContent = textValue;
+        });
+    });
+}
+
+// Commemorations, diptychs, fimi, names and actor labels for the chosen celebrant
+function hierarchicalCelebrantChange() {
+    const localEparchyId = eparchySelect.value;
+    const celebrantId = celebrantSelect.value;
+    if (!celebrantId) return;
+
+    if (celebrantId === localEparchyId) {
+        // The Metropolis' own hierarch
+        try {
+            swapKeyIfInService('hi_commemoration_supplication');
+            swapKeyIfInService('hi_commemoration_great_litany');
+            swapKeyIfInService('diptychs_archbishop_or_metropolitan');
+            if (dioceseData[localEparchyId]) dioceseData[localEparchyId].fimis();
+            hierarchicalApplyMetropolisKeys();
+        } catch (error) {
+            console.error("Error executing local swaps:", error);
+        }
+    } else {
+        hierarchicalGuestCelebrant(celebrantId);
+    }
+    hierarchicalActorLabels();
+}
+
+// A visiting Metropolitan (away fimi) or an auxiliary bishop
+function hierarchicalGuestCelebrant(guestId) {
+    const doc = state.serviceWin.document;
+    const setKeys = keys => Object.keys(keys).forEach(key => {
+        if (keys[key] !== "") {
+            doc.querySelectorAll(`[data-key*="${key}"]`).forEach(el => { el.textContent = keys[key]; });
+        }
+    });
+
+    const guestData = dioceseData[guestId];
+    try {
+        if (!guestData || !guestData.keys) {
+            // Auxiliary bishop
+            const guestBishop = bishopData[guestId];
+            if (!guestBishop || !guestBishop.keys) return;
+            guestBishop.fimis();
+            swapKeyIfInService('hi_commemoration_supplication_and_bishop');
+            swapKeyIfInService('hi_commemoration_great_litany_and_bishop');
+            swapKeyIfInService('diptychs_bishop');
+            hierarchicalApplyMetropolisKeys();
+            setKeys({ ...guestBishop.keys });
+        } else {
+            // Visiting Metropolitan: his away fimi replaces the fimi
+            guestData.fimis();
+            swapKeyIfInService('hi_commemoration_supplication');
+            swapKeyIfInService('hi_commemoration_great_litany');
+            swapKeyIfInService('diptychs_archbishop_or_metropolitan');
+            const overrideKeys = { ...guestData.keys };
+            ['gr', 'en'].forEach(lang => {
+                const awayFimiKey = `client_${lang}_US_goa|cl.bishop1.away_fimi.text`;
+                if (overrideKeys[awayFimiKey]) overrideKeys[`client_${lang}_US_goa|cl.bishop1.fimi.text`] = overrideKeys[awayFimiKey];
+            });
+            setKeys(overrideKeys);
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+// Actor labels and rubrics for the celebrant's rank (Archbishop, Metropolitan, Bishop)
+function hierarchicalActorLabels() {
+    const celebrantId = state.celebrantSelect;
+    const rank = dioceseData[celebrantId] ? dioceseData[celebrantId].rank : (bishopData[celebrantId] || {}).rank;
+    if (!rank) return;
+    ['ac.sb.PrHi', 'ac.sb.ChHi', 'ac.sb.ClHi', 'ac.sb.ReHi', 'ac.Hierarch'].forEach(key => {
+        switchActor(key, actorMapping[key][rank + '_alten'], actorMapping[key][rank + '_altgr']);
+    });
+    const ranksForRubric = episcopalRankConversions.episcopalRanks[rank];
+    state.serviceWin.document.querySelectorAll("[data-key$='.rubric']").forEach(element => {
+        Object.entries(ranksForRubric).forEach(([oldRank, newRank]) => {
+            if (element.textContent.includes(oldRank)) element.textContent = element.textContent.replaceAll(oldRank, newRank);
+        });
+    });
+}
+
+// Called by applyChanges: swaps only the places whose choice changed
+function handleAntiphonOptions() {
+    const options = document.getElementById('antiphonOptions');
+    if (!options || options.style.display === 'none') return;
+
+    const swaps = {
+        1: { antiphon: swapAntiphon1, typika: swapTypika1 },
+        2: { antiphon: swapAntiphon2, typika: swapTypika2 },
+        3: { antiphon: swapAntiphon3, beatitudes: swapBeatitudes }
+    };
+    [1, 2, 3].forEach(n => {
+        const chosen = document.querySelector(`input[name="li_opt_antiphon${n}"]:checked`);
+        if (!chosen || chosen.value === antiphonsShown[n]) return;
+        swaps[n][chosen.value]();
+        antiphonsShown[n] = chosen.value;
+    });
 }
 
 const hierachicalButtonHTML = `<div class="sb-section">

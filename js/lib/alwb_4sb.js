@@ -1277,6 +1277,7 @@ var BUILD_PANEL_PAGES = {
   hve: { page: 'sb-panel-hvespers.html', title: 'Hierarchical Vespers', label: 'Hierarchical' },
   pl1: { page: 'sb-panel-presanctified.html', title: 'Presanctified Liturgy', label: 'Standard' },
   vl: { page: 'sb-panel-vesperalliturgy.html', title: 'Vesperal Liturgy', label: 'Standard' },
+  hvl: { page: 'sb-panel-hvesperalliturgy.html', title: 'Hierarchical Vesperal Liturgy', label: 'Hierarchical' },
   other: { page: 'sb-panel-other.html', title: 'Other Services', label: 'Standard' },
   // No customization: export / print only
   export: { page: 'sb-panel-export.html', title: 'Export and Print', label: 'Export' }
@@ -1299,6 +1300,7 @@ var BUILD_PANELS = {
   ma4: ['ma', 'hma'],
   ma5: ['ma', 'hma'],
   ma6: ['ma', 'hma'],
+  em: ['ma', 'hma'], // Matins in the evening (Holy Week)
   ve: ['ve', 'hve'],
   ve2: ['ve', 'hve'],
   ve4: ['ve', 'hve'],
@@ -1306,8 +1308,8 @@ var BUILD_PANELS = {
   ve6: ['ve', 'hve'],
   // A Hierarchical Presanctified panel may be added later
   pl1: ['pl1'],
-  vl: ['vl'],
-  vl2: ['vl'],
+  vl: ['vl', 'hvl'],
+  vl2: ['vl', 'hvl'],
   // Metropolis and Parish only (as for mo / co, see BUILD_PANEL_PATTERNS)
   h1: ['other'],
   h36: ['other'],
@@ -1324,7 +1326,8 @@ var BUILD_PANELS = {
   // Services and files that need no customization (export / print only)
   h91: ['export'],
   pl2: ['export'],
-  li9: ['export']
+  li9: ['export'],
+  em3: ['export'] // Lamentations, complete text
 };
 
 /**
@@ -3680,8 +3683,27 @@ async function performUnifiedExport(format) {
 
   const fileName = currentDoc.title || "Service_Export";
 
+  // Running header: by the exact service code (the folder in /h/s/YYYY/MM/DD/<code>/),
+  // so h9 is not h91 and li2 is not li; otherwise by the title's code family
+  const exportHeaders = {
+    vl: "Vesperal Divine Liturgy", vl2: "Vesperal Divine Liturgy",
+    pl1: "Presanctified Liturgy",
+    pl2: "Presanctified Liturgy - Variable Parts",
+    pl3: "Holy Unction",
+    h1: "First Hour", h3: "Third Hour", h6: "Sixth Hour", h36: "Trithekti (Third and Sixth Hours)",
+    h9: "Ninth Hour", h13: "Paschal Hours", h91: "Readings for the Day",
+    gh: "Great Hours",
+    em: "Matins (in the evening)", em3: "Lamentations - Complete Text",
+    h92: "Special Ceremony", // e.g. the Great Water Blessing; after Liturgy or after Matins
+    mo: "Midnight Office", mo5: "Midnight Office",
+    li2: "Divine Liturgy - Variables / Antiphons",
+    li3: "Divine Liturgy - Variables / Typika"
+  };
+  const exportServiceCode = (typeof getServiceCode === 'function' && getServiceCode()) || '';
   let displayTitle = "Divine Services";
-  if (fileName.includes('.li')) displayTitle = "Divine Liturgy";
+  if (exportHeaders[exportServiceCode]) displayTitle = exportHeaders[exportServiceCode];
+  else if (/^co\d*$/.test(exportServiceCode)) displayTitle = "Compline"; // co, co1, …
+  else if (fileName.includes('.li')) displayTitle = "Divine Liturgy";
   else if (fileName.includes('.ma')) displayTitle = "Matins";
   else if (fileName.includes('.ve')) displayTitle = "Vespers";
 

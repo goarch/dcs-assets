@@ -124,6 +124,11 @@
         var SB_PANEL = {
             id: 'li',
             sources: ['lit'],
+            // That day's Antiphons (li2) and Typika / Beatitudes (li3), for the Antiphon options
+            datedSources: ['li2', 'li3'],
+            // Not every day has a li3 service (then the Antiphon options are hidden)
+            optionalSources: ['li2', 'li3'],
+            onOpen: function () { showAntiphonOptionsForDay(); },
             switchLabel: 'Type of Liturgy'
         };
     </script>
