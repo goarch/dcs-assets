@@ -1388,7 +1388,7 @@ function openBuildPanel(config) {
       'padding: 10px 20px; background: #fff; border-bottom: 2px solid #a91827; font-family: sans-serif;';
 
     var heading = document.createElement('span');
-    heading.textContent = 'Service Builder: ' + config.title;
+    heading.textContent = config.title;
     heading.style.cssText = 'color: #a91827; font-size: 14pt; font-weight: bold;';
     header.appendChild(heading);
 
@@ -1406,7 +1406,7 @@ function openBuildPanel(config) {
 
     var frame = document.createElement('iframe');
     frame.src = config.page;
-    frame.title = 'Service Builder: ' + config.title;
+    frame.title = config.title + ' options';
     frame.style.cssText = 'flex: 1; width: 100%; border: 0; display: block;';
     panel.appendChild(frame);
 
@@ -3540,6 +3540,40 @@ $(function () {
 });
 // ------------------------------------------------------------------
 
+/**
+ * The name of this service as listed on its day's index page
+ * (indexes/YYYYMMDD.html, the row whose link opens h/s/YYYY/MM/DD/<code>/…),
+ * e.g. "Readings for the Day". Used as the PDF running header. Returns '' if
+ * this is not a daily service page or the index page cannot be read.
+ */
+var serviceNameFromIndex = null; // fetched once per page
+async function getServiceNameFromIndex() {
+  if (serviceNameFromIndex !== null) return serviceNameFromIndex;
+  serviceNameFromIndex = '';
+  var match = window.location.pathname.match(/\/h\/s\/(\d{4})\/(\d{2})\/(\d{2})\/([a-z]+\d*)\//i);
+  if (!match) return serviceNameFromIndex;
+  var servicePath = 'h/s/' + match[1] + '/' + match[2] + '/' + match[3] + '/' + match[4].toLowerCase() + '/';
+  try {
+    // Relative to the pages' <base href> (the dcs folder)
+    var response = await fetch('indexes/' + match[1] + match[2] + match[3] + '.html');
+    if (!response.ok) throw new Error('HTTP error! status: ' + response.status);
+    var indexDoc = new DOMParser().parseFromString(await response.text(), 'text/html');
+    var currentName = '';
+    indexDoc.querySelectorAll('tr').forEach(function (row) {
+      if (serviceNameFromIndex) return;
+      var nameEl = row.querySelector('.index-service-day');
+      if (row.classList.contains('index-service-day-tr') && nameEl) currentName = nameEl.textContent.trim();
+      row.querySelectorAll('a[href]').forEach(function (link) {
+        var href = (link.getAttribute('href') || '').toLowerCase().replace(/^\.\//, '');
+        if (currentName && href.indexOf(servicePath) === 0) serviceNameFromIndex = currentName;
+      });
+    });
+  } catch (error) {
+    console.warn('[export] Could not read the service name from the index page:', error);
+  }
+  return serviceNameFromIndex;
+}
+
 async function performUnifiedExport(format) {
   const currentDoc = document;
 
@@ -3683,29 +3717,16 @@ async function performUnifiedExport(format) {
 
   const fileName = currentDoc.title || "Service_Export";
 
-  // Running header: by the exact service code (the folder in /h/s/YYYY/MM/DD/<code>/),
-  // so h9 is not h91 and li2 is not li; otherwise by the title's code family
-  const exportHeaders = {
-    vl: "Vesperal Divine Liturgy", vl2: "Vesperal Divine Liturgy",
-    pl1: "Presanctified Liturgy",
-    pl2: "Presanctified Liturgy - Variable Parts",
-    pl3: "Holy Unction",
-    h1: "First Hour", h3: "Third Hour", h6: "Sixth Hour", h36: "Trithekti (Third and Sixth Hours)",
-    h9: "Ninth Hour", h13: "Paschal Hours", h91: "Readings for the Day",
-    gh: "Great Hours",
-    em: "Matins (in the evening)", em3: "Lamentations - Complete Text",
-    h92: "Special Ceremony", // e.g. the Great Water Blessing; after Liturgy or after Matins
-    mo: "Midnight Office", mo5: "Midnight Office",
-    li2: "Divine Liturgy - Variables / Antiphons",
-    li3: "Divine Liturgy - Variables / Typika"
-  };
-  const exportServiceCode = (typeof getServiceCode === 'function' && getServiceCode()) || '';
-  let displayTitle = "Divine Services";
-  if (exportHeaders[exportServiceCode]) displayTitle = exportHeaders[exportServiceCode];
-  else if (/^co\d*$/.test(exportServiceCode)) displayTitle = "Compline"; // co, co1, …
-  else if (fileName.includes('.li')) displayTitle = "Divine Liturgy";
-  else if (fileName.includes('.ma')) displayTitle = "Matins";
-  else if (fileName.includes('.ve')) displayTitle = "Vespers";
+  // Running header: the service's name on that day's index page (getServiceNameFromIndex),
+  // so the wording is maintained in one place, the indexes. Only if the index page
+  // cannot be read: a generic name from the title's code family.
+  let displayTitle = await getServiceNameFromIndex();
+  if (!displayTitle) {
+    displayTitle = "Divine Services";
+    if (fileName.includes('.li')) displayTitle = "Divine Liturgy";
+    else if (fileName.includes('.ma')) displayTitle = "Matins";
+    else if (fileName.includes('.ve')) displayTitle = "Vespers";
+  }
 
   if (format === 'word') {
     await generateWordFile(exportContainer, fileName, isSingleColumn, displayTitle);
@@ -3798,7 +3819,7 @@ function generatePDFFile(element, filename, isSingleColumn, displayTitle = "Divi
                 /* Service Page Header/Footer */
                 @page servicePage {
                     @top-center {
-                        content: "${displayTitle}";
+                        content: "${String(displayTitle).replace(/\\/g, '\\\\').replace(/"/g, '\\"')}";
                         font-family: "Times New Roman", serif;
                         font-size: 11pt;
                         color: #a91827;
@@ -4610,7 +4631,11 @@ function transformIndexLayout() {
     `;
   document.head.appendChild(styleEl);
 
-  // 2. Parse table rows: each service name plus its one (HTML GR-EN) link
+  // 2. Parse table rows: each service name plus its one (HTML GR-EN) link.
+  // The index also lists the PDF versions (p/s/…/en|gr-en|gr/, "Print"), which the
+  // iPad app uses through servicesindex.json: they are ignored here. Only the HTML
+  // services (h/s/…) get a button.
+  const isHtmlService = link => !!link && /^(\.\/)?h\//i.test(link.getAttribute('href') || '');
   const services = [];
   let currentService = null;
 
@@ -4618,16 +4643,23 @@ function transformIndexLayout() {
     if (row.classList.contains('index-service-day-tr')) {
       const titleSpan = row.querySelector('.index-service-day');
       if (titleSpan) {
+        const rowLink = row.querySelector('a[href]'); // link on the service row itself, if any
         currentService = {
           title: titleSpan.textContent.trim(),
-          link: row.querySelector('a[href]') // link on the service row itself, if any
+          link: isHtmlService(rowLink) ? rowLink : null
         };
         services.push(currentService);
       }
     } else if (row.classList.contains('index-service-language-tr') && currentService && !currentService.link) {
-      currentService.link = row.querySelector('a.index-file-link');
+      const rowLink = row.querySelector('a.index-file-link');
+      if (isHtmlService(rowLink)) currentService.link = rowLink;
     }
   });
+
+  // Services listed only as PDF have no HTML page: no button for them
+  for (let i = services.length - 1; i >= 0; i--) {
+    if (!services[i].link) services.splice(i, 1);
+  }
 
   // Only the bilingual (GR-EN) services are published (the G / B / E buttons
   // replace the one-language versions), so every link opens the GR-EN file,
