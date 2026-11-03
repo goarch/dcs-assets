@@ -782,6 +782,16 @@ p.credits3 {
     margin-bottom: 1em;
 }
 
+p.date_setting {
+    font-family: 'Arimo', sans-serif;
+    text-align: center;
+    font-size: 70%;
+    font-weight: normal;
+    color: #a91827;
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
 p.designation {
     color: #a91827;
     font-family: 'Arimo', sans-serif;
