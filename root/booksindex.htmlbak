@@ -13178,7 +13178,7 @@
                     </li>
                     <li class="level_6">Glory of the Aposticha
                         <ul>
-                        <li dcslink="https://dcs.goarch.org/media/m/thomatos/en/me/m11/d06/ve/b/aposglory.pdf">Score: Byzantine<span class="contributor">SDedes</span></li>
+                        <li dcslink="https://dcs.goarch.org/media/m/thomatos/en/me/m11/d06/ve/b/aposglory.pdf">Score: Byzantine<span class="contributor">PThomatos</span></li>
                         </ul>
                     </li>
                     <li class="level_6">Apolytikion 1
@@ -13203,6 +13203,11 @@
                     <li class="level_6">Ve1234as5678
                         <ul>
                         <li dcslink="https://dcs.goarch.org/media/m/dedes/en/me/m11/d06/ma/w/stichera1234aslauds5678.pdf">Score: Staff<span class="contributor">SDedes</span></li>
+                        </ul>
+                    </li>
+                    <li class="level_6">Lauds Aposticha Glory
+                        <ul>
+                        <li dcslink="https://dcs.goarch.org/media/m/thomatos/en/me/m11/d06/ma/b/aposglory.pdf">Score: Byzantine<span class="contributor">PThomatos</span></li>
                         </ul>
                     </li>
                     </ul>
@@ -50419,8 +50424,8 @@
 					</li>
 					<li class="level_1">DCS Archives
 						<ul>
-							<p class="treerubric">The archived websites can be accessed in a browser.</p>
-							<li dcslink="https://dcs.goarch.org/goa_2025/dcs/">Archive 2025</li>
+							<p class="treerubric">The archived website can be accessed in a browser.</p>
+							<li dcslink="https://dcs.goarch.org/goa_2026/dcs/">Archive 2026</li>
 						</ul>
 					</li>
 				</ul>
