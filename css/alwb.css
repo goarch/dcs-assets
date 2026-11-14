@@ -1173,6 +1173,7 @@ p.source {
     font-size: 70%;
     color: gray;
     text-align: left;
+    display: none;
 }
 
 p.source0 {
@@ -1185,6 +1186,7 @@ p.source0 {
     height: 0;
     position: relative;
     top: -3em;
+    display: none;
 }
 
 p.source1 {
@@ -1197,6 +1199,7 @@ p.source1 {
     height: 0;
     position: relative;
     top: -6em;
+    display: none;
 }
 
 p.synaxarioncommemoration {
