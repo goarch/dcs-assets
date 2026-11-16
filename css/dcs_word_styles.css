@@ -723,6 +723,44 @@ img.sb_logo_img {
     height: auto;
 }
 
+p.ephi_note {
+    mso-style-name: "ephi note";
+    background-color: #ffffff;
+    color: #000000;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    font-weight: normal;
+    line-height: 130%;
+    margin-top: 12pt;
+    margin-bottom: 12pt;
+    margin-left: 36pt;
+    margin-right: 36pt;
+    text-align: left;
+    text-indent: 0pt;
+    border: 1pt solid #8f0505;
+    padding: 6pt;
+}
+
+p.ephi_rubric {
+    mso-style-name: "ephi rubric";
+    background-color: #ffffff;
+    color: #8f0505;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    font-weight: normal;
+    line-height: 130%;
+    margin-top: 0pt;
+    margin-bottom: 0pt;
+    margin-left: 0pt;
+    margin-right: 0pt;
+    text-align: left;
+    text-indent: 20pt;
+    border: 1pt solid #8f0505;
+    padding: 6pt;
+}
+
+
+
 
 /* --- STRUCTURAL --- */
 .date_setting,
