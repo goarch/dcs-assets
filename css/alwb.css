@@ -2658,3 +2658,44 @@ span.sbmadismissal {
     height: auto;
     /* Maintains natural aspect ratio */
 }
+
+p.ephi_note {
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 100%;
+    font-weight: normal;
+    line-height: 130%;
+    margin-bottom: 12pt;
+    margin-top: 12pt;
+    margin-left: 10%;
+    margin-right: 10%;
+    text-align: left;
+    text-indent: 0pt;
+    border: 1px solid #8f0505;
+    border-radius: 4px;
+    padding: 6pt;
+    display: none;
+}
+
+p.ephi_note::before {
+    content: "Footnote: ";
+    font-weight: bold;
+}
+
+p.ephi_rubric {
+    background-color: #ffffff;
+    color: #8f0505;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 100%;
+    font-weight: normal;
+    line-height: 130%;
+    margin-bottom: 0pt;
+    margin-top: 0pt;
+    text-align: left;
+    text-indent: 20pt;
+    border: 1px solid #8f0505;
+    border-radius: 4px;
+    padding: 6pt;
+    display: none;
+}
