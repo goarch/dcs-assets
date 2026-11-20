@@ -398,7 +398,6 @@ html.night-mode .pbc-toggle-btn {
 /* Visual Studio Find Container Positioning */
 .vs-find-container {
     margin-left: auto;
-    height: 200%;
     /* Pushes search bar to the far right */
 }
 
