@@ -1172,7 +1172,7 @@ p.source {
     font-size: 70%;
     color: gray;
     text-align: left;
-    display: none;
+    visibility: hidden;
 }
 
 p.source0 {
@@ -1185,7 +1185,7 @@ p.source0 {
     height: 0;
     position: relative;
     top: -3em;
-    display: none;
+    visibility: hidden;
 }
 
 p.source1 {
@@ -1198,7 +1198,7 @@ p.source1 {
     height: 0;
     position: relative;
     top: -6em;
-    display: none;
+    visibility: hidden;
 }
 
 p.synaxarioncommemoration {
@@ -1612,6 +1612,7 @@ span.versiondesignation {
     vertical-align: middle;
     color: #428bca;
     float: right;
+    visibility: hidden;
 }
 
 span.troparionfirstletter {
