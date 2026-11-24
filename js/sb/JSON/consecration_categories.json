@@ -1,6 +1,7 @@
 [
     {
         "ID": 101,
+        "description": "The church is named for a saint. The consecration is conducted on a weekday without a celebrated saint.",
         "name_type": "saint",
         "sunday": "no",
         "church_feast": "no",
@@ -12,6 +13,7 @@
     },
     {
         "ID": 102,
+        "description": "The church is named for a saint. The consecration is conducted on a Sunday without a celebrated saint.",
         "name_type": "saint",
         "sunday": "yes",
         "church_feast": "no",
@@ -23,6 +25,7 @@
     },
     {
         "ID": 103,
+        "description": "The church is named for a saint. The consecration is conducted on a weekday, on the date of the church's saint.",
         "name_type": "saint",
         "sunday": "no",
         "church_feast": "yes",
@@ -34,6 +37,7 @@
     },
     {
         "ID": 104,
+        "description": "The church is named for a saint. The consecration is conducted on a Sunday, on the date of the church's saint.",
         "name_type": "saint",
         "sunday": "yes",
         "church_feast": "yes",
@@ -45,6 +49,7 @@
     },
     {
         "ID": 105,
+        "description": "The church is named for a saint. The consecration is conducted on a weekday, on the date of a celebrated saint.",
         "name_type": "saint",
         "sunday": "no",
         "church_feast": "no",
@@ -56,6 +61,7 @@
     },
         {
         "ID":106,
+        "description": "The church is named for a saint. The consecration is conducted on a Sunday, on the date of a celebrated saint.",
         "name_type": "saint",
         "sunday": "yes",
         "church_feast": "no",
@@ -67,6 +73,7 @@
     },
     {
         "ID": 107,
+        "description": "The church is named for a saint. The consecration is conducted on the date of a feast of the Lord.",
         "name_type": "saint",
         "sunday": "no",
         "church_feast": "no",
@@ -78,6 +85,7 @@
     },
     {
         "ID": 108,
+        "description": "The church is named for a saint. The consecration is conducted on a weekday, on the date of a feast of the Mother of God.",
         "name_type": "saint",
         "sunday": "no",
         "church_feast": "no",
@@ -89,6 +97,7 @@
     },
     {
         "ID": 109,
+        "description": "The church is named for a saint. The consecration is conducted on a Sunday, on the date of a feast of the Mother of God.",
         "name_type": "saint",
         "sunday": "yes",
         "church_feast": "no",
@@ -100,6 +109,7 @@
     },
     {
         "ID": 110,
+        "description": "The church is named for a saint. The consecration is conducted on a weekday, during a festal period, without a celebrated saint.",
         "name_type": "saint",
         "sunday": "no",
         "church_feast": "no",
@@ -111,6 +121,7 @@
     },
     {
         "ID": 111,
+        "description": "The church is named for a saint. The consecration is conducted on a weekday, during a festal period, on the date of a celebrated saint.",
         "name_type": "saint",
         "sunday": "no",
         "church_feast": "no",
@@ -122,6 +133,7 @@
     },
     {
         "ID": 112,
+        "description": "The church is named for a saint. The consecration is conducted on a Sunday, during a festal period, without a celebrated saint.",
         "name_type": "saint",
         "sunday": "yes",
         "church_feast": "no",
@@ -133,6 +145,7 @@
     },
     {
         "ID": 113,
+        "description": "The church is named for a saint. The consecration is conducted on a Sunday, during a festal period, on the date of a celebrated saint.",
         "name_type": "saint",
         "sunday": "yes",
         "church_feast": "no",
@@ -144,6 +157,7 @@
     },
     {
         "ID": 114,
+        "description": "The church is named for a saint. The consecration is conducted on a weekday, on the date of the leave-taking of a feast.",
         "name_type": "saint",
         "sunday": "no",
         "church_feast": "no",
@@ -155,6 +169,7 @@
     },
     {
         "ID": 115,
+        "description": "The church is named for a saint. The consecration is conducted on a Sunday, on the date of the leave-taking of a feast.",
         "name_type": "saint",
         "sunday": "yes",
         "church_feast": "no",
@@ -166,6 +181,7 @@
     },
     {
         "ID": 201,
+        "description": "The church is named for a feast. The consecration is conducted on a weekday, without a celebrated saint.",
         "name_type": "feast",
         "sunday": "no",
         "church_feast": "no",
@@ -177,6 +193,7 @@
     },
     {
         "ID": 202,
+        "description": "The church is named for a feast. The consecration is conducted on a Sunday, without a celebrated saint.",
         "name_type": "feast",
         "sunday": "yes",
         "church_feast": "no",
@@ -188,6 +205,7 @@
     },
     {
         "ID": 203,
+        "description": "The church is named for a feast. The consecration is conducted on a weekday, on the date of a celebrated saint.",
         "name_type": "feast",
         "sunday": "no",
         "church_feast": "no",
@@ -199,6 +217,7 @@
     },
     {
         "ID": 204,
+        "description": "The church is named for a feast. The consecration is conducted on a Sunday, on the date of a celebrated saint.",
         "name_type": "feast",
         "sunday": "yes",
         "church_feast": "no",
@@ -210,10 +229,11 @@
     },
     {
         "ID": 205,
+        "description": "The church is named for a feast. The consecration is conducted on the date of a feast of the Lord.",
         "name_type": "feast",
         "sunday": "no",
         "church_feast": "no",
-        "celeb_saint": "",
+        "celeb_saint": "no",
         "feast_lord": "yes",
         "feast_mother": "no",
         "postfeast": "no",
@@ -221,6 +241,7 @@
     },
     {
         "ID": 206,
+        "description": "The church is named for a feast. The consecration is conducted on a weekday, on the date of a feast of the Mother of God.",
         "name_type": "feast",
         "sunday": "no",
         "church_feast": "no",
@@ -232,6 +253,7 @@
     },
     {
         "ID": 207,
+        "description": "The church is named for a feast. The consecration is conducted on a Sunday, on the date of a feast of the Mother of God.",
         "name_type": "feast",
         "sunday": "yes",
         "church_feast": "no",
@@ -243,6 +265,7 @@
     },
     {
         "ID": 208,
+        "description": "The church is named for a feast. The consecration is conducted on a weekday, during a festal period, without a celebrated saint.",
         "name_type": "feast",
         "sunday": "no",
         "church_feast": "no",
@@ -254,6 +277,7 @@
     },
     {
         "ID": 209,
+        "description": "The church is named for a feast. The consecration is conducted on a weekday, during a festal period, on the date of a celebrated saint.",
         "name_type": "feast",
         "sunday": "no",
         "church_feast": "no",
@@ -265,6 +289,7 @@
     },
     {
         "ID": 210,
+        "description": "The church is named for a feast. The consecration is conducted on a Sunday, during a festal period, without a celebrated saint.",
         "name_type": "feast",
         "sunday": "yes",
         "church_feast": "no",
@@ -276,6 +301,7 @@
     },
     {
         "ID": 211,
+        "description": "The church is named for a feast. The consecration is conducted on a Sunday, during a festal period, on the date of a celebrated saint.",
         "name_type": "feast",
         "sunday": "yes",
         "church_feast": "no",
@@ -287,6 +313,7 @@
     },
     {
         "ID": 212,
+        "description": "The church is named for a feast. The consecration is conducted on a weekday, on the date of the leavetkaing of a feast.",
         "name_type": "feast",
         "sunday": "no",
         "church_feast": "no",
@@ -298,6 +325,7 @@
     },
     {
         "ID": 213,
+        "description": "The church is named for a feast. The consecration is conducted on a Sunday, on the date of the leavetaking of a feast.",
         "name_type": "feast",
         "sunday": "yes",
         "church_feast": "no",
@@ -306,5 +334,17 @@
         "feast_mother": "no",
         "postfeast": "no",
         "leavetaking": "yes"
+    },
+    {
+        "ID": 301,
+        "description": "The consecration services for this church need special attention.",
+        "name_type": "other",
+        "sunday": "",
+        "church_feast": "",
+        "celeb_saint": "",
+        "feast_lord": "",
+        "feast_mother": "",
+        "postfeast": "",
+        "leavetaking": ""
     }
 ]

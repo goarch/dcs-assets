@@ -1,0 +1,94 @@
+[
+	{
+		"feast": "Epiphany",
+		"type": "fixed",
+		"month": 1,
+		"day": 6,
+		"postfeast": [7, 8, 9, 10, 11, 12, 13],
+		"leavetaking": 14
+	},
+	{
+		"feast": "Presentation of the Lord",
+		"type": "fixed",
+		"month": 2,
+		"day": 2,
+		"postfeast": [3, 4, 5, 6, 7, 8],
+		"leavetaking": 9
+	},
+	{
+		"feast": "Transfiguration of Christ",
+		"type": "fixed",
+		"month": 8,
+		"day": 6,
+		"postfeast": [7, 8, 9, 10, 11, 12],
+		"leavetaking": 13
+	},
+	{	
+		"feast": "Dormition of the Theotokos",
+		"type": "fixed",
+		"month": 8,
+		"day": 15,
+		"postfeast": [16, 17, 18, 19, 20, 21, 22],
+		"leavetaking": 23
+	},
+	{
+		"feast": "Birth of the Theotokos",
+		"type": "fixed",
+		"month": 9,
+		"day": 8,
+		"postfeast": [9, 10, 11],
+		"leavetaking": 12
+	},
+	{
+		"feast": "Elevation of the Cross",
+		"type": "fixed",
+		"month": 9,
+		"day": 14,
+		"postfeast": [15, 16, 17, 18, 19, 20],
+		"leavetaking": 21
+	},
+	{
+		"feast": "Entry of the Theotokos",
+		"type": "fixed",
+		"month": 11,
+		"day": 21,
+		"postfeast": [22, 23, 24],
+		"leavetaking": 25
+	},
+	{
+		"feast": "Christmas",
+		"type": "fixed",
+		"month": 12,
+		"day": 25,
+		"postfeast": [26, 27, 28, 29, 30],
+		"leavetaking": 31
+	},
+	{
+		"feast": "Thomas Sunday",
+		"type": "moveable",
+		"mcDay": 78,
+		"postfeastMcDays": [79, 80, 81, 82, 83],
+		"leavetakingMcDay": 84
+	},
+	{
+		"feast": "Mid-Pentecost",
+		"type": "moveable",
+		"mcDay": 95,
+		"postfeastMcDays": [96, 97, 98, 99, 100, 101],
+		"leavetakingMcDay": 102
+	},
+	{
+		"feast": "Ascension",
+		"type": "moveable",
+		"mcDay": 110,
+		"postfeastMcDays": [111, 112, 113, 114, 115, 116, 117],
+		"leavetakingMcDay": 118
+	},
+	{
+		"feast": "Pentecost",
+		"type": "moveable",
+		"mcDay": 120,
+		"postfeastMcDays": [121, 122, 123, 124, 125],
+		"leavetakingMcDay": 126
+	}
+]
