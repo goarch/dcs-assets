@@ -50,16 +50,28 @@ var sbHostService = (function () {
   };
 })();
 
-// The Service Builder fetches its source texts from the live site
-// (https://dcs.goarch.org/goa/dcs/...). Fetch them from the same site as the
-// service page instead, so staging and test copies work too (and the browser
-// doesn't block the request as cross-site).
+// The Service Builder fetches its source texts from the live goa site
+// (https://dcs.goarch.org/goa/dcs/...). On a page in another DCS site:
+//  - the source pages (h/b/sb/...) come from the goa site on the page's own
+//    host. They are generated only for the goa site, and every DCS site (goa
+//    and each Metropolis) is a sibling folder on the same host,
+//    dcs.goarch.org (/goa/dcs/, /metchicago/dcs/, ...), so this is never a
+//    cross-site request;
+//  - everything else (e.g. the day's services, h/s/...) comes from the
+//    page's own site.
+// Staging and test copies keep working as long as the goa site is beside them.
 var SB_LIVE_SITE_ROOT = 'https://dcs.goarch.org/goa/dcs/';
+var SB_SOURCE_PREFIX = 'h/b/sb/';
+// e.g. https://dcs.goarch.org/metchicago/dcs/ -> https://dcs.goarch.org/goa/dcs/
+var sbGoaSiteRoot = sbHostService
+  ? sbHostService.siteRoot.replace(/[^\/]+\/dcs\/$/, 'goa/dcs/')
+  : SB_LIVE_SITE_ROOT;
 if (sbHostService && sbHostService.siteRoot !== SB_LIVE_SITE_ROOT) {
   var sbOriginalFetch = window.fetch.bind(window);
   window.fetch = function (resource, options) {
     if (typeof resource === 'string' && resource.indexOf(SB_LIVE_SITE_ROOT) === 0) {
-      resource = sbHostService.siteRoot + resource.slice(SB_LIVE_SITE_ROOT.length);
+      var rest = resource.slice(SB_LIVE_SITE_ROOT.length);
+      resource = (rest.indexOf(SB_SOURCE_PREFIX) === 0 ? sbGoaSiteRoot : sbHostService.siteRoot) + rest;
     }
     return sbOriginalFetch(resource, options);
   };
@@ -314,11 +326,12 @@ document.addEventListener('DOMContentLoaded', async function () {
     if (optionalSources.indexOf(type) !== -1) return;
     var html = state['fetchedHTMLContent' + type.charAt(0).toUpperCase() + type.slice(1)];
     if (!html || html.indexOf('Error loading target template asset') !== -1) {
-      var address = datedSources.indexOf(type) !== -1
-        ? 'h/s/' + dateParts.join('/') + '/' + type + '/' + state.currentLang + '/index.html'
-        : 'h/b/sb/' + type + '/' + state.currentLang + '/index.html';
+      var isDated = datedSources.indexOf(type) !== -1;
+      var address = isDated
+        ? sbHostService.siteRoot + 'h/s/' + dateParts.join('/') + '/' + type + '/' + state.currentLang + '/index.html'
+        : sbGoaSiteRoot + SB_SOURCE_PREFIX + type + '/' + state.currentLang + '/index.html';
       problems.push('The ' + (SB_SOURCE_NAMES[type] || type) + ' source text could not be loaded (' +
-        sbHostService.siteRoot + address + '), so the options cannot be applied.');
+        address + '), so the options cannot be applied.');
     }
   });
   if (fullParishList.length === 0) {

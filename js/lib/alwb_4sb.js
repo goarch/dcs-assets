@@ -1931,8 +1931,8 @@ async function removeVesperalLiturgyMemorialService() {
   if (!document.querySelector('.brc_li_memorial_service')) return;
 
   try {
-    // Relative to the pages' <base href> (the dcs folder): the same site as this page
-    var response = await fetch('h/b/sb/lit/gr-en/index.html');
+    // From the goa site on this page's host (see serviceBuilderSourceUrl)
+    var response = await fetch(serviceBuilderSourceUrl('h/b/sb/lit/gr-en/index.html'));
     if (!response.ok) throw new Error('HTTP error! status: ' + response.status);
     var fetchedHTMLContentLit = await response.text();
     var swapMapping = await loadSwapMapping();
@@ -4776,8 +4776,8 @@ async function fetchMatinsHTML() {
   let fetchedHTMLContentMat = null;
   let fetchedOk = false;
   try {
-    // Relative to the pages' <base href> (the dcs folder): the same site as this page
-    const response = await fetch(`h/b/sb/mat/gr-en/index.html`);
+    // From the goa site on this page's host (see serviceBuilderSourceUrl)
+    const response = await fetch(serviceBuilderSourceUrl('h/b/sb/mat/gr-en/index.html'));
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -4899,6 +4899,22 @@ function insertAfter(referenceNode, newNodesArray) {
 }
 
 /**
+ * Address of a Service Builder source page (h/b/sb/...), e.g.
+ * serviceBuilderSourceUrl('h/b/sb/mat/gr-en/index.html').
+ * The source pages are generated only for the goa site. Every DCS site (goa
+ * and each Metropolis) is a sibling folder on the same host, dcs.goarch.org
+ * (/goa/dcs/, /metchicago/dcs/, ...), so a page in any site reads them from
+ * the goa site on its own host: never a cross-site request. Staging and test
+ * copies keep working as long as the goa site is beside them.
+ * The pages' <base href> is their site's dcs folder, e.g.
+ * https://dcs.goarch.org/metchicago/dcs/ -> https://dcs.goarch.org/goa/dcs/
+ */
+function serviceBuilderSourceUrl(path) {
+  var goaSiteRoot = document.baseURI.replace(/[^\/]+\/dcs\/$/, 'goa/dcs/');
+  return new URL(path, goaSiteRoot).href;
+}
+
+/**
  * The swap map lives only in js/sb/sb-swap-mapping.js (the Service Builder's
  * map, which also has the Matins Ordinary entries). This loads it into the
  * page once, as a plain <script> (no RequireJS), when a swap is needed.
@@ -4930,8 +4946,8 @@ async function loadAndSwapMatinsOrdinary() {
   let fetchedHTMLContentMat = null;
 
   try {
-    // Relative to the pages' <base href> (the dcs folder): the same site as this page
-    const response = await fetch(`h/b/sb/mat/gr-en/index.html`);
+    // From the goa site on this page's host (see serviceBuilderSourceUrl)
+    const response = await fetch(serviceBuilderSourceUrl('h/b/sb/mat/gr-en/index.html'));
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
