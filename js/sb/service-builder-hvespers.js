@@ -22,7 +22,12 @@ const state = {
 
     // 5. Parish Details & Apolytikion Fields
     parishSelect: "",
-
+    clientGrUsGoaApolytikion1Title: "",
+    clientGrUsGoaApolytikion1Mode: "",
+    clientGrUsGoaApolytikion1Text: "",
+    clientEnUsGoaApolytikion1Title: "",
+    clientEnUsGoaApolytikion1Mode: "",
+    clientEnUsGoaApolytikion1Text: "",
 
     // Dismissal Overrides
     clientGrUsGoaLocalpatronsaint1Dismissal: "",
@@ -74,6 +79,16 @@ const liOptDeacon = document.getElementById('li_opt_deacon');
 // 4. PARISH DETAILS & APOLYTIKION FIELDS
 // ==========================================
 const parishSelect = document.getElementById('parish-select');
+// Greek Apolytikion Slots
+const clientGrUsGoaApolytikion1Title = document.getElementById('client_gr_US_goa|cl.Apolytikion1.title');
+const clientGrUsGoaApolytikion1Mode = document.getElementById('client_gr_US_goa|cl.Apolytikion1.mode');
+const clientGrUsGoaApolytikion1Text = document.getElementById('client_gr_US_goa|cl.Apolytikion1.text');
+
+// English Apolytikion Slots
+const clientEnUsGoaApolytikion1Title = document.getElementById('client_en_US_goa|cl.Apolytikion1.title');
+const clientEnUsGoaApolytikion1Mode = document.getElementById('client_en_US_goa|cl.Apolytikion1.mode');
+const clientEnUsGoaApolytikion1Text = document.getElementById('client_en_US_goa|cl.Apolytikion1.text');
+
 
 const veOptVesperalPrayers = document.getElementById('ve_opt_vesperal_prayers');
 const veOptAnoixantaria = document.getElementById('ve_opt_anoixantaria');
@@ -103,6 +118,13 @@ function applyChanges() {
     state.liOptDeacon = liOptDeacon.checked;
 
     if (state.parishSelect) {
+        state.clientEnUsGoaApolytikion1Mode = parishData[state.parishSelect].keys['client_en_US_goa|cl.Apolytikion1.mode'];
+        state.clientEnUsGoaApolytikion1Text = parishData[state.parishSelect].keys['client_en_US_goa|cl.Apolytikion1.text'];
+        state.clientEnUsGoaApolytikion1Title = parishData[state.parishSelect].keys['client_en_US_goa|cl.Apolytikion1.title'];
+        state.clientGrUsGoaApolytikion1Mode = parishData[state.parishSelect].keys['client_gr_US_goa|cl.Apolytikion1.mode'];
+        state.clientGrUsGoaApolytikion1Text = parishData[state.parishSelect].keys['client_gr_US_goa|cl.Apolytikion1.text'];
+        state.clientGrUsGoaApolytikion1Title = parishData[state.parishSelect].keys['client_gr_US_goa|cl.Apolytikion1.title'];
+
         //state.liOptDismissal = liOptDismissal.checked;
         state.clientEnUsGoaLocalpatronsaint1Dismissal = parishData[state.parishSelect].keys['client_en_US_goa|cl.localpatronsaint1.dismissal'];
         state.clientGrUsGoaLocalpatronsaint1Dismissal = parishData[state.parishSelect].keys['client_gr_US_goa|cl.localpatronsaint1.dismissal'];
@@ -189,8 +211,42 @@ async function updateServiceWindow() {
         };
 
 
+        //Apolytikion
+
         if (state.parishSelect == null) { alert("Please select a parish first."); return; }
         //if the parish's saint isn't the same as the saint of the day - INJECT APOLYTIKION
+        if (!(parishApolytikionInService(state.parishSelect, state.extractedParishNames))) {
+            swapLocalApolytikionYes();
+
+            // 2. Safely update Greek elements
+            updateIfExists("client_gr_US_goa|cl.Apolytikion1.title", state.clientGrUsGoaApolytikion1Title);
+            updateIfExists("client_gr_US_goa|cl.Apolytikion1.mode", state.clientGrUsGoaApolytikion1Mode);
+            updateIfExists("client_gr_US_goa|cl.Apolytikion1.text", state.clientGrUsGoaApolytikion1Text);
+
+            // 3. Safely update English elements
+            updateIfExists("client_en_US_goa|cl.Apolytikion1.title", state.clientEnUsGoaApolytikion1Title);
+            updateIfExists("client_en_US_goa|cl.Apolytikion1.mode", state.clientEnUsGoaApolytikion1Mode);
+            updateIfExists("client_en_US_goa|cl.Apolytikion1.text", state.clientEnUsGoaApolytikion1Text);
+            displayTr("class", "sbliparishapolytikionrubric", "none");
+        } else {
+            swapLocalApolytikionNo();
+            displayTr("class", "sbliparishapolytikionrubric", "block");
+        }
+
+        if (state.parishSelect) {
+            displayTr("class", "sbliparishapolytikionrubric", "none");
+        } else {
+            displayTr("class", "sbliparishapolytikionrubric", "block");
+        }
+
+        if (isHymnBetweenApolytikion2AndKontakion()) {
+            swapApolytikion2Yes();
+            console.log("hymn found between");
+        } else {
+            swapApolytikion2No();
+            console.log("hymn NOT found between");
+        }
+
 
         //Dismissal / Supplication
         if (state.parishSelect) {
